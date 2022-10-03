@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>SXC 部分WriteUp - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="SXC 部分WriteUp" />
+<meta property="og:description" content="0x00 签到 点开视频即可。 0x01 牛年大吉 右键点击属性。 0x02 Flag不在这 010editor打开文件，搜索flag字符串。 0x03 拼图 根据鬼刀找到原图，不会用工" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-09T14:15:23+00:00" />
+<meta property="article:modified_time" content="2021-02-09T14:15:23+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="SXC 部分WriteUp"/>
+<meta name="twitter:description" content="0x00 签到 点开视频即可。 0x01 牛年大吉 右键点击属性。 0x02 Flag不在这 010editor打开文件，搜索flag字符串。 0x03 拼图 根据鬼刀找到原图，不会用工"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" /><link rel="prev" href="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" /><link rel="next" href="https://hannibal0x.github.io/2021-02-13-%E5%87%8C%E8%99%9A%E5%B9%B3%E5%8F%B0ctf%E8%AE%AD%E7%BB%83%E8%90%A5web/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SXC 部分WriteUp",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  612 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup\/","datePublished": "2021-02-09T14:15:23+00:00","dateModified": "2021-02-09T14:15:23+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">SXC 部分WriteUp</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-02-09">2021-02-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;612 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-签到">0x00 签到</a></li>
+    <li><a href="#0x01-牛年大吉">0x01 牛年大吉</a></li>
+    <li><a href="#0x02-flag不在这">0x02 Flag不在这</a></li>
+    <li><a href="#0x03-拼图">0x03 拼图</a></li>
+    <li><a href="#0x04-网络深处">0x04 网络深处</a></li>
+    <li><a href="#0x05-ylbnb">0x05 YLBNB</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-签到">0x00 签到</h2>
+<p>点开视频即可。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="280" height="66" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-125.png" alt="" class="wp-image-1055" /></figure>
+</div>
+<h2 id="0x01-牛年大吉">0x01 牛年大吉</h2>
+<p>右键点击属性。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="452" height="128" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-126.png" alt="" class="wp-image-1056" /></figure>
+</div>
+<h2 id="0x02-flag不在这">0x02 Flag不在这</h2>
+<p>010editor打开文件，搜索flag字符串。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-127.png" alt="" class="wp-image-1059" width="580" height="56" /></figure>
+</div>
+<h2 id="0x03-拼图">0x03 拼图</h2>
+<p>根据鬼刀找到原图，不会用工具，但图片数量不多，而且比较清晰，这里直接对照原图，简单拼一下。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="464" height="283" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-128.png" alt="" class="wp-image-1061" /></figure>
+</div>
+<h2 id="0x04-网络深处">0x04 网络深处</h2>
+<p>拨号音.wav，想到DTMF，找工具解码得到<code>15975384265</code>，这个就是压缩包的密码，解压后把电话录音.wav导入Audacity分析，转频谱图发现如下信息：<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="748" height="180" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-129.png" alt="" class="wp-image-1067" /> </figure></p>
+<p>百度可知tupper是自引用公式，也叫Tupper自我指涉公式，此公式的二维图像与公式本身外观一样，根据一个式子，在坐标图上显现出所要表达的东西。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">from PIL import Image
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">k1=636806841748368750477720528895492611039728818913495104112781919263174040060359776171712496606031373211949881779178924464798852002228370294736546700438210687486178492208471812570216381077341015321904079977773352308159585335376746026882907466893864815887274158732965185737372992697108862362061582646638841733361046086053127284900532658885220569350253383469047741742686730128763680253048883638446528421760929131783980278391556912893405214464624884824555647881352300550360161429758833657243131238478311219915449171358359616665570429230738621272988581871
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># Assign k1,k2, k3 to k to get desired image
+</span></span><span class="line"><span class="cl">k = k1
+</span></span><span class="line"><span class="cl">width = 106
+</span></span><span class="line"><span class="cl">height = 17
+</span></span><span class="line"><span class="cl">scale = 5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fname = &#34;foo&#34;
+</span></span><span class="line"><span class="cl">image  = Image.new(&#34;RGB&#34;, (width, height),(255, 255, 255))
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">for x in range (width):
+</span></span><span class="line"><span class="cl">    for y in range (height):
+</span></span><span class="line"><span class="cl">        if ((k+y)//17//2**(17*int(x)+int(y)%17))%2 &gt; 0.5:
+</span></span><span class="line"><span class="cl">            # Image need to be flipped vertically - therefore y = height-y-1
+</span></span><span class="line"><span class="cl">            image.putpixel((x, height-y-1), (0,0,0))
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#scale up image
+</span></span><span class="line"><span class="cl">image = image.resize((width*scale,height*scale))
+</span></span><span class="line"><span class="cl">image.save(fname+&#34;.png&#34;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-130.png" alt="" class="wp-image-1071" width="437" height="69" /></figure>
+</div>
+<h2 id="0x05-ylbnb">0x05 YLBNB</h2>
+<p>先wireshark分析，追踪tcp流，发现xor.py代码，里面有YLB字样，猜测有用。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="440" height="251" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-131.png" alt="" class="wp-image-1079" /></figure>
+</div>
+<p>继续往下看，在<code>tcp.stream eq 17</code>时，用户POST了一个secret.cpython-38.pyc，同样带有YLB的字样。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-132.png" alt="" class="wp-image-1082" width="600" height="90" /></figure>
+</div>
+<p>导出pyc，在<a href="https://tool.lu/pyc/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://tool.lu/pyc/" target="_blank" rel="noopener noreffer ">https://tool.lu/pyc/</a></a>反编译。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-133.png" alt="" class="wp-image-1087" width="469" height="88" /></figure>
+</div>
+<p>用户POST了一个YLBSB.zip，提取出来，解压得到YLBSB.xor。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="591" height="28" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-134.png" alt="" class="wp-image-1090" /> </figure></p>
+<p>编写解密脚本。</p>
+<pre class="wp-block-code"><code>import base64
+key = "YLBSB?YLBNB!"
+file =open("YLBSB.docx", "wb")
+enc =open("YLBSB.xor", "rb")
+
+plain = enc.read().decode()
+count = 0
+d =''
+for i in plain:
+    a = chr(ord(i) ^ ord(key&#91;count % len(key)]))
+    d = d + a
+    count = count + 1
+file.write(base64.b64decode(d))</code></pre>
+<p>发现Word文档存在异常。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="990" height="480" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-135.png" alt="" class="wp-image-1093" /></figure>
+</div>
+<p>猜测文字白色，调颜色为黑色。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="250" height="37" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-136.png" alt="" class="wp-image-1095" /></figure>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-02-09</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" data-title="SXC 部分WriteUp" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" data-title="SXC 部分WriteUp"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" data-title="SXC 部分WriteUp"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" data-title="SXC 部分WriteUp"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" class="prev" rel="prev" title="NepNep Winter-CAMP（Misc合集）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>NepNep Winter-CAMP（Misc合集）</a>
+            <a href="/2021-02-13-%E5%87%8C%E8%99%9A%E5%B9%B3%E5%8F%B0ctf%E8%AE%AD%E7%BB%83%E8%90%A5web/" class="next" rel="next" title="凌虚平台CTF训练营（Web）">凌虚平台CTF训练营（Web）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

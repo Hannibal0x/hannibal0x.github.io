@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>NAVEX-精确且可扩展的动态Web应用EXP生成系统 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="NAVEX-精确且可扩展的动态Web应用EXP生成系统" />
+<meta property="og:description" content="0x00 前言 最近，要开始方班研讨厅了，在选题时，决定从SDN、指纹、EXP、拟态防御这四个里面挑选，最后结合自己正在做的自动化渗透测试系统和学长提" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-11T08:23:00+00:00" />
+<meta property="article:modified_time" content="2021-11-11T08:23:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="NAVEX-精确且可扩展的动态Web应用EXP生成系统"/>
+<meta name="twitter:description" content="0x00 前言 最近，要开始方班研讨厅了，在选题时，决定从SDN、指纹、EXP、拟态防御这四个里面挑选，最后结合自己正在做的自动化渗透测试系统和学长提"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" /><link rel="prev" href="https://hannibal0x.github.io/2021-11-06-dasctf-oct-writeup/" /><link rel="next" href="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "NAVEX-精确且可扩展的动态Web应用EXP生成系统",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F\/"
+        },"genre": "posts","keywords": "学术研究","wordcount":  3680 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F\/","datePublished": "2021-11-11T08:23:00+00:00","dateModified": "2021-11-11T08:23:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NAVEX-精确且可扩展的动态Web应用EXP生成系统</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-11-11">2021-11-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3680 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-研究背景">0x01 研究背景</a></li>
+    <li><a href="#0x02-核心原理">0x02 <strong>核心原理</strong></a></li>
+    <li><a href="#0x03-实验结果">0x03 实验结果</a></li>
+    <li><a href="#0x04-总结">0x04 总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<p>最近，要开始方班研讨厅了，在选题时，决定从SDN、指纹、EXP、拟态防御这四个里面挑选，最后结合自己正在做的自动化渗透测试系统和学长提到的EXP评分，把重点放在了EXP上面，而后在调研多家厂商的标准后，发现太工程化了，很难以研讨的方式讲述，在搜索相关资料时，看到了自动生成EXP的论文，在一番比较后，选择了18年发表在USENIX上的《NAVEX: Precise and scalable exploit generation for dynamic web applications》为题，这篇论文整体真的不错，但也存在一些小问题，比如7分76秒这种迷之错误，不过**<em>Distinguished Paper Award Winner</em>**的分量还是有的，整体的架构和算法都比较好理解，这里做个简单的学习笔记。</p>
+<h2 id="0x01-研究背景">0x01 研究背景</h2>
+<p>首先为大家介绍两个概念，什么是动态web应用和EXP生成系统。</p>
+<p>动态web应用和静态web应用的区别在哪儿？</p>
+<p>动态web应用除了可以包含静态资源（例如，图像和 HTML 文件）外，还可以包含动态资源（例如，Servlet、JSP 文件、过滤器和相关联的元数据）。静态web应用则只能包含静态资源。</p>
+<p>现代web应用多采取动态的架构，如下图所示，红色圈出的部分是静态架构中所没有的部分，插件会对web容器进行动态请求资源，容器返回动态响应给服务器，这个过程很好地体现出动态特性，即<strong>根据用户交互和其他输入“动态”生成内容</strong>。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1555" height="697" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片.png" alt="" class="wp-image-4329" /> </figure></p>
+<p>下面给大家看两个动态web应用的例子，Wordpress博客和织梦的内容管理系统。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="558" height="316" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-2.png" alt="" class="wp-image-4333" /></figure></p>
+<p>但同时动态的特性也增加了web应用程序的<strong>复杂性</strong>，进行人工手动的代码审计的时间成本高，且可能存在审计不完整和效率低下的问题，即漏报和误报。</p>
+<p>现在的一些现代web应用安全性的分析方法，如代码审计神器RIPS的核心技术——模拟PHP内置特性的静态代码精确分析技术、基于代码属性图的PHP分析技术、结合启发式的静态源码分析检测EAR漏洞、Web模板语言中使用类型限定符的上下文自动过滤等等，它们都存在同一个问题：<strong>误报高，需要人工检查核验</strong>。</p>
+<p>OK,讲完了动态web应用，下面就介绍下EXP。</p>
+<p>这里给出维基百科和metasploit官方的定义。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">EXP ，全称Exploit ，为了利用漏洞而编写的攻击程序，即漏洞利用程序。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">An exploit executes a sequence of commands that target a specific vulnerability found in a system or application to provide the attacker with access to the system.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>简单说，EXP就是利用特定的漏洞执行一串代码获取权限。下面以线上购物为例，介绍EXP实例。漏洞存在于结算页面，用户需要先登录浏览页面，再跳转到购物车页面，在结算页面对id参数实现SQL注入，一个完整的EXP需要将这3个步骤串联起来，构造整个HTTP请求的路径。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-3.png" alt="" class="wp-image-4334" width="840" height="275" /> </figure></p>
+<p>EXP自动生成和手动编写步骤有所区别，这里举一种自动生成的例子，它会对源代码进行分析，找出所有潜在的漏洞，自动构造恶意HTTP请求输入序列，进行尝试，最后恶意序列将应用程序的执行指向可疑的漏洞点。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2225" height="911" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-4.png" alt="" class="wp-image-4335" /> </figure></p>
+<p>EXP自动生成大多使用静态分析方法，以<strong>牺牲精度</strong>来换取覆盖率； Web应用的内容(如表单、链接、JS代码)通常是动态生成的，代码在不同的层次上执行，<strong>很难从静态角度进行建模</strong>。</p>
+<p>现在，就将自动生成动态web应用EXP的挑战做一个简单的汇总，扩展性的挑战来源于Web应用越来越复杂，漏洞的种类越来越繁多，动态特征的挑战是由于静态分析的局限，比如无法推断动态将会生成怎样的表单，最后是污点可达性的挑战，所谓污点可达性就是怎样找到一个完整的HTTP请求输入序列来指向漏洞点，模块之间的复杂依赖和无害处理的风险加大了分析的难度，这里的无害处理是指比如说过滤、强制转换等能够将恶意输入无害化的操作。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2177" height="422" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-5.png" alt="" class="wp-image-4336" /> </figure></p>
+<p>怎样应对这些挑战呢？论文中就提出来NAVEX的方案，以静态分析为指导，辅助动态分析，简称，动静结合，这个策略有3大好处，适用于大型应用，有效降低复杂性，代码覆盖率高。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2259" height="596" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-6.png" alt="" class="wp-image-4337" /> </figure></p>
+<h2 id="0x02-核心原理">0x02 <strong>核心原理</strong></h2>
+<p>这里是它的架构图，可以简单看作两步走，先进行漏洞点识别，再生成具体EXP。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2406" height="563" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-7.png" alt="" class="wp-image-4338" /> </figure></p>
+<p>信息的输入端需要动态web应用的源代码和预置的攻击字典，这个字典实际上就是针对多种漏洞的分析模板，NAVEX是实现了对6种漏洞进行分析，一个完整的字典由4部分构造，这里结合XSS的实例与大家讲解，XSS漏洞通常可以利用echo、print这些函数实现，所以我们将其定义为敏感操作，第2部分是字符替换等过滤函数，第3部分是遍历类型，这个会在后续展开讲解，第4部分就是XSS的攻击语句。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1770" height="649" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-8.png" alt="" class="wp-image-4339" /> </figure></p>
+<p>将信息输入后，NAVEX系统会进行漏洞点的识别，识别又划分了三部分，图的构造和遍历，以及公式的构造，我会按照自顶向下的顺序展开，在构造图中NAVEX所采用的模型是基于代码属性图CPG的，什么是CPG?给大家介绍下概念。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2297" height="975" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-9.png" alt="" class="wp-image-4340" /> </figure></p>
+<p>首先，明确一个公式。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-10.png" alt="" class="wp-image-4341" width="577" height="115" /> </figure></p>
+<p>它是由三种图构成的，我们以代码为例，先构造抽象语法树AST。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-11.png" alt="" class="wp-image-4343" width="276" height="241" /> </figure></p>
+<p>可以看到代码中的操作数被关联为叶子节点，内部节点则代表运算符，这种图适合简单的代码分析，代码量过大时，生成的树会很复杂。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="515" height="322" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-12.png" alt="" class="wp-image-4344" /> </figure></p>
+<p>再构造控制流图CFG，可以看到图中控制语句的执行逻辑，便于我们理解整个程序的运行，但这种方式定位不了漏洞点。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="200" height="319" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-13.png" alt="" class="wp-image-4345" /> </figure></p>
+<p>最后构造程序依赖图PDG，可以看到清晰的依赖关系，比如x的定义语句对后面有x出现的语句都存在数据依赖，if判断语句和他对应的执行语句也存在着控制依赖的关系，先有因后有果。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="333" height="223" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-14.png" alt="" class="wp-image-4346" /> </figure></p>
+<p>CPG就是个缝合怪，将这三种图组合起来，融合AST的语法结构、CFG的执行路径、PDG的依赖关系的一种数据结构。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="734" height="232" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-15.png" alt="" class="wp-image-4348" /> </figure></p>
+<p>虽然CPG是一种强大的数据结构，但它只进行过程内分析，这里加入调用图CG，构造调用的函数节点到对应定义根节点的边，来实现过程间层次上的推理。最后使用过滤函数标签来解析语句的过滤状态，比如有没有强制转换，使用数据库约束标签收集表名、列名、数据类型和值约束(例如，NOT NULL)等信息 。</p>
+<p>完成图的构造后，需要进行遍历来搜索脆弱路径，遍历依据不同的漏洞类型分为向前、向后，下面介绍漏洞的遍历算法。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="3626" height="1518" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-16.png" alt="" class="wp-image-4349" /> </figure></p>
+<p>向后的遍历算法，实际上是从可能漏洞点向后搜索到达源点的路径，先依据攻击字典查找可能的漏洞点，再对所有遍历的路径进行一个剪枝的操作，去除含有过滤函数等的路径，最终返回一组脆弱路径。正向遍历则反过来，从源点到可能漏洞点的路径搜索。</p>
+<p>完成遍历后得到的脆弱路径，被定义为Fpath，加上构造图中的数据库约束Fdb和攻击字典中的攻击字符串Fattack，组成扩充公式，发送到求解器，构造EXP字符串。最后将漏洞点和EXP字符串用于下一部分，EXP的具体生成。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2480" height="930" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-17.png" alt="" class="wp-image-4350" /> </figure></p>
+<p>生成具体EXP分为三部分，动态执行，构建导航图，最终生成EXP，之前的漏洞点识别是静态分析的部分，而NAVEX动静结合的创新点主要在动态的执行，下面为大家介绍通过爬虫来解决客户端约束条件。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-18.png" alt="" class="wp-image-4351" width="641" height="370" /> </figure></p>
+<p>爬虫会对每个角色类型进行身份验证，比如线上购物的用户和管理员，这样能把代码覆盖率最大化，然后从种子url开始广度优先遍历，遍历过程中搜集3个对象，链接将会作为下一次的种子url，JS和表单会利用符号执行等方法提取他们的约束信息，用于构造HTTP请求。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2225" height="405" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-19.png" alt="" class="wp-image-4352" /> </figure></p>
+<p>下面是一个例子，bookname的取值只有两种，得到F<sub>html</sub>的值是a或b的关系，JS代码中当edition小于0是将会返回false,得到的F<sub>js</sub>就必须大于0，F<sub>js</sub>和F<sub>html</sub>组成了F<sub>form</sub>，经过约束求解器会得到如下的HTTP请求。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2504" height="711" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-20.png" alt="" class="wp-image-4353" /> </figure></p>
+<p>爬虫是解决客户端的约束，而服务端的约束又要怎样解决呢？</p>
+<p>什么是服务端约束？大家可以看到在代码中对publisher的长度在后端进行了判断，在前端我们无法获取这个约束条件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="877" height="33" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-22.png" alt="" class="wp-image-4355" /> </figure></p>
+<p>这里引入了跟踪引擎的概念，会不断提取服务端约束进行尝试，直达它状态改变或者执行敏感操作，我们就认为成功了，会将信息存储，作为节点。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1934" height="587" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-21.png" alt="" class="wp-image-4354" /> </figure></p>
+<p>下面是一个同时满足客户端约束和服务端约束的例子。</p>
+<pre class="wp-block-code"><code>(bookname=="intro to CS by author1"∨bookname=="intro to Math by author2")∧
+length(publisher)&lt;=35∧edition >0</code></pre>
+<p>导航图表示模块执行的可能序列，导航图是有向图_G= (N,E)_ ，节点表示HTTP请求，边表示节点之间的导航(类型是链接或表单) ，_e = (n<sub>i，</sub>n<sub>j</sub>)∈ E， n<sub>i</sub>_表示发出请求的页面。由下方表格中的4种属性构成，每个节点是一个HTTP请求，边是链接或表单，作为节点的导航连接。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-23.png" alt="" class="wp-image-4356" width="411" height="165" /> </figure></p>
+<p>NAVXE的优点就是将漏洞EXP的构造问题转换为对图的简单搜索问题，以下面的导航图为例，他就将6个层层递进的http请求转换成了从index节点到漏洞点的搜索，最终组合的http加上漏洞点识别步骤中得到的EXP字符串，生成最终的EXP。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="919" height="157" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-25.png" alt="" class="wp-image-4358" /></figure></p>
+<h2 id="0x03-实验结果">0x03 实验结果</h2>
+<p>数据集选取标准：评估最流行应用的最新版本，并且要求是<strong>复杂</strong>且<strong>大型</strong>的PHP应用程序</p>
+<p>数据集：26个真实PHP应用程序，代码库组合为320万多行源代码和2万多个PHP文件。</p>
+<table>
+<thead>
+<tr>
+<th><strong>应用（版本）</strong></th>
+<th><strong>PHP****文件数量</strong></th>
+<th><strong>PHP****源代码行数</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WordPress (4.7.4)</td>
+<td>699</td>
+<td>181257</td>
+</tr>
+<tr>
+<td>MediaWiki (1.30.0)</td>
+<td>3680</td>
+<td>537913</td>
+</tr>
+<tr>
+<td>Joomla (3.7.0)</td>
+<td>2764</td>
+<td>302701</td>
+</tr>
+<tr>
+<td>Drupal (8.3.2)</td>
+<td>8626</td>
+<td>585094</td>
+</tr>
+<tr>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>NAVEX总共生成了<strong>204</strong>个EXP
+<ul>
+<li>其中195个是注入漏洞(SQLI和XSS)</li>
+<li>9个是逻辑漏洞(EAR)</li>
+</ul>
+</li>
+<li>降低了**87%**的误报</li>
+<li>提高了**54%**的精度</li>
+<li>能够深入到<strong>6</strong>个HTTP请求以拼接EXP</li>
+<li>能够分析的漏洞类型达到<strong>6</strong>种</li>
+<li>第一个可以自动发现并利用EAR漏洞的方案<figure class="wp-block-image size-full"></li>
+</ol>
+<p><img loading="lazy" width="562" height="265" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-29.png" alt="" class="wp-image-4363" width="607" height="285" /></figure></p>
+<h2 id="0x04-总结">0x04 总结</h2>
+<img loading="lazy"  src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-30.png" alt="" class="wp-image-4364" /> </div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-11-11</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" data-title="NAVEX-精确且可扩展的动态Web应用EXP生成系统" data-hashtags="学术研究"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" data-hashtag="学术研究"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" data-title="NAVEX-精确且可扩展的动态Web应用EXP生成系统"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" data-title="NAVEX-精确且可扩展的动态Web应用EXP生成系统"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" data-title="NAVEX-精确且可扩展的动态Web应用EXP生成系统"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E5%AD%A6%E6%9C%AF%E7%A0%94%E7%A9%B6/">学术研究</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-11-06-dasctf-oct-writeup/" class="prev" rel="prev" title="DASCTF Oct WriteUp"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>DASCTF Oct WriteUp</a>
+            <a href="/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" class="next" rel="next" title="近期一些CTF比赛的题目（MISC&#43;CRYPTO）">近期一些CTF比赛的题目（MISC+CRYPTO）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

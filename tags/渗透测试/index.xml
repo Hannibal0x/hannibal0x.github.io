@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>渗透测试 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</link>
+        <description>渗透测试 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Jan 2022 04:23:05 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="self" type="application/rss+xml" /><item>
+    <title>打靶-EVILBOX: ONE</title>
+    <link>https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/</link>
+    <pubDate>Tue, 11 Jan 2022 04:23:05 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/</guid>
+    <description><![CDATA[0x00 准备工作 靶机地址: https://www.vulnhub.com/entry/evilbox-one,736/ 难度等级: 高 打靶目标: 取得 root 权限 涉及攻击方法: 主机发现 端口扫描 强制方法 参数爆破 文件包含 PHP封装器 任意文件读取 SSH公]]></description>
+</item>
+<item>
+    <title>私密：个人学习笔记</title>
+    <link>https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Tue, 30 Nov 2021 11:41:41 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[## 0x00 攻击目标选择 人 个人基础信息 员工通讯录 社交账号：邮箱、手机、账号 社交关系 互联网泄露信息 角色关系：客户、员工、供应商、合作方 信息资产 域名/I]]></description>
+</item>
+<item>
+    <title>业务安全学习笔记（实践篇）</title>
+    <link>https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/</link>
+    <pubDate>Sun, 28 Nov 2021 08:28:47 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/</guid>
+    <description><![CDATA[0x00 账号安全案例总结 账号密码直接暴露在互联网上 搜索语法 邮件配置信息查询 site:Github.com smtp password; 数据库信息泄露 site:Github.com sa password; svn信息泄露 site:Github.com svn; 数据库备份文件 site:Github.com inurl:sql 开源项目存]]></description>
+</item>
+<item>
+    <title>业务安全学习笔记（技术篇）</title>
+    <link>https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/</link>
+    <pubDate>Wed, 24 Nov 2021 17:23:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/</guid>
+    <description><![CDATA[0x00 前言 阅读《Web攻防之业务安全实战指南》一书所做的学习笔记。 0x01 登录认证模块测试 暴力破解测试 burp利用字典穷举 本地加密传输测试 测试客户端与]]></description>
+</item>
+<item>
+    <title>打靶-HardSocialNetwork</title>
+    <link>https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/</link>
+    <pubDate>Sun, 24 Oct 2021 16:02:22 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/</guid>
+    <description><![CDATA[0x00 准备工作 靶机地址: https://download.vulnhub.com/boredhackerblog/hard_socnet2.ova 难度等级: 高 打靶目标: 取得 root 权限 涉及攻击方法: 主机发现 端口扫描 SQL注入 文件上传 CVE-2021-3493 XMLRPC 逆向工程 动态调试 缓冲区溢出 漏洞利用]]></description>
+</item>
+<item>
+    <title>打靶-AdmX_new</title>
+    <link>https://hannibal0x.github.io/2021-10-13-%E6%89%93%E9%9D%B6-admx_new/</link>
+    <pubDate>Wed, 13 Oct 2021 13:12:31 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-10-13-%E6%89%93%E9%9D%B6-admx_new/</guid>
+    <description><![CDATA[0x00 准备工作 难度等级: 中 打靶目标: 取得 2 个 flag + root 权限 涉及攻击方法: 主机发现 端口扫描 WEB路径爆破 BurpSuite内容替换 密码爆破 MSF漏洞利]]></description>
+</item>
+<item>
+    <title>打靶-Chronos</title>
+    <link>https://hannibal0x.github.io/2021-10-12-%E6%89%93%E9%9D%B6-chronos/</link>
+    <pubDate>Tue, 12 Oct 2021 13:05:35 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-10-12-%E6%89%93%E9%9D%B6-chronos/</guid>
+    <description><![CDATA[0x00 准备工作 难度等级: 中 打靶目标: 取得 2 个 flag + root 权限 涉及攻击方法: 端口扫描 WEB侦查 命令注入 数据编解码 搜索大法 框架漏洞利用 代码审计 NC串联 本地]]></description>
+</item>
+<item>
+    <title>打靶-SocialNetwork</title>
+    <link>https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/</link>
+    <pubDate>Sat, 09 Oct 2021 14:16:04 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/</guid>
+    <description><![CDATA[0x00 准备工作 中等难度的靶机，Description如下： 1 Leave a message is a new anonymous social networking site where users can post messages for each other. They&#39;ve assigned you to test their set up. They do utilize docker containers. You can conduct attacks against those too. Try to see if]]></description>
+</item>
+<item>
+    <title>打靶-MoriartyCorp</title>
+    <link>https://hannibal0x.github.io/2021-09-27-%E6%89%93%E9%9D%B6-moriartycorp/</link>
+    <pubDate>Mon, 27 Sep 2021 11:12:03 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-09-27-%E6%89%93%E9%9D%B6-moriartycorp/</guid>
+    <description><![CDATA[0x00 准备工作 查看靶机的描述信息，这里说明了flag的格式等。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 Description Hello Agent. You&#39;re here on a special mission. A mission to take down one of the biggest weapons suppliers which is Moriarty Corp.]]></description>
+</item>
+<item>
+    <title>打靶-Hackademic: RTB1</title>
+    <link>https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-hackademic-rtb1/</link>
+    <pubDate>Thu, 16 Sep 2021 11:59:15 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-hackademic-rtb1/</guid>
+    <description><![CDATA[0x00 准备工作 Description里面有一条信息，After all, try to read the contents of the file &lsquo;key.txt&rsquo; in the root directo]]></description>
+</item>
+</channel>
+</rss>

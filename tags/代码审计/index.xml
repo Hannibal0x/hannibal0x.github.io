@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>代码审计 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</link>
+        <description>代码审计 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 05 Dec 2021 07:37:22 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="self" type="application/rss+xml" /><item>
+    <title>代码审计学习笔记（下）</title>
+    <link>https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/</link>
+    <pubDate>Sun, 05 Dec 2021 07:37:22 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/</guid>
+    <description><![CDATA[0x00 二次漏洞审计 什么是二次漏洞？ 需要先构造好利用代码写入网站保存，在第二次或多次请求后调用攻击代码触发或者修改配置触发的漏洞。 审计技巧 依然可以]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（中）</title>
+    <link>https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/</link>
+    <pubDate>Sat, 04 Dec 2021 13:40:13 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/</guid>
+    <description><![CDATA[0x00 SQL注入漏洞 普通注入 最容易利用的SQL注入漏洞，比如直接通过注入union查询，分int型和string型，后者需要使用单或双引号闭合。]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（上）</title>
+    <link>https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/</link>
+    <pubDate>Fri, 03 Dec 2021 11:48:54 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/</guid>
+    <description><![CDATA[0x00 前言 学习《代码审计 企业级Web代码安全架构》一书所做的笔记。 0x01 PHP核心配置详解 官方配置说明 PHP_INI_ 常量的定义* 常量 含义 PHP_INI_USER 可在用户PHP脚本或 Windows]]></description>
+</item>
+</channel>
+</rss>

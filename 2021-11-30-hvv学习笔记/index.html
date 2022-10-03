@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>私密：个人学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="私密：个人学习笔记" />
+<meta property="og:description" content="## 0x00 攻击目标选择 人 个人基础信息 员工通讯录 社交账号：邮箱、手机、账号 社交关系 互联网泄露信息 角色关系：客户、员工、供应商、合作方 信息资产 域名/I" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-30T11:41:41+00:00" />
+<meta property="article:modified_time" content="2021-11-30T11:41:41+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="私密：个人学习笔记"/>
+<meta name="twitter:description" content="## 0x00 攻击目标选择 人 个人基础信息 员工通讯录 社交账号：邮箱、手机、账号 社交关系 互联网泄露信息 角色关系：客户、员工、供应商、合作方 信息资产 域名/I"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-11-29-%E8%8F%9C%E7%8B%97%E3%81%AE%E6%98%A5%E7%A7%8B%E6%9D%AFwriteup/" /><link rel="next" href="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "私密：个人学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "渗透测试","wordcount":  3807 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-11-30T11:41:41+00:00","dateModified": "2021-11-30T11:41:41+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">私密：个人学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a>&nbsp;<a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-11-30">2021-11-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3807 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x01-如何寻找突破口">0x01 <strong>如何寻找突破口？</strong></a></li>
+    <li><a href="#0x02-钓鱼攻击">0x02 <strong>钓鱼攻击</strong></a></li>
+    <li><a href="#0x03-后门隐藏">0x03 后门隐藏</a></li>
+    <li><a href="#0x04-内网渗透-选择攻击目标">0x04 内网渗透-选择攻击目标</a></li>
+    <li><a href="#0x05-信息收集工具">0x05 信息收集工具</a></li>
+    <li><a href="#0x06-绕过cdn查找真实ip">0x06 绕过CDN查找真实IP</a></li>
+    <li><a href="#0x07-exppoc库漏洞扫描框架">0x07 EXP、POC库，漏洞扫描框架</a></li>
+    <li><a href="#0x08-漏洞利用工具">0x08 漏洞利用工具</a></li>
+    <li><a href="#0x09-数据安全企业敏感信息泄露">0x09 数据安全：企业敏感信息泄露</a></li>
+    <li><a href="#0x0a-弱口令">0x0A 弱口令</a></li>
+    <li><a href="#0x0b-常见端口和服务以及攻击手法部分">0x0B 常见端口和服务以及攻击手法（部分）</a></li>
+    <li><a href="#0x0c-设备部署">0x0C 设备部署</a></li>
+    <li><a href="#0x0d-社">0x0D 社</a></li>
+    <li><a href="#0x0e-加固">0x0E 加固</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+## 0x00 攻击目标选择
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-211.png" alt="" class="wp-image-4723" width="587" height="435" /> </figure></p>
+<p>人</p>
+<ul>
+<li>个人基础信息</li>
+<li>员工通讯录</li>
+<li>社交账号：邮箱、手机、账号</li>
+<li>社交关系</li>
+<li>互联网泄露信息</li>
+<li>角色关系：客户、员工、供应商、合作方</li>
+</ul>
+<p>信息资产</p>
+<ul>
+<li>域名/IP</li>
+<li>内外网拓扑结构</li>
+<li>端口</li>
+<li>使用软件</li>
+<li>使用网络设备</li>
+<li>关键系统：邮箱、OA、VPN、域控</li>
+<li>关联合作方资产</li>
+</ul>
+<h2 id="0x01-如何寻找突破口">0x01 <strong>如何寻找突破口？</strong></h2>
+<p>■工作人员的<span class="has-inline-color has-vivid-red-color">安全意识薄弱</span>永远是最致命的<br>
+•弱口令、撞库、泄露账号、钓鱼、物理入侵</p>
+<p>■已知漏洞未必无效，内网已成重灾区<br>
+•积累漏洞利用库</p>
+<p>■以小见大，稳步推进，主站无洞可从旁站入手<br>
+• XSS、CSRF、SQLI、越权-＞获取管理员账号-＞上传、备份-&gt;后台getshell</p>
+<p>■切勿急躁，发现源码-＞ 审计漏洞<br>
+•文件扫描、GitHub</p>
+<p>■未公开0day漏洞是超级武器，考虑得失比</p>
+<h2 id="0x02-钓鱼攻击">0x02 <strong>钓鱼攻击</strong></h2>
+<p>■ 口令钓鱼<br>
+导引用户到URL与界面外观与真正网站几无二致的假冒网站输入个人数据。期算使用强式加密的SSL服务器认证，要侦测网站是否仿冒实际上仍很困难。（域名仿冒、中奖邮件）</p>
+<p>■ 鱼叉式网络钓鱼<br>
+私人化定制，伪装成目标的同事或亲友等身份，诱导目标点击链接或下载附件（word, vpn） 。或伪装成领导，要求员工进行XX操作。</p>
+<p>■ 偷渡式下载(Drive-by download)<br>
+授权但不了解后果的下载（例如，安装未知或伪造的可执行程序，ActiveX组件或Java applet）不知情的情况下进行的任何下载，通常是计算机病毒，间谍软件，恶意软件或犯罪软件。</p>
+<p>■ 热点钓鱼（WIFI钓鱼）<br>
+切断目标的网络，设置一个假的公开WIFI，目标一旦连入网络，所有数据和操作都会被掌控。</p>
+<p>■ 搜索引擎钓鱼<br>
+付费广告（购买近似域名、提升权重）。</p>
+<p>■ 桌面钓鱼<br>
+修改hosts并制作成自解压文件，捆绑其他软件，通过任意途径诱导用户安装。</p>
+<p>■ 社会工程学<br>
+伪造猎头身份，诱导目标员工下载word木马。根据个人信息，生成字典。</p>
+<p>■ DNS欺骗<br>
+破坏DNS记录，将目标网站的访客引至事先布好的欺诈网站（入侵路由器）。</p>
+<p>■ 水坑攻击<br>
+得知目标经常访问的网站后，攻击该网站，放置登录控件马。</p>
+<p>■ 物理攻击<br>
+水、电、网、空调维修人员冒充；假冒面试者，提供U盘进行打印。</p>
+<h2 id="0x03-后门隐藏">0x03 后门隐藏</h2>
+<p>■ webshell的隐藏<br>
+• 回调后门、代码混淆和加密、不死马、无文件webshell</p>
+<p>■ 计划任务、启动项、注册表</p>
+<p>■ 增加UID为0/权限为Administrator的账户</p>
+<p>■ ssh key</p>
+<p>■ alias后门——.bashrc /etc/profile alias命令进行重写操作</p>
+<p>■ suid后门——<a rel="noreferrer noopener" href="https://zhuanlan.zhihu.com/p/97685460" target="_blank" rel="nofollow" ><a href="https://zhuanlan.zhihu.com/p/97685460" target="_blank" rel="noopener noreffer ">https://zhuanlan.zhihu.com/p/97685460</a></a>、<a href="http://wyb0.com/posts/2016/linux-suid-back-door/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="http://wyb0.com/posts/2016/linux-suid-back-door/" target="_blank" rel="noopener noreffer ">http://wyb0.com/posts/2016/linux-suid-back-door/</a></a></p>
+<p>■ ssh：软链接后门、ssh server wrapper</p>
+<p>■ pam后门</p>
+<p>■ mafix后门</p>
+<p>■ Kbeast_rootkit后门</p>
+<h2 id="0x04-内网渗透-选择攻击目标">0x04 内网渗透-选择攻击目标</h2>
+<p>■ 优先攻击高权限账号，如管理员，目标系统负责人账号；</p>
+<p>■ 优先攻击运维/安全人员账号和终端，这些人往往有服务器root账号，安全设备管理员账号，可以进一步深入控制；</p>
+<p>■ 优先攻击集中管控设施，如域控，集中身份认证系统，终端管理系统，攻陷单系统即获得公司内大部分系统的权限；</p>
+<p>■ 优先攻击基础设施，如DNS, DHCP,邮件系统，知识分享平台，oa系统，工单系统；这些系统有内置高权限账号，或可以帮助攻击者隐蔽痕迹。或Git/SVN等开发源代码管理服务器，通过代码审计发现应用0day漏洞。</p>
+<p><strong>定制化恶意软件</strong></p>
+<ul>
+<li>远控功能</li>
+<li>敏感信息收集功能</li>
+<li>漏洞利用能力</li>
+<li>蠕虫特性</li>
+<li>目标业务实现</li>
+<li>免杀与流量加密</li>
+</ul>
+<h2 id="0x05-信息收集工具">0x05 信息收集工具</h2>
+<p>■ 公司信息收集：<a rel="noreferrer noopener" href="https://www.tianyancha.com" data-type="URL" data-id="https://www.tianyancha.com" target="_blank" rel="nofollow" >天眼查</a>、<a rel="noreferrer noopener" href="https://aiqicha.baidu.com/" data-type="URL" data-id="https://aiqicha.baidu.com/" target="_blank" rel="nofollow" >爱企查</a>、GitHub、各大搜索引擎</p>
+<p>■ 个人信息收集：Telegram、 QQ、微信、钉钉、支付宝、脉脉、Linkedin、贴吧</p>
+<p>■ 端口扫描工具：NMap、ZMap、masscan、GGscan</p>
+<p>■ 目录扫描工具：dirb、dirsearch、御剑、SourceLeakHacker、wwwscan、 weakfilescan</p>
+<p>■ whois /备案查询：<a rel="noreferrer noopener" href="https://whois.chinaz.com/" data-type="URL" data-id="https://whois.chinaz.com/" target="_blank" rel="nofollow" >站长之家</a>、<a rel="noreferrer noopener" href="https://whois.aliyun.com/" data-type="URL" data-id="https://whois.aliyun.com/" target="_blank" rel="nofollow" >阿里云</a>、<a rel="noreferrer noopener" href="https://www.virustotal.com" data-type="URL" data-id="https://www.virustotal.com" target="_blank" rel="nofollow" >VirusTotal</a>、<a rel="noreferrer noopener" href="https://securitytrails.com/" data-type="URL" data-id="https://securitytrails.com/" target="_blank" rel="nofollow" >SecurityTrails</a>、<a rel="noreferrer noopener" href="http://icp.chinaz.com/" data-type="URL" data-id="http://icp.chinaz.com/" target="_blank" rel="nofollow" >备案查询</a></p>
+<p>■ 历史域名解析记录：<a rel="noreferrer noopener" href="https://viewdns.info/" data-type="URL" data-id="https://viewdns.info/" target="_blank" rel="nofollow" >ViewDNSInfo</a>、<a rel="noreferrer noopener" href="https://www.domaintools.com/" data-type="URL" data-id="https://www.domaintools.com/" target="_blank" rel="nofollow" >DomailTools</a>、<a rel="noreferrer noopener" href="https://dnsdumpster.com/" data-type="URL" data-id="https://dnsdumpster.com/" target="_blank" rel="nofollow" >dnsdumpster</a>、<a rel="noreferrer noopener" href="https://whoisrequest.com/" data-type="URL" data-id="https://whoisrequest.com/" target="_blank" rel="nofollow" >WhoISRequest</a></p>
+<p>■ C段收集工具：<a rel="noreferrer noopener" href="https://cn.bing.com/" data-type="URL" data-id="https://cn.bing.com/" target="_blank" rel="nofollow" >必应</a></p>
+<p>■ 子域名收集工具：Layer子域名挖掘机、subDomainsBrute、OneForAll、Sublist3r、<a rel="noreferrer noopener" href="https://dnsdumpster.com/" data-type="URL" data-id="https://dnsdumpster.com/" target="_blank" rel="nofollow" >DNSDumper</a>、IP反查域名、<br>
+谷歌语法:site:baidu.com</p>
+<p>■ 指纹识别：<a rel="noreferrer noopener" href="https://www.yunsee.cn" data-type="URL" data-id="https://www.yunsee.cn" target="_blank" rel="nofollow" >云悉</a>、<a rel="noreferrer noopener" href="https://fp.shuziguanxing.com/#/" data-type="URL" data-id="https://fp.shuziguanxing.com/#/" target="_blank" rel="nofollow" >Finger-P</a>、<a rel="noreferrer noopener" href="http://finger.tidesec.com/" data-type="URL" data-id="http://finger.tidesec.com/" target="_blank" rel="nofollow" >TiderFinger</a>、<a rel="noreferrer noopener" href="https://www.whatweb.net/" data-type="URL" data-id="https://www.whatweb.net/" target="_blank" rel="nofollow" >whatweb</a></p>
+<p>■ 多地ping工具(CDN )：<a rel="noreferrer noopener" href="http://ping.chinaz.com/" data-type="URL" data-id="http://ping.chinaz.com/" target="_blank" rel="nofollow" >站长之家</a>、<a rel="noreferrer noopener" href="https://ping.aizhan.com/" data-type="URL" data-id="https://ping.aizhan.com/" target="_blank" rel="nofollow" >爱站网</a>、<a rel="noreferrer noopener" href="http://itools.com/tool/just-ping" data-type="URL" data-id="http://itools.com/tool/just-ping" target="_blank" rel="nofollow" >just-ping</a></p>
+<h2 id="0x06-绕过cdn查找真实ip">0x06 绕过CDN查找真实IP</h2>
+<p>探测是否开启CDN （多地ping工具）</p>
+<p>方法一：杳找二级域名（一般二级域名不会放CDN ）</p>
+<p>方法二：nslookup法（大部分CDN只针对国内市场），nslookup <a href="http://xxx.cn" target="_blank" rel="noopener noreffer ">http://xxx.cn</a> 国外dns</p>
+<p>方法三：ping法，ping <a href="http://xxx.com" target="_blank" rel="noopener noreffer ">http://xxx.com</a> （有些CDN厂商基本只把 <a href="https://www.xxx.com" target="_blank" rel="noopener noreffer ">www.xxx.com</a> cname到cdn主服务器上去www.xxx.co和http://xxx.com是两条独立的解析记录，一般只会把www.xxx.com 做 CDN ）</p>
+<p>方法四：杳找历史域名解析记录（使用CDN前是真实IP ）</p>
+<p>方法五：内部邮箱源（必须是目标自己的mailserver）</p>
+<p>方法六：网站测试文件，phpinfo等</p>
+<p>方法七：APP （抓包）</p>
+<h2 id="0x07-exppoc库漏洞扫描框架">0x07 EXP、POC库，漏洞扫描框架</h2>
+<p>■ <a rel="noreferrer noopener" href="https://www.exploit-db.com/" data-type="URL" data-id="https://www.exploit-db.com/" target="_blank" rel="nofollow" >exploit-db</a>、<a rel="noreferrer noopener" href="http://wooyun.2xss.cc/" data-type="URL" data-id="http://wooyun.2xss.cc/" target="_blank" rel="nofollow" >乌云镜像库</a>、<a rel="noreferrer noopener" href="https://vulhub.org/" data-type="URL" data-id="https://vulhub.org/" target="_blank" rel="nofollow" >vulhub</a></p>
+<p>■ CMS-Hunter、onlinetools、Some-PoC-oR-ExP、exphub</p>
+<p>■ struts-scan、wpscan、kunpeng、AWVS、appscan、nessus、xray</p>
+<h2 id="0x08-漏洞利用工具">0x08 漏洞利用工具</h2>
+<p>■SQLMap、BrupSuite、NoSQLMap</p>
+<p>■webshell : webshell、webshell-sample、WebShell、php-webshells</p>
+<p>■webshell管理工具：菜刀（部分版本存在后门）、蚁剑（部分版本存在RCE漏洞 : 1、2）、冰蝎</p>
+<p>■内网渗透神器：Metasploit-Framework、Cobalt Strike （可克隆网站、制作word宏病毒、发送邮件）</p>
+<p>■ Proxy：ReGeorg、Earthworm、Termite、ProxyChains-ng、Proxifier、Venom、openvpn</p>
+<p>■ 提权：windows-kernel-exploits、linux-kernel-exploits、LinEnum</p>
+<p>■ 端口转发：Windows、 Linux</p>
+<p>■ 手机短信接收平台：xx云短信、<a rel="noreferrer noopener" href="http://www.z-sms.com/" data-type="URL" data-id="http://www.z-sms.com/" target="_blank" rel="nofollow" >z-sms</a>、receive-sms-online</p>
+<p>■ 在线临时匿名邮箱：<a href="https://yopmail.com/" data-type="URL" data-id="https://yopmail.com/" target="_blank" rel="noreferrer noopener" rel="nofollow" >yopmail</a></p>
+<p>■ 在线邮件伪造：<a href="https://emkei.cz/" data-type="URL" data-id="https://emkei.cz/" target="_blank" rel="noreferrer noopener" rel="nofollow" >EMKEI</a>、<a href="https://ihuan.me/mail" data-type="URL" data-id="https://ihuan.me/mail" target="_blank" rel="noreferrer noopener" rel="nofollow" >小幻邮箱系统</a></p>
+<p>■ 在线短链生成：<a href="http://tool.chinaz.com/tools/dwz.aspx?qq-pf-to=pcqq.group" data-type="URL" data-id="http://tool.chinaz.com/tools/dwz.aspx?qq-pf-to=pcqq.group" target="_blank" rel="noreferrer noopener" rel="nofollow" >站长之家</a>、短网址工具</p>
+<p>■ 在线md5解密：<a href="https://www.cmd5.com/" data-type="URL" data-id="https://www.cmd5.com/" target="_blank" rel="noreferrer noopener" rel="nofollow" >cmd5</a>、<a href="https://www.zuwuwang.com/" data-type="URL" data-id="https://www.zuwuwang.com/" target="_blank" rel="noreferrer noopener" rel="nofollow" >zuwuwang</a>、<a rel="noreferrer noopener" href="https://www.somd5.com/" data-type="URL" data-id="https://www.somd5.com/" target="_blank" rel="nofollow" >somd5</a>、<a rel="noreferrer noopener" href="https://pmd5.com/" data-type="URL" data-id="https://pmd5.com/" target="_blank" rel="nofollow" >pmd5</a>、<a rel="noreferrer noopener" href="https://www.chamd5.org/" data-type="URL" data-id="https://www.chamd5.org/" target="_blank" rel="nofollow" >chamd5</a>、<a rel="noreferrer noopener" href="http://www.xmd5.org/" data-type="URL" data-id="http://www.xmd5.org/" target="_blank" rel="nofollow" >xmd5</a>、<a rel="noreferrer noopener" href="http://www.ttmd5.com/" data-type="URL" data-id="http://www.ttmd5.com/" target="_blank" rel="nofollow" >ttmd5</a></p>
+<h2 id="0x09-数据安全企业敏感信息泄露">0x09 数据安全：企业敏感信息泄露</h2>
+<p><strong>常见泄露源</strong></p>
+<ul>
+<li>网盘微盘（百度网盘）</li>
+<li>代码托管平台（github）</li>
+<li>文库平台</li>
+<li>微博、论坛等社交网站</li>
+</ul>
+<p><strong>防范措施</strong></p>
+<ul>
+<li>禁止在互联网上发布公司内部信息</li>
+</ul>
+<p><strong>常见泄露内容</strong></p>
+<ul>
+<li>企业组织架构</li>
+<li>员工通讯录</li>
+<li>供应商或合作方</li>
+<li>源码文件</li>
+<li>账号密码</li>
+<li>技术方案</li>
+<li>招投标文件</li>
+<li>项目合同</li>
+<li>网络拓扑</li>
+<li>内部系统手册</li>
+</ul>
+<h2 id="0x0a-弱口令">0x0A 弱口令</h2>
+<p><strong>什么是弱口令？</strong></p>
+<ul>
+<li>字符种类（数字、大小写、符号）不够、长度不够</li>
+<li>系统/设备默认（出厂）口令</li>
+<li>使用和个人或公司有关信息，例如生日、年份、公司名称：19800304、CHAITIN</li>
+<li>包含键盘上的连续按键：qwert、lqaz@wsz、! @#</li>
+<li>包含特殊含义字符串：520 、1314 、iloveyou</li>
+<li>其他常用字符串：root、abcl23 ! 、@123</li>
+</ul>
+<p>使用一台双核PC+暴力破解软件进行本地破解需花费的时间</p>
+<table>
+<thead>
+<tr>
+<th>口令强度</th>
+<th>6位长</th>
+<th>8位长</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>纯粹由数字构成</td>
+<td>&lt;1s</td>
+<td>10s</td>
+</tr>
+<tr>
+<td>小写或大写字母组成</td>
+<td>30s</td>
+<td>348mins</td>
+</tr>
+<tr>
+<td>大小写字母混合组成</td>
+<td>33mins</td>
+<td>62days</td>
+</tr>
+<tr>
+<td>数字+ 大小写字母组成</td>
+<td>90mins</td>
+<td>253days</td>
+</tr>
+<tr>
+<td>数字+ 大小写+符号组成</td>
+<td>22hours</td>
+<td>23years</td>
+</tr>
+</tbody>
+</table>
+<h2 id="0x0b-常见端口和服务以及攻击手法部分">0x0B 常见端口和服务以及攻击手法（部分）</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="843" height="962" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-200.png" alt="" class="wp-image-4712" /> </figure></p>
+<h2 id="0x0c-设备部署">0x0C 设备部署</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/12/图片-1.png" alt="" class="wp-image-4730" /></figure></p>
+<h2 id="0x0d-社">0x0D 社</h2>
+<p><a href="https://www.iculture.cc/sg/pig=1034" target="_blank"  rel="nofollow" ><a href="https://www.iculture.cc/sg/pig=1034" target="_blank" rel="noopener noreffer ">https://www.iculture.cc/sg/pig=1034</a></a></p>
+<h2 id="0x0e-加固">0x0E 加固</h2>
+<p>安全加固的三个方面：用户 文件 登录</p>
+<p><code>etc/login.defs</code>定义了<code>/etc/passwd</code>和<code>/etc/shadow</code>配套的用户限制，必须存在，没有时，某些时候并不会影响使用，但有些时候会产生意想不到的情况。</p>
+<p>如果<code>/etc/passwd</code>和<code>/etc/shadow</code>与<code>/etc/login.</code>defs产生冲突，会以优先级更高的<code>/etc/passwd</code>和<code>/etc/shadow</code>为主。</p>
+<p>使用命令<code>grep -Ev &quot;^#|^$&quot; /etc/login.defs</code>，查看文件内容</p>
+<pre class="wp-block-code"><code>MAIL_DIR        /var/mail 
+PASS_MAX_DAYS	99999 #密码最大有效期 以天为单位 一般365天
+PASS_MIN_DAYS	0 #两次修改密码最小间隔 以天为单位 
+PASS_MIN_LEN    5 #密码最小长度 5 对root无效
+PASS_WARN_AGE	7 #密码过期前n天开始提示
+UID_MIN			 1000 #创建普通用户的时 如果不指定UID 就会从1000递增 centos6从500开始
+UID_MAX			60000 #创建普通用户的最大ID 65534
+SYS_UID_MIN			 201 #不指定UID时 创建系统的最小UID
+SYS_UID_MAX			999 #不指定UID时 创建系统的最大UID
+GID_MIN			 1000
+GID_MAX			60000
+SYS_GID_MIN			 201 
+SYS_GID_MAX			999
+CREATE_HOME yes #创建用户时 创建相应的家目录
+UMASK		077 #用户的家目录的权限值 700
+USERGROUPS_ENAB yes #删除用户时 如果用户组内没有其他用户时 是否删除用户组 
+ENCRYPT_METHOD SHA512 #用户密码使用SHA512加密</code></pre>
+<p>修改后（通用型）</p>
+<pre class="wp-block-code"><code>PASS_MAX_DAYS	90 
+PASS_MIN_LEN    12 </code></pre>
+<p>/etc/passwd的内容</p>
+<pre class="wp-block-code"><code>root : x : 0 : 0 : root : /root : /bin/bash
+bin : x : 1 : 1 : bin : /bin : /sbin/nologin
+用户名 : 用户密码 : 用户的UID : 用户的GID : 用户的注释 : 用户的主目录 : 用户的shell</code></pre>
+<p>由于/etc/passwd允许所有用户读取，容易导致用户的密码泄露，所以linux系统将用户相关的密码信息分离到/etc/shadow，只用root用户有读的权限。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-11-30</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="私密：个人学习笔记" data-hashtags="渗透测试"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="渗透测试"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="私密：个人学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="私密：个人学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="私密：个人学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-11-29-%E8%8F%9C%E7%8B%97%E3%81%AE%E6%98%A5%E7%A7%8B%E6%9D%AFwriteup/" class="prev" rel="prev" title="菜狗の春秋杯WriteUp"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>菜狗の春秋杯WriteUp</a>
+            <a href="/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" class="next" rel="next" title="代码审计学习笔记（上）">代码审计学习笔记（上）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

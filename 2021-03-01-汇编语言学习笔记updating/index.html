@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>《汇编语言》学习笔记(updating) - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="《汇编语言》学习笔记(updating)" />
+<meta property="og:description" content="oxoo 前言 在绿盟测试赛题时遇到Reverse就头大，于是购入了王爽老师的第四版《汇编语言》，从零开始学习。 0x01 基础知识 汇编语言有以下3类指令组成。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-01T10:22:00+00:00" />
+<meta property="article:modified_time" content="2021-03-01T10:22:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="《汇编语言》学习笔记(updating)"/>
+<meta name="twitter:description" content="oxoo 前言 在绿盟测试赛题时遇到Reverse就头大，于是购入了王爽老师的第四版《汇编语言》，从零开始学习。 0x01 基础知识 汇编语言有以下3类指令组成。"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" /><link rel="prev" href="https://hannibal0x.github.io/2021-02-28-ctfhub-%E5%AF%86%E7%A0%81%E5%8F%A3%E4%BB%A4xss/" /><link rel="next" href="https://hannibal0x.github.io/2021-03-03-ctfhub-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "《汇编语言》学习笔记(updating)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating\/"
+        },"genre": "posts","keywords": "逆向","wordcount":  3744 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating\/","datePublished": "2021-03-01T10:22:00+00:00","dateModified": "2021-03-01T10:22:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">《汇编语言》学习笔记(updating)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-03-01">2021-03-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3744 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#oxoo-前言">oxoo 前言</a></li>
+    <li><a href="#0x01-基础知识">0x01 基础知识</a></li>
+    <li><a href="#0x02-寄存器">0x02 寄存器</a></li>
+    <li><a href="#0x03-寄存器内存访问">0x03 寄存器（内存访问）</a></li>
+    <li><a href="#0x04-第一个程序">0x04 第一个程序</a></li>
+    <li><a href="#0x05-bx和loop指令">0x05 [BX]和loop指令</a></li>
+    <li><a href="#0x06-包含多个段的程序">0x06 包含多个段的程序</a></li>
+    <li><a href="#0x07-更灵活的定位内存地址的方法">0x07 更灵活的定位内存地址的方法</a></li>
+    <li><a href="#0x08-数据处理的两个基本问题">0x08 数据处理的两个基本问题</a></li>
+    <li><a href="#0x09-转移指令的原理">0x09 转移指令的原理</a></li>
+    <li><a href="#0x0a-call和ret指令">0x0A CALL和RET指令</a></li>
+    <li><a href="#0x0b-标志寄存器">0x0B 标志寄存器</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="oxoo-前言">oxoo 前言</h2>
+<p>在绿盟测试赛题时遇到Reverse就头大，于是购入了王爽老师的第四版《汇编语言》，从零开始学习。</p>
+<h2 id="0x01-基础知识">0x01 基础知识</h2>
+<p>汇编语言有以下3类指令组成。</p>
+<p>（1）汇编指令：机器码的助记符，有对应的机器码，汇编语言的核心。</p>
+<p>（2）伪指令：没有对应的机器码，由编译器执行，计算机并不执行。</p>
+<p>（3）其他符号：如+、-、*、/等，由编译器识别，没有对应的机器码。</p>
+<p>CPU想要进行数据的读写，必须和外部器件进行下面3类信息交互。</p>
+<p>（1）存储单元的地址（地址信息）-&mdash;到哪儿去？</p>
+<p>（2）器件的选择，读或写的命令（控制信息）-&mdash;怎么去？</p>
+<p>（3）读或写的数据（数据信息）-&mdash;谁去？</p>
+<p>内存地址空间的大小受CPU地址总线宽度的限制</p>
+<h2 id="0x02-寄存器">0x02 寄存器</h2>
+<p>AX、BX、CX、DX这4个寄存器通常用来存放一般性的数据，被称为通用寄存器。AX的低8位（0-7位）构成了AL寄存器，高八位（8-15位）构成了AH寄存器。</p>
+<p>在进行数据传送或运算时，要注意指令的两个操作对象的位数应当是一致的。</p>
+<p>物理地址=段地址x16+偏移地址</p>
+<p>段地址x16有一个更为常用的说法，左移4位</p>
+<p>CS为代码段寄存器，IP为指令指针寄存器。</p>
+<p>8086CPU的工作流程可以简要描述如下：</p>
+<p>（1）从CS:IP指向的内存单元读取指令，读取的指令进入指令缓冲器。</p>
+<p>（2）IP=IP+所读指令的长度，从而指向下一条指令。</p>
+<p>（3）执行指令。转到步骤（1），重复这个过程。</p>
+<p>“jmp 段地址:偏移地址”指令的功能：用指令中给出的段地址修改CS，偏移地址修改IP。</p>
+<p>“jmp 某一合法寄存器”指令的功能：用寄存器中的值修改IP。</p>
+<h2 id="0x03-寄存器内存访问">0x03 寄存器（内存访问）</h2>
+<p>任何两个地址连续的内存单元，N号单元和N+1号单元，可以将它们看成两个内存单元，也可看成一个地址为N的字单元中的高位字节单元和低位字节单元。</p>
+<p>&ldquo;[&hellip;]&ldquo;表示一个内存单元，&rdquo;[&hellip;]&ldquo;中的0表示内存单元的偏移地址。</p>
+<p>如果将10000H-1FFFFH，这段空间当作栈段，初始状态栈是空的，此时，SS=1000H，SP=?</p>
+<p>如果将10000H-1FFFFH这段空间当作栈段，SS=1000H，栈空间为64KB，栈最底的字单元地址为1000:FFFE。任意时刻，SS:SP指向栈顶单元，当栈中只有一个元素的时候，SS=1000H，SP=FFFEH。栈为空，就相当于栈中唯一的元素出栈， 出栈后，SP=SP+2。</p>
+<p>SP原来为FFFEH,加2后SP=0，所以，当栈为空的时候，SS=1000H， SP=0。</p>
+<p>换一个角度看，任意时刻，SS:SP 指向栈顶元素，当栈为空的时候，栈中没有元素，也就不存在栈项元素，所以SS:SP只能指向栈的最底部单元下面的单元，该单元的地址栈最底部的字单元的地址+2。栈最底部字单元的地址为1000:FFFE，所以栈空时，SP=0000H。</p>
+<p>下载winXP，DEBUG使用的是十六进制。</p>
+<p>详细使用可参考：<a href="https://www.cnblogs.com/tiger2soft/p/5094917.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/tiger2soft/p/5094917.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/tiger2soft/p/5094917.html</a></a></p>
+<h2 id="0x04-第一个程序">0x04 第一个程序</h2>
+<p>段名 segment</p>
+<p>段名 ends</p>
+<p>segment和ends是成对使用的伪指令，功能是定义一个段，segment说明一个段的开始，ends说明一个段的结束。</p>
+<p>end是一个汇编程序的结束标记，不同于ends。</p>
+<p>assume的含义是“假设”，将特定用途的段和相关的段寄存器关联起来。</p>
+<p>安装masm来对程序进行编程、编译、连接、跟踪。</p>
+<h2 id="0x05-bx和loop指令">0x05 [BX]和loop指令</h2>
+<p>loop指令的格式是：loop标号，CPU执行loop指令时，要执行两步操作，1、(cx)=(cx)-1；2、判断cx中的值，不为零则转至标号处执行程序，如果为零则向下执行。</p>
+<p>在汇编源程序中，数据不能以字母开头。</p>
+<h2 id="0x06-包含多个段的程序">0x06 包含多个段的程序</h2>
+<p>“dw”的含义是定义字型数据。dw即“define word”。</p>
+<p>在单任务系统中，可执行文件中的程序执行过程如下。</p>
+<p>（1）由其他的程序（Debug、command或其他程序）将可执行文件中的程序加载入内存</p>
+<p>（2）设置CS:IP指向程序的第一条要执行的指令（即程序的入口），从而使程序得以运行。</p>
+<p>（3）程序运行结束后，返回到加载者。</p>
+<p>“assume cs:code,ds:data,ss:stack&quot;将cs、ds和ss分别和code、data、stack段相连。</p>
+<h2 id="0x07-更灵活的定位内存地址的方法">0x07 更灵活的定位内存地址的方法</h2>
+<p>用&rsquo;&hellip;..&lsquo;的方式指明数据是以字符的形式给出的，编译器将它们转化为相对应的ASCII码。</p>
+<p>[bx+idata]表示一个内存单元，它的偏移地址为(bx)+idata</p>
+<p>si和di是8086CPU中和bx功能相近的寄存器，si和di不能分成两个8位寄存器来使用。</p>
+<p>寻址方式</p>
+<p>（1）[idata]用一个常量来表示地址，用于直接定位一个内存单元。</p>
+<p>（2）[bx]用一个变量来表示内存地址，可用于间接定位一个内存单元。</p>
+<p>（3）[bx+idata]用一个变量和常量表示地址，可在一个起始地址的基础上用变量间接定位一个内存单元。</p>
+<p>（4）[bx+si]用两个变量表示地址。</p>
+<p>（5）[bx+si+idata]用两个变量和一个常量表示地址。</p>
+<p>一般来说，在需要暂存数据的时候，我们都应该使用栈。</p>
+<h2 id="0x08-数据处理的两个基本问题">0x08 数据处理的两个基本问题</h2>
+<p>reg的集合包括：ax、bx、cx、dx、ah、al、bh、bl、ch、cl、dh、dl、sp、bp、si、di；</p>
+<p>sreg的集合包括：ds、ss、cs、es。</p>
+<p>在8086CPU中，只有bx、si、di和dp可以用在&rdquo;[&hellip;.]&ldquo;中来进行内存单元寻址。</p>
+<p>在[&hellip;]中，这4个寄存器可以单个出现，或只能以4种组合出现：bx和si、bx和di、bp和si、bp和di。</p>
+<p>只要在[&hellip;]中使用寄存器bp，而指令中没有显性地给出段地址，段地址就默认在ss中。</p>
+<p>div做除法时的注意事项:</p>
+<p>(1)除数:有8位和16位两种，在一个reg或内存单元中。</p>
+<p>(2)被除数:默认放在AX或DX和AX中，如果除数为8位，被除数则为16位，默认在AX中存放;如果除数为16位，被除数则为32位，在DX和AX中存放，DX存放高16位，AX存放低16位。</p>
+<p>(3) 结果:如果除数为8位，则AL存储除法操作的商，AH存储除法操作的余数;如果除数为16位，则AX存储除法操作的商，DX存储除法操作的余数。</p>
+<p>dup的使用格式如下：</p>
+<p>db 重复次数 dup （重复的字节型数据）</p>
+<p>dw 重复次数 dup （重复的字型数据）</p>
+<p>dd 重复次数 dup （重复的双字型数据）</p>
+<h2 id="0x09-转移指令的原理">0x09 转移指令的原理</h2>
+<p>短转移IP的修改范围为-128-127</p>
+<p>近转移IP的修改范围为-32768-32767</p>
+<p>操作符offset在汇编语言中是由编译器处理的符号，它的功能是取得标号的偏移地址。</p>
+<p>jmp short 标号（转到标号处执行指令），实现段内的短转移，功能为(IP)=(IP)+8位位移。</p>
+<p>CPU在执行jmp指令的时候并不需要转移的目的地址。</p>
+<p>jmp near ptr 标号，实现的是段内近转移，功能为(IP)=(IP)+16位位移。</p>
+<p>&ldquo;jmp far ptr 标号&quot;实现的是段间转移，又称远转移。</p>
+<p>&ldquo;jcxz 标号&quot;的功能相当于：if((cx)==0) jmp short 标号;</p>
+<h2 id="0x0a-call和ret指令">0x0A CALL和RET指令</h2>
+<p>ret指令用栈中的数据，修好IP的内容，从而实现近转移。</p>
+<p>retf指令用栈中的数据，修好CS和IP的内容，从而实现远转移。</p>
+<p>CPU执行call指令时，进行两步操作：</p>
+<p>（1）将当前的IP或CS和IP压入栈中；</p>
+<p>（2）转移。</p>
+<p>call 标号（将当前的IP压栈后，转到标号处执行指令）</p>
+<p>CPU执行此种格式call指令时，进行两步操作：</p>
+<p>（1）(sp)=(sp)-2</p>
+<p>((ss)*16+(sp))=(IP)</p>
+<p>（2）(IP)=(IP)+16位位移</p>
+<p>call far ptr 标号，实现的是段间转移。</p>
+<p>CPU执行此种格式call指令时，进行两步操作：</p>
+<p>（1）(sp)=(sp)-2</p>
+<p>((ss)*16+(sp))=(CS)</p>
+<p>(sp)=(sp)-2</p>
+<p>((ss)*16+(sp))=(IP)</p>
+<p>（2）(CS)=标号所在段的段地址</p>
+<p>(IP)=标号所在段中的偏移地址</p>
+<p>使用mul做乘法的时候，注意以下两点：</p>
+<p>（1）两个相乘的数：两个相乘的数，要么都是8位，要么都是16位。如果是8位，一个默认放在AL中，另一个放在8位reg或内存字节单元中；如果是16位，一个默认放在AX中，另一个放在16位reg或内存字节单元中；</p>
+<p>（2）结果：如果是8位乘法，结果默认放在AX中；如果是16位乘法，结果高位默认放在DX中，低位在AX中。</p>
+<h2 id="0x0b-标志寄存器">0x0B 标志寄存器</h2>
+<figure class="wp-block-image is-resized">
+<p><img loading="lazy" src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3179392297,1084784159&fm=26&gp=0.jpg" alt="" width="602" height="121" title="点击查看源网页" /> </figure> <figure class="wp-block-image size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/03/图片-1.png" alt="" class="wp-image-1579" width="636" height="327" /></figure></p>
+<p>CF和OF的区别：CF是对无符号数运算有意义的标志位，而OF是对有符号数运算有意义的标志位。</p>
+<p>adc是带进位的加法指令，利用了CF上记录的进位值。</p>
+<p>指令格式：adc 操作对象1 操作对象2</p>
+<p>功能：操作对象1=操作对象1+操作对象2+CF</p>
+<p>如果CF的值是被sub指令设置的，那么它的含义就是借位值；如果是被add指令设置的，那么它的含义就是进位值。</p>
+<p>sbb是带借位的减法指令，利用了CF上记录的借位值。</p>
+<p>指令格式：sbb 操作对象1 操作对象2</p>
+<p>功能：操作对象1=操作对象1-操作对象2-CF</p>
+<p>cmp是比较指令，cmp的功能相当于减法指令，只是不保存结果。cmp指令执行后，将对标志寄存器产生影响。其他相关指令通过识别这些被影响的标志寄存器位来得知比较结果。</p>
+<p>DF在串处理指令中，控制每次操作后si、di的增减。</p>
+<p>df=0 每次操作后si、di递增；df=1 每次操作后si、di递减。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-03-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" data-title="《汇编语言》学习笔记(updating)" data-hashtags="逆向"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" data-hashtag="逆向"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" data-title="《汇编语言》学习笔记(updating)"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" data-title="《汇编语言》学习笔记(updating)"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/" data-title="《汇编语言》学习笔记(updating)"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E9%80%86%E5%90%91/">逆向</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-02-28-ctfhub-%E5%AF%86%E7%A0%81%E5%8F%A3%E4%BB%A4xss/" class="prev" rel="prev" title="CTFHub-密码口令&#43;XSS"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CTFHub-密码口令+XSS</a>
+            <a href="/2021-03-03-ctfhub-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" class="next" rel="next" title="CTFHub-流量分析">CTFHub-流量分析<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

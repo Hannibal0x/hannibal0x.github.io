@@ -1,0 +1,47 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>密码学 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/</link>
+        <description>密码学 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 24 Dec 2021 02:59:13 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" rel="self" type="application/rss+xml" /><item>
+    <title>三道Crypto练习</title>
+    <link>https://hannibal0x.github.io/2021-12-24-%E4%B8%89%E9%81%93crypto%E7%BB%83%E4%B9%A0/</link>
+    <pubDate>Fri, 24 Dec 2021 02:59:13 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-24-%E4%B8%89%E9%81%93crypto%E7%BB%83%E4%B9%A0/</guid>
+    <description><![CDATA[0x00 pwnhub公开赛-sign_in_rsa from Crypto.Util.number import getPrime, long_to_bytes, bytes_to_long, inverse import math from gmpy2 import next_prime FLAG = b"flag{************************************************}" p = getPrime(1024) q = getPrime(1024) N = p*q phi = (p-1)*(q-1) e = 0x10001 d = inverse(e, phi) my_key = (N, d) friends = 5 friend_keys = &#91;(N, getPrime(17)) for _]]></description>
+</item>
+<item>
+    <title>RSA练习▪新</title>
+    <link>https://hannibal0x.github.io/2021-11-23-rsa%E7%BB%83%E4%B9%A0%E6%96%B0/</link>
+    <pubDate>Tue, 23 Nov 2021 09:02:59 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-23-rsa%E7%BB%83%E4%B9%A0%E6%96%B0/</guid>
+    <description><![CDATA[## 0x00 [MRCTF2020]Easy_RSA 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 import sympy]]></description>
+</item>
+<item>
+    <title>RSA练习▪补</title>
+    <link>https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/</link>
+    <pubDate>Fri, 15 Oct 2021 14:22:09 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/</guid>
+    <description><![CDATA[0x00 RSA &amp; what Readme.txt内容如下： 素数生成算法太麻烦了，有没有取巧的方法呢？ 诶，这里好像有个不错的想法哟。 看起来节约了不少时间呢，嘿嘿嘿]]></description>
+</item>
+<item>
+    <title>RSA练习</title>
+    <link>https://hannibal0x.github.io/2021-10-11-rsa%E7%BB%83%E4%B9%A0/</link>
+    <pubDate>Mon, 11 Oct 2021 07:11:25 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-10-11-rsa%E7%BB%83%E4%B9%A0/</guid>
+    <description><![CDATA[0x00 RSA1 1 2 3 4 5 p = 8637633767257008567099653486541091171320491509433615447539162437911244175885667806398411790524083553445158113502227745206205327690939504032994699902053229 q = 12640674973996472769176047937170883420927050821480010581593137135372473880595613737337630629752577346147039284030082593490776630572584959954205336880228469 dp = 6500795702216834621109042351193261530650043841056252930930949663358625016881832840728066026150264693076109354874099841380454881716097778307268116910582929 dq = 783472263673553449019532580386470672380574033551303889137911760438881683674556098098256795673512201963002175438762767516968043599582527539160811120550041 c = 24722305403887382073567316467649080662631552905960229399079107995602154418176056335800638887527614164073530437657085079676157350205351945222989351316076486573599576041978339872265925062764318536089007310270278526159678937431903862892400747915525118983959970607934142974736675784325993445942031372107342103852 这道题泄露了dp和dq，分析参考自https://blog.csdn.net/xiao_han_]]></description>
+</item>
+<item>
+    <title>RSA学习笔记</title>
+    <link>https://hannibal0x.github.io/2021-04-29-%E5%AE%89%E5%85%A8%E7%89%9Brsa%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Wed, 28 Apr 2021 16:24:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-04-29-%E5%AE%89%E5%85%A8%E7%89%9Brsa%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[参考安全牛、NepNep、https://www.tr0y.wang/2017/11/06/CTFRSA/等文章总结。 0x00 相关数学概念 欧拉函数]]></description>
+</item>
+</channel>
+</rss>

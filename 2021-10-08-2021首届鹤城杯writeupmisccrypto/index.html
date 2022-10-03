@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>2021首届鹤城杯WriteUp（MISC&#43;CRYPTO） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）" />
+<meta property="og:description" content="0x00 MISC 流量分析 打开timu.pcapng，发现有明显的sql注入痕迹。 追踪tcp流，不断点击跳转，找不同，在第70个流时，发现返回了You are in" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-08T12:56:09+00:00" />
+<meta property="article:modified_time" content="2021-10-08T12:56:09+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）"/>
+<meta name="twitter:description" content="0x00 MISC 流量分析 打开timu.pcapng，发现有明显的sql注入痕迹。 追踪tcp流，不断点击跳转，找不同，在第70个流时，发现返回了You are in"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" /><link rel="prev" href="https://hannibal0x.github.io/2021-09-27-%E6%89%93%E9%9D%B6-moriartycorp/" /><link rel="next" href="https://hannibal0x.github.io/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "2021首届鹤城杯WriteUp（MISC+CRYPTO）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  1588 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto\/","datePublished": "2021-10-08T12:56:09+00:00","dateModified": "2021-10-08T12:56:09+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">2021首届鹤城杯WriteUp（MISC+CRYPTO）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-10-08">2021-10-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1588 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-misc-流量分析">0x00 MISC 流量分析</a></li>
+    <li><a href="#0x01-misc-new_misc">0x01 MISC NEW_MISC</a></li>
+    <li><a href="#0x02-crypto-easy_-crypto">0x02 CRYPTO EASY_ CRYPTO</a></li>
+    <li><a href="#0x03-misc-a_misc">0x03 MISC A_MISC</a></li>
+    <li><a href="#0x04-crypto-a_-crypto">0x04 CRYPTO A_ CRYPTO</a></li>
+    <li><a href="#0x05-misc-misc_2">0x05 MISC MISC_2</a></li>
+    <li><a href="#0x06-crypto-babyrsa">0x06 CRYPTO BABYRSA</a></li>
+    <li><a href="#0x07-crypto-crazy_rsa_tech">0x07 CRYPTO CRAZY_RSA_TECH</a></li>
+    <li><a href="#0x08-misc-mi">0x08 MISC MI</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-misc-流量分析">0x00 MISC 流量分析</h2>
+<p>打开timu.pcapng，发现有明显的sql注入痕迹。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="3081" height="371" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片.png" alt="" class="wp-image-3934" /> </figure></p>
+<p>追踪tcp流，不断点击跳转，找不同，在第70个流时，发现返回了You are in 的信息，猜想应该是sql注入的猜解成功了。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2655" height="1825" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-1.png" alt="" class="wp-image-3935" /> </figure></p>
+<p>过滤一下are字符串，顺着找出其他返回成功的ascii码值<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1912" height="113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-2.png" alt="" class="wp-image-3936" /> </figure></p>
+<p>最后得到<code>102 108 97 103 123 119 49 114 101 115 104 65 82 75 95 101 122 95 49 115 110 116 105 116 125</code>，解出<code>flag{w1reshARK_ez_1sntit}</code></p>
+<h2 id="0x01-misc-new_misc">0x01 MISC NEW_MISC</h2>
+<p>打开pdf，法语，看起来像是在说隐写术。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1984" height="1790" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-3.png" alt="" class="wp-image-3937" /> </figure></p>
+<p>对于pdf的隐写题，先直接上wbs43open<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-4.png" alt="" class="wp-image-3938" width="581" height="387" /> </figure></p>
+<p>将解密结果导出到1.txt，即可得到<code>flag{verY_g00d_YoU_f0und_th1s}</code>。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-5.png" alt="" class="wp-image-3939" width="234" height="77" /> </figure></p>
+<h2 id="0x02-crypto-easy_-crypto">0x02 CRYPTO EASY_ CRYPTO</h2>
+<p>给了一个文本，很明显是核心价值观编码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">公正公正公正诚信文明公正民主公正法治法治诚信民主自由敬业公正友善公正平等平等法治民主平等平等和谐敬业自由诚信平等和谐平等公正法治法治平等平等爱国和谐公正平等敬业公正敬业自由敬业平等自由法治和谐平等文明自由诚信自由平等富强公正敬业平等民主公正诚信和谐公正文明公正爱国自由诚信自由平等文明公正诚信富强自由法治法治平等平等自由平等富强法治诚信和谐
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<a rel="noreferrer noopener" href="https://www.amanctf.com/tool/cvecode" target="_blank" rel="nofollow" ><a href="https://www.amanctf.com/tool/cvecode" target="_blank" rel="noopener noreffer ">https://www.amanctf.com/tool/cvecode</a></a>解一下，得到<code>flag{IlUqU9O5guX6YiITsRNPiQmbhNRjGuTP}</code>。</p>
+<h2 id="0x03-misc-a_misc">0x03 MISC A_MISC</h2>
+<p>压缩包加了密，随便爆破一下，解出qwer<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-6.png" alt="" class="wp-image-3941" width="629" height="319" /> </figure></p>
+<p>得到一张不全的图<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-7.png" alt="" class="wp-image-3942" width="439" height="294" /> </figure></p>
+<p>怀疑存在高度隐写，改一下高度，出现完整的信息.<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1033" height="114" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-8.png" alt="" class="wp-image-3943" /> </figure></p>
+<p>是一个file.pcap，下载下来分析一下，发现里面有盲注的痕迹。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2656" height="1826" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-9.png" alt="" class="wp-image-3944" /> </figure></p>
+<p>url解密一下就能看得更清楚一些。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1926" height="506" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-10.png" alt="" class="wp-image-3945" /> </figure></p>
+<p>最后获取的acsii码值为<code>102 108 97 103 123 99 100 50 99 51 101 50 102 101 97 52 54 51 100 101 100 57 97 102 56 48 48 100 55 49 53 53 98 101 55 97 113 125</code>，得出<code>flag{cd2c3e2fea463ded9af800d7155be7aq}</code></p>
+<h2 id="0x04-crypto-a_-crypto">0x04 CRYPTO A_ CRYPTO</h2>
+<p>题目如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">4O595954494Q32515046324757595N534R52415653334357474R4N575955544R4O5N4Q46434S4O59474253464Q5N444R4Q51334557524O5N4S424944473542554O595N44534O324R49565746515532464O49345649564O464R4R494543504N35
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>存在Q、N、R等字母，需要编码转换到A-F，这里采用Rot13解密。放到Cyberchef里面。直接帮着转了hex、base32、base64。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="3054" height="1342" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-11.png" alt="" class="wp-image-3947" /> </figure></p>
+<p>然后再转一下base85，注意要更换下字母表，最后得到<code>flag{W0w_y0u_c4n_rea11y_enc0d1ng!}</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1762" height="561" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-12.png" alt="" class="wp-image-3948" /> </figure></p>
+<h2 id="0x05-misc-misc_2">0x05 MISC MISC_2</h2>
+<p>给了一张猫片，丢到Stegsolve里面查看，发现存在LSB隐写。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-13.png" alt="" class="wp-image-3949" width="551" height="427" /> </figure></p>
+<p>保存一下，提取出来，HTML实体编码为</p>
+<pre class="wp-block-code"><code>&#x66;&#x6c;&#x61;&#x67;&#x7b;&#x68;&#x30;&#x77;&#x5f;&#x34;&#x62;&#x6f;&#x75;&#x54;&#x5f;&#x65;&#x6e;&#x63;&#x30;&#x64;&#x65;&#x5f; &#x34;&#x6e;&#x64;&#x5f;&#x70;&#x6e;&#x47;&#x7d;</code></pre>
+<p>转换下得到<code>flag{h0w_4bouT_enc0de_ 4nd_pnG}</code>。</p>
+<h2 id="0x06-crypto-babyrsa">0x06 CRYPTO BABYRSA</h2>
+<pre class="wp-block-code"><code>from Crypto.Util.number import getPrime, bytes_to_long
+from secret import flag
+
+p = getPrime(1024)
+q = getPrime(1024)
+n = p * q
+e = 65537
+
+hint1 = p &gt;&gt; 724
+hint2 = q % (2 ** 265)
+ct = pow(bytes_to_long(flag), e, n)
+print(hint1)
+print(hint2)
+print(n)
+print(ct)</code></pre>
+<p>out.txt如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1514296530850131082973956029074258536069144071110652176122006763622293335057110441067910479
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">40812438243894343296354573724131194431453023461572200856406939246297219541329623
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">21815431662065695412834116602474344081782093119269423403335882867255834302242945742413692949886248581138784199165404321893594820375775454774521554409598568793217997859258282700084148322905405227238617443766062207618899209593375881728671746850745598576485323702483634599597393910908142659231071532803602701147251570567032402848145462183405098097523810358199597631612616833723150146418889589492395974359466777040500971885443881359700735149623177757865032984744576285054725506299888069904106805731600019058631951255795316571242969336763938805465676269140733371287244624066632153110685509892188900004952700111937292221969
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">19073695285772829730103928222962723784199491145730661021332365516942301513989932980896145664842527253998170902799883262567366661277268801440634319694884564820420852947935710798269700777126717746701065483129644585829522353341718916661536894041337878440111845645200627940640539279744348235772441988748977191513786620459922039153862250137904894008551515928486867493608757307981955335488977402307933930592035163126858060189156114410872337004784951228340994743202032248681976932591575016798640429231399974090325134545852080425047146251781339862753527319093938929691759486362536986249207187765947926921267520150073408188188
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>原题，参考：<a href="http://www.zbc53.top/archives/148/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="http://www.zbc53.top/archives/148/" target="_blank" rel="noopener noreffer ">http://www.zbc53.top/archives/148/</a></a></p>
+<p>脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">gmpy2</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">p1</span> <span class="o">=</span> <span class="mi">1514296530850131082973956029074258536069144071110652176122006763622293335057110441067910479</span>
+</span></span><span class="line"><span class="cl"><span class="n">q0</span> <span class="o">=</span> <span class="mi">40812438243894343296354573724131194431453023461572200856406939246297219541329623</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="mi">21815431662065695412834116602474344081782093119269423403335882867255834302242945742413692949886248581138784199165404321893594820375775454774521554409598568793217997859258282700084148322905405227238617443766062207618899209593375881728671746850745598576485323702483634599597393910908142659231071532803602701147251570567032402848145462183405098097523810358199597631612616833723150146418889589492395974359466777040500971885443881359700735149623177757865032984744576285054725506299888069904106805731600019058631951255795316571242969336763938805465676269140733371287244624066632153110685509892188900004952700111937292221969</span>
+</span></span><span class="line"><span class="cl"><span class="n">mod</span><span class="o">=</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">265</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p0</span><span class="o">=</span><span class="n">n</span><span class="o">*</span><span class="n">invert</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">mod</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span>
+</span></span><span class="line"><span class="cl"><span class="n">pbar</span><span class="o">=</span><span class="p">(</span><span class="n">p1</span><span class="o">&lt;&lt;</span><span class="mi">724</span><span class="p">)</span><span class="o">+</span><span class="n">p0</span>
+</span></span><span class="line"><span class="cl"><span class="n">PR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">Zmod</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span><span class="o">=</span><span class="n">pbar</span><span class="o">+</span><span class="n">x</span><span class="o">*</span><span class="n">mod</span><span class="o">*</span><span class="mi">32</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">monic</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pp</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">small_roots</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="mi">2</span><span class="o">^</span><span class="mi">454</span><span class="p">,</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">pp</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pbar</span><span class="o">+=</span><span class="n">mod</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">p</span><span class="o">=</span><span class="n">pbar</span><span class="o">+</span><span class="n">pp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">32</span><span class="o">*</span><span class="n">mod</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">n</span><span class="o">%</span><span class="n">p</span><span class="o">==</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">q</span><span class="o">=</span><span class="n">n</span><span class="o">//</span><span class="n">p</span>
+</span></span><span class="line"><span class="cl"><span class="n">phi</span><span class="o">=</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">=</span><span class="mi">65537</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="o">=</span><span class="n">invert</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">phi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span><span class="o">=</span><span class="mi">19073695285772829730103928222962723784199491145730661021332365516942301513989932980896145664842527253998170902799883262567366661277268801440634319694884564820420852947935710798269700777126717746701065483129644585829522353341718916661536894041337878440111845645200627940640539279744348235772441988748977191513786620459922039153862250137904894008551515928486867493608757307981955335488977402307933930592035163126858060189156114410872337004784951228340994743202032248681976932591575016798640429231399974090325134545852080425047146251781339862753527319093938929691759486362536986249207187765947926921267520150073408188188</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span><span class="o">=</span><span class="nb">pow</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">long_to_bytes</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#flag{ef5e1582-8116-4f61-b458-f793dc03f2ff}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x07-crypto-crazy_rsa_tech">0x07 CRYPTO CRAZY_RSA_TECH</h2>
+<pre class="wp-block-code"><code>from Crypto.Util.number import *
+from Crypto.Util.Padding import *
+
+FLAG = bytes_to_long(pad(b"flag{??????}",64))
+def init_key():
+    p, q = getPrime(512), getPrime(512)
+    n = p*q
+    e = 9
+    while(GCD((p-1)*(q-1),e)!=1):
+        p, q = getPrime(512), getPrime(512)
+        n = p*q
+    d = inverse(e,(p-1)*(q-1))
+    return n,e,d
+
+n_list=list()
+c_list=list()
+for i in range(9):
+    N,e,d=init_key()
+    n_list.append(N)
+    c=pow(FLAG,e,N)
+    c_list.append(pow(FLAG,e,N))
+    assert(pow(c,d,N)==FLAG)
+print("n_list:",n_list)
+print("c_list:",c_list)</code></pre>
+<p>给出了9个n_list和c_list的值，e很小，属于低加密指数广播攻击。</p>
+<p>脚本如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">pack</span><span class="p">,</span><span class="n">unpack</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">zlib</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">gmpy</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_parse_number</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%x</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">    <span class="n">erg</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">string</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">erg</span> <span class="o">=</span> <span class="n">erg</span> <span class="o">+</span> <span class="p">[</span><span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">string</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">))]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">erg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">extended_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lastx</span><span class="p">,</span> <span class="n">lasty</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">b</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span><span class="p">,</span> <span class="n">lastx</span> <span class="o">=</span> <span class="n">lastx</span><span class="o">-</span><span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y</span><span class="p">,</span> <span class="n">lasty</span> <span class="o">=</span> <span class="n">lasty</span><span class="o">-</span><span class="n">q</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">lastx</span><span class="p">,</span> <span class="n">lasty</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">chinese_remainder_theorem</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">N</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span> <span class="o">*=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">  <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="o">=</span> <span class="n">N</span><span class="o">//</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">extended_gcd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="o">//</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">s</span><span class="o">*</span><span class="n">m</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">result</span> <span class="o">%</span> <span class="n">N</span><span class="p">,</span> <span class="n">N</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sessions</span><span class="o">=</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">62580922178008480377006528793506649089253164524883696044759651305970802215270721223149734532870729533611357047595181907404222690394917605617029675103788705320032707977225447998111744887898039756375876685711148857676502670812333076878964148863713993853526715855758799502735753454247721711366497722251078739585</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">71189786319102608575263218254922479901008514616376166401353025325668690465852130559783959409002115897148828732231478529655075366072137059589917001875303598680931962384468363842379833044123189276199264340224973914079447846845897807085694711541719515881377391200011269924562049643835131619086349617062034608799</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">46186240819076690248235492196228128599822002268014359444368898414937734806009161030424589993541799877081745454934484263188270879142125136786221625234555265815513136730416539407710862948861531339065039071959576035606192732936477944770308784472646015244527805057990939765708793705044236665364664490419874206900</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">92503831027754984321994282254005318198418454777812045042619263533423066848097985191386666241913483806726751133691867010696758828674382946375162423033994046273252417389169779506788545647848951018539441971140081528915876529645525880324658212147388232683347292192795975558548712504744297104487514691170935149949</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">85756449024868529058704599481168414715291172247059370174556127800630896693021701121075838517372920466708826412897794900729896389468152213884232173410022054605870785910461728567377769960823103334874807744107855490558726013068890632637193410610478514663078901021307258078678427928255699031215654693270240640198</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">100993952830138414466948640139083231443558390127247779484027818354177479632421980458019929149817002579508423291678953554090956334137167905685261724759487245658147039684536216616744746196651390112540237050493468689520465897258378216693418610879245129435268327315158194612110422630337395790254881602124839071919</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">14388767329946097216670270960679686032536707277732968784379505904021622612991917314721678940833050736745004078559116326396233622519356703639737886289595860359630019239654690312132039876082685046329079266785042428947147658321799501605837784127004536996628492065409017175037161261039765340032473048737319069656</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">59138293747457431012165762343997972673625934330232909935732464725128776212729547237438509546925172847581735769773563840639187946741161318153031173864953372796950422229629824699580131369991913883136821374596762214064774480548532035315344368010507644630655604478651898097886873485265848973185431559958627423847</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">1143736792108232890306863524988028098730927600066491485326214420279375304665896453544100447027809433141790331191324806205845009336228331138326163746853197990596700523328423791764843694671580875538251166864957646807184041817863314204516355683663859246677105132100377322669627893863885482167305919925159944839</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">66827868958054485359731420968595906328820823695638132426084478524423658597714990545142120448668257273436546456116147999073797943388584861050133103137697812149742551913704341990467090049650721713913812069904136198912314243175309387952328961054617877059134151915723594900209641163321839502908705301293546584147</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">2978800921927631161807562509445310353414810029862911925227583943849942080514132963605492727604495513988707849133045851539412276254555228149742924149242124724864770049898278052042163392380895275970574317984638058768854065506927848951716677514095183559625442889028813635385408810698294574175092159389388091981</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">120940513339890268554625391482989102665030083707530690312336379356969219966820079510946652021721814016286307318930536030308296265425674637215009052078834615196224917417698019787514831973471113022781129000531459800329018133248426080717653298100515701379374786486337920294380753805825328119757649844054966712377</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">16200944263352278316040095503540249310705602580329203494665614035841657418101517016718103326928336623132935178377208651067093136976383774189554806135146237406248538919915426183225265103769259990252162411307338473817114996409705345401251435268136647166395894099897737607312110866874944619080871831772376466376</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">72186594495190221129349814154999705524005203343018940547856004977368023856950836974465616291478257156860734574686154136925776069045232149725101769594505766718123155028300703627531567850035682448632166309129911061492630709698934310123778699316856399909549674138453085885820110724923723830686564968967391721281</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">31551601425575677138046998360378916515711528548963089502535903329268089950335615563205720969393649713416910860593823506545030969355111753902391336139384464585775439245735448030993755229554555004154084649002801255396359097917380427525820249562148313977941413268787799534165652742114031759562268691233834820996</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">69105037583161467265649176715175579387938714721653281201847973223975467813529036844308693237404592381480367515044829190066606146105800243199497182114398931410844901178842049915914390117503986044951461783780327749665912369177733246873697481544777183820939967036346862056795919812693669387731294595126647751951</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;c&#34;</span><span class="p">:</span><span class="mi">25288164985739570635307839193110091356864302148147148153228604718807817833935053919412276187989509493755136905193728864674684139319708358686431424793278248263545370628718355096523088238513079652226028236137381367215156975121794485995030822902933639803569133458328681148758392333073624280222354763268512333515</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">:</span><span class="mi">76194219445824867986050004226602973283400885106636660263597964027139613163638212828932901192009131346530898961165310615466747046710743013409318156266326090650584190382130795884514074647833949281109675170830565650006906028402714868781834693473191228256626654011772428115359653448111208831188721505467497494581</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">session</span> <span class="ow">in</span> <span class="n">sessions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">msg</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="p">[(</span><span class="n">msg</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">chinese_remainder_theorem</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">realnum</span> <span class="o">=</span> <span class="n">gmpy</span><span class="o">.</span><span class="n">mpz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">root</span><span class="p">(</span><span class="n">e</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">digits</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="p">(</span><span class="n">my_parse_number</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">realnum</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解出<code>flag{H0w_Fun_13_HAstads_broadca5t_AtTack!}</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="470" height="41" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-14.png" alt="" class="wp-image-3951" /> </figure></p>
+<h2 id="0x08-misc-mi">0x08 MISC MI</h2>
+<p>事后发现是去年钓鱼城杯的原题，贴个大佬的链接。</p>
+<p><a href="http://www.glun.top/2020/10/05/ctf02/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="http://www.glun.top/2020/10/05/ctf02/" target="_blank" rel="noopener noreffer ">http://www.glun.top/2020/10/05/ctf02/</a></a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-10-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" data-title="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" data-title="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" data-title="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-10-08-2021%E9%A6%96%E5%B1%8A%E9%B9%A4%E5%9F%8E%E6%9D%AFwriteupmisccrypto/" data-title="2021首届鹤城杯WriteUp（MISC&#43;CRYPTO）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-09-27-%E6%89%93%E9%9D%B6-moriartycorp/" class="prev" rel="prev" title="打靶-MoriartyCorp"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>打靶-MoriartyCorp</a>
+            <a href="/2021-10-09-%E6%89%93%E9%9D%B6-socialnetwork/" class="next" rel="next" title="打靶-SocialNetwork">打靶-SocialNetwork<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

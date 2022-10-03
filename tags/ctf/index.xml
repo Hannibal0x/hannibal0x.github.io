@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>CTF - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/ctf/</link>
+        <description>CTF - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 25 Apr 2022 01:21:00 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/ctf/" rel="self" type="application/rss+xml" /><item>
+    <title>2022 CICV智能网联汽车漏洞挖掘赛Writeup–BinX4</title>
+    <link>https://hannibal0x.github.io/2022-04-25-2022-cicv%E6%99%BA%E8%83%BD%E7%BD%91%E8%81%94%E6%B1%BD%E8%BD%A6%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E8%B5%9Bwriteup-binx4/</link>
+    <pubDate>Mon, 25 Apr 2022 01:21:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-04-25-2022-cicv%E6%99%BA%E8%83%BD%E7%BD%91%E8%81%94%E6%B1%BD%E8%BD%A6%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E8%B5%9Bwriteup-binx4/</guid>
+    <description><![CDATA[0x00 仔细看图片 图片用010打开发现有PK，也就是说包含压缩包，用foremost解出来，解压得到两个png文件，但其实都是zip。 flag3有]]></description>
+</item>
+<item>
+    <title>CTF练习Week3</title>
+    <link>https://hannibal0x.github.io/2022-04-11-ctf%E7%BB%83%E4%B9%A0week3/</link>
+    <pubDate>Mon, 11 Apr 2022 15:19:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-04-11-ctf%E7%BB%83%E4%B9%A0week3/</guid>
+    <description><![CDATA[0x00 TLS-简简单单套个娃 010打开文件发现文件头为PK，修改后缀名，在备注发现摩斯密码 1 ...-- ...-- .---- ..-. -.. .- .- -.-. -.. .- .---- .- ----- ..-. ----. .- -.-. ---.. --... ..... .---- .- ...-- .- ...-- ..---]]></description>
+</item>
+<item>
+    <title>CTF练习Week2</title>
+    <link>https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/</link>
+    <pubDate>Sun, 03 Apr 2022 13:18:36 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/</guid>
+    <description><![CDATA[0x00 [UTCTF2020]file header 修改文件头，得到flag 0x01 [GKCTF 2021]excel 骚操作 点击发现，有的空白格上的数值是1。 设置单元格式，显示出所有的1 然后设置突出显示，得到汉信码，扫描得]]></description>
+</item>
+<item>
+    <title>CTF练习Week1</title>
+    <link>https://hannibal0x.github.io/2022-03-28-ctf%E7%BB%83%E4%B9%A0week1/</link>
+    <pubDate>Mon, 28 Mar 2022 03:22:20 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-03-28-ctf%E7%BB%83%E4%B9%A0week1/</guid>
+    <description><![CDATA[0x00 WEB-[NCTF2019]True XML cookbook 访问网页源码 发现是以xml格式传入用户名密码的，且输入的用户名信息会返回到前端，尝试XXE注入，成功读取到文件。 查看/etc/hos]]></description>
+</item>
+<item>
+    <title>CTFShow-web入门（1）</title>
+    <link>https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/</link>
+    <pubDate>Tue, 01 Mar 2022 05:46:09 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/</guid>
+    <description><![CDATA[0x00 信息搜集 列举常见的信息搜集手法 查看源代码 ctrl+shift+i 查看响应包的headers 查看robots.txt 下载phps源码 下载目录源码，如：www.zi]]></description>
+</item>
+<item>
+    <title>2月CTF练习</title>
+    <link>https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/</link>
+    <pubDate>Mon, 28 Feb 2022 03:41:46 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/</guid>
+    <description><![CDATA[0x00 卷王杯-easyweb 核心代码如下 &lt;?php error_reporting(0); if(isset($_GET&#91;'source'])){ highlight_file(__FILE__); echo "\$flag_filename = 'flag'.md5(???).'php';"; die(); } if(isset($_POST&#91;'a']) && isset($_POST&#91;'b']) && isset($_POST&#91;'c'])){ $c = $_POST&#91;'c']; $count&#91;++$c] = 1; if($count&#91;] = 1) { $count&#91;++$c] = 1; print_r($count); die(); }else{ $a = $_POST&#91;'a']; $b = $_POST&#91;'b']; echo new $a($b); } } ?> 首先需要绕过$co]]></description>
+</item>
+<item>
+    <title>攻防世界-mobile（新手篇2）</title>
+    <link>https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/</link>
+    <pubDate>Mon, 07 Feb 2022 02:16:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/</guid>
+    <description><![CDATA[## 0x00 easyjava jeb打开，分析关键代码，首先我们知道flag{}内的内容通过v4和v5加密得出的v3，最后为wigwrkaugala，所以逆推出解密]]></description>
+</item>
+<item>
+    <title>HGAME 2022 week1(writeup)</title>
+    <link>https://hannibal0x.github.io/2022-01-29-hgame-2022-week1writeup/</link>
+    <pubDate>Sat, 29 Jan 2022 05:42:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-29-hgame-2022-week1writeup/</guid>
+    <description><![CDATA[0x00 Easy RSA 描述 这 RSA 不是有手就行？！ (100分的题能拿125分，这不血赚) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 from math import gcd from random import randint from gmpy2 import next_prime from Crypto.Util.number import getPrime from secret import]]></description>
+</item>
+<item>
+    <title>攻防世界-moblie（新手篇1）</title>
+    <link>https://hannibal0x.github.io/2022-01-13-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-moblie%E6%96%B0%E6%89%8B%E7%AF%871/</link>
+    <pubDate>Thu, 13 Jan 2022 12:28:01 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-13-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-moblie%E6%96%B0%E6%89%8B%E7%AF%871/</guid>
+    <description><![CDATA[0x00 easyjni JNI（Java Native Interface）即java本地接口，众所周知，android有四层结构，应用层与应用接口层是用Java写的，而C/]]></description>
+</item>
+<item>
+    <title>长安战疫(Misc&#43;Crypto)赛题复现</title>
+    <link>https://hannibal0x.github.io/2022-01-12-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%ABmisccrypto%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</link>
+    <pubDate>Wed, 12 Jan 2022 13:04:10 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-12-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%ABmisccrypto%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</guid>
+    <description><![CDATA[0x00 前言 长安战疫的题目还挺友好的，但有的知识点当时没有联系到，赛后做个复现，总结学习一下。 0x01 no_math_no_cry 1 2 3 4 5 6 7 8 9 10 11 12 13 14 from Crypto.Util.number import* from secret import flag assert len(flag) &lt;=]]></description>
+</item>
+</channel>
+</rss>

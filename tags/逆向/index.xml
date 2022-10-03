@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>逆向 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/%E9%80%86%E5%90%91/</link>
+        <description>逆向 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 11 Aug 2021 03:25:00 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/%E9%80%86%E5%90%91/" rel="self" type="application/rss+xml" /><item>
+    <title>Android逆向学习小记(2)</title>
+    <link>https://hannibal0x.github.io/2021-08-11-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B02/</link>
+    <pubDate>Wed, 11 Aug 2021 03:25:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-08-11-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B02/</guid>
+    <description><![CDATA[0x00 前言 继续对Android逆向进行学习，学习JAVA、Android、Dalvik的基本知识。 0x01 JAVA Java的关键字如下： 继承可以使用 extends 这个关]]></description>
+</item>
+<item>
+    <title>Android逆向学习小记(1)</title>
+    <link>https://hannibal0x.github.io/2021-08-03-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B01/</link>
+    <pubDate>Tue, 03 Aug 2021 02:48:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-08-03-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B01/</guid>
+    <description><![CDATA[0x00 前言 WhITECat安全团队开展了Android逆向学习的入门活动，正好对这块儿有些兴趣，趁此机会学习一下，顺便记录。 0x01 准备工作 Andro]]></description>
+</item>
+<item>
+    <title>《汇编语言》学习笔记(updating)</title>
+    <link>https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/</link>
+    <pubDate>Mon, 01 Mar 2021 10:22:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-03-01-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0updating/</guid>
+    <description><![CDATA[oxoo 前言 在绿盟测试赛题时遇到Reverse就头大，于是购入了王爽老师的第四版《汇编语言》，从零开始学习。 0x01 基础知识 汇编语言有以下3类指令组成。]]></description>
+</item>
+</channel>
+</rss>

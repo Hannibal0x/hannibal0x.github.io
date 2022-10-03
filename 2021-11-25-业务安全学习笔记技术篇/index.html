@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>业务安全学习笔记（技术篇） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="业务安全学习笔记（技术篇）" />
+<meta property="og:description" content="0x00 前言 阅读《Web攻防之业务安全实战指南》一书所做的学习笔记。 0x01 登录认证模块测试 暴力破解测试 burp利用字典穷举 本地加密传输测试 测试客户端与" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-24T17:23:00+00:00" />
+<meta property="article:modified_time" content="2021-11-24T17:23:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="业务安全学习笔记（技术篇）"/>
+<meta name="twitter:description" content="0x00 前言 阅读《Web攻防之业务安全实战指南》一书所做的学习笔记。 0x01 登录认证模块测试 暴力破解测试 burp利用字典穷举 本地加密传输测试 测试客户端与"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" /><link rel="prev" href="https://hannibal0x.github.io/2021-11-23-rsa%E7%BB%83%E4%B9%A0%E6%96%B0/" /><link rel="next" href="https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "业务安全学习笔记（技术篇）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87\/"
+        },"genre": "posts","keywords": "渗透测试, Web安全","wordcount":  5148 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87\/","datePublished": "2021-11-24T17:23:00+00:00","dateModified": "2021-11-24T17:23:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">业务安全学习笔记（技术篇）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a>&nbsp;<a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-11-24">2021-11-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;5148 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;11 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-登录认证模块测试">0x01 登录认证模块测试</a></li>
+    <li><a href="#0x01-业务办理模块测试">0x01 业务办理模块测试</a></li>
+    <li><a href="#0x02-业务授权访问模块">0x02 业务授权访问模块</a></li>
+    <li><a href="#0x03-输入输出模块测试">0x03 输入/输出模块测试</a></li>
+    <li><a href="#0x04-回退模块测试">0x04 回退模块测试</a></li>
+    <li><a href="#0x05-验证码机制测试">0x05 验证码机制测试</a></li>
+    <li><a href="#0x06-业务数据安全测试">0x06 业务数据安全测试</a></li>
+    <li><a href="#0x07-业务流程乱序测试">0x07 业务流程乱序测试</a></li>
+    <li><a href="#0x08-密码找回模块测试">0x08 密码找回模块测试</a></li>
+    <li><a href="#0x09-业务接口调用模块测试">0x09 业务接口调用模块测试</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="0x00-前言">0x00 前言</h2>
+<p>阅读《Web攻防之业务安全实战指南》一书所做的学习笔记。</p>
+<h2 id="0x01-登录认证模块测试">0x01 登录认证模块测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-150.png" alt="" class="wp-image-4618" width="569" height="377" /> </figure></p>
+<p><strong>暴力破解测试</strong></p>
+<p>burp利用字典穷举</p>
+<p><strong>本地加密传输测试</strong></p>
+<p>测试客户端与服务器交互数据在网络传输过程中是否采用SSL，加密数据能否被破解。</p>
+<p>使用Wireshark抓包，在捕获流中找到对应的请求数据包，分析内容。</p>
+<p><strong>Session会话固定测试</strong></p>
+<p>攻击者可利用客户端上未清空的Session标识，并诱骗用户利用攻击者生成的固定会话进行系统登录，从而导致用户会话认证被窃取。</p>
+<p>在注销退出系统时，使用burp截取请求数据，对当前浏览器授权SessionID值进行记录，再次登录时进行比对校验，判断是否使用相同的SessionID值进行授权认证，若是，则存固定会话风险。</p>
+<p><strong>Session会话注销测试</strong></p>
+<p>攻击者能利用用户注销或退出时留存的Session认证会话属性标识，将从持续有效的认证会话中盗取用户权限。</p>
+<p>用burp对已登录授权的页面进行请求数据的截取，保存数据包中的Session认证参数值，发送至Repeater模块，退出页面后，再次发送授权访问请求并查看系统是否对退出的用户授权Session解出授权。</p>
+<p><strong>Session会话超时时间测试</strong></p>
+<p>对系统会话授权认证时长来进行测试，并根据系统承载的业务需求来分析判断当前Session的生命周期是否过长。</p>
+<p>用burp对已登录授权的页面进行请求数据的截取，保存数据包中的Session认证参数值，发送至Repeater模块，在此后的固定时间内（比如30min）不再使用该授权会话与服务器进行交互访问，然后在Repeater模块发送授权访问请求并查看系统返回结果是否存在授权后可查阅的特殊信息。</p>
+<p><strong>Cookie仿冒测试</strong></p>
+<p>攻击者通过尝试修改Cookie中的身份标识，从而达到仿冒其他用户身份的目的，并拥有相关用户的所有权限。</p>
+<p>使用普通账户登录系统，burp抓包修改Cookie的认证标识值（比如 userid改为“admin”），查看提交后的信息，判断身份授权是否被修改。</p>
+<p><strong>密文比对认证测试</strong></p>
+<p>有些网站系统的流程是在前台浏览器的客户端对密码进行Hash加密后传输到服务器并与数据库加密值进行比较，如果加密值相同，则判定用户提交密码正确。该流程会泄露密码加密方式，导致出现安全隐患。</p>
+<p>以使用MD5加密算法为例，burp抓包查看加密后的密文，通过对页面代码的分析得出Web系统登录口令加密处理的过程是由本地JS脚本完成的，方式为MD5，添加burp配置项“Payload Processing”，点击“ADD”，选择“Hash“和“MD5”，将所有明文密码进行数据处理转换后暴力破解登录测试并成功破解。</p>
+<p><strong>登录失败信息测试</strong></p>
+<p>系统会在页面显示用户登录失败的信息，如提交的账号不存在，系统提示“用户名不存在”，提交的账号存在，系统提示“口令错误”等间接提示消息，攻击者可以据此判断用户账号信息，进行针对性的暴力破解。</p>
+<h2 id="0x01-业务办理模块测试">0x01 业务办理模块测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-151.png" alt="" class="wp-image-4624" width="370" height="281" /> </figure></p>
+<p><strong>订单篡改测试</strong></p>
+<p>当开发者没有考虑登录后用户权限隔离的问题时，就好导致平行权限绕过漏洞。</p>
+<p>攻击者注册一个普通账户，然后篡改、遍历订单ID，获得其他用户订单中的敏感隐私信息。</p>
+<p><strong>手机号码篡改测试</strong></p>
+<p>在登录后的某些功能点，开发者很容易忽略登录用户的权限问题。</p>
+<p>攻击者登录后，通过抓包等方式发现请求中有手机号参数时，可以尝试修改测试是否存在越权漏洞。</p>
+<p><strong>用户ID篡改测试</strong></p>
+<p>攻击者通过篡改用户ID越权访问其他用户隐私信息。</p>
+<p><strong>邮箱和用户篡改测试</strong></p>
+<p>在发送邮件或站内消息时，篡改其中发件人参数，导致攻击者可以伪造发信人进行钓鱼攻击等操作。</p>
+<p><strong>商品编号篡改</strong></p>
+<p>攻击者提交订单时，抓包篡改商品编号，导致价格不对应但却交易成功。</p>
+<p><strong>竞争条件测试</strong></p>
+<p>攻击者通常利用多线程并发请求，在数据库中的余额字段更新之前，多次兑换积分或购买商品，从中获利。</p>
+<h2 id="0x02-业务授权访问模块">0x02 业务授权访问模块</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-152.png" alt="" class="wp-image-4627" width="493" height="128" /> </figure></p>
+<p><strong>非授权访问测试</strong></p>
+<p>非授权访问是指在每一通过验证授权的情况下，能够直接访问需要通过认证才能访问到的页面或文本信息。</p>
+<p>将登录后的相关页面链接复制到其他浏览器火其他电脑上进行访问，观察能否访问成功。</p>
+<p><strong>水平越权测试</strong></p>
+<p>正常更改或查看A账户信息，抓包或更改账户身份ID，成功查看同权限其他账户业务信息。</p>
+<p><strong>垂直越权测试</strong></p>
+<p>登录普通账户A，抓包或直接更改账户A的身份为高权限的账户C，查看高权限的用户信息。</p>
+<h2 id="0x03-输入输出模块测试">0x03 输入/输出模块测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-153.png" alt="" class="wp-image-4630" width="514" height="225" /> </figure></p>
+<h2 id="0x04-回退模块测试">0x04 回退模块测试</h2>
+<p><strong>回退测试</strong></p>
+<p>很多Web业务在密码修改后或者订单付款成功或等业务模块，在返回上一步重新修改密码或者重新付款时存在设置密码或付款的功能，如果能返回上一步重复的操作，而且还能更改或者重置结果则存在业务回退漏洞。</p>
+<h2 id="0x05-验证码机制测试">0x05 验证码机制测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-154.png" alt="" class="wp-image-4634" width="492" height="312" /> </figure></p>
+<p><strong>验证码暴力破解测试</strong></p>
+<p>如果没有对验证码的失效时间和尝试失败次数做限制，攻击者就可以通过尝试这个区间内所有的数字来进行暴力破解攻击。</p>
+<p><strong>验证码重复使用测试</strong></p>
+<p>在网站的登录或评论等页面，如果验证码认证成功后没有讲session及时清空，将会导致验证码首次认证成功之后可重复使用，</p>
+<p><strong>验证码客户端回显测试</strong></p>
+<p>当验证码在客户端生成而非服务端生成是，可借助浏览器工具查看交互的详细信息。</p>
+<p><strong>验证码绕过测试</strong></p>
+<p>通过修改前端提交服务器返回的数据，可以实现绕过验证码。</p>
+<p><strong>验证码自动识别测试</strong></p>
+<p>以图形验证码为例，识别流程为：图像二值化处理&ndash;》去干扰&ndash;》字符分割&ndash;》字符识别</p>
+<p>攻击者首先多次刷新验证码，发现验证码字符的组成范围，在PKAV HTTP Fuzzer里面设置，通过第三方识别工具自动对验证码图像进行二值化、去干扰等处理，然后通过人工对比来完善识别的准确率，达到预期效果后，抓包后的请求数据包放至PKAV HTTP Fuzzer工具请求包内，设置验证码标志位，用户名和密码标志位，开始暴力破解，自动载入验证码。</p>
+<h2 id="0x06-业务数据安全测试">0x06 业务数据安全测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-155.png" alt="" class="wp-image-4639" width="549" height="325" /> </figure></p>
+<p><strong>商品支付金额篡改测试</strong></p>
+<p>针对订单生成的过程中存在商品支付金额校验不完整而产生的业务风险点。</p>
+<p><strong>商品订购数量篡改测试</strong></p>
+<p>针对商品订购过程中对异常交易数据处理缺乏风控机制而导致的相关业务逻辑漏洞，如将请求中的商品数量修改为任意非预期数额、负数等后进行提交。</p>
+<p><strong>前端JS限制绕过测试</strong></p>
+<p>在限制用户购买数量时，服务器仅在页面通过JS脚本限制，未在服务器端校验用户提交的数量，通过抓取客户端发送的请求包修改JS端生成处理的交易数据。</p>
+<p><strong>请求重放测试</strong></p>
+<p>针对电商平台订购兑换业务流程中对每笔交易请求的唯一性判断缺乏有效机制的业务逻辑问题，攻击者进行模拟正常业务流程的重放操作，可以实现“一次购买多次收货”等违背正常业务逻辑的结果。</p>
+<p><strong>业务上限测试</strong></p>
+<p>针对一些电商类应用程序在进行业务办理流程中，服务端没有对用户提交的查询范围、订单数量、金额等数据进行严格校验而引发的一些业务逻辑漏，通常表现为查询到超出预计的信息、订购或兑换超出预期范围的商品等。</p>
+<h2 id="0x07-业务流程乱序测试">0x07 业务流程乱序测试</h2>
+<p><strong>业务流程绕过测试</strong></p>
+<p>针对业务处理流程是否正常，确保攻击者无法通过技术手段绕过某些重要流程步骤。</p>
+<p>以某社交网站为例，经过测试发现订单生成后流程走至链接http://www.xxx.com/index.php?contoller=site&amp;action=payok&amp;out_trade_no=，只要提供对应的充值订单号就可以绕过支付环节，未经支付直接充值成功。</p>
+<h2 id="0x08-密码找回模块测试">0x08 密码找回模块测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-157.png" alt="" class="wp-image-4646" width="510" height="422" /> </figure></p>
+<p><strong>验证码客户端回显测试</strong></p>
+<p>找回密码测试中注意验证码是否会回显在响应中。</p>
+<p><strong>验证码暴力破解测试</strong></p>
+<p>验证码位数及复杂性较弱，也没有对验证码次数限制导致可被暴力枚举并修改任意密码。</p>
+<p><strong>接口参数账号修改测试</strong></p>
+<p>拦截前端请求，修改邮箱或手机号等参数将修改后的数据发送到服务器进行欺骗达到密码重置的目的。</p>
+<p>例如某个找回密码发送给用户邮件中的接口URL如下：</p>
+<p><a href="http://www.xxx.com/repwd?account=abcabc@126.com&amp;token=123" target="_blank" rel="noopener noreffer ">http://www.xxx.com/repwd?account=abcabc@126.com&token=123</a></p>
+<p>将account参数修改为我们需要的账号，如：</p>
+<p><a href="http://www.xxx.com/repwd?account=" target="_blank" rel="noopener noreffer ">http://www.xxx.com/repwd?account=</a><span class="has-inline-color has-vivid-red-color">hannibal</span>@126.com&amp;token=123</p>
+<p><strong>Response状态值修改测试</strong></p>
+<p>修改请求的响应结果来达到密码重置的目的</p>
+<p><strong>Session覆盖测试</strong></p>
+<p>在找回密码页面输入A手机号，验证通过进入重置密码页面，打开新标签，输入目标账号B手机号，发送验证码，服务端将当前Session会话设置为了B手机号，这时再刷新A手机号，就可以重置B的密码了。</p>
+<p><strong>弱Token设计缺陷测试</strong></p>
+<p>在找回密码功能中，很多网站会向用户邮件发送找回密码页面链接，链接通常会加入校验参数来确认链接的有效性，通过校验参数的值与数据库生成的值是否一直来判断当前找回密码的链接是否有效。</p>
+<p>利用密码找回功能获得多个密码找回的凭证，观察链接中的密码找回凭证是否有规律可循，比如解码后发现Token值是Base64编码（用户邮箱+随机4位验证码）。</p>
+<p><strong>密码找回流程绕过测试</strong></p>
+<p>例如账号使用正常顺序流程找回密码成功，3个URL如下：</p>
+<p>（1）GET /account/findPassword.html 输入用户账号页面</p>
+<p>（2）GET /forgetpawd/findPassNext.do 验证身份页面</p>
+<p>（3）GET / forgetpawd /emailValidateNext.do 设置新密码页面</p>
+<p>在输入目标账号后进入第二步的页面，直接修改URL为第三步的URL，访问是否可以直接进入密码重置页面。</p>
+<h2 id="0x09-业务接口调用模块测试">0x09 业务接口调用模块测试</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/11/图片-158.png" alt="" class="wp-image-4655" width="531" height="333" /> </figure></p>
+<p><strong>接口调用重放测试</strong></p>
+<p>业务经过重放后是否能多次生成有效的业务或数据结果。</p>
+<p><strong>接口调用遍历测试</strong></p>
+<p>Web接口一般将常见的一些功能需求进行封装，通过传入不同的参数来获取数据或执行相应的功能。</p>
+<p>使用burp的爬虫功能，从重点关注目录（一般为根目录）开始爬取，在HTTP history选项卡中选中要开始爬取的项，单击鼠标右键，选择“Spider from here”，爬取登录后的网站链接。爬取完毕后在Target-》Site map过滤筛选出带有uid参数的链接，查看对应的HTTP请求包中是否带有期望的信息（如：ip地址、历史记录等），挑选后进行遍历测试。</p>
+<p><strong>接口调用参数篡改测试</strong></p>
+<p>攻击者账号为A，目标用户账号为B，在攻击者对B进行找回密码操作时，服务器给账号A的邮箱或手机发送密码重置信息，攻击者进入验证码验证环节，单击“重新发送验证码”并拦截重新发送这个请求，将请求中接收验证码用户的邮箱或者手机号修改为自己的。如果接收到密码重置的信息，则漏洞存在。</p>
+<p><strong>接口未授权访问/调用测试</strong></p>
+<p>登录后使用burp的爬虫功能，从重点关注目录（一般为根目录）开始爬取，在HTTP history选项卡中选中要开始爬取的项，单击鼠标右键，选择“Spider from here”，爬取登录后的网站链接。爬取完毕后在Target-》Site map使用MIME type过滤功能筛选出相关的HTTP请求（重点关注json、script、xml、text MIME type），查看对应的响应中是否带有期望的敏感信息（如：ip地址、个人电话等），将完整的请求URL复杂到未登录的浏览器中，查看能否访问对应URL的内容。</p>
+<p><strong>Callback自定义测试</strong></p>
+<p>在浏览器中存在同源策略，所谓同源值的是域名、协议、端口相同。当使用Ajax异步传输数据是，非同源域名之间会存在限制。其中一种解决方法是JSONP（JSON with Padding）,基本原理是利用了HTML里<script></script>元素标签，远程调用JSON文件来实现数据传输。JSONP技术中一般使用Callback（回调函数）参数来声明回调时所使用的函数名，由于没有使用白名单的方法进行限制，导致攻击者可以自定义Callback的内容，从而触发XSS等漏洞。</p>
+<p>攻击者使用burp的爬虫功能， 从重点关注目录（一般为根目录）开始爬取，在HTTP history选项卡中选中要开始爬取的项，单击鼠标右键，选择“Spider from here”，爬取完毕后在Target-》Site map使用MIME type过滤功能筛选出带有Callback或者jsonp参数的链接，判断请求响应的Content-Type是否为text/html，如果是，发送到Repeater，查看callback参数是否存在过滤（首先不使用script等标签等避免waf的检测），去除无关参数，最后构造恶意的payload进行利用。</p>
+<p><strong>WebService测试</strong></p>
+<p>WebService是一种跨编程语言和跨操作系统的远程调用技术。XML+XSD、SOAP（Simple Object Access Protocol）和WSDL（Web Service Description Language）就是构成WebService 平台的三大技术，其中 XML+XSD 用来描述、表达要传输的数据；SOAP是用于交换XML编码信息的轻量级协议，一般以XML或者XSD作为载体，通过HTTP协议发送请求和接收结果，SOAP协议会在HTTP协议的基础上增加一些特定的HTTP消息；WSDL是一个基于XML的用于描述WebService及其函数，参数和返回值的语言。</p>
+<p>简而言之，WebService就是一个应用程序向外暴露出一个能通过Web进行调用的API。</p>
+<p>找到服务器的WebService链接，使用WVS（Web Vulnerability Scanner）的Web Service Editor功能导入各个接口函数，通过关键词（如Get、Exec）定位到相关的接口函数，通过HTTP Editor对每一个接口函数的输入参数进行测试（如SQL注入、文件上传等），如果出现预期效果，则存在漏洞。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-11-24</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" data-title="业务安全学习笔记（技术篇）" data-hashtags="渗透测试,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" data-hashtag="渗透测试"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" data-title="业务安全学习笔记（技术篇）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" data-title="业务安全学习笔记（技术篇）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/" data-title="业务安全学习笔记（技术篇）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-11-23-rsa%E7%BB%83%E4%B9%A0%E6%96%B0/" class="prev" rel="prev" title="RSA练习▪新"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>RSA练习▪新</a>
+            <a href="/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/" class="next" rel="next" title="业务安全学习笔记（实践篇）">业务安全学习笔记（实践篇）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

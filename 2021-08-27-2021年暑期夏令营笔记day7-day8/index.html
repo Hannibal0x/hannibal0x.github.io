@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>2021年暑期夏令营笔记(day7-day8) - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="2021年暑期夏令营笔记(day7-day8)" />
+<meta property="og:description" content="## 0x00 shellcode从0到1 Linux系统调用表 https://github.com/torvalds/linux/tree/master/arch/x86/entry/syscalls https://chromium.googlesource.com/chromiumos/docs/&#43;/master/constants/syscalls.md 0x01 Windows平台下的shellcode利用 Windows下的Shellcode 优势" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-27T12:51:00+00:00" />
+<meta property="article:modified_time" content="2021-08-27T12:51:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="2021年暑期夏令营笔记(day7-day8)"/>
+<meta name="twitter:description" content="## 0x00 shellcode从0到1 Linux系统调用表 https://github.com/torvalds/linux/tree/master/arch/x86/entry/syscalls https://chromium.googlesource.com/chromiumos/docs/&#43;/master/constants/syscalls.md 0x01 Windows平台下的shellcode利用 Windows下的Shellcode 优势"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" /><link rel="prev" href="https://hannibal0x.github.io/2021-08-25-2021%E8%81%94%E7%9B%9F%E6%9A%91%E6%9C%9F%E5%AD%A6%E6%A0%A1%E6%9A%A8%E6%96%B9%E6%BB%A8%E5%85%B4%E9%99%A2%E5%A3%AB%E7%8F%AD%E5%A4%8F%E4%BB%A4%E8%90%A5ctf%E7%AB%9E%E8%B5%9Bwriteup/" /><link rel="next" href="https://hannibal0x.github.io/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "2021年暑期夏令营笔记(day7-day8)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8\/"
+        },"genre": "posts","wordcount":  1886 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8\/","datePublished": "2021-08-27T12:51:00+00:00","dateModified": "2021-08-27T12:51:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">2021年暑期夏令营笔记(day7-day8)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-08-27">2021-08-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1886 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x01-windows平台下的shellcode利用">0x01 Windows平台下的shellcode利用</a></li>
+    <li><a href="#0x02-加壳">0x02 加壳</a></li>
+    <li><a href="#0x03-脱壳">0x03 脱壳</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+## 0x00 shellcode从0到1
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1252" height="471" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-37.png" alt="" class="wp-image-3632" /> </figure></p>
+<p>Linux系统调用表</p>
+<p><a href="https://github.com/torvalds/linux/tree/master/arch/x86/entry/syscalls" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://github.com/torvalds/linux/tree/master/arch/x86/entry/syscalls" target="_blank" rel="noopener noreffer ">https://github.com/torvalds/linux/tree/master/arch/x86/entry/syscalls</a></a></p>
+<p><a href="https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md" target="_blank"  rel="nofollow" ><a href="https://chromium.googlesource.com/chromiumos/docs/&#43;/master/constants/syscalls.md" target="_blank" rel="noopener noreffer ">https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md</a></a></p>
+<h2 id="0x01-windows平台下的shellcode利用">0x01 Windows平台下的shellcode利用</h2>
+<p>Windows下的Shellcode<br>
+优势：使用起来非常灵活，且易变形<br>
+劣势：开发困难<br>
+难点：如何动态定位API函数地址</p>
+<p>API HASH</p>
+<p><a href="https://neil-fox.github.io/Anti-analysis-using-api-hashing/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://neil-fox.github.io/Anti-analysis-using-api-hashing/" target="_blank" rel="noopener noreffer ">https://neil-fox.github.io/Anti-analysis-using-api-hashing/</a></a></p>
+<p>在常规编程中,只需引入其头文件,便可调用某API函数,编译器在编译过程中会将相关信息编译到PE文件中(这里的相关信息主要是指 MAGE_IMPORT_DESCRIPTORS结构体)。当程序执行时,操作系统会将PE文件映射到内存,这个映射过程包括调用 LoadLibrary加载相应的动态链接库,以及调用 GetProcAddress取所有AP函数在内存中的地址,像这样的dll加载方式,我们称为隐式链接。</p>
+<p>ShellCode开源框架</p>
+<p><a href="https://github.com/mai1zhi2/ShellCodeFramework" target="_blank"  rel="nofollow" ><a href="https://github.com/mai1zhi2/ShellCodeFramework" target="_blank" rel="noopener noreffer ">https://github.com/mai1zhi2/ShellCodeFramework</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="560" height="509" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-39.png" alt="" class="wp-image-3638" /></figure></p>
+<p>实操</p>
+<p><a href="https://uknowsec.cn/posts/notes/shellcode%E5%8A%A0%E8%BD%BD%E6%80%BB%E7%BB%93.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://uknowsec.cn/posts/notes/shellcode%E5%8A%A0%E8%BD%BD%E6%80%BB%E7%BB%93.html" target="_blank" rel="noopener noreffer ">https://uknowsec.cn/posts/notes/shellcode%E5%8A%A0%E8%BD%BD%E6%80%BB%E7%BB%93.html</a></a></p>
+<p>实战视角</p>
+<p><a href="https://blog.csdn.net/qq_35740100/article/details/116300959" data-type="URL" data-id="https://blog.csdn.net/qq_35740100/article/details/116300959" target="_blank" rel="noreferrer noopener" rel="nofollow" >msf生成弹出calc一段shellcode分析</a></p>
+<p><a href="https://blog.csdn.net/lacoucou/article/details/107560280" data-type="URL" data-id="https://blog.csdn.net/lacoucou/article/details/107560280" target="_blank" rel="noreferrer noopener" rel="nofollow" >Metasploit &amp; CobaltStrike 的shellcode分析</a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1076" height="432" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-40.png" alt="" class="wp-image-3640" /> </figure></p>
+<p>在APT攻击中,有对现有 shellcode的利用,如<a rel="noreferrer noopener" href="https://www.freebuf.com/articles/system/280678.html" data-type="URL" data-id="https://www.freebuf.com/articles/system/280678.html" target="_blank" rel="nofollow" >海莲花组织利用CS的 shellcode进行攻击</a>，同时,某<a href="https://www.crowdstrike.com/blog/guloader-malware-analysis/" data-type="URL" data-id="https://www.crowdstrike.com/blog/guloader-malware-analysis/" target="_blank" rel="noreferrer noopener" rel="nofollow" >些APT组织也会开发一些特定的 shellcode</a></p>
+<p>推荐资料：</p>
+<p>逆向工程核心原理<br>
+Windows核心编程<br>
+<a href="https://securitycafe.ro/?s=shellcode+development" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://securitycafe.ro/?s=shellcode&#43;development" target="_blank" rel="noopener noreffer ">https://securitycafe.ro/?s=shellcode+development</a></a></p>
+<h2 id="0x02-加壳">0x02 加壳</h2>
+<p>原理： 原程序最开始运行的一段代码是原始入口点，加壳之后只要先把壳代码运行再跳转到入口点，原程序依然正常运行。而在壳代码中就可以对原程序进行加解密等操作。</p>
+<p>目的：使反汇编和反编译变得尽可能复杂，“反”出来结果尽可能无意义，甚至根本就“反”不出来。</p>
+<p>结果：静态反汇编的代码无意义，需要动态分析。</p>
+<p>壳的分类：<br>
+1.压缩壳<br>
+2.加密壳<br>
+3.虚拟机壳</p>
+<p>加壳后的区别：</p>
+<ul>
+<li>入口点不同</li>
+<li>区段名会变</li>
+<li>区段大小会变</li>
+</ul>
+<p>在32位系统下，操作系统给每一个应用程序都分配了4gb的存储空间（虚拟存储空间），仅仅是exe就不需要考虑这个问<br>
+题，但是很多exe会加载动态链接库（.dll）</p>
+<p>exe基址：<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-41.png" alt="" class="wp-image-3646" width="537" height="66" /> </figure></p>
+<p>dll基址：<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-42.png" alt="" class="wp-image-3647" width="219" height="130" /> </figure></p>
+<p>为什么是需要重定位：<br>
+1、对与exe，exe首先会加载到内存，每个文件总是使用独立的虚拟内存空间，这就意味着exe文件就不需要考虑基址重定位的问题<br>
+2、对于dll，在一个4gb虚拟内存里有多个dll，不能保证每次都加载到同样的位置，存在被其他dll占用的问题<br>
+3、对于系统的dll，实际上不会发生重定位</p>
+<p><strong>随机基址(alsr)</strong></p>
+<p>恶意代码bypass alsr、bypass dep等等，windows vista之后才有的机制（原因：针对缓冲区溢出的保护机制，从NT6.0开<br>
+始使用）</p>
+<p>windows7上：程序重启就能随机基址，基址会变化<br>
+windows10：重启的系统，基址会变化</p>
+<p>开启条件：程序（vs中可以查看）+操作系统（windows7之后）</p>
+<p><strong>exe程序开启alsr和没有开启有什么区别？（都能执行）</strong></p>
+<p>1、区段数量不一样<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-44.png" alt="" class="wp-image-3651" width="588" height="457" /> </figure></p>
+<p>2、文件头的characteristic中的重定位信息标志<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-45.png" alt="" class="wp-image-3652" width="702" height="569" /> </figure></p>
+<p>3、可选头（option header）中的dllcharacteristic的dymaic_base标志<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-47.png" alt="" class="wp-image-3654" width="762" height="456" /> </figure></p>
+<p>4、区段不一样<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-48.png" alt="" class="wp-image-3655" width="642" height="444" /> </figure></p>
+<p><strong>如何去掉随机基址？</strong></p>
+<p>修改两个字段：<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1648" height="667" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-50.png" alt="" class="wp-image-3657" /> </figure></p>
+<p><strong>汇编代码知识</strong><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="809" height="547" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/09/图片-51.png" alt="" class="wp-image-3658" /> </figure></p>
+<p>一个简单的壳：</p>
+<ol>
+<li>添加区段</li>
+<li>在区段中添加跳转到oep的汇编代码</li>
+<li>修改原程序的oep为添加的区段中的代码的地址</li>
+</ol>
+<p>一般情况下加壳的流程：</p>
+<ol>
+<li> 保存寄存器环境</li>
+<li>加载一些必要的API</li>
+<li>解密代码和数据</li>
+<li>修复重定位</li>
+<li>填充IAT</li>
+<li>恢复寄存器环境</li>
+</ol>
+<h2 id="0x03-脱壳">0x03 脱壳</h2>
+<p><strong>脱壳的方法</strong></p>
+<ul>
+<li>寻找原始OEP</li>
+<li>dump内存到文件</li>
+<li>修复文件</li>
+</ul>
+<p>1、esp定律</p>
+<p>有了ESP定律，可以方便我们脱掉大多数的压缩壳。</p>
+<p>2、单步跟踪</p>
+<p>利用OD的单条指令执行功能，从壳的入口一直执行到OEP，最终通过这个OEP将原程序dump出来。然当，在单步跟踪的时候需要跳过一些不能执行到的指令。</p>
+<p>3、其他：<a href="https://www.52pojie.cn/thread-259984-1-1.html" target="_blank"  rel="nofollow" ><a href="https://www.52pojie.cn/thread-259984-1-1.html" target="_blank" rel="noopener noreffer ">https://www.52pojie.cn/thread-259984-1-1.html</a></a></p>
+<p><strong>脱壳相关工具</strong></p>
+<ul>
+<li>OD：动态调试</li>
+<li>ImportRec：修复IAT</li>
+<li>PEID、exeinfo：查壳</li>
+</ul>
+<p><strong>脱压缩壳</strong></p>
+<ul>
+<li>Esp定律：</li>
+<li>步过保存寄存器的指令，在esp寄存器上下硬件断点，然后运行起来，单步几步找到oep</li>
+<li>使用OD插件Ollydump或者OllydumpEx，转存</li>
+<li>使用ImportRec修复IAT </li>
+</ul>
+<p><strong>脱加密壳</strong></p>
+<ul>
+<li>解密IAT与脱壳分析</li>
+<li>脱壳脚本的编写</li>
+</ul>
+<p><strong>脱反调试壳</strong></p>
+<ol>
+<li>搭建异常触发环境</li>
+<li>分析触发的异常</li>
+<li>寻找原始OEP</li>
+<li>寻找写入IAT和获取API地址的点</li>
+<li>编写脚本修复IAT</li>
+<li>使用通用导入表修复工具修复IAT引用代码</li>
+</ol>
+<p><strong>脱反虚拟机壳</strong></p>
+<ol>
+<li>修改虚拟机配置</li>
+<li>对偷取OEP的修复</li>
+<li>对IAT调用的修复</li>
+</ol>
+<p><strong>虚拟机保护壳-VMP</strong></p>
+<p>虚拟机保护代码技术是将x86汇编指令转换为字节码指令，并且通过自己设计的解释器去执行字节码指令的一项技术，以达到保护原有指令不被轻易逆向和篡改</p>
+<p><a rel="noreferrer noopener" href="https://www.cnblogs.com/PhantomW/p/9334237.html" target="_blank" rel="nofollow" >手工脱壳之未知加密壳</a></p>
+<p>老师博客：<a rel="noreferrer noopener" href="https://www.yuque.com/hackdoors" target="_blank" rel="nofollow" ><a href="https://www.yuque.com/hackdoors" target="_blank" rel="noopener noreffer ">https://www.yuque.com/hackdoors</a></a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-08-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" data-title="2021年暑期夏令营笔记(day7-day8)"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" data-title="2021年暑期夏令营笔记(day7-day8)"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" data-title="2021年暑期夏令营笔记(day7-day8)"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-08-27-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day7-day8/" data-title="2021年暑期夏令营笔记(day7-day8)"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-08-25-2021%E8%81%94%E7%9B%9F%E6%9A%91%E6%9C%9F%E5%AD%A6%E6%A0%A1%E6%9A%A8%E6%96%B9%E6%BB%A8%E5%85%B4%E9%99%A2%E5%A3%AB%E7%8F%AD%E5%A4%8F%E4%BB%A4%E8%90%A5ctf%E7%AB%9E%E8%B5%9Bwriteup/" class="prev" rel="prev" title="2021联盟暑期学校暨方滨兴院士班夏令营CTF竞赛WriteUp"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>2021联盟暑期学校暨方滨兴院士班夏令营CTF竞赛WriteUp</a>
+            <a href="/2021-08-31-dasctf%E5%85%AB%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9Bwriteup/" class="next" rel="next" title="DASCTF八月挑战赛writeup">DASCTF八月挑战赛writeup<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

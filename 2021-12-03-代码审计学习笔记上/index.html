@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>代码审计学习笔记（上） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="代码审计学习笔记（上）" />
+<meta property="og:description" content="0x00 前言 学习《代码审计 企业级Web代码安全架构》一书所做的笔记。 0x01 PHP核心配置详解 官方配置说明 PHP_INI_ 常量的定义* 常量 含义 PHP_INI_USER 可在用户PHP脚本或 Windows" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-03T11:48:54+00:00" />
+<meta property="article:modified_time" content="2021-12-03T11:48:54+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="代码审计学习笔记（上）"/>
+<meta name="twitter:description" content="0x00 前言 学习《代码审计 企业级Web代码安全架构》一书所做的笔记。 0x01 PHP核心配置详解 官方配置说明 PHP_INI_ 常量的定义* 常量 含义 PHP_INI_USER 可在用户PHP脚本或 Windows"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" /><link rel="prev" href="https://hannibal0x.github.io/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "代码审计学习笔记（上）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A\/"
+        },"genre": "posts","keywords": "代码审计, Web安全","wordcount":  3907 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A\/","datePublished": "2021-12-03T11:48:54+00:00","dateModified": "2021-12-03T11:48:54+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">代码审计学习笔记（上）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a>&nbsp;<a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-12-03">2021-12-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3907 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-php核心配置详解">0x01 PHP核心配置详解</a></li>
+    <li><a href="#0x02-会影响php脚本安全的配置列表以及核心配置选项">0x02 会影响PHP脚本安全的配置列表以及核心配置选项</a></li>
+    <li><a href="#0x03-常用指令以及对应的说明">0x03 常用指令以及对应的说明</a></li>
+    <li><a href="#0x04-常见的代码审计思路">0x04 常见的代码审计思路</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<p>学习《代码审计 企业级Web代码安全架构》一书所做的笔记。</p>
+<h2 id="0x01-php核心配置详解">0x01 PHP核心配置详解</h2>
+<p><a rel="noreferrer noopener" href="https://www.php.net/manual/zh/ini.list.php" data-type="URL" data-id="https://www.php.net/manual/zh/ini.list.php" target="_blank" rel="nofollow" >官方配置说明</a></p>
+<p><em><em>PHP_INI_</em> 常量的定义</em>*</p>
+<table>
+<thead>
+<tr>
+<th>常量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PHP_INI_USER</code></td>
+<td>可在用户PHP脚本或 <a href="https://www.php.net/manual/zh/configuration.changes.php#configuration.changes.windows" target="_blank"  rel="nofollow" >Windows 注册表</a>以及 <var>.user.ini</var> 中设定</td>
+</tr>
+<tr>
+<td><code>PHP_INI_PERDIR</code></td>
+<td>可在 <var>php.ini</var>，<var>.htaccess</var> 或 <var>httpd.conf</var> 中设定</td>
+</tr>
+<tr>
+<td><code>PHP_INI_SYSTEM</code></td>
+<td>可在 <var>php.ini</var> 或 <var>httpd.conf</var> 中设定</td>
+</tr>
+<tr>
+<td><code>PHP_INI_ALL</code></td>
+<td>可在任何地方设定</td>
+</tr>
+<tr>
+<td>php.ini only</td>
+<td>可仅在php.ini中设置</td>
+</tr>
+</tbody>
+</table>
+<h2 id="0x02-会影响php脚本安全的配置列表以及核心配置选项">0x02 会影响PHP脚本安全的配置列表以及核心配置选项</h2>
+<p><strong><em>1.register_globals（全局变量注册开关）</em></strong></p>
+<p>该选项在设置为on的情况下，会直接把用户GET、POST等方式提交上来的参数注册成全局变量并初始化值为参数对应的值，使得提交参数可以直接在脚本中使用。register_globals在PHP版本小于等于4.2.3时设置为PHP_INI_ALL，从PHP 5.3.0起被废弃，不推荐使用，在PHP 5.4.0中移除了该选项。</p>
+<p><strong><em>2.allow_url_include（是否运行包含远程文件）</em></strong></p>
+<p>在该配置为on的情况下，它可以直接包含远程文件，当存在include（$var）且$var可控的情况下，可以直接控制$var变量来执行PHP代码。allow_url_include在PHP 5.2.0后默认设置为off，配置范围是PHP_INI_ALL。与之类似的配置有allow_url_fopen，配置是否允许打开远程文件。</p>
+<p><strong><em>3.magic_quotes_gpc（魔术引号自动过滤）</em></strong></p>
+<p>magic_quotes_gpc只要被开启，在不存在编码或者其他特殊绕过的情况下，可以使得很多漏洞无法被利用。当该选项设置为on时，会自动在GET、POST、COOKIE变量中的单引号（&rsquo;）、双引号（&quot;）、反斜杠（\）及空字符（NULL）的前面加上反斜杠（\），但是在PHP 5中magic_quotes_gpc并不会过滤$_SERVER变量，导致很多类似client-ip、referer一类的漏洞能够利用。在PHP 5.3之后的不推荐使用magic_quotes_gpc，PHP 5.4之后干脆被取消。</p>
+<p><strong>4.magic_quotes_runtime_（魔术引号自动过滤）_</strong></p>
+<p>它跟magic_quotes_gpc的区别是，处理的对象不一样，magic_quotes_runtime只对从数据库或者文件中获取的数据进行过滤。同样，magic_quotes_runtime在PHP 5.4之后也被取消，配置范围是PHP_INI_ALL。</p>
+<p>有部分函数受它的影响，所以在某些情况下这个配置是可以绕过的，受影响的列表如下：</p>
+<p><code>get_meta_tags（）</code>、<code>file_get_contents（）</code>、<code>file（）</code>、<code>fgets（）</code>、<code>fwrite（）</code>、<code>fread（）</code>、<code>fputcsv（）</code>、<code>stream_socket_recvfrom（）</code>、<code>exec（）</code>、<code>system（）</code>、<code>passthru（）</code>、<code>stream_get_contents（）</code>、<code>bzread（）</code>、<code>gzfile（）</code>、<code>gzgets（）</code>、<code>gzwrite（）</code>、<code>gzread（）</code>、<code>exif_read_data（）</code>、<code>dba_insert（）</code>、<code>dba_replace（）</code>、<code>dba_fetch（）</code>、<code>ibase_fetch_row（）</code>、<code>ibase_fetch_assoc（）</code>、<code>ibase_fetch_object（）</code>、<code>mssql_fetch_row（）</code>、<code>mssql_fetch_object（）</code>、<code>mssql_fetch_array（）</code>、<code>mssql_fetch_assoc（）</code>、<code>mysqli_fetch_row（）</code>、<code>mysqli_fetch_array（）</code>、<code>mysqli_fetch_assoc（）</code>、<code>mysqli_fetch_object（）</code>、<code>pg_fetch_row（）</code>、<code>pg_fetch_assoc（）</code>、<code>pg_fetch_array（）</code>、<code>pg_fetch_object（）</code>、<code>pg_fetch_all（）</code>、<code>pg_select（）</code>、<code>sybase_fetch_object（）</code>、<code>sybase_fetch_array（）</code>、<code>sybase_fetch_assoc（）</code>、<code>SplFileObject：fgets（）</code>、SplFileObject：fgetcsv（）<code>、</code>SplFileObject：fwrite（）`</p>
+<p><strong>5.magic_quotes_sybase_（魔术引号自动过滤）_</strong></p>
+<p>设置为on时，它会覆盖掉magic_quotes_gpc=on的配置。而它们之前的区别在于处理方式不同，magic_quotes_sybase仅仅是转义了空字符和把单引号（&rsquo;）变成了双引号（&rsquo;&rsquo;）。PHP 5.4 后移除。</p>
+<p><strong><em>6.safe_mode（安全模式）</em></strong></p>
+<p>这个配置会出现下面限制：</p>
+<ul>
+<li>所有文件操作函数（例如unlink（）、file（）和include（））等都会受到限制。</li>
+<li>通过函数popen（）、system（）以及exec（）等函数执行命令或程序会提示错误。</li>
+</ul>
+<p>下面是启用safe_mode指令时受影响的函数、变量及配置指令的完整列表：</p>
+<p><code>apache_request_headers（）</code>、<code>ackticks（）</code>、<code>hdir（）</code>、<code>hgrp（）</code>、<code>chmode（）</code>、<code>chown（）</code>、<code>copy（）</code>、<code>dbase_open（）</code>、<code>dbmopen（）</code>、<code>dl（）</code>、<code>exec（）</code>、<code>filepro（）</code>、<code>filepro_retrieve（）</code>、<code>ilepro_rowcount（）</code>、<code>fopen（）</code>、<code>header（）</code>、<code>highlight_file（）</code>、<code>ifx_*</code>、<code>ingres_*</code>、<code>link（）</code>、<code>mail（）</code>、<code>max_execution_time（）</code>、<code>mkdir（）</code>、<code>move_uploaded_file（）</code>、<code>mysql_*</code>、<code>parse_ini_file（）</code>、<code>passthru（）</code>、<code>pg_lo_import（）</code>、<code>popen（）</code>、<code>posix_mkfifo（）</code>、<code>putenv（）</code>、<code>rename（）</code>、<code>zmdir（）</code>、<code>set_time_limit（）</code>、<code>shell_exec（）</code>、<code>show_source（）</code>、<code>symlink（）</code>、<code>system（）</code>、<code>touch（）</code></p>
+<p><strong>7_.open_basedir PHP可访问目录_</strong></p>
+<p>open_basedir指令用来限制PHP只能访问哪些目录，通常我们只需要设置Web文件目录即可，如果需要加载外部脚本，也需要把脚本所在目录路径加入到open_basedir指令中，多个目录以分号（；）分割。</p>
+<p>使用open_basedir需要注意的一点是，指定的限制实际上是前缀，而不是目录名。例如，如果配置open_basedir=/www/a，那么目录/www/a和/www/ab都是可以访问的。所以如果要将访问仅限制在指定的目录内，请用斜线结束路径名。例如设置成：open_basedir=/www/a/。</p>
+<p>当open_basedir配置目录后，执行脚本访问其他文件都需要验证文件路径，因此在执行效率上面也会有一定的影响。该指令的配置范围在PHP版本小于5.2.3时是PHP_INI_SYSTEM，在PHP版本大于等于5.2.3是PHP_INI_ALL。</p>
+<p><em><strong>8.disable_functions（禁用函数）</strong></em></p>
+<p>使用disable_functions指令来禁止一些敏感函数的使用。同时把dl（）函数也加到禁止列表，因为攻击者可以利用dl（）函数来加载自定义的PHP扩展以突破disable_functions指令的限制。</p>
+<p><strong><em>9.display_errors和error_reporting错误显示</em></strong></p>
+<p>display_errors表明是否显示PHP脚本内部错误的选项，在生产环境中设置display_errors=on会带来一些安全隐患。error_reporting选项用来配置错误显示的级别，可使用数字也可使用内置常量配置。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1088" height="356" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/12/图片-2.png" alt="" class="wp-image-4745" /> </figure></p>
+<h2 id="0x03-常用指令以及对应的说明">0x03 常用指令以及对应的说明</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1088" height="724" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/12/图片-3.png" alt="" class="wp-image-4746" /> </figure></p>
+<h2 id="0x04-常见的代码审计思路">0x04 常见的代码审计思路</h2>
+<p><strong>敏感函数回溯参数过程</strong></p>
+<p>目前使用最多。优点是只需搜索相应敏感关键字，即可快速挖掘想要的漏洞。缺点是没有全覆盖代码，定位漏洞利用点花费时间长，无法挖掘逻辑漏洞。</p>
+<p><strong>通读全文代码</strong></p>
+<p>首先看程序的大体代码结构，如主目录的文件，模块目录的文件等等，还有注意文件的名称、大小、创建时间。</p>
+<p>目录结构，需要特别注意的文件：</p>
+<ol>
+<li>函数集文件，通常包含functions或者common等关键字，这些文件包含一些公共的函数，提供统一调用。寻找技巧：打开index.php或者一些功能性文件。</li>
+<li>配置文件，通常命名中包含config等关键字，配置文件包括Web程序运行必须的功能性配置选项以及数据库等配置信息。需要注意配置文件中参数值使用单引号还是双引号，如果是双引号则很可能存在代码执行漏洞。</li>
+<li>安全过滤文件，通常命名中有filter、safe、check等关键字，主要是对参数进行过滤。</li>
+<li>index文件，程序的入口文件，可以了解整个程序的架构、运行的流程、包含到的文件。</li>
+</ol>
+<p>通读全文代码的好处是可以更好地了解程序的架构以及业务逻辑，能够挖掘到更多、更高质量的逻辑漏洞。缺点是花费的时间多，复杂程序的分析困难。</p>
+<p><strong>根据功能点定向审计</strong></p>
+<ul>
+<li>文件上传功能。最常见的漏洞是任意文件上传。还有SQL注入，因为一般程序员不会注意到对文件名进行过滤，但有需要把文件名存入数据库。</li>
+<li>文件管理功能。如果程序将文件名或文件路径直接在参数中传递，则很可能存在任意文件操作漏洞。还可能存在XSS，程序会在页面输出文件名，而通常会疏忽对文件名进行过滤。</li>
+<li>登录认证功能。目前大多认证方式是基于Cookie和Session的，可能存在任意用户登录漏洞，或者越权漏洞。</li>
+<li>找回密码功能。如果可以重置管理员密码，就能间接控制业务权限甚至服务器权限。最常见的是验证码爆破。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-12-03</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" data-title="代码审计学习笔记（上）" data-hashtags="代码审计,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" data-hashtag="代码审计"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" data-title="代码审计学习笔记（上）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" data-title="代码审计学习笔记（上）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" data-title="代码审计学习笔记（上）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-11-30-hvv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="私密：个人学习笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>私密：个人学习笔记</a>
+            <a href="/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" class="next" rel="next" title="代码审计学习笔记（中）">代码审计学习笔记（中）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

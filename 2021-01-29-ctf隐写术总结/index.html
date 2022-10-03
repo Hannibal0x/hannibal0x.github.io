@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CTF隐写术入门总结 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="CTF隐写术入门总结" />
+<meta property="og:description" content="0x00 前言 CTF中隐写术是一个非常有趣的部分，通常属于MISC的范围，有些题目需要和密码学等知识的结合，一直想整理出文字。套路一般固定，难度较低" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-29T14:36:42+00:00" />
+<meta property="article:modified_time" content="2021-01-29T14:36:42+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="CTF隐写术入门总结"/>
+<meta name="twitter:description" content="0x00 前言 CTF中隐写术是一个非常有趣的部分，通常属于MISC的范围，有些题目需要和密码学等知识的结合，一直想整理出文字。套路一般固定，难度较低"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" /><link rel="prev" href="https://hannibal0x.github.io/2021-01-21-i%E6%98%A5%E7%A7%8B%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8-%E4%BD%A0%E6%98%AF%E4%BC%9A%E5%91%98%E5%90%97/" /><link rel="next" href="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CTF隐写术入门总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93\/"
+        },"genre": "posts","wordcount":  1352 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93\/","datePublished": "2021-01-29T14:36:42+00:00","dateModified": "2021-01-29T14:36:42+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CTF隐写术入门总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-01-29">2021-01-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1352 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p class="has-large-font-size">
+  0x00 前言
+</p>
+<p>CTF中隐写术是一个非常有趣的部分，通常属于MISC的范围，有些题目需要和密码学等知识的结合，一直想整理出文字。套路一般固定，难度较低，但同时也极易形成思维定式，一旦遇上新颖的题型，没有足够的知识量和脑洞，可能就要吃瘪了。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="844" height="415" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/8343187-0eca908d6392480c.png" alt="" class="wp-image-386" /></figure>
+</div>
+<ul>
+<li><strong>评价隐写术的标准核心标准</strong>：隐蔽程度隐蔽程度越高，直接导致检测有效信息越困难</li>
+<li>其他标准：隐写算法的好坏、隐写手段的复杂度、提取信息的难易度</li>
+</ul>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/8343187-0eca908d6392480c-1.png" alt="" class="wp-image-389" width="503" height="358" /></figure>
+</div>
+<p>在CTF中，隐写术的载体对象通常有文本、图像、音频、视频、压缩包等等，在一些情况下也不单一，下文也主要介绍上述种类。</p>
+<p><a href="https://www.cnblogs.com/13ck/p/4471146.html" data-type="URL" data-id="https://www.cnblogs.com/13ck/p/4471146.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><strong>各类文件的文件头标志</strong></a></p>
+<p class="has-large-font-size">
+  0x01 文本隐写
+</p>
+<p>Doc文件的本质是一种zip压缩文件，docx中的x指的是xml。文件头是<code>50 4B</code>。</p>
+<p>下面介绍几种常见的DOC隐藏方式。</p>
+<ol>
+<li>白色背景下写白字，无法被肉眼识别出有隐藏的文字。</li>
+<li>通过文字的<strong>偏移（行移、字移）<strong>和</strong>颜色</strong>等来传递信息，比如上偏移代表0，下偏移代表1，传达二进制信息。</li>
+<li>利用空格、换行、回车、标点（句号和逗号或者中英文符号）等。</li>
+<li>利用不同字体、简体繁体，调整间距拼凑（比如：‘仁’和‘m’）。</li>
+<li>同义词替换、句法变换（比如：把字句和被字句）。</li>
+<li>隐藏在xml等文件中，修改后缀为zip压缩文件，解压后搜索相关信息。</li>
+<li>Word隐藏图片，插入的图片方式分为<strong>嵌入式</strong>和<strong>非嵌入式</strong>。嵌入式随着文本的位置产生移动，即有回车后，图片下移。非嵌入图片保持原位置不动。
+<ol>
+<li><strong>嵌入式</strong>：单击“文件”标签，选择“选项”选项打开“Word选项”对话框。在对话框左侧的列表中选择“高 级”选项，在右侧的“显示文档内容”栏中勾选“显示图片框”复选框，单击“确定”按钮关闭对话框后，文档中的嵌入式图片将被隐藏，将只显示图片框的框线。</li>
+<li><strong>非嵌入式</strong>：在“显示文档内容”栏中取消对“在屏幕上显示图形和文字”复选框的勾选。单击“确定”按钮关闭对话框后，文档中的非嵌入式图片将被隐藏。</li>
+</ol>
+</li>
+<li>Word中选中要隐藏的字段，右击选择字体选项，在效果一栏中有隐藏选项，选中后即可隐藏。默认情况下隐藏文字是不会被打印出来的。如果想知道是否有隐藏文本，可在文件选项中单击“文件”-》选项-》显示，选择“隐藏文字”复选框，即可查看。在保存文件后选择文件-》检查-》检查文件，查看是否有隐藏文字。</li>
+</ol>
+<p>PDF文件则可以利用PDF文件头添加额外信息，这个区域的信息会被Adobe Acrobat Reader阅读器忽略。利用工具wbStego4open会把插入数据中的每一个ASCII码转换为二进制形式，然后把每一个二进制数字再替换为十六进制的20或者09，20代表0，09代表1，嵌入到PDF文件中。</p>
+<p class="has-large-font-size">
+  0x02 图片隐写
+</p>
+<p>几乎8成的隐写题目都脱不开图片，而常见的图片格式有PNG、JPG/JPEG、BMP、GIF，下面分别介绍它们的结构。</p>
+<p><strong>PNG的文件结构</strong></p>
+<p><a rel="noreferrer noopener" href="https://www.cnblogs.com/lidabo/p/3701197.html" data-type="URL" data-id="https://www.cnblogs.com/lidabo/p/3701197.html" target="_blank" rel="nofollow" >详细信息</a></p>
+<p>PNG无损压缩的位图格式，文件头<code>89 50 4E 47 0D 0A 1A 0A</code>，数据块（chunk）基本的构成：文件头数据块（IHDR）、调色板数据块（PLTE）、图像数据块（IDAT）、图像结束数据（IEND）。</p>
+<p>我们重点关注IHDR。它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。 文件头数据块由13字节组成，它的格式如下表所示。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="732" height="585" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image.png" alt="" class="wp-image-423" /></figure>
+</div>
+<p><strong>JPEG/JPG的文件结构</strong></p>
+<p>JPEG/JPG为有损压缩，文件头为<code>FF D8 FF</code>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-01-29</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" data-title="CTF隐写术入门总结"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" data-title="CTF隐写术入门总结"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" data-title="CTF隐写术入门总结"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" data-title="CTF隐写术入门总结"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-01-21-i%E6%98%A5%E7%A7%8B%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8-%E4%BD%A0%E6%98%AF%E4%BC%9A%E5%91%98%E5%90%97/" class="prev" rel="prev" title="【i春秋】渗透测试入门 —— 你是会员吗？"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>【i春秋】渗透测试入门 —— 你是会员吗？</a>
+            <a href="/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" class="next" rel="next" title="2021年“春秋杯”新年欢乐赛部分WriteUp">2021年“春秋杯”新年欢乐赛部分WriteUp<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

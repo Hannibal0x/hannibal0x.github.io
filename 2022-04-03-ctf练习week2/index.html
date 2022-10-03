@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CTF练习Week2 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="CTF练习Week2" />
+<meta property="og:description" content="0x00 [UTCTF2020]file header 修改文件头，得到flag 0x01 [GKCTF 2021]excel 骚操作 点击发现，有的空白格上的数值是1。 设置单元格式，显示出所有的1 然后设置突出显示，得到汉信码，扫描得" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-03T13:18:36+00:00" />
+<meta property="article:modified_time" content="2022-04-03T13:18:36+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="CTF练习Week2"/>
+<meta name="twitter:description" content="0x00 [UTCTF2020]file header 修改文件头，得到flag 0x01 [GKCTF 2021]excel 骚操作 点击发现，有的空白格上的数值是1。 设置单元格式，显示出所有的1 然后设置突出显示，得到汉信码，扫描得"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" /><link rel="prev" href="https://hannibal0x.github.io/2022-03-28-ctf%E7%BB%83%E4%B9%A0week1/" /><link rel="next" href="https://hannibal0x.github.io/2022-04-11-ctf%E7%BB%83%E4%B9%A0week3/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CTF练习Week2",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  3260 ,
+        "url": "https:\/\/hannibal0x.github.io\/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2\/","datePublished": "2022-04-03T13:18:36+00:00","dateModified": "2022-04-03T13:18:36+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CTF练习Week2</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-03">2022-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3260 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-utctf2020file-header">0x00 [UTCTF2020]file header</a></li>
+    <li><a href="#0x01-gkctf-2021excel-骚操作">0x01 [GKCTF 2021]excel 骚操作</a></li>
+    <li><a href="#0x02-湖南省赛2019findme">0x02 [湖南省赛2019]Findme</a></li>
+    <li><a href="#0x03-我爱linux">0x03 我爱Linux</a></li>
+    <li><a href="#0x04-大流量分析一">0x04 大流量分析（一）</a></li>
+    <li><a href="#0x05-大流量分析二">0x05 大流量分析（二）</a></li>
+    <li><a href="#0x06-npuctf2020碰上彩虹吃定彩虹">0x06 [NPUCTF2020]碰上彩虹，吃定彩虹！</a></li>
+    <li><a href="#0x07-羊城杯-2020signin">0x07 [羊城杯 2020]signin</a></li>
+    <li><a href="#0x08-wmctf2020行为艺术">0x08 [WMCTF2020]行为艺术</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-utctf2020file-header">0x00 [UTCTF2020]file header</h2>
+<p>修改文件头，得到flag<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1338" height="267" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片.png" alt="" class="wp-image-5383" /> </figure></p>
+<h2 id="0x01-gkctf-2021excel-骚操作">0x01 [GKCTF 2021]excel 骚操作</h2>
+<p>点击发现，有的空白格上的数值是1。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-1.png" alt="" class="wp-image-5384" width="264" height="124" /> </figure></p>
+<p>设置单元格式，显示出所有的1<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="3070" height="924" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-2.png" alt="" class="wp-image-5385" /> </figure></p>
+<p>然后设置突出显示，得到汉信码，扫描得到flag。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-4.png" alt="" class="wp-image-5387" width="392" height="335" /> </figure></p>
+<h2 id="0x02-湖南省赛2019findme">0x02 [湖南省赛2019]Findme</h2>
+<p>tweakpng分析1.png发现chunk处存在问题<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-5.png" alt="" class="wp-image-5388" width="522" height="154" /> </figure></p>
+<p>用010分析发现缺少IDAT的标识，手动添加一下。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="850" height="112" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-6.png" alt="" class="wp-image-5390" /> </figure></p>
+<p>脚本爆破宽高<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-7.png" alt="" class="wp-image-5391" width="585" height="554" /> </figure></p>
+<pre class="wp-block-code"><code>import zlib
+import struct
+
+filename = '1.png'
+with open(filename, 'rb') as f:
+    all_b = f.read()
+    crc32key = int(all_b&#91;29:33].hex(),16)
+    data = bytearray(all_b&#91;12:29])
+    n = 4095           
+    for w in range(n):          
+        width = bytearray(struct.pack('&gt;i', w))    
+        for h in range(n):
+            height = bytearray(struct.pack('&gt;i', h))
+            for x in range(4):
+                data&#91;x+4] = width&#91;x]
+                data&#91;x+8] = height&#91;x]
+            crc32result = zlib.crc32(data)
+            if crc32result == crc32key:
+                print("宽为：",end="")
+                print(width)
+                print("高为：",end="")
+                print(height)</code></pre>
+<p>得到<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-8.png" alt="" class="wp-image-5393" width="174" height="347" /> </figure></p>
+<p>放到stegslover里面，在bule2时发现二维码，扫描得到<code>ZmxhZ3s0X3</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-9.png" alt="" class="wp-image-5394" width="229" height="478" /> </figure></p>
+<p>在2.png的文件尾发现7z的字样，提取出来，而后发现PK被修改成7z，解压得到1000个txt。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1366" height="376" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-10.png" alt="" class="wp-image-5395" /> </figure></p>
+<p>大小排序得到隐藏信息<code>1RVcmVfc</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1354" height="294" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-11.png" alt="" class="wp-image-5396" /> </figure></p>
+<p>3.png的每一个chunk的crc32都是一个字符的ascii编码，得到<code>3RlZ30=</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-12.png" alt="" class="wp-image-5398" width="478" height="305" /> </figure></p>
+<p>4.png和5.png直接用010查看即可<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-14.png" alt="" class="wp-image-5400" width="241" height="82" /></figure></p>
+<p>按照P1-P5-P4-P2-P3拼接得到<code>ZmxhZ3s0X3Yzcllfc0lNcExlX1BsY1RVcmVfc3RlZ30=</code>，解码得到flag。</p>
+<h2 id="0x03-我爱linux">0x03 我爱Linux</h2>
+<p>图片FFD9后存在冗余数据，导出另存为。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1341" height="320" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-15.png" alt="" class="wp-image-5402" /> </figure></p>
+<p>看了wp才知道得到的文件内容是Python Picke序列化内容，直接用脚本提取</p>
+<pre class="wp-block-code"><code>import pickle  
+fp = open("123.txt","rb+")
+fw = open('pickle.txt', 'w')
+a=pickle.load(fp)
+pickle=str(a)
+fw.write( pickle )
+fw.close()</code></pre>
+<p>得到一系列坐标代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[[(3, &#39;m&#39;), (4, &#39;&#34;&#39;), (5, &#39;&#34;&#39;), (8, &#39;&#34;&#39;), (9, &#39;&#34;&#39;), (10, &#39;#&#39;), (31, &#39;m&#39;), (32, &#39;&#34;&#39;), (33, &#39;&#34;&#39;), (44, &#39;m&#39;), (45, &#39;m&#39;), (46, &#39;m&#39;), (47, &#39;m&#39;), (50, &#39;m&#39;), (51, &#39;m&#39;), (52, &#39;m&#39;), (53, &#39;m&#39;), (54, &#39;m&#39;), (55, &#39;m&#39;), (58, &#39;m&#39;), (59, &#39;m&#39;), (60, &#39;m&#39;), (61, &#39;m&#39;), (66, &#39;m&#39;), (67, &#39;&#34;&#39;), (68, &#39;&#34;&#39;), (75, &#39;#&#39;)], [(1, &#39;m&#39;), (2, &#39;m&#39;), (3, &#39;#&#39;), (4, &#39;m&#39;), (5, &#39;m&#39;), (10, &#39;#&#39;), (16, &#39;m&#39;), (17, &#39;m&#39;), (18, &#39;m&#39;), (23, &#39;m&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;m&#39;), (31, &#39;#&#39;), (37, &#39;m&#39;), (38, &#39;m&#39;), (39, &#39;m&#39;), (43, &#39;&#34;&#39;), (47, &#39;&#34;&#39;), (48, &#39;#&#39;), (54, &#39;#&#39;), (55, &#39;&#34;&#39;), (57, &#39;&#34;&#39;), (61, &#39;&#34;&#39;), (62, &#39;#&#39;), (64, &#39;m&#39;), (65, &#39;m&#39;), (66, &#39;#&#39;), (67, &#39;m&#39;), (68, &#39;m&#39;), (72, &#39;m&#39;), (73, &#39;m&#39;), (74, &#39;m&#39;), (75, &#39;#&#39;)], [(3, &#39;#&#39;), (10, &#39;#&#39;), (15, &#39;&#34;&#39;), (19, &#39;#&#39;), (22, &#39;#&#39;), (23, &#39;&#34;&#39;), (25, &#39;&#34;&#39;), (26, &#39;#&#39;), (29, &#39;m&#39;), (30, &#39;m&#39;), (31, &#39;&#34;&#39;), (36, &#39;&#34;&#39;), (40, &#39;#&#39;), (47, &#39;m&#39;), (48, &#39;&#34;&#39;), (53, &#39;m&#39;), (54, &#39;&#34;&#39;), (59, &#39;m&#39;), (60, &#39;m&#39;), (61, &#39;m&#39;), (62, &#39;&#34;&#39;), (66, &#39;#&#39;), (71, &#39;#&#39;), (72, &#39;&#34;&#39;), (74, &#39;&#34;&#39;), (75, &#39;#&#39;)], [(3, &#39;#&#39;), (10, &#39;#&#39;), (15, &#39;m&#39;), (16, &#39;&#34;&#39;), (17, &#39;&#34;&#39;), (18, &#39;&#34;&#39;), (19, &#39;#&#39;), (22, &#39;#&#39;), (26, &#39;#&#39;), (31, &#39;#&#39;), (36, &#39;m&#39;), (37, &#39;&#34;&#39;), (38, &#39;&#34;&#39;), (39, &#39;&#34;&#39;), (40, &#39;#&#39;), (45, &#39;m&#39;), (46, &#39;&#34;&#39;), (52, &#39;m&#39;), (53, &#39;&#34;&#39;), (61, &#39;&#34;&#39;), (62, &#39;#&#39;), (66, &#39;#&#39;), (71, &#39;#&#39;), (75, &#39;#&#39;)], [(3, &#39;#&#39;), (10, &#39;&#34;&#39;), (11, &#39;m&#39;), (12, &#39;m&#39;), (15, &#39;&#34;&#39;), (16, &#39;m&#39;), (17, &#39;m&#39;), (18, &#39;&#34;&#39;), (19, &#39;#&#39;), (22, &#39;&#34;&#39;), (23, &#39;#&#39;), (24, &#39;m&#39;), (25, &#39;&#34;&#39;), (26, &#39;#&#39;), (31, &#39;#&#39;), (36, &#39;&#34;&#39;), (37, &#39;m&#39;), (38, &#39;m&#39;), (39, &#39;&#34;&#39;), (40, &#39;#&#39;), (43, &#39;m&#39;), (44, &#39;#&#39;), (45, &#39;m&#39;), (46, &#39;m&#39;), (47, &#39;m&#39;), (48, &#39;m&#39;), (51, &#39;m&#39;), (52, &#39;&#34;&#39;), (57, &#39;&#34;&#39;), (58, &#39;m&#39;), (59, &#39;m&#39;), (60, &#39;m&#39;), (61, &#39;#&#39;), (62, &#39;&#34;&#39;), (66, &#39;#&#39;), (71, &#39;&#34;&#39;), (72, &#39;#&#39;), (73, &#39;m&#39;), (74, &#39;#&#39;), (75, &#39;#&#39;)], [(23, &#39;m&#39;), (26, &#39;#&#39;), (32, &#39;&#34;&#39;), (33, &#39;&#34;&#39;)], [(24, &#39;&#34;&#39;), (25, &#39;&#34;&#39;)], [], [(12, &#39;#&#39;), (17, &#39;m&#39;), (18, &#39;&#34;&#39;), (19, &#39;&#34;&#39;), (23, &#39;m&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;m&#39;), (33, &#39;#&#39;), (36, &#39;m&#39;), (37, &#39;m&#39;), (38, &#39;m&#39;), (39, &#39;m&#39;), (40, &#39;m&#39;), (41, &#39;m&#39;), (46, &#39;m&#39;), (47, &#39;m&#39;), (52, &#39;m&#39;), (53, &#39;m&#39;), (54, &#39;m&#39;), (65, &#39;m&#39;), (66, &#39;m&#39;), (67, &#39;m&#39;), (68, &#39;m&#39;), (71, &#39;m&#39;), (72, &#39;m&#39;), (73, &#39;m&#39;), (74, &#39;m&#39;), (75, &#39;m&#39;), (76, &#39;m&#39;)], [(2, &#39;m&#39;), (3, &#39;m&#39;), (4, &#39;m&#39;), (9, &#39;m&#39;), (10, &#39;m&#39;), (11, &#39;m&#39;), (12, &#39;#&#39;), (15, &#39;m&#39;), (16, &#39;m&#39;), (17, &#39;#&#39;), (18, &#39;m&#39;), (19, &#39;m&#39;), (22, &#39;&#34;&#39;), (26, &#39;&#34;&#39;), (27, &#39;#&#39;), (30, &#39;m&#39;), (31, &#39;m&#39;), (32, &#39;m&#39;), (33, &#39;#&#39;), (40, &#39;#&#39;), (41, &#39;&#34;&#39;), (45, &#39;m&#39;), (46, &#39;&#34;&#39;), (47, &#39;#&#39;), (50, &#39;m&#39;), (51, &#39;&#34;&#39;), (55, &#39;&#34;&#39;), (58, &#39;m&#39;), (59, &#39;m&#39;), (60, &#39;m&#39;), (64, &#39;#&#39;), (65, &#39;&#34;&#39;), (68, &#39;&#34;&#39;), (69, &#39;m&#39;), (75, &#39;#&#39;), (76, &#39;&#34;&#39;)], [(1, &#39;#&#39;), (2, &#39;&#34;&#39;), (5, &#39;#&#39;), (8, &#39;#&#39;), (9, &#39;&#34;&#39;), (11, &#39;&#34;&#39;), (12, &#39;#&#39;), (17, &#39;#&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;m&#39;), (27, &#39;&#34;&#39;), (29, &#39;#&#39;), (30, &#39;&#34;&#39;), (32, &#39;&#34;&#39;), (33, &#39;#&#39;), (39, &#39;m&#39;), (40, &#39;&#34;&#39;), (44, &#39;#&#39;), (45, &#39;&#34;&#39;), (47, &#39;#&#39;), (50, &#39;#&#39;), (51, &#39;m&#39;), (52, &#39;&#34;&#39;), (53, &#39;&#34;&#39;), (54, &#39;#&#39;), (55, &#39;m&#39;), (57, &#39;#&#39;), (58, &#39;&#34;&#39;), (61, &#39;#&#39;), (64, &#39;#&#39;), (65, &#39;m&#39;), (68, &#39;m&#39;), (69, &#39;#&#39;), (74, &#39;m&#39;), (75, &#39;&#34;&#39;)], [(1, &#39;#&#39;), (2, &#39;&#34;&#39;), (3, &#39;&#34;&#39;), (4, &#39;&#34;&#39;), (5, &#39;&#34;&#39;), (8, &#39;#&#39;), (12, &#39;#&#39;), (17, &#39;#&#39;), (26, &#39;&#34;&#39;), (27, &#39;#&#39;), (29, &#39;#&#39;), (33, &#39;#&#39;), (38, &#39;m&#39;), (39, &#39;&#34;&#39;), (43, &#39;#&#39;), (44, &#39;m&#39;), (45, &#39;m&#39;), (46, &#39;m&#39;), (47, &#39;#&#39;), (48, &#39;m&#39;), (50, &#39;#&#39;), (55, &#39;#&#39;), (57, &#39;#&#39;), (58, &#39;&#34;&#39;), (59, &#39;&#34;&#39;), (60, &#39;&#34;&#39;), (61, &#39;&#34;&#39;), (65, &#39;&#34;&#39;), (66, &#39;&#34;&#39;), (67, &#39;&#34;&#39;), (69, &#39;#&#39;), (73, &#39;m&#39;), (74, &#39;&#34;&#39;)], [(1, &#39;&#34;&#39;), (2, &#39;#&#39;), (3, &#39;m&#39;), (4, &#39;m&#39;), (5, &#39;&#34;&#39;), (8, &#39;&#34;&#39;), (9, &#39;#&#39;), (10, &#39;m&#39;), (11, &#39;#&#39;), (12, &#39;#&#39;), (17, &#39;#&#39;), (22, &#39;&#34;&#39;), (23, &#39;m&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;#&#39;), (27, &#39;&#34;&#39;), (29, &#39;&#34;&#39;), (30, &#39;#&#39;), (31, &#39;m&#39;), (32, &#39;#&#39;), (33, &#39;#&#39;), (37, &#39;m&#39;), (38, &#39;&#34;&#39;), (47, &#39;#&#39;), (51, &#39;#&#39;), (52, &#39;m&#39;), (53, &#39;m&#39;), (54, &#39;#&#39;), (55, &#39;&#34;&#39;), (57, &#39;&#34;&#39;), (58, &#39;#&#39;), (59, &#39;m&#39;), (60, &#39;m&#39;), (61, &#39;&#34;&#39;), (64, &#39;&#34;&#39;), (65, &#39;m&#39;), (66, &#39;m&#39;), (67, &#39;m&#39;), (68, &#39;&#34;&#39;), (72, &#39;m&#39;), (73, &#39;&#34;&#39;)], [], [], [], [(5, &#39;#&#39;), (8, &#39;#&#39;), (16, &#39;m&#39;), (17, &#39;m&#39;), (18, &#39;m&#39;), (19, &#39;m&#39;), (23, &#39;m&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;m&#39;), (30, &#39;m&#39;), (31, &#39;m&#39;), (32, &#39;m&#39;), (33, &#39;m&#39;), (38, &#39;m&#39;), (39, &#39;m&#39;), (40, &#39;m&#39;), (50, &#39;#&#39;), (57, &#39;#&#39;), (64, &#39;#&#39;), (71, &#39;m&#39;), (72, &#39;m&#39;), (73, &#39;m&#39;)], [(2, &#39;m&#39;), (3, &#39;m&#39;), (4, &#39;m&#39;), (5, &#39;#&#39;), (8, &#39;#&#39;), (9, &#39;m&#39;), (10, &#39;m&#39;), (11, &#39;m&#39;), (15, &#39;#&#39;), (16, &#39;&#34;&#39;), (19, &#39;&#34;&#39;), (20, &#39;m&#39;), (22, &#39;m&#39;), (23, &#39;&#34;&#39;), (26, &#39;&#34;&#39;), (27, &#39;m&#39;), (29, &#39;#&#39;), (34, &#39;#&#39;), (36, &#39;m&#39;), (37, &#39;&#34;&#39;), (41, &#39;&#34;&#39;), (44, &#39;m&#39;), (45, &#39;m&#39;), (46, &#39;m&#39;), (50, &#39;#&#39;), (51, &#39;m&#39;), (52, &#39;m&#39;), (53, &#39;m&#39;), (57, &#39;#&#39;), (58, &#39;m&#39;), (59, &#39;m&#39;), (60, &#39;m&#39;), (64, &#39;#&#39;), (65, &#39;m&#39;), (66, &#39;m&#39;), (67, &#39;m&#39;), (73, &#39;#&#39;)], [(1, &#39;#&#39;), (2, &#39;&#34;&#39;), (4, &#39;&#34;&#39;), (5, &#39;#&#39;), (8, &#39;#&#39;), (9, &#39;&#34;&#39;), (11, &#39;&#34;&#39;), (12, &#39;#&#39;), (15, &#39;#&#39;), (16, &#39;m&#39;), (19, &#39;m&#39;), (20, &#39;#&#39;), (22, &#39;#&#39;), (25, &#39;m&#39;), (27, &#39;#&#39;), (29, &#39;&#34;&#39;), (30, &#39;m&#39;), (31, &#39;m&#39;), (32, &#39;m&#39;), (33, &#39;m&#39;), (34, &#39;&#34;&#39;), (36, &#39;#&#39;), (37, &#39;m&#39;), (38, &#39;&#34;&#39;), (39, &#39;&#34;&#39;), (40, &#39;#&#39;), (41, &#39;m&#39;), (43, &#39;#&#39;), (44, &#39;&#34;&#39;), (47, &#39;#&#39;), (50, &#39;#&#39;), (51, &#39;&#34;&#39;), (53, &#39;&#34;&#39;), (54, &#39;#&#39;), (57, &#39;#&#39;), (58, &#39;&#34;&#39;), (60, &#39;&#34;&#39;), (61, &#39;#&#39;), (64, &#39;#&#39;), (65, &#39;&#34;&#39;), (67, &#39;&#34;&#39;), (68, &#39;#&#39;), (73, &#39;#&#39;)], [(1, &#39;#&#39;), (5, &#39;#&#39;), (8, &#39;#&#39;), (12, &#39;#&#39;), (16, &#39;&#34;&#39;), (17, &#39;&#34;&#39;), (18, &#39;&#34;&#39;), (20, &#39;#&#39;), (22, &#39;#&#39;), (27, &#39;#&#39;), (29, &#39;#&#39;), (33, &#39;&#34;&#39;), (34, &#39;#&#39;), (36, &#39;#&#39;), (41, &#39;#&#39;), (43, &#39;#&#39;), (44, &#39;&#34;&#39;), (45, &#39;&#34;&#39;), (46, &#39;&#34;&#39;), (47, &#39;&#34;&#39;), (50, &#39;#&#39;), (54, &#39;#&#39;), (57, &#39;#&#39;), (61, &#39;#&#39;), (64, &#39;#&#39;), (68, &#39;#&#39;), (73, &#39;#&#39;)], [(1, &#39;&#34;&#39;), (2, &#39;#&#39;), (3, &#39;m&#39;), (4, &#39;#&#39;), (5, &#39;#&#39;), (8, &#39;#&#39;), (9, &#39;#&#39;), (10, &#39;m&#39;), (11, &#39;#&#39;), (12, &#39;&#34;&#39;), (15, &#39;&#34;&#39;), (16, &#39;m&#39;), (17, &#39;m&#39;), (18, &#39;m&#39;), (19, &#39;&#34;&#39;), (23, &#39;#&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;#&#39;), (29, &#39;&#34;&#39;), (30, &#39;#&#39;), (31, &#39;m&#39;), (32, &#39;m&#39;), (33, &#39;m&#39;), (34, &#39;&#34;&#39;), (37, &#39;#&#39;), (38, &#39;m&#39;), (39, &#39;m&#39;), (40, &#39;#&#39;), (41, &#39;&#34;&#39;), (43, &#39;&#34;&#39;), (44, &#39;#&#39;), (45, &#39;m&#39;), (46, &#39;m&#39;), (47, &#39;&#34;&#39;), (50, &#39;#&#39;), (51, &#39;#&#39;), (52, &#39;m&#39;), (53, &#39;#&#39;), (54, &#39;&#34;&#39;), (57, &#39;#&#39;), (58, &#39;#&#39;), (59, &#39;m&#39;), (60, &#39;#&#39;), (61, &#39;&#34;&#39;), (64, &#39;#&#39;), (65, &#39;#&#39;), (66, &#39;m&#39;), (67, &#39;#&#39;), (68, &#39;&#34;&#39;), (71, &#39;m&#39;), (72, &#39;m&#39;), (73, &#39;#&#39;), (74, &#39;m&#39;), (75, &#39;m&#39;)], [], [], [], [(2, &#39;m&#39;), (3, &#39;m&#39;), (4, &#39;m&#39;), (5, &#39;m&#39;), (8, &#39;m&#39;), (9, &#39;m&#39;), (10, &#39;m&#39;), (11, &#39;m&#39;), (12, &#39;m&#39;), (19, &#39;#&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;m&#39;), (29, &#39;&#34;&#39;), (30, &#39;&#34;&#39;), (31, &#39;m&#39;)], [(1, &#39;#&#39;), (2, &#39;&#34;&#39;), (5, &#39;&#34;&#39;), (6, &#39;m&#39;), (8, &#39;#&#39;), (16, &#39;m&#39;), (17, &#39;m&#39;), (18, &#39;m&#39;), (19, &#39;#&#39;), (22, &#39;m&#39;), (23, &#39;&#34;&#39;), (27, &#39;&#34;&#39;), (31, &#39;#&#39;)], [(1, &#39;#&#39;), (2, &#39;m&#39;), (5, &#39;m&#39;), (6, &#39;#&#39;), (8, &#39;&#34;&#39;), (9, &#39;&#34;&#39;), (10, &#39;&#34;&#39;), (11, &#39;&#34;&#39;), (12, &#39;m&#39;), (13, &#39;m&#39;), (15, &#39;#&#39;), (16, &#39;&#34;&#39;), (18, &#39;&#34;&#39;), (19, &#39;#&#39;), (22, &#39;#&#39;), (23, &#39;m&#39;), (24, &#39;&#34;&#39;), (25, &#39;&#34;&#39;), (26, &#39;#&#39;), (27, &#39;m&#39;), (31, &#39;&#34;&#39;), (32, &#39;m&#39;), (33, &#39;m&#39;)], [(2, &#39;&#34;&#39;), (3, &#39;&#34;&#39;), (4, &#39;&#34;&#39;), (6, &#39;#&#39;), (13, &#39;#&#39;), (15, &#39;#&#39;), (19, &#39;#&#39;), (22, &#39;#&#39;), (27, &#39;#&#39;), (31, &#39;#&#39;)], [(1, &#39;&#34;&#39;), (2, &#39;m&#39;), (3, &#39;m&#39;), (4, &#39;m&#39;), (5, &#39;&#34;&#39;), (8, &#39;&#34;&#39;), (9, &#39;m&#39;), (10, &#39;m&#39;), (11, &#39;m&#39;), (12, &#39;#&#39;), (13, &#39;&#34;&#39;), (15, &#39;&#34;&#39;), (16, &#39;#&#39;), (17, &#39;m&#39;), (18, &#39;#&#39;), (19, &#39;#&#39;), (23, &#39;#&#39;), (24, &#39;m&#39;), (25, &#39;m&#39;), (26, &#39;#&#39;), (27, &#39;&#34;&#39;), (31, &#39;#&#39;)], [(29, &#39;&#34;&#39;), (30, &#39;&#34;&#39;)]]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再利用脚本进行转换</p>
+<pre class="wp-block-code"><code>fw = open("pickle.txt","r")
+text=fw.read( )
+i=0
+a=0
+
+
+while i&lt;len(text)+1:
+    if(text&#91;i]==']'):
+       print('\n')
+       a=0
+    elif(text&#91;i]=='('):
+        if(text&#91;i+2]==','):
+            b=text&#91;i+1]
+            d=text&#91;i+1]
+            b=int(b)-int(a)
+            c=1
+            while c&lt;b:
+                print(" ", end="")
+                c += 1
+            print(text&#91;i+5], end="")
+            a=int(d)
+        else:
+            b=text&#91;i+1]+text&#91;i+2]
+            d=text&#91;i+1]+text&#91;i+2]
+            b=int(b)-int(a)
+            c=1
+            while c&lt;b:
+                print(" ", end="")
+                c += 1
+            print(text&#91;i+6], end="")
+            a=int(d)
+    i +=1</code></pre>
+<p>解出来的字符可以看出是flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2448" height="1538" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-16.png" alt="" class="wp-image-5403" /> </figure></p>
+<h2 id="0x04-大流量分析一">0x04 大流量分析（一）</h2>
+<p>某黑客对A公司发动了攻击，以下是一段时间内我们获取到的流量包，那黑客的攻击ip是多少？</p>
+<p>下载流量包后通过wireshark的统计功能，筛选出最多的ip，得到183.129.152.140。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-17.png" alt="" class="wp-image-5405" width="589" height="145" /> </figure></p>
+<h2 id="0x05-大流量分析二">0x05 大流量分析（二）</h2>
+<p>黑客对A公司发动了攻击，以下是一段时间内获取到的流量包，那黑客使用了哪个邮箱给员工发送了钓鱼邮件?</p>
+<p>由于是邮件，所以首先过滤SMTP协议，然后一个个查看邮件的内容，最后确认邮箱为xsser@live.cn。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2337" height="674" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-18.png" alt="" class="wp-image-5406" /> </figure></p>
+<h2 id="0x06-npuctf2020碰上彩虹吃定彩虹">0x06 [NPUCTF2020]碰上彩虹，吃定彩虹！</h2>
+<p>在lookatme.txt中发现空白字符，转换得到<code>.-/..-/-/---/-.-/./-.--</code>，解密得到<code>AUTOKEY</code>，应该使用了AUTOKEY加密<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-19.png" alt="" class="wp-image-5407" width="694" height="380" /> </figure></p>
+<p>使用<a rel="noreferrer noopener" href="https://github.com/Yoshino-s/breakautokey" target="_blank" rel="nofollow" ><a href="https://github.com/Yoshino-s/breakautokey" target="_blank" rel="noopener noreffer ">https://github.com/Yoshino-s/breakautokey</a></a>来进行爆破，得到<code>iamthepassword</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2057" height="454" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-26.png" alt="" class="wp-image-5417" /> </figure></p>
+<p>maybehint.txt 提示隐藏了一些信息,用 vim 查看<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2741" height="408" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-20.png" alt="" class="wp-image-5408" /> </figure></p>
+<p>零宽字符隐写，在<a rel="noreferrer noopener" href="http://330k.github.io/misc_tools/unicode_steganography.html" target="_blank" rel="nofollow" ><a href="http://330k.github.io/misc_tools/unicode_steganography.html" target="_blank" rel="noopener noreffer ">http://330k.github.io/misc_tools/unicode_steganography.html</a></a>网站进行解密<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-22.png" alt="" class="wp-image-5410" /></figure></p>
+<p>使用ntfsstreamseditor 发现隐藏信息<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-23.png" alt="" class="wp-image-5411" width="604" height="475" /> </figure></p>
+<p>字符有限且不断循环，使用脚本计算词频，最后得到<code>ZW5jcnlwdG8=</code>，解base64得到<code>encrypto</code></p>
+<pre class="wp-block-code"><code>from collections import Counter
+f=open('out.txt','r')
+f_read=f.read()
+print (Counter(f_read))</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1942" height="87" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-24.png" alt="" class="wp-image-5413" /> </figure></p>
+<p>百度搜索发现这是一款软件，下载安装，其加密的文件后缀名为.crypto，打开得到hint，用autokey爆破得到的密码进行解压。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-25.png" alt="" class="wp-image-5416" width="404" height="407" /> </figure></p>
+<p>解压发现解不出，进一步分析发现。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1297" height="312" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-30.png" alt="" class="wp-image-5423" /> </figure></p>
+<p>得到一张彩虹.png<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-31.png" alt="" class="wp-image-5424" width="321" height="321" /> </figure></p>
+<p>分析发现存在隐藏的zip，foremost提取出来。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1594" height="435" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-32.png" alt="" class="wp-image-5425" /> </figure></p>
+<p>得到的图片，用snipate对分段的黄色进行屏幕取色，得到</p>
+<pre class="wp-block-code"><code>#ffff70
+#ffff3f
+#ffff73
+#ffff73
+#ffff57
+#ffff64</code></pre>
+<p>将后两位拼凑在一起，转ascii得到密码<code>p@ssWd</code>，解压得到内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">eeeeeeeeeepaeaeeeaeAeeeeeeaeeeeeeeeeeccccisaaaaeejeeeeeejiiiiiiLiiiiijeeeeeejeeeeeeeeeeeeeeeeeeeejcceeeeeeeeeeePeeeeeeeejaaiiiiiiijcciiiiiiiiiijaaijiiiiiiiiiiiiiiiiiiiijeeeeeeHeeeeeeeeeeeeeeeeejcceeeeeeeeeeeejaaiiiijeeeeeeejceeeeeeeeeeeeeeeeeeeeeeeeejceeeeeeeeeeeeeeeeejaeeeeeejciiUiiiiiiiiiiiiiiiiijaeeeejceeeeeeeeeCeeeeeeeeejajciiiiiiiiiiiiiiiiiiijaaiiiijiijeeeeeeeeeeejKcciiiiiiiiiiiiiiijaaij
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>分析发现加密方式为Alphuck，进行转换即可得到flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1686" height="426" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-33.png" alt="" class="wp-image-5427" /> </figure></p>
+<h2 id="0x07-羊城杯-2020signin">0x07 [羊城杯 2020]signin</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">玩具总动员里面，巴斯光年成功上天，胡迪给他发了一段加密短信，但是不知道是什么？你能帮巴斯光年破解吗？胡迪给了一段明文，一表人才，二表倒立，相信聪明的你一定可以帮助他吧！
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>signin.txt里的内容如下</p>
+<pre class="wp-block-code"><code>BCEHACEIBDEIBDEHBDEHADEIACEGACFIBDFHACEGBCEHBCFIBDEGBDEGADFGBDEHBDEGBDFHBCEGACFIBCFGADEIADEIADFH</code></pre>
+<p>卡在这里很久，参考<a rel="noreferrer noopener" href="https://blog.csdn.net/mochu7777777/article/details/116056136" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/mochu7777777/article/details/116056136" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/mochu7777777/article/details/116056136</a></a>才知道这个加密是Toy Cipher: <a href="https://eprint.iacr.org/2020/301.pdf" target="_blank"  rel="nofollow" ><a href="https://eprint.iacr.org/2020/301.pdf" target="_blank" rel="noopener noreffer ">https://eprint.iacr.org/2020/301.pdf</a></a></p>
+<p>脚本如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cipherdic = {&#39;M&#39;:&#39;ACEG&#39;,&#39;R&#39;:&#39;ADEG&#39;,&#39;K&#39;:&#39;BCEG&#39;,&#39;S&#39;:&#39;BDEG&#39;,&#39;A&#39;:&#39;ACEH&#39;,&#39;B&#39;:&#39;ADEH&#39;,&#39;L&#39;:&#39;BCEH&#39;,&#39;U&#39;:&#39;BDEH&#39;,&#39;D&#39;:&#39;ACEI&#39;,&#39;C&#39;:&#39;ADEI&#39;,&#39;N&#39;:&#39;BCEI&#39;,&#39;V&#39;:&#39;BDEI&#39;,&#39;H&#39;:&#39;ACFG&#39;,&#39;F&#39;:&#39;ADFG&#39;,&#39;O&#39;:&#39;BCFG&#39;,&#39;W&#39;:&#39;BDFG&#39;,&#39;T&#39;:&#39;ACFH&#39;,&#39;G&#39;:&#39;ADFH&#39;,&#39;P&#39;:&#39;BCFH&#39;,&#39;X&#39;:&#39;BDFH&#39;,&#39;E&#39;:&#39;ACFI&#39;,&#39;I&#39;:&#39;ADFI&#39;,&#39;Q&#39;:&#39;BCFI&#39;,&#39;Y&#39;:&#39;BDFI&#39;}
+</span></span><span class="line"><span class="cl">ciphertext = &#39;&#39;
+</span></span><span class="line"><span class="cl">with open(&#39;signin.txt&#39;,&#39;r&#39;) as f:
+</span></span><span class="line"><span class="cl">    f = f.read()
+</span></span><span class="line"><span class="cl">    for i in range(0,len(f),4):
+</span></span><span class="line"><span class="cl">        block = f[i:i+4]
+</span></span><span class="line"><span class="cl">        for j in cipherdic:
+</span></span><span class="line"><span class="cl">            if block == cipherdic[j]:
+</span></span><span class="line"><span class="cl">                ciphertext += j
+</span></span><span class="line"><span class="cl">original_list = [&#39;M&#39;,&#39;R&#39;,&#39;K&#39;,&#39;S&#39;,&#39;A&#39;,&#39;B&#39;,&#39;L&#39;,&#39;U&#39;,&#39;D&#39;,&#39;C&#39;,&#39;N&#39;,&#39;V&#39;,&#39;H&#39;,&#39;F&#39;,&#39;O&#39;,&#39;W&#39;,&#39;T&#39;,&#39;G&#39;,&#39;P&#39;,&#39;X&#39;,&#39;E&#39;,&#39;I&#39;,&#39;Q&#39;,&#39;Y&#39;]
+</span></span><span class="line"><span class="cl">reversed_list = original_list[::-1]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">flag = &#39;&#39;
+</span></span><span class="line"><span class="cl">for char in ciphertext:
+</span></span><span class="line"><span class="cl">    for olist in original_list:
+</span></span><span class="line"><span class="cl">        if char == olist:
+</span></span><span class="line"><span class="cl">            oindex = original_list.index(olist)
+</span></span><span class="line"><span class="cl">            flag += reversed_list[oindex]
+</span></span><span class="line"><span class="cl">print(flag)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x08-wmctf2020行为艺术">0x08 [WMCTF2020]行为艺术</h2>
+<p>解压得到hint.txt</p>
+<pre class="wp-block-code"><code>md5sum flag.zip 
+17f5b08342cf65f6dc08ed0b4c9bd334  flag.zip</code></pre>
+<p>图片crc32存在问题，修改高度。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1199" height="144" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-28.png" alt="" class="wp-image-5420" /> </figure></p>
+<p>最后的图很像机器学习数据集，504b的开头联想到压缩包，参考<a href="https://hachp1.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/20200814-wm2020.html#%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E5%AD%97%E6%AF%8D" target="_blank"  rel="nofollow" ><a href="https://hachp1.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/20200814-wm2020.html#%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E5%AD%97%E6%AF%8D" target="_blank" rel="noopener noreffer ">https://hachp1.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/20200814-wm2020.html#%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E5%AD%97%E6%AF%8D</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="641" height="479" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/04/图片-29.png" alt="" class="wp-image-5421" /> </figure></p>
+<p>提取的数据为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">504B0304140000000800DB93C55086A39007D8000000DF01000008000000666C61672E74787475504B0E823010DD93708771DDCCB0270D5BBD0371815A9148AC6951C2ED9D271F89C62E2693D7F76BB7DE9FC80D2E6E68E782A326D2E01F81CE6D55E76972E9BA7BCCB3ACEF7B89F7B6E90EA16A6EE2439D45179ECDD1C5CCFB6B9AA489C1218C92B898779D765FCCBB58CC920B6662C5F91749931132258F32BBA7C288C5AE103133106608409DAC419F77241A3412907814AB7A922106B8DED0D25AEC8A634929025C46A33FE5A1D3167A100323B1ABEE4A7A0708413A19E17718165F5D3E73D577798E36D5144B66315AAE315078F5E51A29246AF402504B01021F00140009000800DB93C55086A39007D8000000DF010000080024000000000000002000000000000000666C61672E7478740A00200000000000010018004A0A9A64243BD601F9D8AB39243BD6012D00CA13223BD601504B050600000000010001005A000000FE00000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>转换成压缩包，解开伪加密，得到的文本转brainfuck即可得到flag。</p>
+<pre class="wp-block-code"><code>Good eyes! Here is your flag:
+https:&#47;&#47;www.splitbrain.org/services/ook
+
++++++ ++++&#91; ->+++ +++++ +&lt;]>+ +++++ .&lt;+++ &#91;->-- -&lt;]>- .&lt;+++ &#91;->-- -&lt;]>-
+.&lt;+++ +&#91;->+ +++&lt;] >+.&lt;+ ++&#91;-> ---&lt;] >---- -.&lt;++ +++++ &#91;->++ +++++ &lt;]>++
+++.-- --.&lt;+ +++&#91;- >---- &lt;]>-- ----. +++++ +++.&lt; +++&#91;- >---&lt; ]>-.+ ++.++
++++++ .&lt;+++ &#91;->-- -&lt;]>- .+++. -.... --.++ +.&lt;++ +&#91;->+ ++&lt;]> ++++. &lt;++++
+++++&#91; ->--- ----- &lt;]>-- ----- ----- --.&lt;+ +++&#91;- >++++ &lt;]>+. +...&lt; +++++
++++&#91;- >++++ ++++&lt; ]>+++ +++++ +++.. .-.&lt;</code></pre><blockquote>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-04-03</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" data-title="CTF练习Week2" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" data-title="CTF练习Week2"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" data-title="CTF练习Week2"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2022-04-03-ctf%E7%BB%83%E4%B9%A0week2/" data-title="CTF练习Week2"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022-03-28-ctf%E7%BB%83%E4%B9%A0week1/" class="prev" rel="prev" title="CTF练习Week1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CTF练习Week1</a>
+            <a href="/2022-04-11-ctf%E7%BB%83%E4%B9%A0week3/" class="next" rel="next" title="CTF练习Week3">CTF练习Week3<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

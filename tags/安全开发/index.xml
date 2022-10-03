@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>安全开发 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91/</link>
+        <description>安全开发 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 25 Jul 2021 15:49:00 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91/" rel="self" type="application/rss+xml" /><item>
+    <title>Python调用实现MSF漏洞搜索模块</title>
+    <link>https://hannibal0x.github.io/2021-07-25-python%E8%B0%83%E7%94%A8%E5%AE%9E%E7%8E%B0msf%E6%BC%8F%E6%B4%9E%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%9D%97/</link>
+    <pubDate>Sun, 25 Jul 2021 15:49:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-07-25-python%E8%B0%83%E7%94%A8%E5%AE%9E%E7%8E%B0msf%E6%BC%8F%E6%B4%9E%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%9D%97/</guid>
+    <description><![CDATA[0x00 需求 漏洞搜索模块： 功能：搜索msf内置的攻击模块，返回模块的路径 输入：service 返回： { &ldquo;service&rdquo;:&ldquo;path&rdquo; } 难点：搜索服务的路径，优先返回远程代码执行]]></description>
+</item>
+</channel>
+</rss>

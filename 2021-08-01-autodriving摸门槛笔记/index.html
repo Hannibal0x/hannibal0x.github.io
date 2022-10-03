@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Autodriving摸门槛笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="Autodriving摸门槛笔记" />
+<meta property="og:description" content="0x00 前言 菜鸡从来没有接触过Autodriving，先简单接触一下。这个笔记只是了解浅显的知识，有个基本的认知。 视频学习来源： 自动驾驶技术_1_" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-31T16:46:00+00:00" />
+<meta property="article:modified_time" content="2021-07-31T16:46:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="Autodriving摸门槛笔记"/>
+<meta name="twitter:description" content="0x00 前言 菜鸡从来没有接触过Autodriving，先简单接触一下。这个笔记只是了解浅显的知识，有个基本的认知。 视频学习来源： 自动驾驶技术_1_"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-07-25-python%E8%B0%83%E7%94%A8%E5%AE%9E%E7%8E%B0msf%E6%BC%8F%E6%B4%9E%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%9D%97/" /><link rel="next" href="https://hannibal0x.github.io/2021-08-03-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Autodriving摸门槛笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "安全前沿","wordcount":  459 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0\/","datePublished": "2021-07-31T16:46:00+00:00","dateModified": "2021-07-31T16:46:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Autodriving摸门槛笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-07-31">2021-07-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;459 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-基础知识">0x01 基础知识</a></li>
+    <li><a href="#0x02-定位技术">0x02 定位技术</a></li>
+    <li><a href="#0x03-感知相关算法">0x03 感知相关算法</a></li>
+    <li><a href="#0x04-数据融合">0x04 数据融合</a></li>
+    <li><a href="#0x05-预测和路径规划">0x05 预测和路径规划</a></li>
+    <li><a href="#0x06-车辆模型">0x06 车辆模型</a></li>
+    <li><a href="#0x07-安全问题">0x07 安全问题</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<p>菜鸡从来没有接触过Autodriving，先简单接触一下。这个笔记只是了解浅显的知识，有个基本的认知。</p>
+<p>视频学习来源：</p>
+<p><a href="https://www.bilibili.com/video/BV19A411T7Qb" data-type="URL" data-id="https://www.bilibili.com/video/BV19A411T7Qb" target="_blank" rel="noreferrer noopener" rel="nofollow" >自动驾驶技术_1_基本介绍</a></p>
+<p><a href="https://www.bilibili.com/video/BV1pr4y1N7nw/?spm_id_from=333.788.recommend_more_video.-1" data-type="URL" data-id="https://www.bilibili.com/video/BV1pr4y1N7nw/?spm_id_from=333.788.recommend_more_video.-1" target="_blank" rel="noreferrer noopener" rel="nofollow" >自动驾驶技术_2_传感器及感知算法</a></p>
+<p><a href="https://www.bilibili.com/video/BV1ao4y197vc/?spm_id_from=333.788.recommend_more_video.2" data-type="URL" data-id="https://www.bilibili.com/video/BV1ao4y197vc/?spm_id_from=333.788.recommend_more_video.2" target="_blank" rel="noreferrer noopener" rel="nofollow" >自动驾驶技术_3_规划及控制算法</a></p>
+<p><a rel="noreferrer noopener" href="https://www.bilibili.com/video/BV1M4411g7g3?from=search&seid=18262137945301483497" data-type="URL" data-id="https://www.bilibili.com/video/BV1M4411g7g3?from=search&seid=18262137945301483497" target="_blank" rel="nofollow" >apollo无人驾驶</a></p>
+<p><a href="https://www.bilibili.com/video/BV1854y1C7jd?from=search&seid=11685924019828740700" data-type="URL" data-id="https://www.bilibili.com/video/BV1854y1C7jd?from=search&seid=11685924019828740700" target="_blank" rel="noreferrer noopener" rel="nofollow" >首届百度安全自动驾驶CTF冠军战队成员分享参赛经验和解题过程</a></p>
+<h2 id="0x01-基础知识">0x01 基础知识</h2>
+<p>自动驾驶的分级从L0-L5，L0是无自动化，L1是指辅助驾驶，L2是指部分自动驾驶，L3是有条件的自动驾驶，L4是高度自动驾驶，L5是完全自动驾驶。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_000723_tv.danmaku.bili_.jpg" alt="" class="wp-image-2286" /></figure></p>
+<p>自动驾驶的技术框架。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_001035_tv.danmaku.bili_.jpg" alt="" class="wp-image-2288" /></figure></p>
+<p>传感器的类型和使用范围<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_003126_tv.danmaku.bili_.jpg" alt="" class="wp-image-2291" /></figure></p>
+<p>多个传感器的覆盖与标定。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_003410_tv.danmaku.bili_.jpg" alt="" class="wp-image-2293" /></figure></p>
+<h2 id="0x02-定位技术">0x02 定位技术</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_003811_tv.danmaku.bili_.jpg" alt="" class="wp-image-2299" /></figure></p>
+<p>PDF文件下载地址：<a href="https://www.researchgate.net/publication/321124951_Robust_and_Precise_Vehicle_Localization_based_on_Multi-sensor_Fusion_in_Diverse_City_Scenes" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.researchgate.net/publication/321124951_Robust_and_Precise_Vehicle_Localization_based_on_Multi-sensor_Fusion_in_Diverse_City_Scenes" target="_blank" rel="noopener noreffer ">https://www.researchgate.net/publication/321124951_Robust_and_Precise_Vehicle_Localization_based_on_Multi-sensor_Fusion_in_Diverse_City_Scenes</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004355_tv.danmaku.bili_.jpg" alt="" class="wp-image-2305" /></figure></p>
+<h2 id="0x03-感知相关算法">0x03 感知相关算法</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_003915_tv.danmaku.bili_.jpg" alt="" class="wp-image-2307" /> </figure></p>
+<p><a href="https://blog.csdn.net/Young_GY/article/details/75194914" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/Young_GY/article/details/75194914" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/Young_GY/article/details/75194914</a></a></p>
+<p><a href="https://blog.csdn.net/adamshan/category_9280008.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/adamshan/category_9280008.html" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/adamshan/category_9280008.html</a></a></p>
+<p><a href="https://www.sohu.com/a/207740445_391994" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.sohu.com/a/207740445_391994" target="_blank" rel="noopener noreffer ">https://www.sohu.com/a/207740445_391994</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004012_tv.danmaku.bili_.jpg" alt="" class="wp-image-2309" /> </figure></p>
+<p><a href="https://github.com/ApolloAuto/apollo/tree/master/docs" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://github.com/ApolloAuto/apollo/tree/master/docs" target="_blank" rel="noopener noreffer ">https://github.com/ApolloAuto/apollo/tree/master/docs</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004143_tv.danmaku.bili_.jpg" alt="" class="wp-image-2313" /></figure></p>
+<p><a href="https://blog.csdn.net/qq_39506912/article/details/118834054" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/qq_39506912/article/details/118834054" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/qq_39506912/article/details/118834054</a></a></p>
+<p><a href="https://blog.csdn.net/mw_mustwin/article/details/53039338" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/mw_mustwin/article/details/53039338" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/mw_mustwin/article/details/53039338</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004332_tv.danmaku.bili_.jpg" alt="" class="wp-image-2316" /></figure></p>
+<p><a href="https://blog.csdn.net/u010167269/article/details/52638771" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/u010167269/article/details/52638771" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/u010167269/article/details/52638771</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004401_tv.danmaku.bili_-1.jpg" alt="" class="wp-image-2318" /> </figure></p>
+<p><a href="https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python" target="_blank" rel="noopener noreffer ">https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004454_tv.danmaku.bili_.jpg" alt="" class="wp-image-2321" /></figure></p>
+<p><a href="https://github.com/NikolasEnt/Extended-Kalman-Filter" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://github.com/NikolasEnt/Extended-Kalman-Filter" target="_blank" rel="noopener noreffer ">https://github.com/NikolasEnt/Extended-Kalman-Filter</a></a></p>
+<p><a href="https://blog.csdn.net/Young_GY/article/details/78468153" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/Young_GY/article/details/78468153" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/Young_GY/article/details/78468153</a></a></p>
+<h2 id="0x04-数据融合">0x04 数据融合</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_004920_tv.danmaku.bili_.jpg" alt="" class="wp-image-2326" /></figure></p>
+<h2 id="0x05-预测和路径规划">0x05 预测和路径规划</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_005217_tv.danmaku.bili_.jpg" alt="" class="wp-image-2331" /></figure></p>
+<p><a rel="noreferrer noopener" href="http://web.mit.edu/16.412j/www/html/papers/original_dstar_icra94.pdf" target="_blank" data-type="URL" data-id="http://web.mit.edu/16.412j/www/html/papers/original_dstar_icra94.pdf" rel="nofollow" ><a href="http://web.mit.edu/16.412j/www/html/papers/original_dstar_icra94.pdf" target="_blank" rel="noopener noreffer ">http://web.mit.edu/16.412j/www/html/papers/original_dstar_icra94.pdf</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_113236_tv.danmaku.bili_.jpg" alt="" class="wp-image-2337" /></figure></p>
+<p><a href="https://blog.csdn.net/hgdwdtt/article/details/82052577?spm=1001.2014.3001.5501" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/hgdwdtt/article/details/82052577?spm=1001.2014.3001.5501" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/hgdwdtt/article/details/82052577?spm=1001.2014.3001.5501</a></a></p>
+<p><a href="https://blog.csdn.net/hgdwdtt/article/details/82080558" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/hgdwdtt/article/details/82080558" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/hgdwdtt/article/details/82080558</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_113755_tv.danmaku.bili_.jpg" alt="" class="wp-image-2343" /></figure></p>
+<h2 id="0x06-车辆模型">0x06 车辆模型</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_114132_tv.danmaku.bili_.jpg" alt="" class="wp-image-2348" /></figure></p>
+<h2 id="0x07-安全问题">0x07 安全问题</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/Screenshot_20210801_203214_tv.danmaku.bili_.jpg" alt="" class="wp-image-2352" /></figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-07-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" data-title="Autodriving摸门槛笔记" data-hashtags="安全前沿"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" data-hashtag="安全前沿"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" data-title="Autodriving摸门槛笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" data-title="Autodriving摸门槛笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-08-01-autodriving%E6%91%B8%E9%97%A8%E6%A7%9B%E7%AC%94%E8%AE%B0/" data-title="Autodriving摸门槛笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8%E5%89%8D%E6%B2%BF/">安全前沿</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-07-25-python%E8%B0%83%E7%94%A8%E5%AE%9E%E7%8E%B0msf%E6%BC%8F%E6%B4%9E%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%9D%97/" class="prev" rel="prev" title="Python调用实现MSF漏洞搜索模块"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Python调用实现MSF漏洞搜索模块</a>
+            <a href="/2021-08-03-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B01/" class="next" rel="next" title="Android逆向学习小记(1)">Android逆向学习小记(1)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

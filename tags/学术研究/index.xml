@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>学术研究 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/%E5%AD%A6%E6%9C%AF%E7%A0%94%E7%A9%B6/</link>
+        <description>学术研究 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 06 Jan 2022 02:58:15 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/%E5%AD%A6%E6%9C%AF%E7%A0%94%E7%A9%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>端点检测与响应系统的战术溯源分析</title>
+    <link>https://hannibal0x.github.io/2022-01-06-%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%93%8D%E5%BA%94%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%88%98%E6%9C%AF%E6%BA%AF%E6%BA%90%E5%88%86%E6%9E%90/</link>
+    <pubDate>Thu, 06 Jan 2022 02:58:15 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-06-%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%93%8D%E5%BA%94%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%88%98%E6%9C%AF%E6%BA%AF%E6%BA%90%E5%88%86%E6%9E%90/</guid>
+    <description><![CDATA[0x00 前言 原论文是2020年IEEE Symposium on Security and Privacy (SP)的一篇文章《Tactical provenance analysis for endpoint detection and response systems》。 之所以选择这篇作为研讨厅的题目]]></description>
+</item>
+<item>
+    <title>NAVEX-精确且可扩展的动态Web应用EXP生成系统</title>
+    <link>https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/</link>
+    <pubDate>Thu, 11 Nov 2021 08:23:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-11-navex-%E7%B2%BE%E7%A1%AE%E4%B8%94%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%8A%A8%E6%80%81web%E5%BA%94%E7%94%A8exp%E7%94%9F%E6%88%90%E7%B3%BB%E7%BB%9F/</guid>
+    <description><![CDATA[0x00 前言 最近，要开始方班研讨厅了，在选题时，决定从SDN、指纹、EXP、拟态防御这四个里面挑选，最后结合自己正在做的自动化渗透测试系统和学长提]]></description>
+</item>
+<item>
+    <title>物联网协议CoAP学习（理论篇）</title>
+    <link>https://hannibal0x.github.io/2021-02-03-%E7%89%A9%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AEcoap%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AF%87/</link>
+    <pubDate>Wed, 03 Feb 2021 05:29:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-02-03-%E7%89%A9%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AEcoap%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AF%87/</guid>
+    <description><![CDATA[0x00 前言 最近在想毕业设计的选题，和老师讨论后，觉得可以在原来基于SDN架构的企业局域网流量监控和访问控制系统的基础之上再改进，老师提到《基于S]]></description>
+</item>
+</channel>
+</rss>

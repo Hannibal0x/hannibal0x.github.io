@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>代码审计学习笔记（中） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="代码审计学习笔记（中）" />
+<meta property="og:description" content="0x00 SQL注入漏洞 普通注入 最容易利用的SQL注入漏洞，比如直接通过注入union查询，分int型和string型，后者需要使用单或双引号闭合。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-04T13:40:13+00:00" />
+<meta property="article:modified_time" content="2021-12-04T13:40:13+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="代码审计学习笔记（中）"/>
+<meta name="twitter:description" content="0x00 SQL注入漏洞 普通注入 最容易利用的SQL注入漏洞，比如直接通过注入union查询，分int型和string型，后者需要使用单或双引号闭合。"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" /><link rel="prev" href="https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" /><link rel="next" href="https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "代码审计学习笔记（中）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD\/"
+        },"genre": "posts","keywords": "代码审计, Web安全","wordcount":  4072 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD\/","datePublished": "2021-12-04T13:40:13+00:00","dateModified": "2021-12-04T13:40:13+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">代码审计学习笔记（中）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a>&nbsp;<a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-12-04">2021-12-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4072 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-sql注入漏洞">0x00 SQL注入漏洞</a></li>
+    <li><a href="#0x01-xss漏洞">0x01 XSS漏洞</a></li>
+    <li><a href="#0x02-csrf漏洞">0x02 CSRF漏洞</a></li>
+    <li><a href="#0x03-文件操作漏洞">0x03 文件操作漏洞</a></li>
+    <li><a href="#0x04-代码执行漏洞">0x04 代码执行漏洞</a></li>
+    <li><a href="#0x05-命令执行漏洞">0x05 命令执行漏洞</a></li>
+    <li><a href="#0x06-变量覆盖漏洞">0x06 变量覆盖漏洞</a></li>
+    <li><a href="#0x07-逻辑处理漏洞">0x07 逻辑处理漏洞</a></li>
+    <li><a href="#0x08-会话认证漏洞">0x08 会话认证漏洞</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-sql注入漏洞">0x00 SQL注入漏洞</h2>
+<p><strong>普通注入</strong></p>
+<p>最容易利用的SQL注入漏洞，比如直接通过注入union查询，分int型和string型，后者需要使用单或双引号闭合。</p>
+<p>搜索关键字：<code>select from</code>，<code>mysql_connect</code>，<code>mysql_query</code>，<code>mysql_fectch_row</code>，<code>update</code>，<code>insert</code>，<code>delete</code>等。</p>
+<p><strong>编码注入</strong></p>
+<p>最常见的编码注入是MySQL宽字节已经urldecode/rawurldecode函数导致的。</p>
+<p>解决宽字节注入的方法（前2种更推荐）：</p>
+<ol>
+<li>在执行查询之前先执行SET NAME &lsquo;gbk&rsquo;，设置character_set_client=binary。</li>
+<li>使用pdo方式，在PHP5.3.6及一下版本需要设置setAttribute(PDO::ATTR_EMULATE_PREPARES,false);来禁用prepared statements的仿真效果。</li>
+<li>使用mysql_set_charset(&lsquo;gbk&rsquo;)设置编码，然后使用mysql_real_escape_string()函数被参数过滤。</li>
+</ol>
+<p>挖掘宽字节注入的方法：搜索关键字，<code>SET NAMES</code>，<code>character_set_client=gbk</code>，<code>mysql_set_charset('gbk')</code></p>
+<p>挖掘二次urldecode注入的方法：搜索关键字，<code>urldecode</code>，<code>rawurldecode</code></p>
+<p><strong>漏洞防范</strong></p>
+<p>通常数据污染有两种方式，一种是被动接收参数，类似于GET、POST等；还有一种是主动获取参数，类似于读取远程页面或者文件内容等。</p>
+<ul>
+<li><code>gpc/runtime</code>魔术引号。它们只对单引号、双引号、反斜杠及空字符NULL进行过滤，对int型的注入没有多大作用。</li>
+<li>过滤类和函数。两种应用场景，程序入口统一过滤和SQL语句运行前过滤。<code>addslashes</code>函数的过滤范围与GPC一致。<code>mysql_[real_]escape_string</code>函数对【\x00】【\n】【\r】【\】【&rsquo;】【&quot;】【\x1a】进行过滤，但real接受的是一个连接句柄并根据当前字符集转义字符串（推荐使用）。<code>intval</code>等字符转换，将变量转化成int类型。</li>
+<li>PDO prepare 预编译。通过预编译的方式来处理数据库查询。</li>
+</ul>
+<h2 id="0x01-xss漏洞">0x01 XSS漏洞</h2>
+<p>挖掘XSS漏洞的关键在于寻找没有被过滤的参数，且这些参数传入到输出函数，常用的出处函数列表如下：<code>print</code>、<code>print_r</code>、<code>echo</code>、<code>printf</code>、<code>sprintf</code>、<code>die</code>、<code>var_dump</code>、<code>var_export</code>。</p>
+<p><strong>漏洞防范</strong></p>
+<ul>
+<li>特殊字符HTML实体转码，列表如下：&rsquo;、&quot;、&lt;&gt;、\、:、&amp;、#。</li>
+<li>标签事件属性黑白名单。</li>
+</ul>
+<h2 id="0x02-csrf漏洞">0x02 CSRF漏洞</h2>
+<p>漏洞存在有权限控制的地方。白盒审计时注意核心文件或功能点里是否存在验证token和referer相关的代码。</p>
+<p><strong>漏洞防范</strong></p>
+<p>防御CSRF漏洞的最主要问题是解决可信的问题。</p>
+<ul>
+<li>增加token/referer验证避免img标签请求的水坑攻击。</li>
+<li>增加验证码。用于敏感操作的页面。</li>
+</ul>
+<h2 id="0x03-文件操作漏洞">0x03 文件操作漏洞</h2>
+<p>文件操作包括文件包含、文件读取、文件删除、文件修改以及文件上传。</p>
+<p><strong>文件包含漏洞</strong></p>
+<p>文件包含又分为本地文件包含和远程文件包含。这种漏洞大多出现在模块加载、模板加载以及cache调用的地方，比如传入的模块名参数。挖掘是可以先跟踪程序的运行流程，观察模块加载时包含的文件是否可控，另外就是直接搜索<code>include</code>、<code>require</code>、<code>include _once</code>、<code>require_once</code>这四个函数来晦朔观察是否存在可控变量。</p>
+<p><strong>文件读取（下载）漏洞</strong></p>
+<p>挖掘经验：一种是先黑盒看看个功能点对应的文件，再去读文件。另一种方式是去搜索<code>file_get_contents</code>、<code>highlight_file</code>、<code>fopen</code>、<code>readfile</code>、<code>fread</code>、<code>fgetss</code>、<code>fgets</code>、<code>parse_ini_file</code>、<code>show_source</code>、<code>file</code>函数。</p>
+<p><strong>文件上传漏洞</strong></p>
+<p>挖掘经验：最快的方法是搜索<code>move_uploaded_file</code>函数，再去看调用这个函数上传文件的代码存不存在未限制上传格式或者可以绕过，其中问题较多的是黑名单限制文件格式已经未更改文件名的方式，没有更改文件名的情况下，在Apache利用其向前寻找解析格式和IIS的分号解析bug都可以执行代码。</p>
+<p><strong>文件删除漏洞</strong></p>
+<p>挖掘经验：黑盒下测试能否删除某个文件，如果删除不了，再去从执行流程去追提交的文件名参数的传递过程。白盒下搜索有变量参数的<code>unlink</code>、<code>session_destory</code>。</p>
+<p><strong>通用文件操作防御</strong></p>
+<p>文件操作漏洞利用的共同点：</p>
+<ol>
+<li>由越权引起可以操作未授权操作的文件</li>
+<li>要操作更多文件需要跳转目录</li>
+<li>大多都是直接在请求中传入文件名</li>
+</ol>
+<p>防御手段：</p>
+<ul>
+<li>合理的权限管理</li>
+<li>尽量避免直接传入文件名</li>
+<li>避免目录跳转</li>
+</ul>
+<p><strong>文件上传漏洞的防范</strong></p>
+<p>文件上传漏洞利用的方式有两种：文件类型验证不严谨和写入文件不规范。</p>
+<p>作者给出了两种防范方案：</p>
+<ul>
+<li>白名单方式过滤文件拓展名，使用in_array或者三等于符号来对比拓展名。</li>
+<li>保存上传的文件时重命名文件，文件名命名规则采用时间戳的拼接随机数的MD5值，md5(time()+rand(1,10000))。</li>
+</ul>
+<h2 id="0x04-代码执行漏洞">0x04 代码执行漏洞</h2>
+<p>挖掘经验：载入缓存或者模板以及对变量处理不严格导致PHP语句通过<code>eval</code>或<code>assert</code>执行。<code>preg_replace</code>在对字符串处理时，如URL、HTML标签已经文章内容等过滤功能，可能存在漏洞。复杂程序中可能存在<code>call_user_func</code>和<code>call_user_func_array</code>动态调用的代码执行。还有一类非常常见的动态函数的代码执行，如：<em>$_GET($_POST[&ldquo;xx&rdquo;])</em>，基于此的各种变形常被作为Web后门。</p>
+<p>可能存在过滤不严的调用函数：<code>call_user_func</code>、<code>call_user_func_array</code>、<code>array_map</code>、<code>usort</code>、<code>uasort</code>、<code>uksort</code>、<code>array_filter</code>、<code>array_reduce</code>、<code>array_diff_uassoc</code>、<code>array_diff_ukey</code>、<code>array_udiff</code>、<code>array_udiff_assoc</code>、<code>array_udiff_uassoc</code>、<code>array_uintersect</code>、<code>array_uintersect_uassoc</code>、<code>array_walk</code>、<code>array_walk_recursive</code>、<code>xml_set_character_data_handler</code>、<code>xml_set_default_handler</code>、<code>xml_set_element_handler</code>、<code>xml_set_end_namespace_decl_handler</code>、<code>xml_set_external_entity_ref_handler</code>、<code>xml_set_notation_decl_handler</code>、<code>xml_set_processing_instruction_handler</code>、<code>xml_set_start_namespace_decl_handler</code>、<code>xml_set_unparsed_entity_decl_handler</code>、<code>stream_filter_register</code>、<code>set_error_handler</code>、<code>register_shutdown_function</code>、<code>register_tick_function</code>。</p>
+<p><strong>漏洞防范</strong></p>
+<p>采用参数白名单过滤，结合正则表达式进行限制。</p>
+<h2 id="0x05-命令执行漏洞">0x05 命令执行漏洞</h2>
+<p>挖掘经验：直接搜索<code>system</code>、<code>exec</code>、<code>shell_exec</code>、<code>passthru</code>、<code>pcntl_exec</code>、<code>popen</code>、<code>proc_open</code>函数名。</p>
+<p><strong>漏洞防范</strong></p>
+<p>命令防注入函数：<code>escapeshellcmd</code>过滤整条命令，<code>escapeshellarg</code>过滤参数。</p>
+<p>参数白名单。</p>
+<h2 id="0x06-变量覆盖漏洞">0x06 变量覆盖漏洞</h2>
+<p>挖掘经验：由函数导致的变量覆盖比较容易发现，只要搜下参数带有变量的<code>extract</code>、<code>parse_str</code>，然后回溯变量是否可控。<code>import_request_variable</code>函数则相当于开启了全局变量的注册，寻找未被初始化且操作前没有赋值的变量作为参数提交即可，另外写在此函数之前的所有变量都可覆盖。双<code>$$</code>符号注册变量会导致变量覆盖，也可以通过搜索来挖掘。</p>
+<p><strong>漏洞防范</strong></p>
+<ul>
+<li>使用原始变量。不进行变量注册，直接使用原生的$_GET、$_POST等数组变量进行操作，如果需要注册个别变量，可直接在代码中定义，然后再把请求中的值赋值给它。</li>
+<li>验证变量存在。加入注册变量前对变量是否存在的判断。</li>
+</ul>
+<h2 id="0x07-逻辑处理漏洞">0x07 逻辑处理漏洞</h2>
+<p>挖掘经验：通读功能点源码，熟悉业务流程，关注程序是否可重复安装、修改密码处是否可越权修改其他用户密码、找回密码验证码是否可被暴力破解以及修改其他用户密码、Cookie验证是否可绕过。</p>
+<p><strong>等于与存在判断绕过</strong></p>
+<ul>
+<li><code>in_array</code>，用于判断一个值是否在某一个数组列表里面，但是它比较前会做类型转换，可能将字符串转换为整型，绕过检查。</li>
+<li><code>is_numeric</code>，用于判断一个变量是否为数字，当传入的参数时hex时直接通过并返回true，而MYSQL是可以直接使用hex编码代替字符串明文的，虽然不能直接 注入SQL语句，但存在二次注入和XSS等漏洞隐患。</li>
+<li>双等于和三等于。双等于会在判断前对变量进行类型转换，而三等于则不会。</li>
+</ul>
+<p><strong>账户体系中的越权漏洞</strong></p>
+<p><strong>未exit或return引发的安全问题</strong></p>
+<p>某些情况下，经过条件判断后忘记写return、die、exit等退出行为，导致程序继续执行。</p>
+<p><strong>常见支付漏洞</strong></p>
+<p>客户端修改单价、总价、数量，服务端未严格校验。</p>
+<p>重复发包来利用时间差，以少量的钱多次购买。</p>
+<p><strong>漏洞防范</strong></p>
+<ul>
+<li>深入熟悉业务逻辑</li>
+<li>注意多熟悉函数的功能和差异</li>
+</ul>
+<h2 id="0x08-会话认证漏洞">0x08 会话认证漏洞</h2>
+<p>挖掘经验：观察程序的登录功能代码，寻找是否存在业务逻辑能够控制session值或者直接让密码验证的漏洞。另外需要关注程序验证是否为登录的代码，即是否直接验证cookie值是否为空，还是通过cookie值来作为当前用户。</p>
+<p><strong>漏洞防范</strong></p>
+<p>严格现在输入的异常字符以及避免使用客户端提交上来的内容去直接进行操作，应该把cookie同session结合使用，避免将敏感信息存入cookie。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-12-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" data-title="代码审计学习笔记（中）" data-hashtags="代码审计,Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" data-hashtag="代码审计"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" data-title="代码审计学习笔记（中）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" data-title="代码审计学习笔记（中）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/" data-title="代码审计学习笔记（中）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a>,&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/" class="prev" rel="prev" title="代码审计学习笔记（上）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>代码审计学习笔记（上）</a>
+            <a href="/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/" class="next" rel="next" title="代码审计学习笔记（下）">代码审计学习笔记（下）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

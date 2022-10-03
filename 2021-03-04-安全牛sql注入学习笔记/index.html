@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>安全牛SQL注入学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="安全牛SQL注入学习笔记" />
+<meta property="og:description" content="0x00 宽字节注入 宽字节注入用于绕过addslashes函数，常见的URL转码有：空格%20，&rsquo;%27，#%23，`%5c`。 逃逸方法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-04T10:19:00+00:00" />
+<meta property="article:modified_time" content="2021-03-04T10:19:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="安全牛SQL注入学习笔记"/>
+<meta name="twitter:description" content="0x00 宽字节注入 宽字节注入用于绕过addslashes函数，常见的URL转码有：空格%20，&rsquo;%27，#%23，`%5c`。 逃逸方法"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-03-03-ctfhub-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" /><link rel="next" href="https://hannibal0x.github.io/2021-03-05-ctfhub-sql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全牛SQL注入学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  4485 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-03-04T10:19:00+00:00","dateModified": "2021-03-04T10:19:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">安全牛SQL注入学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-03-04">2021-03-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4485 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-宽字节注入">0x00 宽字节注入</a></li>
+    <li><a href="#0x01-基于约束的sql攻击">0x01 基于约束的SQL攻击</a></li>
+    <li><a href="#0x02-报错注入">0x02 报错注入</a></li>
+    <li><a href="#0x03-基于时间的盲注以及bool型的盲注">0x03 基于时间的盲注以及bool型的盲注</a></li>
+    <li><a href="#0x04-order-by的注入">0x04 order by的注入</a></li>
+    <li><a href="#0x05-insertupdate和delete注入">0x05 insert，update和delete注入</a></li>
+    <li><a href="#0x06-desc相关注入及其他">0x06 desc相关注入及其他</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-宽字节注入">0x00 宽字节注入</h2>
+<p>宽字节注入用于绕过<a rel="noreferrer noopener" href="https://www.php.net/manual/zh/function.addslashes.php" data-type="URL" data-id="https://www.php.net/manual/zh/function.addslashes.php" target="_blank" rel="nofollow" >addslashes</a>函数，常见的URL转码有：空格<code>%20</code>，&rsquo;<code>%27</code>，#<code>%23</code>，`%5c`。</p>
+<p>逃逸方法：1、\前面再加一个\；2、mysql使用GBK编码的特性，<br>
+会认为两个字符是一个汉字（前一个ascii码&gt;128）</p>
+<p>sqlmap的使用小记。<figure class="wp-block-image size-large is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/14955756502958802442.jpg" alt="" class="wp-image-1931" width="577" height="241" /> </figure></p>
+<p>判断是否存在注入点<code>sqlmap -u url</code>，例如<code>sqlmap -u http://127.0.0.1/sqli-labs/Less-1/?id=1</code>，id参数大于两个时，记得把url用双引号引起来<br>
+<code>sqlmap -u &quot;http://127.0.0.1/sqli-labs/Less-1/?id=1&amp;uid=1&quot;</code></p>
+<p>查询所有库名<code>sqlmap -u&amp;nbsp;url&amp;nbsp;- -dbs</code></p>
+<p>查询库中的所有表名<code>sqlmap -u&amp;nbsp;url -D 库名 - -tables</code></p>
+<p>查询表中的字段<br>
+<code>sqlmap -u url -D 库名 -T 表名 - -columns</code></p>
+<p>查询字段内容<br>
+<code>sqlmap -u url -D &lt;code&gt;库名 -T 表名</code> -C 字段1，字段2&hellip;. - -dump</code></p>
+<p>配合16进制时，加上<code>--hex</code></p>
+<h2 id="0x01-基于约束的sql攻击">0x01 基于约束的SQL攻击</h2>
+<p>假设mysql中的某张表将用户名限制为10个字符以内，限制了插入的字符串的长度，如果插入一条的用户名为<code>'admin                                     1'</code>的数据，超出的部分会被数据库忽略掉，多出的部分被截断，新创建的admin用户对应我们而言就是可控的了。</p>
+<h2 id="0x02-报错注入">0x02 报错注入</h2>
+<p>报错注入在于：<code>count(*)</code>,<code>rand()</code>,<code>floor()</code>以及<code>group by</code>。<code>rand()</code>用于产生一个0~1的随机数。<code>count(*)</code>统计整个的结果，<code>floor()</code>向下取整。<code>rand()</code>函数生成0~1的函数，使用<code>floor()</code>函数向下取整，值是固定的“0”，我们将rand*2，得到的值就是不固定的，“0”或者“1”。<code>group by</code>语句用于结合聚合函数，根据一个或多个列对结果集进行分组。</p>
+<p>公式：<code>and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tablesgroup by x)a);</code></p>
+<p>语句执行的时候会建立一个虚拟表，整个工作流程大致如下。开始查询数据时，读取数据库数据，查看虚拟表是否存在，不存在则插入新记录，存在则count(*)字段直接加。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="851" height="261" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/image-9.png" alt="" class="wp-image-1945" /></figure></p>
+<p>查询前默认会建立空虚拟表，取第1条记录，执行floor(rand(0)*2)，发现结果为0(第1次计算),查询虚拟表，发现0的键值不存在，则floor(rand(0)*2)会被再计算一次，结果为1(第2次计算)，插入虚表<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="519" height="361" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/image-10.png" alt="" class="wp-image-1947" /> </figure></p>
+<p>查询第2条记录，再次计算floor(rand(0)*2)，发现结果为1(第3次计算)，查询虚表，发现1的键值存在，所以floor(rand(0)*2)不会被计算第2次，直接count(*)+1<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="513" height="335" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/image-11.png" alt="" class="wp-image-1948" /> </figure></p>
+<p>查询第3条记录，再次计算floor(rand(0)*2)，发现结果为0(第4次计算)，查询虚表，发现键值没有0，则数据库尝试插入一条新的数据，在插入数据时floor(rand(0)*2)被再次计算，作为虚表的主键，其值为1(第5次计算)，然而1这个主键已经存在于虚拟表中，而新计算的值也为1(主键键值必须唯一)，所以重复插入报错。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="514" height="372" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/07/image-13.png" alt="" class="wp-image-1955" /></figure></p>
+<p>updatexml函数：<code>or updatexml(1,concat(0x7e,(&lt;code&gt;操作代码</code>)),0)</code>updatexml第二个参数需要的是Xpath格式的字符串。输入不符合，报错，但<code>version()</code>函数能够正常的执行。updatexml的最大长度是32位。</p>
+<p>extractvalue函数：<code>and extractvalue(1, concat(0x7e, (select &lt;code&gt;操作代码</code>)))</code> extractvalue原理与updatexml类似。</p>
+<p>exp函数：<code>and exp(~(select * from(select &lt;code&gt;操作代码</code>)a))</code> exp()数学函数，用于计算e的x次方的函数。但是，由于数字太大是会产生溢出。这个函数会在参数大于709时溢出，报错。将0按位取反就会返回“18446744073709551615”，再加上函数成功执行后返回0的缘故，我们将成功执行的函数取反就会得到最大的无符号BIGINT值，从而实现了报错注入。</p>
+<p>NAME_CONST函数：<code>select * from (select NAME_CONST(version(),1),NAME_CONST(&lt;code&gt;&lt;code&gt;version()</code></code>,1))a;</code>mysql列名重复会导致报错，存在局限性，爆不了库等。</p>
+<p>GeometryCollection函数：<code>and geometrycollection((select * from(select * from (操作代码)a)b))</code>GeometryCollection是由1个或多个任意类几何对象构成的几何对象。官方文档中举例的用法如下：<code>GEOMETRYCOLLECTION(POINT(10 10), POINT(30 30), LINESTRING(15 15, 20 20))</code>POINT(x,y) 函数,这是坐标函数，相当于X,Y坐标图上的一点。LINESTRING(x y,x y)函数,这个函数用来描述直线,两点连成的直线。mysql无法画出图形，报错。</p>
+<p>空间数据储存函数：POLYGON:简单面<code>polygon ()</code>、MULTIPOINT：多点<code>multipoint ()</code>、MULITILINESTRING:多线<code>multlinestring ()</code>、MUILITIPOLYGON：多面<code>multpolygon ()</code>、LINESTRING:简单线<code>linestring ()</code>报错原理与GeometryCollection()原理相同。</p>
+<p>join函数：<code>and（select * from (select * from 表名 a join 表名 b using(已知的字段1，已知的字段2,……)c))</code>在表名已知的前提下才能操作。参考：<a href="https://blog.csdn.net/weixin_46706771/article/details/112769113" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/weixin_46706771/article/details/112769113" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_46706771/article/details/112769113</a></a></p>
+<p>bigint函数：参考<a rel="noreferrer noopener" href="https://www.cnblogs.com/lcamry/articles/5509112.html" target="_blank" rel="nofollow" ><a href="https://www.cnblogs.com/lcamry/articles/5509112.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/lcamry/articles/5509112.html</a></a></p>
+<h2 id="0x03-基于时间的盲注以及bool型的盲注">0x03 基于时间的盲注以及bool型的盲注</h2>
+<p>sleep(duration )函数使用说明：睡眠( 暂停) 时间为duration 参数给定的秒数，然后返回0 。若sleep() 被中断, 它会返回1。</p>
+<p>假设表中有四条数据，id从1-4，select * from table where id=1 or sleep(1);会延时9s，select * from table where id=5 and sleep(1);会延时12s。</p>
+<p>配合if条件触发，<code>IF(expr1,expr2,expr3)</code>如果expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则IF()的返回值为expr2; 否则返回值则为expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。</p>
+<p>截取函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MID(s,n,len)</td>
+<td>从字符串 s 的 n 位置截取长度为 len 的子字符串</td>
+</tr>
+<tr>
+<td>RIGHT(s,n)</td>
+<td>返回字符串 s 的后 n 个字符</td>
+</tr>
+<tr>
+<td>LEFT(s,n)</td>
+<td>返回字符串 s 的前 n 个字符</td>
+</tr>
+<tr>
+<td>SUBSTR(s, start, length)</td>
+<td>从字符串 s 的 start 位置截取长度为 length 的子字符串</td>
+</tr>
+<tr>
+<td>SUBSTRING(s, start, length)</td>
+<td>从字符串 s 的 start 位置截取长度为 length 的子字符串</td>
+</tr>
+<tr>
+<td>SUBSTRING_INDEX(s, delimiter, number)</td>
+<td>返回从字符串 s 的第 number 个出现的分隔符 delimiter 之后的子串。 如果 number 是正数，返回第 number 个字符左边的字符串。 如果 number 是负数，返回第(number 的绝对值(从右边数))个字符右边的字符串。</td>
+</tr>
+</tbody>
+</table>
+<p>SUBSTRING 的其他用法：SUBSTRING(str,pos) , SUBSTRING(str FROM pos)，SUBSTRING(str FROM pos FOR len)，后两种可以绕过,的过滤。SUBSTR和MID也支持这种用法。</p>
+<p>RLIKE、REGEXP执行字符串表达式与模式的模式匹配。语法：<code>RLIKE&amp;nbsp;Pat_for_match</code>这里Pat_for_match是要与表达式匹配的模式。</p>
+<p>like 匹配注入。</p>
+<p>配合select case when条件触发，SQL CASE 表达式是一种通用的条件表达式，类似于其它语言中的if/else 语句。</p>
+<pre class="wp-block-code"><code>CASE WHEN conditionTHEN result&lt;br>&#91;WHEN ...]&lt;br>&#91;ELSE result]&lt;br>END</code></pre>
+<p>例句：<code>select case when username='admin' THEN 'aaa' ELSE (sleep(3) ) end&lt;br&gt;from user;</code></p>
+<p>逐字注入，能够截取字符，同时能触发延时即可。结合python的request库写脚本。<br>
+例句1：<code>Select * from table where id = 1 and (if(substr(database(),1,1)=’’,sleep(4),null))</code><br>
+例句2：<code>Select * from table where id = 1 and (if(ascii(substr(database(),1,1))&lt;128,sleep(4),null))</code></p>
+<p>除了sleep之外的延时有以下4种：</p>
+<p>BENCHMARK(count ,expr )，BENCHMARK() 函数重复count 次执行表达式expr 。它可以被用于计算MySQL 处理表达式的速度。结果值通常为0 。例句：<code>select benchmark(10000000,sha(1));</code></p>
+<p>笛卡尔积，AxB=A和B中每个元素的组合所组成的集合，就是连接表。例句：<code>SELECT count(*) FROM information_schema.columnsA,information_schema.columnsB, information_schema.tablesC;</code></p>
+<p>GET_LOCK(str,timeout )，设法使用字符串str给定的名字得到一个锁，超时为timeout 秒。条件限制：需要两个session。例句：session A <code>select get_lock('test',1);</code>session B <code>select get_lock('test',5);</code></p>
+<p>RLIKE REGEXP正则匹配，通过<code>rpad</code>或<code>repeat</code>构造长字符串，加以计算量大的pattern，通过repeat的参数可以控制延时长短。RPAD(str,len,padstr) 用字符串 padstr对 str进行右边填补直至它的长度达到 len个字符长度，然后返回 str。如果 str的长度长于 len&rsquo;，那么它将被截除到 len个字符。范例：<code>SELECT RPAD('hi',5,'?'); -&gt; 'hi???'</code>repeat(str,times) 复制字符串times次。</p>
+<p>例句：<code>select concat(rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a')) RLIKE'(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+b'</code></p>
+<p>ORD()函数和ASCII()函数，返回第一个字符的ASCII码。</p>
+<h2 id="0x04-order-by的注入">0x04 order by的注入</h2>
+<p>位运算符<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1101" height="446" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/image.png" alt="" class="wp-image-2053" /> </figure></p>
+<p>ORDER BY子句对查询返回的结果按一列或多列排序。<br>
+语法格式为：<code>ORDER BY {column_name[ASC|DESC]} [，...n]</code><br>
+ORDER BY 语句默认按照升序对记录进行排序。</p>
+<p>在不知道列名的情况下可以通过列的的序号来指代相应的列。但是经过测试这里无法做运算，如order=3-1和order=2是不一样的。</p>
+<p>当orderby注入能过返回错误信息时，也可以考虑使用报错注入。</p>
+<p>根据不同的列排序，会返回不同的结果，使用类似于bool型盲注的形式来注入，即使判断的结果与某种返回内容相关联，来实现注入，同理，在bool型注入可以的情况下，一般也能使用基于时间的盲注。</p>
+<p>Orderby可以根据多列排序，因此注入的语句不一定限制与orderby的第一个参数，也可以通过逗号去对新的列进行注入。</p>
+<h2 id="0x05-insertupdate和delete注入">0x05 insert，update和delete注入</h2>
+<p>Insert注入</p>
+<p>例句1：<code>insert into users (id, username, password) values (1,’user’,’passwd’);</code></p>
+<p>例句2：<code>insert into users (id, username, password)values (2, 'attacker' or updatexml(1,concat(0x7e,database()),0), ’passwd’);&lt;br&gt;</code>例句3：<code>insert into users (id, username, password) values (3,database(),’passwd');</code> <code>&lt;br&gt;</code></p>
+<p>Update注入</p>
+<p>例句1：<code>update users set password = ‘password’ where id =2;</code></p>
+<p>例句2：<code>update users set password=’password' or updatexml(1,concat(0x7e,database()),0) WHERE id=2;</code></p>
+<p>Delete注入</p>
+<p>例句1：<code>delete from users where id=2;</code></p>
+<p>例句2：<code>delete from users where id=2 or updatexml(1,concat(0x7e,database()),0);</code></p>
+<h2 id="0x06-desc相关注入及其他">0x06 desc相关注入及其他</h2>
+<p><code>{DESCRIBE | DESC} tbl_name[col_name| wild]</code><br>
+DESCRIBE 或DESC查看表结构的详细信息。col_name可以是一个列名或是一个包含SQL 通配符字符“%” 和“_” 的字符串。</p>
+<p>` 是 MySQL 的转义符，避免和 mysql 的本身的关键字冲突，只要你不在列名、表名中使用 mysql 的保留字或中文，就不需要转义。通常用来说明其中的内容是<strong>数据库名、表名、字段名</strong>，不是关键字。</p>
+<p>万能密码</p>
+<p><code>Select * from admin where username = 'admin'#</code></p>
+<p><code>Select * from admin where username =  ''+'' and password = ''+'';</code>仅限于0开头的字符串。</p>
+<p><code>Select * from admin where username =  'aaa'='' and password = 'aaa'=''</code>;</p>
+<p>\N,E0，.0绕过其实相当于NULL字符，参考：<a href="https://blog.csdn.net/wy_97/article/details/78085664" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/wy_97/article/details/78085664" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/wy_97/article/details/78085664</a></a></p>
+<pre class="wp-block-code"><code>mysql&gt; select*from sql_test where id =\Nunion select * from sql_test where id=2;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+| 2 | test | 234 |
++----+----------+----------+
+1 row in set (0.00 sec)
+
+mysql&gt; select*from sql_test where id =8E0union select * from sql_test where id=2;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+|  2 | test     | 234      |
++----+----------+----------+
+1 row in set (0.00 sec)
+
+mysql&gt; select*from sql_test where id =8.0union select * from sql_test where id=2;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+|  2 | test     | 234      |
++----+----------+----------+
+1 row in set (0.06 sec)
+————————————————</code></pre><blockquote>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-03-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SQL注入学习笔记" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SQL注入学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SQL注入学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-03-04-%E5%AE%89%E5%85%A8%E7%89%9Bsql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛SQL注入学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-03-03-ctfhub-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" class="prev" rel="prev" title="CTFHub-流量分析"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CTFHub-流量分析</a>
+            <a href="/2021-03-05-ctfhub-sql%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" class="next" rel="next" title="CTFHub-SQL注入学习">CTFHub-SQL注入学习<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

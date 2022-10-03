@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>利用腾讯云快速搭建WordPress个人博客 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="利用腾讯云快速搭建WordPress个人博客" />
+<meta property="og:description" content="1.购买云服务器 步骤1：注册腾讯云账号 登录https://cloud.tencent.com/，自行完成用户注册。 步骤2：完成学生资质认证 直" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-02T06:09:04+00:00" />
+<meta property="article:modified_time" content="2021-01-02T06:09:04+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="利用腾讯云快速搭建WordPress个人博客"/>
+<meta name="twitter:description" content="1.购买云服务器 步骤1：注册腾讯云账号 登录https://cloud.tencent.com/，自行完成用户注册。 步骤2：完成学生资质认证 直"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" /><link rel="next" href="https://hannibal0x.github.io/2021-01-07-i%E6%98%A5%E7%A7%8B%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8-%E7%9C%9F%E7%9A%84%E5%BE%88%E7%AE%80%E5%8D%95/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "利用腾讯云快速搭建WordPress个人博客",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2\/"
+        },"genre": "posts","keywords": "网站搭建","wordcount":  3370 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2\/","datePublished": "2021-01-02T06:09:04+00:00","dateModified": "2021-01-02T06:09:04+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">利用腾讯云快速搭建WordPress个人博客</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-01-02">2021-01-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3370 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1购买云服务器">1.购买云服务器</a>
+      <ul>
+        <li><a href="#步骤1注册腾讯云账号">步骤1：注册腾讯云账号</a></li>
+        <li><a href="#步骤2完成学生资质认证">步骤2：完成学生资质认证</a></li>
+        <li><a href="#步骤3选购云服务器">步骤3：选购云服务器</a></li>
+      </ul>
+    </li>
+    <li><a href="#2手动搭建-lnmp-环境">2.手动搭建 LNMP 环境</a>
+      <ul>
+        <li><a href="#步骤1登录-linux-实例">步骤1：登录 Linux 实例</a></li>
+        <li><a href="#步骤2安装-nginx">步骤2：安装 Nginx</a></li>
+        <li><a href="#步骤3安装数据库">步骤3：安装数据库</a></li>
+        <li><a href="#步骤4安装配置-php">步骤4：安装配置 PHP</a></li>
+        <li><a href="#步骤5验证环境配置">步骤5：验证环境配置</a></li>
+      </ul>
+    </li>
+    <li><a href="#3windows-系统通过-ftp-上传文件到云服务器">3.Windows 系统通过 FTP 上传文件到云服务器</a>
+      <ul>
+        <li><a href="#步骤1安装-vsftpd">步骤1：安装 vsftpd</a></li>
+        <li><a href="#步骤2配置-vsftpd">步骤2：配置 vsftpd</a></li>
+        <li><a href="#步骤4设置安全组">步骤4：设置安全组</a></li>
+        <li><a href="#步骤5连接云服务器">步骤5：连接云服务器</a></li>
+      </ul>
+    </li>
+    <li><a href="#4手动搭建-wordpress-个人站点">4.手动搭建 WordPress 个人站点</a>
+      <ul>
+        <li><a href="#步骤1配置数据库">步骤1：配置数据库</a></li>
+        <li><a href="#步骤2安装和配置-wordpress">步骤2：安装和配置 WordPress</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="1购买云服务器">1.购买云服务器</h2>
+<h3 id="步骤1注册腾讯云账号">步骤1：注册腾讯云账号</h3>
+<p>登录<a href="https://cloud.tencent.com/" target="_blank"  rel="nofollow" ><a href="https://cloud.tencent.com/" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/</a></a>，自行完成用户注册。</p>
+<h3 id="步骤2完成学生资质认证">步骤2：完成学生资质认证</h3>
+<p>直接购买服务器有点儿小贵，学生党可以通过腾讯云的云+校园活动，完成学生认证，可获得3次以购买价优惠续费的资格。详情如下：</p>
+<p><a href="https://cloud.tencent.com/act/campus?utm_source=qcloud&utm_medium=head&utm_campaign=campus" target="_blank"  rel="nofollow" ><a href="https://cloud.tencent.com/act/campus?utm_source=qcloud&amp;utm_medium=head&amp;utm_campaign=campus" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/act/campus?utm_source=qcloud&utm_medium=head&utm_campaign=campus</a></a></p>
+<h3 id="步骤3选购云服务器">步骤3：选购云服务器</h3>
+<p>在这里本人选购了云服务器 1核2G，每3个月27元，索性直接来了一年的份儿，也可依据自己的需要挑选，两个区，上海和北京，那个离你的常住地近就优先选择，如果差不多随意就好。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101154124206.png" alt="" class="wp-image-16" width="774" height="255" /></figure>
+</div>
+<h2 id="2手动搭建-lnmp-环境">2.手动搭建 LNMP 环境</h2>
+<p>LNMP 环境是指在 Linux 系统下，由 Nginx + MySQL/MariaDB + PHP 组成的网站服务器架构。首先在腾讯云云服务器（CVM）上手动搭建 LNMP 环境，以CentOS 7.5为例。</p>
+<h3 id="步骤1登录-linux-实例">步骤1：登录 Linux 实例</h3>
+<p>WebShell 为腾讯云推荐的登录方式。无论您的本地系统为 Windows，Linux 或者 Mac OS，只要实例购买了公网 IP，都可以通过 WebShell 登录。<br>
+WebShell 优点如下：</p>
+<ul>
+<li>支持快捷键复制粘贴。</li>
+<li>支持鼠标滚屏。</li>
+<li>支持中文输入法。</li>
+<li>安全性高，每次登录需要输入密码或密钥。</li>
+</ul>
+<p>单击控制台，实例的管理页面，选择需要登录的 Linux 云服务器，单击【登录】。如下图所示：</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101150400340.png" alt="" class="wp-image-18" width="880" height="274" /></figure>
+</div>
+<p>在弹出的【登录Linux实例】窗口，选择【标准登录方式】，单击【立即登录】。如下图所示：</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101150741440.png" alt="" class="wp-image-22" width="556" height="306" /></figure>
+</div>
+<p>在打开的 WebShell 登录页面，根据实际需求，选择【密码登录】或者【密钥登录】方式进行登录。如下图所示：</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101151001070.png" alt="" class="wp-image-23" width="275" height="307" /></figure>
+</div>
+<p>如果登录成功，WebShell 界面会出现 Socket connection established 提示。如下图所示：</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="878" height="92" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101151137709.png" alt="" class="wp-image-24" /></figure>
+</div>
+<p>参考链接：<a href="https://cloud.tencent.com/document/product/213/5436" target="_blank"  rel="nofollow" ><a href="https://cloud.tencent.com/document/product/213/5436" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/213/5436</a></a></p>
+<h3 id="步骤2安装-nginx">步骤2：安装 Nginx</h3>
+<ol>
+<li>#### 执行以下命令，在 <code>/etc/yum.repos.d/</code> 下创建 <code>nginx.repo</code> 文件。</li>
+</ol>
+<pre class="wp-block-code"><code>   vi /etc/yum.repos.d/nginx.repo</code></pre>
+<ol start="2">
+  <li>
+    #### 按 “<strong>i</strong>” 切换至编辑模式，写入以下内容。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   &#91;nginx] 
+   name = nginx repo 
+   baseurl = https://nginx.org/packages/mainline/centos/7/$basearch/ 
+   gpgcheck = 0 
+   enabled = 1</code></pre>
+<p>按 “<strong>Esc</strong>”，输入 “<strong>:wq</strong>”，保存文件并返回。</p>
+<ol start="3">
+  <li>
+    #### 执行以下命令，安装 nginx。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   yum install -y nginx</code></pre>
+<ol start="4">
+  <li>
+    #### 执行以下命令，打开 <code>nginx.conf</code> 文件。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   vim /etc/nginx/nginx.conf</code></pre>
+<ol start="5">
+  <li>
+    #### 按 “<strong>i</strong>” 切换至编辑模式，编辑 <code>nginx.conf</code> 文件。在 <code>include /etc/nginx/conf.d/*conf;</code>上方添加 <code>server{...}</code> 配置内容。如下图所示：
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   server {
+    listen       80;
+    root   /usr/share/nginx/html;
+    server_name  localhost;
+    #charset koi8-r;
+    #access_log  /var/log/nginx/log/host.access.log  main;
+    #
+    location / {
+          index index.php index.html index.htm;
+    }
+    #error_page  404              /404.html;
+    #redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+      root   /usr/share/nginx/html;
+    }
+    #pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    location ~ .php$ {
+      fastcgi_pass   127.0.0.1:9000;
+      fastcgi_index  index.php;
+      fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+      include        fastcgi_params;
+    }
+   }</code></pre>
+<div class="wp-block-image">
+  <figure class="aligncenter"><img src="https://main.qcloudimg.com/raw/901a3957ccd992c2fb345287271c4bef.png" alt="img" /></figure>
+</div>
+<p>按 “<strong>Esc</strong>”，输入 “<strong>:wq</strong>”，保存文件并返回。</p>
+<ol start="6">
+  <li>
+    #### 执行以下命令启动 Nginx。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl start nginx</code></pre>
+<ol start="7">
+  <li>
+    #### 执行以下命令，设置 Nginx 为开机自启动。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl enable nginx </code></pre>
+<ol start="8">
+  <li>
+    #### 在本地浏览器中访问以下地址，查看 Nginx 服务是否正常运行。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   http://云服务器实例的公网 IP</code></pre>
+<p>显示如下，则说明 Nginx 安装配置成功。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="638" height="243" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101152722502.png" alt="" class="wp-image-25" /></figure>
+</div>
+<h3 id="步骤3安装数据库">步骤3：安装数据库</h3>
+<ol>
+<li>#### 执行以下命令，在 <code>/etc/yum.repos.d/</code> 下创建 <code>MariaDB.repo</code> 文件。</li>
+</ol>
+<pre class="wp-block-code"><code>   vi /etc/yum.repos.d/MariaDB.repo</code></pre>
+<ol start="2">
+  <li>
+    #### 按 “<strong>i</strong>” 切换至编辑模式，写入以下内容，添加 MariaDB 软件库，不同操作系统的 MariaDB 软件库不同。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   &#91;mariadb]
+   name = MariaDB
+   baseurl = http://yum.mariadb.org/10.4/centos7-amd64
+   gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+   gpgcheck=1</code></pre>
+<p>按 “<strong>Esc</strong>”，输入 “<strong>:wq</strong>”，保存文件并返回。</p>
+<ol start="3">
+  <li>
+    #### 执行以下命令，安装 MariaDB。此步骤耗时较长，请关注安装进度，等待安装完毕。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   yum -y install MariaDB-client MariaDB-server</code></pre>
+<ol start="4">
+  <li>
+    #### 执行以下命令，启动 MariaDB 服务。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl start mariadb</code></pre>
+<ol start="5">
+  <li>
+    #### 执行以下命令，设置 MariaDB 为开机自启动。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl enable mariadb</code></pre>
+<ol start="6">
+  <li>
+    #### 执行以下命令，验证 MariaDB 是否安装成功。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   mysql</code></pre>
+<p>显示结果如下，则成功安装。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter"><img src="https://main.qcloudimg.com/raw/bfe9a604457f6de09933206c21fde13b.png" alt="img" /></figure>
+</div>
+<ol start="7">
+  <li>
+    #### 执行以下命令，退出 MariaDB。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   \q</code></pre>
+<h3 id="步骤4安装配置-php">步骤4：安装配置 PHP</h3>
+<ol>
+<li>#### 依次执行以下命令，更新 yum 中 PHP 的软件源。</li>
+</ol>
+<pre class="wp-block-code"><code>   rpm -Uvh https://mirrors.cloud.tencent.com/epel/epel-release-latest-7.noarch.rpm</code></pre>
+<pre class="wp-block-code"><code>   rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</code></pre>
+<ol start="2">
+  <li>
+    #### 执行以下命令，安装 PHP 7.2 所需要的包。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   yum -y install mod_php72w.x86_64 php72w-cli.x86_64 php72w-common.x86_64 php72w-mysqlnd php72w-fpm.x86_64</code></pre>
+<ol start="3">
+  <li>
+    #### 执行以下命令，启动 PHP-FPM 服务。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl start php-fpm</code></pre>
+<ol start="4">
+  <li>
+    #### 执行以下命令，设置 PHP-FPM 服务为开机自启动。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl enable php-fpm</code></pre>
+<h3 id="步骤5验证环境配置">步骤5：验证环境配置</h3>
+<p>当您完成环境配置后，可以通过以下验证 LNMP 环境是否搭建成功。</p>
+<ol>
+<li>#### 执行以下命令，创建测试文件。</li>
+</ol>
+<pre class="wp-block-code"><code>   echo "&lt;?php phpinfo(); ?&gt;" &gt;&gt; /usr/share/nginx/html/index.php</code></pre>
+<ol start="2">
+  <li>
+    #### 执行以下命令，重启 Nginx 服务。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl restart nginx</code></pre>
+<ol start="3">
+  <li>
+    #### 在本地浏览器中访问如下地址，查看环境配置是否成功。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   http://云服务器实例的公网 IP</code></pre>
+<p>显示结果如下， 则说明环境配置成功。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="1166" height="326" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101173408616.png" alt="" class="wp-image-26" /> </figure></p>
+<h2 id="3windows-系统通过-ftp-上传文件到云服务器">3.Windows 系统通过 FTP 上传文件到云服务器</h2>
+<h3 id="步骤1安装-vsftpd">步骤1：安装 vsftpd</h3>
+<ol>
+<li>#### 执行以下命令，安装 vsftpd。</li>
+</ol>
+<pre class="wp-block-code"><code>   yum install -y vsftpd</code></pre>
+<ol start="2">
+  <li>
+    #### 执行以下命令，设置 vsftpd 开机自启动。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl enable vsftpd</code></pre>
+<ol start="3">
+  <li>
+    #### 执行以下命令，启动 FTP 服务。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl start vsftpd</code></pre>
+<ol start="4">
+  <li>
+    #### 执行以下命令，确认服务是否启动。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   netstat -antup | grep ftp</code></pre>
+<p>显示结果如下，则说明 FTP 服务已成功启动。<br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://main.qcloudimg.com/raw/2a7abf80253a8469c9340878d89b452a.png"
+        data-srcset="https://main.qcloudimg.com/raw/2a7abf80253a8469c9340878d89b452a.png, https://main.qcloudimg.com/raw/2a7abf80253a8469c9340878d89b452a.png 1.5x, https://main.qcloudimg.com/raw/2a7abf80253a8469c9340878d89b452a.png 2x"
+        data-sizes="auto"
+        alt="https://main.qcloudimg.com/raw/2a7abf80253a8469c9340878d89b452a.png"
+        title="img" /><br>
+此时，vsftpd 已默认开启匿名访问模式，无需通过用户名和密码即可登录 FTP 服务器。使用此方式登录 FTP 服务器的用户没有权修改或上传文件的权限。</p>
+<h3 id="步骤2配置-vsftpd">步骤2：配置 vsftpd</h3>
+<ol>
+<li>#### 执行以下命令，为 FTP 服务创建一个 Linux 用户，本文以<code>ftpuser</code> 为例。</li>
+</ol>
+<pre class="wp-block-code"><code>   useradd ftpuser</code></pre>
+<ol start="2">
+  <li>
+    #### 执行以下命令，设置 ftpuser 用户的密码。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   passwd ftpuser</code></pre>
+<p>输入密码后请按 <code>Enter</code>确认设置，密码默认不显示。</p>
+<ol start="3">
+  <li>
+    #### 执行以下命令，创建 FTP 服务使用的文件目录，本文以<code>/var/ftp/test</code>为例。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   mkdir /var/ftp/test</code></pre>
+<ol start="4">
+  <li>
+    #### 执行以下命令，修改目录权限。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   chown -R ftpuser:ftpuser /var/ftp/test</code></pre>
+<ol start="5">
+  <li>
+    #### 执行以下命令，打开 <code>vsftpd.conf</code>文件。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   vim /etc/vsftpd/vsftpd.conf</code></pre>
+<ol start="6">
+  <li>
+    按 i 切换至编辑模式，根据实际需求选择 FTP 模式，修改配置文件 <code>vsftpd.conf</code> 修改以下配置参数，设置匿名用户和本地用户的登录权限，设置指定例外用户列表文件的路径，并开启监听 IPv4 sockets。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   anonymous_enable=NO
+   local_enable=YES
+   chroot_local_user=YES
+   chroot_list_enable=YES
+   chroot_list_file=/etc/vsftpd/chroot_list
+   listen=YES</code></pre>
+<p>在行首添加 <code>#</code>，注释 <code>listen_ipv6=YES</code>配置参数，关闭监听 IPv6 sockets。</p>
+<pre class="wp-block-code"><code>   #listen_ipv6=YES</code></pre>
+<p>添加以下配置参数，开启被动模式，设置本地用户登录后所在目录，以及云服务器建立数据传输可使用的端口范围值。</p>
+<pre class="wp-block-code"><code>   local_root=/var/ftp/test
+   allow_writeable_chroot=YES
+   pasv_enable=YES
+   pasv_address=xxx.xx.xxx.xx #请修改为您的 Linux 云服务器公网 IP
+   pasv_min_port=40000
+   pasv_max_port=45000</code></pre>
+<p>按 <strong>Esc</strong> 后输入 <strong>:wq</strong> 保存后退出。</p>
+<ol start="7">
+  <li>
+    #### 执行以下命令，创建并编辑 <code>chroot_list</code>文件。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   vim /etc/vsftpd/chroot_list</code></pre>
+<ol start="8">
+  <li>
+    #### 执行以下命令，重启 FTP 服务。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   systemctl restart vsftpd</code></pre>
+<h3 id="步骤4设置安全组">步骤4：设置安全组</h3>
+<ol>
+<li>登录 云服务器控制台。在左侧导航栏，单击【安全组】，进入安全组管理页面。</li>
+<li>在安全组管理页面，选择【地域】，找到需要设置规则的安全组。</li>
+<li>在需要设置规则的安全组行中，单击操作列的【修改规则】。</li>
+<li>在安全组规则页面，单击“入站规则”时参考如下配置，添加安全组规则。 方向 类型 来源 协议端口 策略 入方向 自定义 0.0.0.0/0 TCP:20-21 允许</li>
+</ol>
+<h3 id="步骤5连接云服务器">步骤5：连接云服务器</h3>
+<ol>
+<li>在本地下载并安装开源软件 FileZilla，打开 FileZilla，在 FileZilla 窗口中，填写主机、用户名、密码和端口等信息，单击【快速连接】。如下图所示：<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://mc.qcloudimg.com/static/img/dc603f912adf94a33749155c69ddddd2/24.png"
+        data-srcset="https://mc.qcloudimg.com/static/img/dc603f912adf94a33749155c69ddddd2/24.png, https://mc.qcloudimg.com/static/img/dc603f912adf94a33749155c69ddddd2/24.png 1.5x, https://mc.qcloudimg.com/static/img/dc603f912adf94a33749155c69ddddd2/24.png 2x"
+        data-sizes="auto"
+        alt="https://mc.qcloudimg.com/static/img/dc603f912adf94a33749155c69ddddd2/24.png"
+        title="img" /> 配置信息说明：</li>
+</ol>
+<ul>
+<li>主机：云服务器的公网 IP。在 云服务器控制台 的实例管理页面可查看对应云服务器的公网 IP。</li>
+<li>用户名：搭建 FTP 服务 时设置的 FTP 用户的帐号。图中以 “ftpuser1” 为例。</li>
+<li>密码：搭建 FTP 服务 时设置的 FTP 用户帐号对应的密码。</li>
+<li>端口：FTP 监听端口，默认为21。</li>
+</ul>
+<ol>
+<li>在左下方的“本地站点”窗口中，右键单击待上传的本地文件，选择【上传】，即可将文件上传到 Linux 云服务器。如下图所示：<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://main.qcloudimg.com/raw/45cd8f030ca74145b11e6c64203cedf2.png"
+        data-srcset="https://main.qcloudimg.com/raw/45cd8f030ca74145b11e6c64203cedf2.png, https://main.qcloudimg.com/raw/45cd8f030ca74145b11e6c64203cedf2.png 1.5x, https://main.qcloudimg.com/raw/45cd8f030ca74145b11e6c64203cedf2.png 2x"
+        data-sizes="auto"
+        alt="https://main.qcloudimg.com/raw/45cd8f030ca74145b11e6c64203cedf2.png"
+        title="img" /></li>
+</ol>
+<h2 id="4手动搭建-wordpress-个人站点">4.手动搭建 WordPress 个人站点</h2>
+<h3 id="步骤1配置数据库">步骤1：配置数据库</h3>
+<ol>
+<li>#### 执行以下命令，进入 <code>MariaDB</code>。</li>
+</ol>
+<pre class="wp-block-code"><code>   mysql</code></pre>
+<ol start="2">
+  <li>
+    #### 执行以下命令，创建 <code>MariaDB</code> 数据库。例如 <code>wordpress</code>。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   CREATE DATABASE wordpress;</code></pre>
+<ol start="3">
+  <li>
+    #### 执行以下命令，创建一个新用户。例如<code>user</code>，登录密码为 <code>123456</code>。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   CREATE USER 'user'@'localhost' IDENTIFIED BY '123456';</code></pre>
+<ol start="4">
+  <li>
+    #### 执行以下命令，赋予用户对<code>wordpress</code>数据库的全部权限。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   GRANT ALL PRIVILEGES ON wordpress.* TO 'user'@'localhost' IDENTIFIED BY '123456';</code></pre>
+<ol start="5">
+  <li>
+    #### 执行以下命令，设置 <code>root</code> 帐户密码。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   ALTER USER root@localhost IDENTIFIED VIA mysql_native_password USING PASSWORD('输入您的密码');</code></pre>
+<ol start="6">
+  <li>
+    #### 执行以下命令，使所有配置生效。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   FLUSH PRIVILEGES;</code></pre>
+<ol start="7">
+  <li>
+    #### 执行以下命令，退出<code>MariaDB</code>。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   \q</code></pre>
+<h3 id="步骤2安装和配置-wordpress">步骤2：安装和配置 WordPress</h3>
+<ol>
+<li>#### 执行以下命令，删除网站根目录下用于测试 PHP-Nginx 配置的<code>index.php</code>文件。</li>
+</ol>
+<pre class="wp-block-code"><code>   rm -rf /usr/share/nginx/html/index.php</code></pre>
+<ol start="2">
+  <li>
+    从 WordPress 官方网站下载 WordPress 最新中文版本，并利用FileZilla上传文件到<code>/var/ftp/test</code>
+  </li>
+  <li>
+    #### 执行以下命令，将安装包移入<code>/usr/share/nginx/html/</code>目录，解压 WordPress。
+  </li>
+</ol>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1072" height="423" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/image-20210101205326553.png" alt="" class="wp-image-29" /></figure>
+</div>
+<pre class="wp-block-code"><code>   cd /usr/share/nginx/html</code></pre>
+<pre class="wp-block-code"><code>   cp /var/ftp/test/wordpress-5.6-zh_CN.tar.gz /usr/share/nginx/html/</code></pre>
+<pre class="wp-block-code"><code>   tar zxvf wordpress-5.6-zh_CN.tar.gz</code></pre>
+<ol start="4">
+  <li>
+    #### 依次执行以下命令，进入 WordPress 安装目录，将<code>wp-config-sample.php</code>文件复制到<code>wp-config.php</code>文件中，并将原先的示例配置文件保留作为备份。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   cd /usr/share/nginx/html/wordpress</code></pre>
+<pre class="wp-block-code"><code>   cp wp-config-sample.php wp-config.php</code></pre>
+<ol start="5">
+  <li>
+    #### 执行以下命令，打开并编辑新创建的配置文件。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   vim wp-config.php</code></pre>
+<ol start="6">
+  <li>
+    #### 按 <strong>i</strong> 切换至编辑模式，找到文件中 MySQL 的部分，并将相关配置信息修改为 [配置 WordPress 数据库]中的内容。
+  </li>
+</ol>
+<pre class="wp-block-code"><code>    // ** MySQL settings - You can get this info from your web host ** //
+    /** The name of the database for WordPress */
+    define('DB_NAME', 'wordpress');
+
+    /** MySQL database username */
+    define('DB_USER', 'user');
+    
+    /** MySQL database password */
+    define('DB_PASSWORD', '123456');
+    
+    /** MySQL hostname */
+    define('DB_HOST', 'localhost');</code></pre>
+<p>修改完成后，按 <strong>Esc</strong>，输入 <strong>:wq</strong>，保存文件返回。</p>
+<ol start="7">
+  <li>
+    #### 在浏览器地址栏输入<code>http://域名或云服务器实例的公网 IP/wordpress 文件夹</code>，例如：
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   http:&#47;&#47;192.xxx.xxx.xx/wordpress</code></pre>
+<p>转至 WordPress 安装页，开始配置 WordPress。<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://main.qcloudimg.com/raw/c79c35b3d75f763561d7024f46983611.png"
+        data-srcset="https://main.qcloudimg.com/raw/c79c35b3d75f763561d7024f46983611.png, https://main.qcloudimg.com/raw/c79c35b3d75f763561d7024f46983611.png 1.5x, https://main.qcloudimg.com/raw/c79c35b3d75f763561d7024f46983611.png 2x"
+        data-sizes="auto"
+        alt="https://main.qcloudimg.com/raw/c79c35b3d75f763561d7024f46983611.png"
+        title="配置WP1" /> </figure></p>
+<ol start="8">
+  <li>
+    解决wordpress更新提示无法创建目录问题 执行以下命令
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   vim /usr/share/nginx/html/wordpress/wp-config.php</code></pre>
+<p>按 <strong>i</strong> 切换至编辑模式，添加：</p>
+<pre class="wp-block-code"><code>   define("FS_METHOD","direct");</code></pre>
+<p>修改完成后，按 <strong>Esc</strong>，输入 <strong>:wq</strong>，保存文件返回。</p>
+<ol start="9">
+  <li>
+    #### 修改wordpress安装目录所属组及php的配置文件
+  </li>
+</ol>
+<pre class="wp-block-code"><code>   chown -R username.username xxx/wordpress/ </code></pre>
+<ol start="10">
+  <li>
+    修改php配置 执行以下命令 <code>vim /etc/php-fpm.d/www.conf</code> 按 <strong>i</strong> 切换至编辑模式，修改： <code>user = usrname group = username</code> 修改完成后，按 <strong>Esc</strong>，输入 <strong>:wq</strong>，保存文件返回。 重启php-fpm <code>systemctl restart php-fpm</code>
+  </li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-01-02</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-title="利用腾讯云快速搭建WordPress个人博客" data-hashtags="网站搭建"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-hashtag="网站搭建"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-title="利用腾讯云快速搭建WordPress个人博客"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-title="利用腾讯云快速搭建WordPress个人博客"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-01-02-%E5%AD%A6%E7%94%9F%E5%85%9A%E5%88%A9%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAwordpress%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-title="利用腾讯云快速搭建WordPress个人博客"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/">网站搭建</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/2021-01-07-i%E6%98%A5%E7%A7%8B%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8-%E7%9C%9F%E7%9A%84%E5%BE%88%E7%AE%80%E5%8D%95/" class="next" rel="next" title="【i春秋】渗透测试入门 —— 真的很简单">【i春秋】渗透测试入门 —— 真的很简单<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

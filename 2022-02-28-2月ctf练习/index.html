@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>2月CTF练习 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="2月CTF练习" />
+<meta property="og:description" content="0x00 卷王杯-easyweb 核心代码如下 &lt;?php error_reporting(0); if(isset($_GET&#91;&#39;source&#39;])){ highlight_file(__FILE__); echo &#34;\$flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;&#34;; die(); } if(isset($_POST&#91;&#39;a&#39;]) && isset($_POST&#91;&#39;b&#39;]) && isset($_POST&#91;&#39;c&#39;])){ $c = $_POST&#91;&#39;c&#39;]; $count&#91;&#43;&#43;$c] = 1; if($count&#91;] = 1) { $count&#91;&#43;&#43;$c] = 1; print_r($count); die(); }else{ $a = $_POST&#91;&#39;a&#39;]; $b = $_POST&#91;&#39;b&#39;]; echo new $a($b); } } ?&gt; 首先需要绕过$co" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-02-28T03:41:46+00:00" />
+<meta property="article:modified_time" content="2022-02-28T03:41:46+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="2月CTF练习"/>
+<meta name="twitter:description" content="0x00 卷王杯-easyweb 核心代码如下 &lt;?php error_reporting(0); if(isset($_GET&#91;&#39;source&#39;])){ highlight_file(__FILE__); echo &#34;\$flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;&#34;; die(); } if(isset($_POST&#91;&#39;a&#39;]) && isset($_POST&#91;&#39;b&#39;]) && isset($_POST&#91;&#39;c&#39;])){ $c = $_POST&#91;&#39;c&#39;]; $count&#91;&#43;&#43;$c] = 1; if($count&#91;] = 1) { $count&#91;&#43;&#43;$c] = 1; print_r($count); die(); }else{ $a = $_POST&#91;&#39;a&#39;]; $b = $_POST&#91;&#39;b&#39;]; echo new $a($b); } } ?&gt; 首先需要绕过$co"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" /><link rel="prev" href="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" /><link rel="next" href="https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "2月CTF练习",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  2073 ,
+        "url": "https:\/\/hannibal0x.github.io\/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0\/","datePublished": "2022-02-28T03:41:46+00:00","dateModified": "2022-02-28T03:41:46+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">2月CTF练习</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-02-28">2022-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2073 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-卷王杯-easyweb">0x00 卷王杯-easyweb</a></li>
+    <li><a href="#0x01-卷王杯-真简单不卷现代密码签到">0x01 卷王杯-真·简单·不卷·现代密码签到</a></li>
+    <li><a href="#0x02-卷王杯-犯罪高手_签到">0x02 卷王杯-犯罪高手_签到</a></li>
+    <li><a href="#0x03-hsc-doraemon">0x03 HSC-Doraemon</a></li>
+    <li><a href="#0x04-hsc-wireshark">0x04 HSC-WIRESHARK</a></li>
+    <li><a href="#0x05-hsc-android">0x05 HSC-android</a></li>
+    <li><a href="#0x06-hsc-rsa">0x06 HSC-RSA</a></li>
+    <li><a href="#0x07-hsc-babyrsa">0x07 HSC-BABYRSA</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-卷王杯-easyweb">0x00 卷王杯-easyweb</h2>
+<p>核心代码如下</p>
+<pre class="wp-block-code"><code>&lt;?php
+error_reporting(0);
+if(isset($_GET&#91;'source'])){
+    highlight_file(__FILE__);
+    echo "\$flag_filename = 'flag'.md5(???).'php';";
+    die();
+}
+if(isset($_POST&#91;'a']) && isset($_POST&#91;'b']) && isset($_POST&#91;'c'])){
+    $c = $_POST&#91;'c'];
+    $count&#91;++$c] = 1;
+    if($count&#91;] = 1) {
+        $count&#91;++$c] = 1;
+        print_r($count);
+        die();
+    }else{
+        $a = $_POST&#91;'a'];
+        $b = $_POST&#91;'b'];
+        echo new $a($b);
+    }
+}
+?></code></pre>
+<p>首先需要绕过<code>$count[]=1</code>，这里可以通过数组的key值溢出，设c为<code>9223372036854775806</code>。而后传入a和b，通过原生类读取文件。参考：<a href="https://blog.csdn.net/qq_38154820/article/details/121112935" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/qq_38154820/article/details/121112935" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/qq_38154820/article/details/121112935</a></a></p>
+<p>先可通过DirectoryIterator类来遍历目录，但只返回迭代器的第一项，利用glob协议看到假的文件</p>
+<pre class="wp-block-code"><code>a=DirectoryIterator&b=glob://flag*</code></pre>
+<p>但我们知道md5加密后的字符无非是[a-z]和[0-9]，在b=glob://flag*后爆破一位即可得到真实flag的文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2309" height="712" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-1.png" alt="" class="wp-image-5176" /> </figure></p>
+<p>最后使用SplFileObject类，读取文件内容。构造</p>
+<pre class="wp-block-code"><code>a=SplFileObject&b=php://filter/convert.base64-encode/resource=flag56ea8b83122449e814e0fd7bfb5f220a.php</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="2507" height="696" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片.png" alt="" class="wp-image-5175" /> </figure></p>
+<p>最后base64解码得到flag。</p>
+<h2 id="0x01-卷王杯-真简单不卷现代密码签到">0x01 卷王杯-真·简单·不卷·现代密码签到</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="n">t</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">=</span> <span class="n">bytes_to_long</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span> <span class="o">+</span> <span class="n">flag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">145332367700944303747548912160113939198078051436029477960348968315913956664143693347226702600438608693933768134575289286283267810723137895903153829001826223446477799895493265422562348917012216790077395795861238257357035152687833639085415763850743538206986781418939737511715957738982536382066693822159860701263
+</span></span></span><span class="line"><span class="cl"><span class="s1">116660458253067608044065523310547233337730583902133756095473339390057738510707447906971188577217274861047379404014140178165569604404468897712846876108444468370709141219302291601408652742006268186059762087155933131837323952675627966299810891805398890428420575425160696531236660480933905879208166090591482794763
+</span></span></span><span class="line"><span class="cl"><span class="s1">157931722402853245421436270609912823260313730941283152856444641969403238646482562190531038393124087232554754746464603598717356255570166081501573727336977292059427220330169044611674973569766966838498453232642731737958791706086957762244686953294662693939604300864961637325536379321027705854708492453330690705531
+</span></span></span><span class="line"><span class="cl"><span class="s1">100973451687449518854742673778783266158999451072058606348222018797891147675959983616210003484476577612134482311993701677242007759556951494382833070563369964294544839433671087037596159753825249018950693369209927951667775267086896180395776150188902057785214767230658487267587289809918132337927575673868568976679
+</span></span></span><span class="line"><span class="cl"><span class="s1">93960345071948255233882121683650797512129333868351496468898834736770441398743300745703393838320587998953678254272245400344928586394089488734271897540051673996675973642347859306921527430850673334243441180183460927865980713929789963587608547554858491264614271309608925634272282292964002897650355047792764365447
+</span></span></span><span class="line"><span class="cl"><span class="s1">9144597920381774885442906257311149465702295057238600973973598305004391534618770363098565074541384771979931799878381439264848137810353858418200992191234142740194489573540381681161219332611454834544291634628456257670178843484698324641739324687497388018406214041657278323855749902661752448796122517061920880552011343608609622885787617238758769398972009949575526258430282648817039091284796330585349957724522615105102735930258969562103112238020133587096826386028128471852377225525357348919204333121695432662339443004327748973224423132988376298843862056631045488285859621661802413201793962883794915513510467912312842687601478117040419013468059983777273699192408773551806581458197324620065210523913467414181480875280203580147077789063808832356486197271376615883221558265591069223727607585313240243619515521180600435114131162272519949101464089935441251751426683447701142156416866113627126765919641034042927519834229168536331952275698122511502745177547569813354280565828372968703810158857859460406828090199683324760956105682902577189283246483314689365570862217407333103243336691401424548702387876409228977278498691200028282744239512091373110111792177228979867318546462714521296256938374618636206565791541769138267080789842400796973226733816939794717596194090232425688504890234304977612220790858557639246367437740975495450011676714198668471438814299689325208882261918460708833888406187912527346628912894921059735420931656953236560178909180587372589456926690219114173193202048332172538564489660440225377822914097420807957784201785024166011709377791129
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>分析题目可知公钥n由多素数相乘，e=2是Rabin加密典型特征。核心原理参考：<a rel="noreferrer noopener" href="https://www.ruanx.net/rsa-solutions/" target="_blank" rel="nofollow" ><a href="https://www.ruanx.net/rsa-solutions/" target="_blank" rel="noopener noreffer ">https://www.ruanx.net/rsa-solutions/</a></a>，本题的难点在于一般rsa的Rabin算法解密都是只有2个素数，这里却有5个，对不熟悉原理的人而言很容易混乱，其实这个考点的本质是对中国剩余定理的理解。写成如下脚本：</p>
+<pre class="wp-block-code"><code>def squareMod(c, mod):          # 模意义下开根，找到 x, 使得 x^2 % mod = c
+	res = gmpy2.powmod(c, (mod+1)//4, mod)
+	return res, mod - res
+
+def format_var(x,p,n):
+	Mp = n//p
+	return (x*Mp*gmpy2.invert(Mp, p))
+
+def getPlaintext(x, y, z, a, b, p, q, r, s, t,n):   # 假设 m%p=x, m%q=y, 求明文
+	res = format_var(x,p,n)+format_var(y,q,n)+format_var(z,r,n)+format_var(a,s,n)+format_var(b,t,n)
+	return res % n
+
+def solve(c, p, q,r,s,t,n):            # 已知 p,q,r,s,t, 解密 c
+	px = squareMod(c, p)
+	py = squareMod(c, q)
+	pz = squareMod(c, r)
+	pa = squareMod(c, s)
+	pb = squareMod(c, t)
+	for x in px:
+		for y in py:
+			for z in pz:
+				for a in pa:
+					for b in pb:
+						yield getPlaintext(x, y, z, a, b, p, q, r, s, t,n)
+
+
+for msg in solve(c, p, q,r,s,t,n):
+	flag = long_to_bytes(msg)
+	if b'ctfshow' in flag:
+		print(flag)</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="2268" height="496" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-2.png" alt="" class="wp-image-5177" /> </figure></p>
+<h2 id="0x02-卷王杯-犯罪高手_签到">0x02 卷王杯-犯罪高手_签到</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-3.png" alt="" class="wp-image-5178" width="332" height="242" /> </figure></p>
+<p>可以取钱、查看余额、购买flag，取钱有限制，存钱需要银根。先搜索下日升昌银号，发现存在一个日昇昌密码法则。</p>
+<blockquote class="wp-block-quote">
+  <p>
+    谨防假票冒取 勿忘细视书章
+  </p>
+  <p>
+    堪笑世情薄 天道最公平
+  </p>
+  <p>
+    昧心图自私 阴谋害他人
+  </p>
+  <p>
+    善恶终有报 到头必分明
+  </p>
+  <p>
+    坐客多察看 斟酌而后行
+  </p>
+  <p>
+    国宝流通
+  </p>
+</blockquote>
+<p>顺口溜中的“谨防假票冒取 勿忘细视书章”是代表1至12个月，“堪笑世情薄，天道最公平。昧心图自私，阴谋害他人。善恶终有报，到头必分明”则是表示1至30天。“坐客多察看，斟酌而后行”是银两的1至10，“国宝流通”是万千百两。例如票号在6月10日给某省票号分号汇银3000两，其暗号代码就是“取平多宝通”。</p>
+<p>取钱时会出现银根，猜想也是某种顺口溜，多次测试发现。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-4.png" alt="" class="wp-image-5179" width="379" height="92" /> </figure></p>
+<pre class="wp-block-code"><code>10-氏通赵
+20-连通赵
+30-城通赵
+40-壁通赵
+99-传通传</code></pre>
+<p>搜索关键词得到诗句，<code>赵氏连城壁，由来天下传</code>，猜想“国宝流通”依旧代表万千百两。最后，存钱要达到<code>传国传宝传流传通传</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1706" height="1051" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-5.png" alt="" class="wp-image-5180" /> </figure></p>
+<h2 id="0x03-hsc-doraemon">0x03 HSC-Doraemon</h2>
+<p>zip密码6位数爆破为376852<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd26611c0-beef-4bdb-a72b-335f6896482a%2FUntitled.png?table=block&id=0237de6a-eeaf-4fdb-b4df-a8574e6a3216&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=1320&userId=&cache=v2" alt="" width="473" height="202" /> </figure></p>
+<p>修改图片高度，可以得到一个残缺的二维码，修复下，加上定位符。<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6932c025-d0a0-471b-841e-707bb38d9bee%2FUntitled.png?table=block&id=7f260e37-7c1e-446a-9b78-fc710e1504ed&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=1010&userId=&cache=v2" alt="" width="256" height="394" /> </figure></p>
+<p>扫描得到flag<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F093e3fab-a529-4e4c-921a-835ff7c4a97d%2FUntitled.png?table=block&id=273dd529-8494-4ab5-974d-32a02d0dff81&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=1340&userId=&cache=v2" alt="" width="161" height="160" /> </figure></p>
+<h2 id="0x04-hsc-wireshark">0x04 HSC-WIRESHARK</h2>
+<p>分析zip里面藏了个png，提取出来。<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F95f88c40-7f4f-4303-8976-a3d753d7eb09%2FUntitled.png?table=block&id=583b6ba5-0daa-4408-987b-6f171d2b15d6&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=2000&userId=&cache=v2" alt="" width="504" height="215" /> </figure></p>
+<p>接着用Stegsolve提取LSB信息，发现PNG字样<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Feac7d940-2b70-4d00-b2d5-38bbc520fae4%2FUntitled.png?table=block&id=dbf5ad73-8e05-49be-ac01-b98a94955aa4&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=2000&userId=&cache=v2" alt="" width="551" height="404" /> </figure></p>
+<p>保存为图片得到一个二维码，扫描结果是<code>wrsak..iehr370</code><figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fea365cb9-5df6-4abf-ab65-3a6eb697408a%2FUntitled.png?table=block&id=027128d2-4337-4188-90fc-82ad7fe61edd&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=500&userId=&cache=v2" alt="" width="132" height="132" /> </figure></p>
+<p>经过栅栏密码2栏解密，得到<code>wireshark3.7.0</code>，就能解开压缩包了，解开的文件二进制内容中发现关键字段类似pdf，修改后缀名为pdf。<figure class="wp-block-image is-resized"></p>
+<p><img loading="lazy" src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F5be56a24-1e20-4d39-9780-96dc2b6f8791%2FUntitled.png?table=block&id=7a31120c-c14f-48c2-866b-f91fcf622108&spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&width=2000&userId=&cache=v2" alt="" width="591" height="294" /> </figure></p>
+<p>010editor分析文件格式，发现文件头残缺，补齐为<code>255044462D312E</code>，最后使用wbStego4.3open工具获取隐藏信息<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47c8939b-555c-4de1-b4f8-7c55e0e27ad5%2FUntitled.png?table=block&amp;id=03115a6b-3b7f-4b97-b5cc-7fd134127199&amp;spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&amp;width=750&amp;userId=&amp;cache=v2"
+        data-srcset="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47c8939b-555c-4de1-b4f8-7c55e0e27ad5%2FUntitled.png?table=block&amp;id=03115a6b-3b7f-4b97-b5cc-7fd134127199&amp;spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&amp;width=750&amp;userId=&amp;cache=v2, https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47c8939b-555c-4de1-b4f8-7c55e0e27ad5%2FUntitled.png?table=block&amp;id=03115a6b-3b7f-4b97-b5cc-7fd134127199&amp;spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&amp;width=750&amp;userId=&amp;cache=v2 1.5x, https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47c8939b-555c-4de1-b4f8-7c55e0e27ad5%2FUntitled.png?table=block&amp;id=03115a6b-3b7f-4b97-b5cc-7fd134127199&amp;spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&amp;width=750&amp;userId=&amp;cache=v2 2x"
+        data-sizes="auto"
+        alt="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47c8939b-555c-4de1-b4f8-7c55e0e27ad5%2FUntitled.png?table=block&amp;id=03115a6b-3b7f-4b97-b5cc-7fd134127199&amp;spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&amp;width=750&amp;userId=&amp;cache=v2"
+        title="https://busy-team-8f5.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47c8939b-555c-4de1-b4f8-7c55e0e27ad5%2FUntitled.png?table=block&amp;id=03115a6b-3b7f-4b97-b5cc-7fd134127199&amp;spaceId=b00e525b-9f57-4a67-b6a8-5ca729392e9e&amp;width=750&amp;userId=&amp;cache=v2" /> </figure></p>
+<h2 id="0x05-hsc-android">0x05 HSC-android</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="2039" height="1196" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-7.png" alt="" class="wp-image-5184" /> </figure></p>
+<p>写了个很蠢的脚本，反正能跑出来</p>
+<pre class="wp-block-code"><code>v8_1 = &#91;]
+v2 = &#91;102, 13, 99, 28, 0x7F, 55, 99, 19, 109, 1, 0x79, 58, 83, 30, 0x4F, 0, 0x40, 42]
+for v4 in range(0,18):
+	v8_1.append(-1) 
+
+for v4 in range(0,18):
+	if (v4 % 2 == 0):
+		v8_1&#91;v4] = v2&#91;v4] ^ v4
+
+for v4 in range(0,18):
+	if (v4 % 2 != 0):
+		if (v8_1&#91;v4] != -1) :
+			v8_1&#91;v4+1] = v8_1&#91;v4] ^ v2&#91;v4]
+		else:
+			if(v4&lt;17 and v8_1&#91;v4+1] != -1):
+				v8_1&#91;v4] = v8_1&#91;v4+1] ^ v2&#91;v4]
+
+for i in v8_1&#91;:-1]:
+	print(chr(i),end='')</code></pre>
+<h2 id="0x06-hsc-rsa">0x06 HSC-RSA</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">gmpy2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sympy</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">flag</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;????&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">z</span><span class="o">=</span><span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">q</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">prevprime</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span><span class="o">=</span><span class="n">p</span><span class="o">*</span><span class="n">q</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">m</span><span class="o">=</span><span class="n">bytes_to_long</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">=</span><span class="mh">0xe18e</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span><span class="o">=</span><span class="nb">pow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;n=&#34;</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;c=&#34;</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#n= 124689085077258164778068312042204623310499608479147230303784397390856552161216990480107601962337145795119702418941037207945225700624828698479201514402813520803268719496873756273737647275368178642547598433774089054609501123610487077356730853761096023439196090013976096800895454898815912067003882684415072791099101814292771752156182321690149765427100411447372302757213912836177392734921107826800451961356476403676537015635891993914259330805894806434804806828557650766890307484102711899388691574351557274537187289663586196658616258334182287445283333526057708831147791957688395960485045995002948607600604406559062549703501</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#c= 57089349656454488535971268237112640808678921972499308620061475860564979797594115551952530069277022452969364212192304983697546604832633827546853055947447207342333989645243311993521374600648715233552522771885346402556591382705491510591127114201773297304492218255645659953740107015305266722841039559992219190665868501327315897172069355950699626976019934375536881746570219967192821765127789432830133383612341872295059056728626931869442945556678768428472037944494803103784312535269518166034046358978206653136483059224165128902173951760232760915861623138593103016278906012134142386906130217967052002870735327582045390117565</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>简单分析下这道题目，p和q之间的关系如下</p>
+<pre class="wp-block-code"><code>p = z + a
+q = 10*z - b
+我们知道p、q都是加减了某个常数
+
+10*p = 10*z + 10*a = 10*z + A
+把p放大
+
+10*p - q = A + b = k
+得到10*p和q的差为一个常数
+
+设tp = 10 * p
+k**2=tp**2 - 2 * tp * q + q**2=(tp)**2 - 2 * t * n + q**2
+k**2 + 4 * t *n = tp**2 + 2 * tp * q + q**2</code></pre>
+<p>可以通过爆破k值来计算出<code>tp + q</code>，从而计算出p和q，脚本如下：</p>
+<pre class="wp-block-code"><code>t=10
+for k in range(0,1000):
+	x = gmpy2.iroot(k**2 + 4 * t * n,2)
+	if x&#91;1]:# t*p+q是整数
+		p = (x&#91;0] + k)//(2 * t)
+		q = t*p - k
+		print('p:',p,'\nq:',q)
+		break</code></pre>
+<p>计算得出p、q</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">p: 111664266924230584310672217327671667710935047973000520430654738129104995948600035802171323708501939460183230462999012738673733788510305174275781562493391778161104978492924899451563162871226400785486072759568388184737567195610022831797165685808940056623572151053130363074869912224709981475153891324423022575151 
+</span></span><span class="line"><span class="cl">q: 1116642669242305843106722173276716677109350479730005204306547381291049959486000358021713237085019394601832304629990127386737337885103051742757815624933917781611049784929248994515631628712264007854860727595683881847375671956100228317971656858089400566235721510531303630748699122247099814751538913244230225750851
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此时发现<code>gmpy2.gcd(e,phi)=2</code>，不能直接用常规解法。</p>
+<pre class="wp-block-code"><code>i = gmpy2.gcd(e,phi)
+d = gmpy2.invert(e//i,phi)
+m = pow(c,d,n)
+flag = gmpy2.iroot(m,i)
+if flag&#91;1]:
+	print(long_to_bytes(flag&#91;0]))</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="776" height="63" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/02/图片-6.png" alt="" class="wp-image-5183" /> </figure></p>
+<h2 id="0x07-hsc-babyrsa">0x07 HSC-BABYRSA</h2>
+<p>求出p高位</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">lfsr</span><span class="p">(</span><span class="n">status</span><span class="p">,</span><span class="n">mask</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">status</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span><span class="o">=</span><span class="p">(</span><span class="n">status</span><span class="o">&amp;</span><span class="n">mask</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lastbit</span><span class="o">=</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lastbit</span><span class="o">^=</span><span class="p">(</span><span class="n">i</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">&gt;&gt;</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="o">^=</span><span class="n">lastbit</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="n">lastbit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">status</span><span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">mask</span> <span class="o">=</span> <span class="mb">0b10110001110010011100100010110101</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;0101110100100111011011011000111010000111101000101010100100100011010111011000010010100101110110011101110110010100010111001110010011101010111011001100011011010110001010011111111110100110101010101110100110011010110101110110000110010101010000010110100110110110001110101011000011110100011011100101101101001000110010100111000111001111010101011011111110010111100101111001010000100010100001000111010011011111010011101100011101011010011010110001101110110110000110010011001101100000110000110100101010010010110101100101111101110000010011101110010101110100011101100110111111001010&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">568</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="n">status</span><span class="p">,</span><span class="n">out</span><span class="p">)</span> <span class="o">=</span> <span class="n">lfsr</span><span class="p">(</span><span class="n">status</span><span class="p">,</span><span class="n">mask</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">^</span><span class="n">out</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 0x807c1395b8128e6de865ab20dd2a39684f6831464553c65215cfe2861192657b6938d227c75e902ae858fdbd8b118c8522c08a3bf978bb203bc1644fe526f2de55b065b0507958</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>已知p高位可以使用Coppersmith Attack方法，但需要至少576位,求出568位,差了2个十六进制数,这里需要爆破，sage代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sage" data-lang="sage"><span class="line"><span class="cl"><span class="n">n</span><span class="o">=</span> <span class="mh">0x4a2c6dd9af83d8cc06b4e721475e9d8a9bce1de6ddd43be7658f13bb5c5b452e9f42d9d77b8c5c3e50ef64e0edc524903e8ee759d805a63cfe613ec022115d54e73724ced3bfff73e1872b7b35b040537f8ac89523d9e2860199d6d0b1c4d7830ee5b468bd7406990ffa29caa2d8fad285b3dba209b34b427d749d7e2aebded78f49e5017bfeec1cb9f72e63506d82af561a4858f652d3fb152526c10c7e4c5e15c84803efac675fb9297d915bd1e2eda5a5de3d48bbf68380303e0d8de81704fff8c9f07ae4d15212b9066227583345425ba7a04e06fd0c16ec6bfdd764318587d1bfe76a9834043b16392018e192456cb3ea994d2a187cabfa706efbee8dbf</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="mh">0x807c1395b8128e6de865ab20dd2a39684f6831464553c65215cfe2861192657b6938d227c75e902ae858fdbd8b118c8522c08a3bf978bb203bc1644fe526f2de55b065b0507958</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">string</span>
+</span></span><span class="line"><span class="cl"><span class="n">dic</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span> <span class="o">+</span> <span class="s2">&#34;abcdef&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pp</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#p需要用0补全到1024位</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pp</span> <span class="o">+=</span> <span class="s1">&#39;0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#要加的数字与补全p时0的个数有关</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">p_fake</span> <span class="o">=</span> <span class="n">pp</span><span class="o">+</span><span class="mh">0x10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pbits</span> <span class="o">=</span> <span class="mi">1024</span>
+</span></span><span class="line"><span class="cl">        <span class="n">kbits</span> <span class="o">=</span> <span class="n">pbits</span><span class="o">-</span><span class="mi">576</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pbar</span> <span class="o">=</span> <span class="n">p_fake</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">2</span><span class="o">^</span><span class="n">pbits</span><span class="o">-</span><span class="mi">2</span><span class="o">^</span><span class="n">kbits</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">Zmod</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">pbar</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x0</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">small_roots</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="mi">2</span><span class="o">^</span><span class="n">kbits</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># find root &lt; 2^kbits with factor &gt;= n^0.4</span>
+</span></span><span class="line"><span class="cl">            <span class="n">p</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">pbar</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;p = &#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">pass</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>求出p后常规解即可。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-02-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" data-title="2月CTF练习" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" data-title="2月CTF练习"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" data-title="2月CTF练习"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" data-title="2月CTF练习"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" class="prev" rel="prev" title="攻防世界-mobile（新手篇2）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>攻防世界-mobile（新手篇2）</a>
+            <a href="/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/" class="next" rel="next" title="CTFShow-web入门（1）">CTFShow-web入门（1）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

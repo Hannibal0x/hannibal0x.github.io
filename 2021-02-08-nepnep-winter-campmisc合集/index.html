@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>NepNep Winter-CAMP（Misc合集） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="NepNep Winter-CAMP（Misc合集）" />
+<meta property="og:description" content="0x00 前言 从易到难的Misc大汇总，包含了很多常见的考点。 0x01 属性.jpg 右键搞定 0x02 string.jpg 应该是考察strings命令，这里直接010打开，搜索Nep" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-08T08:22:50+00:00" />
+<meta property="article:modified_time" content="2021-02-08T08:22:50+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="NepNep Winter-CAMP（Misc合集）"/>
+<meta name="twitter:description" content="0x00 前言 从易到难的Misc大汇总，包含了很多常见的考点。 0x01 属性.jpg 右键搞定 0x02 string.jpg 应该是考察strings命令，这里直接010打开，搜索Nep"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" /><link rel="prev" href="https://hannibal0x.github.io/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" /><link rel="next" href="https://hannibal0x.github.io/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "NepNep Winter-CAMP（Misc合集）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86\/"
+        },"genre": "posts","keywords": "Misc, CTF","wordcount":  3385 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86\/","datePublished": "2021-02-08T08:22:50+00:00","dateModified": "2021-02-08T08:22:50+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NepNep Winter-CAMP（Misc合集）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-02-08">2021-02-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3385 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-前言">0x00 前言</a></li>
+    <li><a href="#0x01-属性jpg">0x01 属性.jpg</a></li>
+    <li><a href="#0x02-stringjpg">0x02 string.jpg</a></li>
+    <li><a href="#0x03-grepjpg">0x03 grep.jpg</a></li>
+    <li><a href="#0x04-aaagif">0x04 aaa.gif</a></li>
+    <li><a href="#0x05-lsbjpg">0x05 lsb.jpg</a></li>
+    <li><a href="#0x06-binwalkforemostddpng">0x06 binwalk,foremost,dd.png</a></li>
+    <li><a href="#0x07-上课认真听了吗">0x07 上课认真听了吗？</a></li>
+    <li><a href="#0x08-pngcheckpng">0x08 pngcheck.png</a></li>
+    <li><a href="#0x09-westego43open-123456bmp">0x09 westego4.3open (123456).bmp</a></li>
+    <li><a href="#0x0a-ihdrpng">0x0A IHDR.png</a></li>
+    <li><a href="#0x0b-lsb123456png">0x0B lsb（123456）.png</a></li>
+    <li><a href="#0x0c-bintxt">0x0C bin.txt</a></li>
+    <li><a href="#0x0d-我是间谍">0x0D 我是间谍</a></li>
+    <li><a href="#0x0e-stegsolve工具使用">0x0E Stegsolve工具使用</a></li>
+    <li><a href="#0x0f-监听消息">0x0F 监听消息</a></li>
+    <li><a href="#0x10-简单流量">0x10 简单流量</a></li>
+    <li><a href="#0x11-图片base64编码">0x11 图片Base64编码</a></li>
+    <li><a href="#0x12-base编码">0x12 Base编码</a></li>
+    <li><a href="#0x13-zip伪加密figure-classwp-block-image-size-large">0x13 zip伪加密<figure class="wp-block-image size-large"></a></li>
+    <li><a href="#0x14-常见文件文件头补齐">0x14 常见文件文件头补齐</a></li>
+    <li><a href="#0x15-morse编码">0x15 Morse编码</a></li>
+    <li><a href="#0x16-16进制查看">0x16 16进制查看</a></li>
+    <li><a href="#0x17-二维码条形码">0x17 二维码条形码</a></li>
+    <li><a href="#0x18-lsb图片隐写">0x18 LSB图片隐写</a></li>
+    <li><a href="#0x19-电子文档隐写">0x19 电子文档隐写</a></li>
+    <li><a href="#0x1a-html实体编码">0x1A HTML实体编码</a></li>
+    <li><a href="#0x1b-键盘密码">0x1B 键盘密码</a></li>
+    <li><a href="#0x1c-foremost--binwalk使用">0x1C Foremost &amp;&amp; binwalk使用</a></li>
+    <li><a href="#0x1d-lsb音频隐写">0x1D LSB音频隐写</a></li>
+    <li><a href="#0x1e-pyc反编译">0x1E pyc反编译</a></li>
+    <li><a href="#0x1f-zip口令爆破">0x1F zip口令爆破</a></li>
+    <li><a href="#0x20-明文攻击">0x20 明文攻击</a></li>
+    <li><a href="#0x21-音频频谱隐写">0x21 音频频谱隐写</a></li>
+    <li><a href="#0x22-mp3-隐写">0x22 MP3 隐写</a></li>
+    <li><a href="#0x23-音频波形隐写">0x23 音频波形隐写</a></li>
+    <li><a href="#0x24-流量分析一">0x24 流量分析(一)</a></li>
+    <li><a href="#0x25-gif图片隐写">0x25 GIF图片隐写</a></li>
+    <li><a href="#0x26-数字水印隐写">0x26 数字水印隐写</a></li>
+    <li><a href="#0x27-python脚本使用一">0x27 python脚本使用(一)</a></li>
+    <li><a href="#0x28-内存取证">0x28 内存取证</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 class="has-large-font-size" id="0x00-前言">0x00 前言</h2>
+<p>从易到难的Misc大汇总，包含了很多常见的考点。</p>
+<h2 id="0x01-属性jpg">0x01 属性.jpg</h2>
+<p>右键搞定</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-54.png" alt="" class="wp-image-680" width="443" height="629" /></figure>
+</div>
+<h2 id="0x02-stringjpg">0x02 string.jpg</h2>
+<p>应该是考察strings命令，这里直接010打开，搜索Nep。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-55.png" alt="" class="wp-image-682" width="580" height="35" /></figure>
+</div>
+<h2 id="0x03-grepjpg">0x03 grep.jpg</h2>
+<p>应该是考察strings命令和grep的配合，上面同样的套路再来一遍。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="729" height="40" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-56.png" alt="" class="wp-image-684" /> </figure></p>
+<h2 id="0x04-aaagif">0x04 aaa.gif</h2>
+<p>明显看到GIF里插入了一张红色的图，Stegsolve逐帧分析。</p>
+<p>flag{he11ohongke},但提交错误，有点儿懵。。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-57.png" alt="" class="wp-image-687" width="130" height="143" /></figure>
+</div>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-58.png" alt="" class="wp-image-688" width="133" height="147" /></figure>
+</div>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-59.png" alt="" class="wp-image-689" width="134" height="148" /></figure>
+</div>
+<p>多次尝试后发现是<code>flag{hello hongke}</code></p>
+<h2 id="0x05-lsbjpg">0x05 lsb.jpg</h2>
+<p>stegslove查看lsb隐写，发现藏有图片，另存一下。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-60.png" alt="" class="wp-image-690" width="467" height="343" /></figure>
+</div>
+<p>得到一个二维码，扫一下。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-61.png" alt="" class="wp-image-692" width="319" height="310" /></figure>
+</div>
+<h2 id="0x06-binwalkforemostddpng">0x06 binwalk,foremost,dd.png</h2>
+<p>从名字可知要用到binwalk,foremost命令</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="843" height="212" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-62.png" alt="" class="wp-image-694" /></figure>
+</div>
+<p>分离出图片</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-82.png" alt="" class="wp-image-768" width="182" height="177" /></figure>
+</div>
+<p><code>flag{Nepnep}</code></p>
+<h2 id="0x07-上课认真听了吗">0x07 上课认真听了吗？</h2>
+<p>先追踪udp流，得到<code>flag{254}</code>，再追踪http流。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="980" height="251" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-83.png" alt="" class="wp-image-770" /></figure>
+</div>
+<p>得到<code>flag{340}</code>，追踪tcp流，在<code>tcp.stream eq 22</code>时，得到另一部分<code>flag{26}</code>。</p>
+<h2 id="0x08-pngcheckpng">0x08 pngcheck.png</h2>
+<p>先用png看一看，检查图片结构是否存在问题，发现在IDAT异常。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-84.png" alt="" class="wp-image-771" width="508" height="163" /></figure>
+</div>
+<p>用代码解压一下。</p>
+<pre class="wp-block-code"><code>import zlib
+s = '''
+78 9C 4B CB 49 4C AF 4E 4B 36 32 4D 4E 4A 32 4F
+B2 30 B5 34 B5 4C 4B 35 30 36 37 B6 30 32 31 4C
+B4 34 4B 4A 33 32 4E A9 05 00 E9 E2 0B 5F D0 1C
+68
+'''
+s = s.replace(' ','').replace('\n','')
+b = bytes.fromhex(s)
+flag = zlib.decompress(b)
+print(flag)</code></pre>
+<p><code>flag{fc25cbb7b85959fe03738241a96bf23d}</code></p>
+<h2 id="0x09-westego43open-123456bmp">0x09 westego4.3open (123456).bmp</h2>
+<p>使用wbs43open工具，输入密码。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-85.png" alt="" class="wp-image-776" width="417" height="277" /></figure>
+</div>
+<p>得到<code>flag{我跟你讲，这个小甜瓜超甜der~}</code></p>
+<h2 id="0x0a-ihdrpng">0x0A IHDR.png</h2>
+<p>IHDR块不对劲，CRC校验有问题。</p>
+<pre class="wp-block-code"><code>import os
+import binascii
+import struct
+
+png= open("IHDR.png","rb").read()
+
+for i in range(1024):
+    data = png&#91;12:20] + struct.pack('&gt;i',i)+png&#91;24:29]
+    crc32 = binascii.crc32(data) & 0xffffffff
+    if crc32 == 0x1fcf9e8e:
+        print (hex(i)&#91;2:])</code></pre>
+<p>更改高度为333</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-81.png" alt="" class="wp-image-763" width="306" height="405" /></figure>
+</div>
+<p>又找了半天，结果发现提示说，flag包含nep，结果没想到flag是<code>flag{你发现了nep}</code>，行吧，俺想复杂了。</p>
+<h2 id="0x0b-lsb123456png">0x0B lsb（123456）.png</h2>
+<p>上神器。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-78.png" alt="" class="wp-image-754" width="511" height="376" /></figure>
+</div>
+<p>发现文件头不对劲，找了下，发现题目可能类似这道题。<a rel="noreferrer noopener" href="https://blog.csdn.net/fuzz_nancheng/article/details/53384353" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/fuzz_nancheng/article/details/53384353" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/fuzz_nancheng/article/details/53384353</a></a>，下载<a rel="noreferrer noopener" href="https://github.com/livz/cloacked-pixel" data-type="URL" data-id="https://github.com/livz/cloacked-pixel" target="_blank" rel="nofollow" >cloacked-pixel</a>（Win10系统下无法使用，建议在kail使用）</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="783" height="52" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-79.png" alt="" class="wp-image-757" /></figure>
+</div>
+<p>得到<code>flag{6e9fbfe27c40bbad06db30c42c04c4d6}</code></p>
+<h2 id="0x0c-bintxt">0x0C bin.txt</h2>
+<p>打开是一大片01的二进制字符，通过CyberChef转换。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1920" height="867" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-86.png" alt="" class="wp-image-780" /></figure>
+</div>
+<p>得到一张图片。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-87.png" alt="" class="wp-image-782" width="182" height="323" /></figure>
+</div>
+<h2 id="0x0d-我是间谍">0x0D 我是间谍</h2>
+<p>这题是间谍软件分析，运行后使用wireshark抓包，发现一条异常udp流。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="1576" height="209" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-88.png" alt="" class="wp-image-787" /> </figure></p>
+<p>打开后，显示<code>flag{11973526}</code>。</p>
+<h2 id="0x0e-stegsolve工具使用">0x0E Stegsolve工具使用</h2>
+<p>上神器，发现二维码。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="642" height="177" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-107.png" alt="" class="wp-image-874" /></figure>
+</div>
+<h2 id="0x0f-监听消息">0x0F 监听消息</h2>
+<p>追踪Tcp流发现</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-109.png" alt="" class="wp-image-879" width="408" height="211" /></figure>
+</div>
+<p>另存16进制字符，发现是png。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-110.png" alt="" class="wp-image-882" width="480" height="226" /></figure>
+</div>
+<p>得到半截二维码，改高度。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="128" height="67" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-111.png" alt="" class="wp-image-883" /></figure>
+</div>
+<p>得到完整的块儿后，贴个定位符。也可在<a rel="noreferrer noopener" href="https://merricx.github.io/qrazybox/" target="_blank" rel="nofollow" ><a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener noreffer ">https://merricx.github.io/qrazybox/</a></a>填充。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-113.png" alt="" class="wp-image-887" width="126" height="126" /></figure>
+</div>
+<h2 id="0x10-简单流量">0x10 简单流量</h2>
+<p><strong>hint：关于ssl密钥导入：<a rel="noreferrer noopener" href="https://segmentfault.com/a/1190000018746027" target="_blank" rel="nofollow" ><a href="https://segmentfault.com/a/1190000018746027" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000018746027</a></a></strong></p>
+<p>按照提示配置环境变量和WireShark，因为pcapng文件名zstuctf，猜测此题flag也是zstuctf，过滤字符串，追踪tls流。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-114.png" alt="" class="wp-image-890" width="808" height="116" /></figure>
+</div>
+<h2 id="0x11-图片base64编码">0x11 图片Base64编码</h2>
+<p>还原得到一张二维码，扫码得到flag。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-98.png" alt="" class="wp-image-844" width="177" height="177" /></figure>
+</div>
+<h2 id="0x12-base编码">0x12 Base编码</h2>
+<p><code>LJWXQ2C2GN2EGTSIJZWFQ6SGPJMHUTTIMMZWW2DGKE6T2===</code>经过Base32解码得到<code>ZmxhZ3tCNHNlXzFzXzNhc3khfQ==</code>，再经过Base64解码得到<code>flag{B4se_1s_3asy!}</code></p>
+<h2 id="0x13-zip伪加密figure-classwp-block-image-size-large">0x13 zip伪加密<figure class="wp-block-image size-large"></h2>
+<p><img loading="lazy" width="712" height="216" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-108.png" alt="" class="wp-image-876" /> </figure></p>
+<p>改9为0，得到<code>flag{zip_is_funny!}</code>。</p>
+<h2 id="0x14-常见文件文件头补齐">0x14 常见文件文件头补齐</h2>
+<p>PNG文件头<code>89 50 4E 47 0D 0A 1A 0A</code>，可以观察到，缺少了4个字节，补全。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="653" height="73" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-116.png" alt="" class="wp-image-897" /> </figure></p>
+<p>成功得到。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-117.png" alt="" class="wp-image-898" width="356" height="316" /></figure>
+</div>
+<h2 id="0x15-morse编码">0x15 Morse编码</h2>
+<p><code>..-. .-.. .- --. ----.-- .. .-.. --- ...- . -.-- --- ..- -----.-</code>转换得到<code>FLAG%u7bILOVEYOU%u7d</code>，<code>%u7b</code>就是<code>{</code>，<code>%u7d</code>就是<code>}</code>。<code>flag{ILOVEYOU}</code></p>
+<h2 id="0x16-16进制查看">0x16 16进制查看</h2>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="730" height="177" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-115.png" alt="" class="wp-image-896" /></figure>
+</div>
+<h2 id="0x17-二维码条形码">0x17 二维码条形码</h2>
+<p>拼接扫码，得到<code>flag{winter_is_coming}</code><figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="558" height="160" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-118.png" alt="" class="wp-image-900" /> </figure></p>
+<h2 id="0x18-lsb图片隐写">0x18 LSB图片隐写</h2>
+<p>可以看出藏了个压缩包，另存一下。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-120.png" alt="" class="wp-image-906" width="491" height="361" /></figure>
+</div>
+<p>直接解压时失败，文件损坏，winrar修复后解压文件，搜索ctf字符。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="649" height="59" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-17.png" alt="" class="wp-image-999" /></figure>
+</div>
+<h2 id="0x19-电子文档隐写">0x19 电子文档隐写</h2>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="238" height="58" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-119.png" alt="" class="wp-image-904" /></figure>
+</div>
+<h2 id="0x1a-html实体编码">0x1A HTML实体编码</h2>
+<p><code>\u66\u6c\u61\u67\u7b\u57\u33\u6c\u63\u30\u6d\u65\u21\u7d</code>通过ASCII转成<code>flag{W3lc0me!}</code></p>
+<h2 id="0x1b-键盘密码">0x1B 键盘密码</h2>
+<p><code>ytfvbhn tgbgy hjuygbn yhnmki tgvhn uygbnjm uygbn yhnijm</code>对照键盘连线<code>areuhack</code></p>
+<h2 id="0x1c-foremost--binwalk使用">0x1C Foremost &amp;&amp; binwalk使用</h2>
+<p>使用binwalk和foremost<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="1079" height="245" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-121.png" alt="" class="wp-image-914" /> </figure></p>
+<p>解压压缩包，得到<code>flag{ff17_is_funny!}</code></p>
+<h2 id="0x1d-lsb音频隐写">0x1D LSB音频隐写</h2>
+<p>slienteye解码</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-122.png" alt="" class="wp-image-918" width="499" height="370" /></figure>
+</div>
+<h2 id="0x1e-pyc反编译">0x1E pyc反编译</h2>
+<p>在线反编译pyc，得到python代码。</p>
+<pre class="wp-block-code"><code>print 'Your input1 is your flag~'
+l = len(input1)
+code = &#91;]
+for i in range(l):
+    num = ((ord(input1&#91;i]) + i) % 128 + 128) % 128
+    code += chr(num)
+
+for i in range(l - 1):
+    code&#91;i] = chr(ord(code&#91;i]) ^ ord(code&#91;i + 1]))
+
+print code
+code = &#91;'\x0b', '\x0e', '\t', '\x15', '0', '4', '\x01', '\x06', '\x14', '4', ',', '\x1b', 'U', '?', 'o', '6', '*', ':', '\x01', 'D', ';', '%', '\x13']</code></pre>
+<p>编写解码代码</p>
+<pre class="wp-block-code"><code>code = &#91;'\x0b', '\x0e', '\t', '\x15', '0', '4', '\x01', '\x06', '\x14', '4', ',', '\x1b', 'U', '?', 'o', '6', '*', ':', '\x01', 'D', ';', '%', '\x13']
+l=len(code)
+for i in range(l-2,-1,-1):
+    code&#91;i]=chr(ord(code&#91;i])^ord(code&#91;i+1]))
+for i in range(l):
+                print(chr((ord(code&#91;i])-i)%128),end='')
+</code></pre>
+<p>运行得到结果：<code>flag{Just_Re_1s_Ha66y!}</code></p>
+<h2 id="0x1f-zip口令爆破">0x1F zip口令爆破</h2>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-124.png" alt="" class="wp-image-925" width="394" height="148" /></figure>
+</div>
+<p>拿到<code>flag{zip_is_so_easy!}</code></p>
+<h2 id="0x20-明文攻击">0x20 明文攻击</h2>
+<p>构造一个crc32值与压缩后文件大小一致的readme.txt，这里用一位师傅写的脚本，非常好用。</p>
+<pre class="wp-block-code"><code>from zlib import crc32
+import random
+
+char='0123456789'
+def crc32_f(data):
+    return hex(crc32(data)&0xffffffff)&#91;2:10]
+length=input('length:')
+crc32_=raw_input('crc32:').lower()
+
+while True:
+    text=''
+    for i in range(length):
+        text+=char&#91;random.randint(0,len(char)-1)]
+    if crc32_f(text)==crc32_:
+        raw_input('find it:'+text)
+        exit</code></pre>
+<h2 id="0x21-音频频谱隐写">0x21 音频频谱隐写</h2>
+<p>用Audacity打开，显示频谱图。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="669" height="178" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image.png" alt="" class="wp-image-933" /></figure>
+</div>
+<h2 id="0x22-mp3-隐写">0x22 MP3 隐写</h2>
+<p>爷青回，金刚葫芦娃可还行，文件是MP3，首先想到利用MP3Stege，但没有密码010打开后发现藏有东西，分离出jpg和zip。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-3.png" alt="" class="wp-image-940" width="517" height="162" /></figure>
+</div>
+<p>压缩包是加密的，根据图片的提示，猜测密码是<code>GourdSmallDiamond</code>，解密MP3。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-2.png" alt="" class="wp-image-939" width="421" height="319" /></figure>
+</div>
+<p>成功解开，打开1.mp3.txt，得到解压密码<code>j7v@8@8QUWG0FWU^</code></p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="810" height="282" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-4.png" alt="" class="wp-image-941" /></figure>
+</div>
+<p>得到<code>MSTSEC{MSTSEC_DINGANN_KEY_IS_GSD}</code>，但通不过，改成flag即可。</p>
+<h2 id="0x23-音频波形隐写">0x23 音频波形隐写</h2>
+<p>用Audacity打开，显示波形图，发现异常，设高点为1，低点为0编码</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1725" height="185" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-1.png" alt="" class="wp-image-936" /></figure>
+</div>
+<p>得：<code>110011011011001100001110011111110111010111011000010101110101010110011011101011101110110111011110011111101</code>共105位，不能整除8，但能整除7，则以7个为一组分开，并且在最高位补0</p>
+<p>得：<code>01100110 01101100 01100001 01100111 01111011 01010111 00110000 01010111 00101010 01100110 01110101 01101110 01101110 01111001 01111101</code>，转ASCII码得到flag。</p>
+<h2 id="0x24-流量分析一">0x24 流量分析(一)</h2>
+<p>直接搜索flag，结果出来一堆假flag，发现使用ftp协议传了两张图片，存一下。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/2.png" alt="" class="wp-image-958" width="285" height="190" /></figure>
+</div>
+<p>发现第一张图片有缺陷，是第二张的部分，这里直接分析第二张。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-8.png" alt="" class="wp-image-959" width="347" height="232" /></figure>
+</div>
+<p>多次尝试后发现是LSB隐写。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-9.png" alt="" class="wp-image-962" width="551" height="405" /></figure>
+</div>
+<h2 id="0x25-gif图片隐写">0x25 GIF图片隐写</h2>
+<p>补上文件头。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="648" height="38" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-10.png" alt="" class="wp-image-965" /></figure>
+</div>
+<p>Stegslove打开逐帧查看,发现字符叠加，肉眼难以辨别，有师傅提到用工具Namo_GIF选择每一帧，然后编辑调色板，将第254帧改为同一个颜色，即可看清每一帧的内容，拼接得到<code>Y2F0Y2hfdGhlX2R5bmFtaWNfZmxhZ19pc19xdW10ZV9zaW1wbGU=</code>。</p>
+<h2 id="0x26-数字水印隐写">0x26 数字水印隐写</h2>
+<p>猜测是盲水印，需要找到另一张图片，pngcheck发现IEND后还有数据。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-5.png" alt="" class="wp-image-949" width="523" height="303" /></figure>
+</div>
+<p>发现又有IHDRchunck块，导出，补全文件头，得到一张和原图一模一样的图。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-6.png" alt="" class="wp-image-951" width="520" height="287" /></figure>
+</div>
+<p>运行<code>python bwm.py decode half.png half1.png wm.png</code>，得到：</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-7.png" alt="" class="wp-image-954" width="189" height="52" /></figure>
+</div>
+<p>只有一半，找前半段。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="720" height="529" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-13.png" alt="" class="wp-image-980" /></figure>
+</div>
+<h2 id="0x27-python脚本使用一">0x27 python脚本使用(一)</h2>
+<p>用pngcheck发现高度有问题。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="636" height="133" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-15.png" alt="" class="wp-image-989" /></figure>
+</div>
+<p>上python脚本爆破高度，得到<code>232</code>，再用pngcheck，发现异常数据。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="737" height="690" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-16.png" alt="" class="wp-image-991" /></figure>
+</div>
+找到数据，并进行zlib解压。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">78 9C 5D 91 01 12 80 40 08 02 BF 04 FF FF 5C 75 29 4B 55 37 73 8A 21 A2 7D 1E 49 CF D1 7D B3 93 7A 92 E7 E6 03 88 0A 6D 48 51 00 90 1F B0 41 01 53 35 0D E8 31 12 EA 2D 51 C5 4C E2 E5 85 B1 5A 2F C7 8E 88 72 F5 1C 6F C1 88 18 82 F9 3D 37 2D EF 78 E6 65 B0 C3 6C 52 96 22 A0 A4 55 88 13 88 33 A1 70 A2 07 1D DC D1 82 19 DB 8C 0D 46 5D 8B 69 89 71 96 45 ED 9C 11 C3 6A E3 AB DA EF CF C0 AC F0 23 E7 7C 17 C7 89 76 67 D9 CF A5 A8 00 00 00 00
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到一串二进制代码，长度为625，想到画25X25的二维码，扫码得到flag。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">from PIL import Image
+</span></span><span class="line"><span class="cl">from zlib import *
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">MAX = 25
+</span></span><span class="line"><span class="cl">pic = Image.new(&#34;RGB&#34;,(MAX,MAX))
+</span></span><span class="line"><span class="cl">str =&#34;1111111000100001101111111100000101110010110100000110111010100000000010111011011101001000000001011101101110101110110100101110110000010101011011010000011111111010101010101111111000000001011101110000000011010011000001010011101101111010101001000011100000000000101000000001001001101000100111001111011100111100001110111110001100101000110011100001010100011010001111010110000010100010110000011011101100100001110011100100001011111110100000000110101001000111101111111011100001101011011100000100001100110001111010111010001101001111100001011101011000111010011100101110100100111011011000110000010110001101000110001111111011010110111011011&#34;
+</span></span><span class="line"><span class="cl">i=0
+</span></span><span class="line"><span class="cl">for y in range(0,MAX):
+</span></span><span class="line"><span class="cl">    for x in range(0,MAX):
+</span></span><span class="line"><span class="cl">        if(str[i] == &#39;1&#39;):
+</span></span><span class="line"><span class="cl">            pic.putpixel([x,y],(0,0,0))
+</span></span><span class="line"><span class="cl">        else:pic.putpixel([x,y],(255,255,255))
+</span></span><span class="line"><span class="cl">        i = i+1
+</span></span><span class="line"><span class="cl">pic.save(&#34;flag.png&#34;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x28-内存取证">0x28 内存取证</h2>
+<p>使用volatility，进行镜像分析，知道了系统。详细用法参考：<a href="https://www.cnblogs.com/jssi/p/13762308.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/jssi/p/13762308.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/jssi/p/13762308.html</a></a><figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="806" height="269" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-11.png" alt="" class="wp-image-974" /> </figure></p>
+<p>查看进程，发现可疑进程<code>TrueCrypt.exe</code></p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="942" height="471" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-12.png" alt="" class="wp-image-977" /></figure>
+</div>
+<p>dump出来，<code>volatility -f mem.vmem --profile=WinXPSP2x86 memdump -p 2012 -D ./</code>2012为nc的进程号，./为保存的路径，用010打开文件，搜索ctf{。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="644" height="77" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/image-14.png" alt="" class="wp-image-986" /> </figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-02-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" data-title="NepNep Winter-CAMP（Misc合集）" data-hashtags="Misc,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" data-hashtag="Misc"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" data-title="NepNep Winter-CAMP（Misc合集）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" data-title="NepNep Winter-CAMP（Misc合集）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-02-08-nepnep-winter-campmisc%E5%90%88%E9%9B%86/" data-title="NepNep Winter-CAMP（Misc合集）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/misc/">Misc</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-02-04-%E5%90%88%E5%A4%A9%E7%BD%91%E5%AE%89weekly%E7%B3%BB%E5%88%979-22/" class="prev" rel="prev" title="合天网安Weekly系列（9-22）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>合天网安Weekly系列（9-22）</a>
+            <a href="/2021-02-09-sxc-%E9%83%A8%E5%88%86writeup/" class="next" rel="next" title="SXC 部分WriteUp">SXC 部分WriteUp<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

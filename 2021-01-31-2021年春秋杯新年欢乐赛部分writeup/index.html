@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>2021年“春秋杯”新年欢乐赛部分WriteUp - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="2021年“春秋杯”新年欢乐赛部分WriteUp" />
+<meta property="og:description" content="0x00 签到题 万物皆有&quot;FUN&quot;，电脑扫&quot;FUN&quot;活动，提供大写的&quot;FUN&quot;字样，即可" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-31T13:43:00+00:00" />
+<meta property="article:modified_time" content="2021-01-31T13:43:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="2021年“春秋杯”新年欢乐赛部分WriteUp"/>
+<meta name="twitter:description" content="0x00 签到题 万物皆有&quot;FUN&quot;，电脑扫&quot;FUN&quot;活动，提供大写的&quot;FUN&quot;字样，即可"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" /><link rel="prev" href="https://hannibal0x.github.io/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" /><link rel="next" href="https://hannibal0x.github.io/2021-02-03-%E7%89%A9%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AEcoap%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AF%87/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "2021年“春秋杯”新年欢乐赛部分WriteUp",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup\/"
+        },"genre": "posts","keywords": "CTF","wordcount":  1537 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup\/","datePublished": "2021-01-31T13:43:00+00:00","dateModified": "2021-01-31T13:43:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">2021年“春秋杯”新年欢乐赛部分WriteUp</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-01-31">2021-01-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1537 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-签到题">0x00 签到题</a></li>
+    <li><a href="#0x01-十二宫的挑衅">0x01 十二宫的挑衅</a></li>
+    <li><a href="#0x02-puzzle">0x02 puzzle</a></li>
+    <li><a href="#0x03-2019-ncov">0x03 2019-nCoV</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-签到题">0x00 签到题</h2>
+<p>万物皆有&quot;FUN&quot;，电脑扫&quot;FUN&quot;活动，提供大写的&quot;FUN&quot;字样，即可获取flag~</p>
+<p>下载压缩包后，解压打开新年快乐.exe，发现获取摄像头权限在截图，根据提示。在纸上写下“FUN”，放到摄像头前，出现flag.txt，打开获取flag。<code>flag{ju5t_f0r_FUN}</code></p>
+<h2 id="0x01-十二宫的挑衅">0x01 十二宫的挑衅</h2>
+<p>解压后发现图片。</p>
+<pre class="wp-block-code"><code>^#@$@#()/&gt;@?==%1(
+!)&gt;(*+3&lt;#86@-7$^.
+4&)8%#5&6!=%1#$-$
++5&?#!.03!%=@=101
+0?(*~#??.+)%&.7^8
+=1%^=$5$7@@8&gt;&*9
+9@0185(+7)&lt;%3#@^4
+&@@&lt;.)$3*#%%&lt;&lt;*++
+.@.?=~**+!==65^@&</code></pre>
+<p>参考文章<a rel="noreferrer noopener" href="https://mp.weixin.qq.com/s/PG3tyhxEPuSjOo62g4iPDQ" target="_blank" rel="nofollow" ><a href="https://mp.weixin.qq.com/s/PG3tyhxEPuSjOo62g4iPDQ" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/PG3tyhxEPuSjOo62g4iPDQ</a></a>发现<strong>Z-340</strong>的解密方法</p>
+<p>首先将文本按上述步骤处理，得到如下结果。</p>
+<pre class="wp-block-code"><code>^&gt;%..@3*&
+#(#0+@#+.
+@*53)8@+@
+$+&!%&gt;^&.
+@36%&&4@?
+#&lt;!=.*9@=
+(#=@79@&lt;~
+)8%=^=0.*
+/611811)*
+&gt;@#00%8$+
+@-$1?*53!
+?7-+(^(*=
+=$$5*=+#=
+=^4&~$7%6
+%.&?#5)%5
+1!)#?$&lt;&lt;^
+()8!?7%&lt;@</code></pre>
+<p>文章里面提到了AZdecrypt解密工具，在<a rel="noreferrer noopener" href="https://drive.google.com/uc?id=1_lP82NAvj5-vzd8O33e5aggWViHd-THJ&export=download" target="_blank" rel="nofollow" ><a href="https://drive.google.com/uc?id=1_lP82NAvj5-vzd8O33e5aggWViHd-THJ&amp;export=download" target="_blank" rel="noopener noreffer ">https://drive.google.com/uc?id=1_lP82NAvj5-vzd8O33e5aggWViHd-THJ&export=download</a></a>下载后使用。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="492" height="112" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/图片-74.png" alt="" class="wp-image-372" /></figure>
+</div>
+<p>成功得到<code>flag{WUUHUUTAKEOFF}</code></p>
+<h2 id="0x02-puzzle">0x02 puzzle</h2>
+<p>下载后一张松鼠图片和一个压缩包，解压后1125张低像素的松鼠图片碎片，题目也提到了拼图的好处，猜测是需要拼图的。初步观察发现图片藏有模糊的flag信息，肉眼识别难度较大。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="839" height="282" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/01/图片-81.png" alt="" class="wp-image-441" /></figure>
+</div>
+<p>目测flag{w9w45my5x8kk4e8gp9nqm6j2wad49}，但答案无法通过。</p>
+<p>将个别图片放到<a rel="noreferrer noopener" href="https://zh.pixfix.com/" target="_blank" rel="nofollow" ><a href="https://zh.pixfix.com/" target="_blank" rel="noopener noreffer ">https://zh.pixfix.com/</a></a>降噪处理，得到<code>flag{w9w45my6x8kk4e8gp9nqm6j2c154wad49}</code></p>
+<h2 id="0x03-2019-ncov">0x03 2019-nCoV</h2>
+<p>hint：1. 增加hint.txt下载 2.可用python统计次数最多的字符；</p>
+<p>解压发现</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="127" height="86" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-52.png" alt="" class="wp-image-656" /></figure>
+</div>
+<p>zip文件已加密，内部藏有信息。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="137" height="47" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-53.png" alt="" class="wp-image-658" /></figure>
+</div>
+<p>使用 silenteye解码pass.wav，音频中的LSB（最低有效位）隐写，得到<code>priebeijoarkjpxmdkucxwdus</code>，尝试解密，错误。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-51.png" alt="" class="wp-image-655" width="502" height="344" /></figure>
+</div>
+<p>打开hint.txt，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">NB2HI4B2F4XXO53XFZWWK4TSPFRGS3ZOMNXW2LTDNYXWE3DPM4XVGQKSKMWUG32WFUZC2Z3FNZXW22LDFVQW4YLMPFZWS4ZONB2G23AKNB2HI4DTHIXS653XO4XG4Y3CNEXG43DNFZXGS2BOM5XXML3POJTGM2LOMRSXELYKNB2HI4B2F4XXO53XFZWWK4TSPFRGS3ZOMNXW2LTDNYXWE3DPM4XWG33SN5XGC5TJOJ2XGLLJNZ2HE33EOVRXI2LPNYXGQ5DNNQFAUUDMMVQXGZJANZXXI2LDMUQFI2DFEBWGC4THMVZXIIDTORZHKY3UOVZGC3BAOBZG65DFNFXCAIAKORUGKIDQMFZXG53POJSCA2LTEB2GQZJAEBWWINJINF2CO4ZAM5SW4ZJAONSXC5LFNZRWKKJAMFXGIIDEN4QG433UEBWGK5BAORUGKIHCQCMFY3XCQCMSA2LOEBWWINJIFE======
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解码base32得到</p>
+<pre class="wp-block-code"><code>http:&#47;&#47;www.merrybio.com.cn/blog/SARS-CoV-2-genomic-analysis.html
+https://www.ncbi.nlm.nih.gov/orffinder/
+http://www.merrybio.com.cn/blog/coronavirus-introduction.html
+
+Please notice The largest structural protein
+the password is the md5(it's gene sequence) and do not let the ‘\n’ in md5()</code></pre>
+<p>刺突蛋白（Spike Protein，S）是病毒最大的结构蛋白，猜测密码应该是它的序列的md5值，序列子范围为21536-25384，需要在第二个页面输入登录号<code>MN908947</code>搜寻，得到如下结果。</p>
+<pre class="wp-block-code"><code>MFLLTTKRTMFVFLVLLPLVSSQCVNLTTRTQLPPAYTNSFTRGVYYPDK
+VFRSSVLHSTQDLFLPFFSNVTWFHAIHVSGTNGTKRFDNPVLPFNDGVY
+FASTEKSNIIRGWIFGTTLDSKTQSLLIVNNATNVVIKVCEFQFCNDPFL
+GVYYHKNNKSWMESEFRVYSSANNCTFEYVSQPFLMDLEGKQGNFKNLRE
+FVFKNIDGYFKIYSKHTPINLVRDLPQGFSALEPLVDLPIGINITRFQTL
+LALHRSYLTPGDSSSGWTAGAAAYYVGYLQPRTFLLKYNENGTITDAVDC
+ALDPLSETKCTLKSFTVEKGIYQTSNFRVQPTESIVRFPNITNLCPFGEV
+FNATRFASVYAWNRKRISNCVADYSVLYNSASFSTFKCYGVSPTKLNDLC
+FTNVYADSFVIRGDEVRQIAPGQTGKIADYNYKLPDDFTGCVIAWNSNNL
+DSKVGGNYNYLYRLFRKSNLKPFERDISTEIYQAGSTPCNGVEGFNCYFP
+LQSYGFQPTNGVGYQPYRVVVLSFELLHAPATVCGPKKSTNLVKNKCVNF
+NFNGLTGTGVLTESNKKFLPFQQFGRDIADTTDAVRDPQTLEILDITPCS
+FGGVSVITPGTNTSNQVAVLYQDVNCTEVPVAIHADQLTPTWRVYSTGSN
+VFQTRAGCLIGAEHVNNSYECDIPIGAGICASYQTQTNSPRRARSVASQS
+IIAYTMSLGAENSVAYSNNSIAIPTNFTISVTTEILPVSMTKTSVDCTMY
+ICGDSTECSNLLLQYGSFCTQLNRALTGIAVEQDKNTQEVFAQVKQIYKT
+PPIKDFGGFNFSQILPDPSKPSKRSFIEDLLFNKVTLADAGFIKQYGDCL
+GDIAARDLICAQKFNGLTVLPPLLTDEMIAQYTSALLAGTITSGWTFGAG
+AALQIPFAMQMAYRFNGIGVTQNVLYENQKLIANQFNSAIGKIQDSLSST
+ASALGKLQDVVNQNAQALNTLVKQLSSNFGAISSVLNDILSRLDKVEAEV
+QIDRLITGRLQSLQTYVTQQLIRAAEIRASANLAATKMSECVLGQSKRVD
+FCGKGYHLMSFPQSAPHGVVFLHVTYVPAQEKNFTTAPAICHDGKAHFPR
+EGVFVSNGTHWFVTQRNFYEPQIITTDNTFVSGNCDVVIGIVNNTVYDPL
+QPELDSFKEELDKYFKNHTSPDVDLGDISGINASVVNIQKEIDRLNEVAK
+NLNESLIDLQELGKYEQYIKWPWYIWLGFIAGLIAIVMVTIMLCCMTSCC
+SCLKGCCSCGSCCKFDEDDSEPVLKGVKLHYT</code></pre>
+<p>Md5加密得到<code>98eb1b1760bcc837934c8695a1cee923</code>，也解不开压缩包文件，怀疑可能是mp3加密，利用Mp3Stego解密。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1074" height="253" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-63.png" alt="" class="wp-image-703" /></figure>
+</div>
+<p>打开cov.mp3.txt，得到<code>2019-nCoV</code>。解压打开hint2，得到一串16进制代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">796f75206d7573742070617920617474656e74696f6e20746f204e2070726f7465696e202c486f7720646f20746861742067657420696e746f2074686520766972616c206361707369643f0a646f20796f75206b6e6f772073746567686964653f0a7468652070617373776f726420697320656e637279707420627920566967656ec3a87265204369706865720a74686520736372656374206b65792069732054686520746f702032302063686172616374657273207769746820746865206d6f7374206f6363757272656e6365732061726520636f756e7465642b434f4d424154
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>转ASCII码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">you must pay attention to N protein ,How do that get into the viral capsid?&amp;lt;br&gt;do you know steghide?&amp;lt;br&gt;the password is encrypt by VigenÃ¨re Cipher&amp;lt;br&gt;the screct key is The top 20 characters with the most occurrences are counted+COMBAT
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>提示给到了N蛋白、steghide、维吉尼亚密码和词频统计Top20+<code>COMBAT</code>，先解密下图片。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large"><img loading="lazy" width="1080" height="66" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-64.png" alt="" class="wp-image-707" /></figure>
+</div>
+<p>需要一个密码，应该和N蛋白的信息有关，N的序列范围为28274-29533，先统计解密了，但得不到结果，又在文章中看到病毒在进行装配时，N蛋白先和病毒RNA相互作用形成复合体形式，然后再结合M蛋白、E蛋白，最后被包装进入病毒衣壳内。这次加上M的序列范围为27202-27387，E的蛋白范围为26523-27191，得到：</p>
+<pre class="wp-block-code"><code>MSDNGPQNQRNAPRITFGGPSDSTGSNQNGERSGARSKQRRPQGLPNNTA
+SWFTALTQHGKEDLKFPRGQGVPINTNSSPDDQIGYYRRATRRIRGGDGK
+MKDLSPRWYFYYLGTGPEAGLPYGANKDGIIWVATEGALNTPKDHIGTRN
+PANNAAIVLQLPQGTTLPKGFYAEGSRGGSQASSRSSSRSRNSSRNSTPG
+SSRGTSPARMAGNGGDAALALLLLDRLNQLESKMSGKGQQQQGQTVTKKS
+AAEASKKPRQKRTATKAYNVTQAFGRRGPEQTQGNFGDQELIRQGTDYKH
+WPQIAQFAPSASAFFGMSRIGMEVTPSGTWLTYTGAIKLDDKDPNFKDQV
+ILLNKHIDAYKTFPPTEPKKDKKKKADETQALPQRQKKQQTVTLLPAADL
+DDFSKQLQQSMSSADSTQA
+
+MFHLVDFQVTIAEILLIIMRTFKVSIWNLDYIINLIIKNLSKSLTENKYS
+QLDEEQPMEID
+
+MADSNGTITVEELKKLLEQWNLVIGFLFLTWICLLQFAYANRNRFLYIIK
+LIFLWLLWPVTLACFVLAAVYRINWITGGIAIAMACLVGLMWLSYFIASF
+RLFARTRSMWSFNPETNILLNVPLHGTILTRPLLESELVIGAVILRGHLR
+IAGHHLGRCDIKDLPKEITVATSRTLSYYKLGASQRVAGDSGFAAYSRYR
+IGNYKLNTDHSSSSDNIALLVQ</code></pre>
+<p>进行统计，得到Top20，注意到有一样频率的字，序列共有16种可能。<figure class="wp-block-image size-large"></p>
+<p><img loading="lazy" width="1348" height="612" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-68.png" alt="" class="wp-image-717" /> </figure></p>
+<p>经过尝试，<code>LGASTRIQKNDPFEVYMWHC</code>为最终序列，加上<code>COMBAT</code>，构成密钥，对<code>priebeijoarkjpxmdkucxwdus</code>进行解密，得到<code>eliminatenovelcoronavirts</code>。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-70.png" alt="" class="wp-image-721" width="404" height="363" /></figure>
+</div>
+<p>终于拿到了<code>flag{we_will_over_come_SARS-COV}</code>，累死了，跟套娃一样。</p>
+<div class="wp-block-image">
+  <figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/02/图片-71.png" alt="" class="wp-image-722" width="310" height="74" /></figure>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-01-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" data-title="2021年“春秋杯”新年欢乐赛部分WriteUp" data-hashtags="CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" data-hashtag="CTF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" data-title="2021年“春秋杯”新年欢乐赛部分WriteUp"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" data-title="2021年“春秋杯”新年欢乐赛部分WriteUp"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-01-31-2021%E5%B9%B4%E6%98%A5%E7%A7%8B%E6%9D%AF%E6%96%B0%E5%B9%B4%E6%AC%A2%E4%B9%90%E8%B5%9B%E9%83%A8%E5%88%86writeup/" data-title="2021年“春秋杯”新年欢乐赛部分WriteUp"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-01-29-ctf%E9%9A%90%E5%86%99%E6%9C%AF%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="CTF隐写术入门总结"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CTF隐写术入门总结</a>
+            <a href="/2021-02-03-%E7%89%A9%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AEcoap%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AF%87/" class="next" rel="next" title="物联网协议CoAP学习（理论篇）">物联网协议CoAP学习（理论篇）<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

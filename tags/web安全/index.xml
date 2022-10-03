@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Web安全 - Tag - Hannibal0x の Blog</title>
+        <link>https://hannibal0x.github.io/tags/web%E5%AE%89%E5%85%A8/</link>
+        <description>Web安全 - Tag - Hannibal0x の Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 01 Mar 2022 05:46:09 &#43;0000</lastBuildDate><atom:link href="https://hannibal0x.github.io/tags/web%E5%AE%89%E5%85%A8/" rel="self" type="application/rss+xml" /><item>
+    <title>CTFShow-web入门（1）</title>
+    <link>https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/</link>
+    <pubDate>Tue, 01 Mar 2022 05:46:09 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-03-01-ctfshow-web%E5%85%A5%E9%97%A81/</guid>
+    <description><![CDATA[0x00 信息搜集 列举常见的信息搜集手法 查看源代码 ctrl+shift+i 查看响应包的headers 查看robots.txt 下载phps源码 下载目录源码，如：www.zi]]></description>
+</item>
+<item>
+    <title>攻防世界-mobile（新手篇2）</title>
+    <link>https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/</link>
+    <pubDate>Mon, 07 Feb 2022 02:16:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/</guid>
+    <description><![CDATA[## 0x00 easyjava jeb打开，分析关键代码，首先我们知道flag{}内的内容通过v4和v5加密得出的v3，最后为wigwrkaugala，所以逆推出解密]]></description>
+</item>
+<item>
+    <title>HGAME 2022 week1(writeup)</title>
+    <link>https://hannibal0x.github.io/2022-01-29-hgame-2022-week1writeup/</link>
+    <pubDate>Sat, 29 Jan 2022 05:42:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-29-hgame-2022-week1writeup/</guid>
+    <description><![CDATA[0x00 Easy RSA 描述 这 RSA 不是有手就行？！ (100分的题能拿125分，这不血赚) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 from math import gcd from random import randint from gmpy2 import next_prime from Crypto.Util.number import getPrime from secret import]]></description>
+</item>
+<item>
+    <title>攻防世界-moblie（新手篇1）</title>
+    <link>https://hannibal0x.github.io/2022-01-13-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-moblie%E6%96%B0%E6%89%8B%E7%AF%871/</link>
+    <pubDate>Thu, 13 Jan 2022 12:28:01 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-13-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-moblie%E6%96%B0%E6%89%8B%E7%AF%871/</guid>
+    <description><![CDATA[0x00 easyjni JNI（Java Native Interface）即java本地接口，众所周知，android有四层结构，应用层与应用接口层是用Java写的，而C/]]></description>
+</item>
+<item>
+    <title>打靶-EVILBOX: ONE</title>
+    <link>https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/</link>
+    <pubDate>Tue, 11 Jan 2022 04:23:05 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2022-01-11-%E6%89%93%E9%9D%B6-evilbox-one/</guid>
+    <description><![CDATA[0x00 准备工作 靶机地址: https://www.vulnhub.com/entry/evilbox-one,736/ 难度等级: 高 打靶目标: 取得 root 权限 涉及攻击方法: 主机发现 端口扫描 强制方法 参数爆破 文件包含 PHP封装器 任意文件读取 SSH公]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（下）</title>
+    <link>https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/</link>
+    <pubDate>Sun, 05 Dec 2021 07:37:22 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-05-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8B/</guid>
+    <description><![CDATA[0x00 二次漏洞审计 什么是二次漏洞？ 需要先构造好利用代码写入网站保存，在第二次或多次请求后调用攻击代码触发或者修改配置触发的漏洞。 审计技巧 依然可以]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（中）</title>
+    <link>https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/</link>
+    <pubDate>Sat, 04 Dec 2021 13:40:13 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-04-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%AD/</guid>
+    <description><![CDATA[0x00 SQL注入漏洞 普通注入 最容易利用的SQL注入漏洞，比如直接通过注入union查询，分int型和string型，后者需要使用单或双引号闭合。]]></description>
+</item>
+<item>
+    <title>代码审计学习笔记（上）</title>
+    <link>https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/</link>
+    <pubDate>Fri, 03 Dec 2021 11:48:54 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-12-03-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8A/</guid>
+    <description><![CDATA[0x00 前言 学习《代码审计 企业级Web代码安全架构》一书所做的笔记。 0x01 PHP核心配置详解 官方配置说明 PHP_INI_ 常量的定义* 常量 含义 PHP_INI_USER 可在用户PHP脚本或 Windows]]></description>
+</item>
+<item>
+    <title>业务安全学习笔记（实践篇）</title>
+    <link>https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/</link>
+    <pubDate>Sun, 28 Nov 2021 08:28:47 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-28-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%AE%9E%E8%B7%B5%E7%AF%87/</guid>
+    <description><![CDATA[0x00 账号安全案例总结 账号密码直接暴露在互联网上 搜索语法 邮件配置信息查询 site:Github.com smtp password; 数据库信息泄露 site:Github.com sa password; svn信息泄露 site:Github.com svn; 数据库备份文件 site:Github.com inurl:sql 开源项目存]]></description>
+</item>
+<item>
+    <title>业务安全学习笔记（技术篇）</title>
+    <link>https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/</link>
+    <pubDate>Wed, 24 Nov 2021 17:23:00 &#43;0000</pubDate>
+    <author>Hannibal0x</author>
+    <guid>https://hannibal0x.github.io/2021-11-25-%E4%B8%9A%E5%8A%A1%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E6%8A%80%E6%9C%AF%E7%AF%87/</guid>
+    <description><![CDATA[0x00 前言 阅读《Web攻防之业务安全实战指南》一书所做的学习笔记。 0x01 登录认证模块测试 暴力破解测试 burp利用字典穷举 本地加密传输测试 测试客户端与]]></description>
+</item>
+</channel>
+</rss>

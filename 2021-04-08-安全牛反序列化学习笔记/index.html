@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>安全牛反序列化学习笔记 - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="安全牛反序列化学习笔记" />
+<meta property="og:description" content="0x00 反序列化的基本概念 序列化和反序列化的目的是使得程序间传输对象会更加方便。 内存数据是“稍纵即逝”的；——通常，程序执行结束，立即全部销毁。变" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-08T03:45:00+00:00" />
+<meta property="article:modified_time" content="2021-04-08T03:45:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="安全牛反序列化学习笔记"/>
+<meta name="twitter:description" content="0x00 反序列化的基本概念 序列化和反序列化的目的是使得程序间传输对象会更加方便。 内存数据是“稍纵即逝”的；——通常，程序执行结束，立即全部销毁。变"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://hannibal0x.github.io/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全牛反序列化学习笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  1844 ,
+        "url": "https:\/\/hannibal0x.github.io\/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2021-04-08T03:45:00+00:00","dateModified": "2021-04-08T03:45:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">安全牛反序列化学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>学习</a>&nbsp;<a href="/categories/%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>安全技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-04-08">2021-04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1844 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x00-反序列化的基本概念">0x00 反序列化的基本概念</a></li>
+    <li><a href="#0x01-魔术方法">0x01 魔术方法</a></li>
+    <li><a href="#0x02-序列化注意点">0x02 序列化注意点</a></li>
+    <li><a href="#0x03-session序列化以及phar序列化">0x03 session序列化以及phar序列化</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+<h2 id="0x00-反序列化的基本概念">0x00 反序列化的基本概念</h2>
+<p>序列化和反序列化的目的是使得程序间传输对象会更加方便。</p>
+<p>内存数据是“稍纵即逝”的；——通常，程序执行结束，立即全部销毁。变量所存储的数据，就是内存数据；文件是“持久数据”；</p>
+<p>序列化就是，将内存的变量数据，“保存”到文件中的持久数据的过程。简化就是：将内存变为文件。</p>
+<p>反序列化就是，将序列化过存储到文件中的数据，恢复到程序代码的变量表示形式的过程。简化就是：将文件变为内存。</p>
+<p><strong>相关函数</strong></p>
+<p>serialize — 产生一个可存储的值的表示</p>
+<p><strong>serialize</strong>(mixed<code>$value</code>): string</p>
+<p><strong>serialize()</strong> 返回字符串，此字符串包含了表示 <code>value</code> 的字节流，可以存储于任何地方。</p>
+<p>unserialize — 从已存储的表示中创建 PHP 的值</p>
+<p><strong>unserialize</strong>(string <code>$str</code>): mixed</p>
+<p><strong>unserialize()</strong> 对单一的已序列化的变量进行操作，将其转换回 PHP 的值。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="738" height="607" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-200.png" alt="" class="wp-image-3097" /></figure></p>
+<h2 id="0x01-魔术方法">0x01 魔术方法</h2>
+<p>PHP中把以两个下划线__开头的方法称为魔术方法(Magic methods)<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1238" height="331" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-201.png" alt="" class="wp-image-3100" /> </figure></p>
+<p>__construct，构造函数，PHP 5 允行开发者在一个类中定义一个方法作为构造函数。具有构造函数的类会在每次创建新对象时先调用此方法，所以非常适合在使用对象之前做一些初始化工作。</p>
+<p>__toString，打印一个对象时，如果定义了__toString()方法，就能在测试时，通过echo打印对象体，对象就会自动调用它所属类定义的toString方法，格式化输出这个对象所包含的数据。</p>
+<p>__destruct，析构函数，PHP 5 引入了析构函数的概念，这类似于其它面向对象的语言，如C++。析构函数<br>
+会在到某个对象的所有引用都被删除或者当对象被显式销毁时执行。</p>
+<p>__construct和__destruct会在对象创建或者销毁时自动调用。</p>
+<p>__sleep magic方法在一个对象被序列化的时候调用。</p>
+<p>__wakeup magic方法在一个对象被反序列化的时候调用。</p>
+<h2 id="0x02-序列化注意点">0x02 序列化注意点</h2>
+<p>\x00 + 类名+ \x00 + 变量名反序列化出来的是private变量,</p>
+<p>\x00 + * + \x00 + 变量名反序列化出来的是protected变量</p>
+<p>直接变量名反序列化出来的是public变量<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1152" height="566" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-202.png" alt="" class="wp-image-3104" /> </figure></p>
+<p>有时候+号会被识别为空格，需要通过url编码来绕过。</p>
+<p>PHP Bug 72663</p>
+<p>简单来说就是当序列化字符串中，如果表示对象属性个数的值大于真实的属性个数时就会跳过__wakeup的执行。</p>
+<h2 id="0x03-session序列化以及phar序列化">0x03 session序列化以及phar序列化</h2>
+<p>Php bug 71101</p>
+<p><a href="https://bugs.php.net/bug.php?id=71101" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://bugs.php.net/bug.php?id=71101" target="_blank" rel="noopener noreffer ">https://bugs.php.net/bug.php?id=71101</a></a></p>
+<p>PHP 内置了多种处理器用于存取$_SESSION 数据时会对数据进行序列化和反序列化，常用的有以下三种，对应三种不同的处理格式。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1153" height="175" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2021/08/图片-203.png" alt="" class="wp-image-3108" /> </figure></p>
+<p>PHP 提供了session.serialize_handler 配置选项，通过该选项可以设置序列化及反序列化时使用的处理器。<br>
+session.serialize_handler &ldquo;php&rdquo; PHP_INI_ALL</p>
+<p>如果PHP 在反序列化存储的$_SESSION 数据时的使用的处理器和序列化时使用的处理器不同，会导致数据无法正确反序列化，通过特殊的构造，甚至可以伪造任意数据。</p>
+<p>范例</p>
+<pre class="wp-block-code"><code>当存储是php_serialize处理，然后调用时php去处理
+如果这时候注入的数据是a=|O:4:"test":0:{}
+那么session中的内容是a:1:{s:1:"a";s:16:"|O:4:"test":0:{}";}
+根据解释,其中a:1:{s:1:"a";s:16:"在经过php解析后是被看成键名,
+后面就是一个实例化test对象的注入</code></pre>
+<p>当配置选项session.auto_start＝Off，两个脚本注册Session会话时使用的序列化处理器不同，就会出现安全问题。</p>
+<p>当配置选项session.auto_start＝On，会自动注册Session 会话，因为该过程是发生在脚本代码执行前，所以在脚本中设定的包括序列化处理器在内的session 相关配选项的设置是不起作用的，因此一些需要在脚本中设置序列化处理器配置的程序会在session.auto_start＝On 时，销毁自动生成的Session 会话，然后设置需要的序列化处理器，再调用session_start() 函数注册会话，这时如果脚本中设置的序列化处理器与php.ini 中设置的不同，就会出现安全问题。</p>
+<p><strong>phar序列化</strong></p>
+<p>在Blackhat2018，来自Secarma的安全研究员Sam Thomas讲述了一种攻击PHP应用的新方式，利用这种方法可以在不使用unserialize()函数的情况下触发PHP反序列化漏洞。漏洞触发点在使用phar://协议读取文件的时候，文件内容会被解析成phar对象，然后phar对象内的Meta data信息会被反序列化。<a href="https://blog.ripstech.com/2018/new-php-exploitation-
+technique/" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://blog.ripstech.com/2018/new-php-exploitation-technique/" target="_blank" rel="noopener noreffer ">https://blog.ripstech.com/2018/new-php-exploitation-technique/</a></a></p>
+<p>可利用函数</p>
+<pre class="wp-block-code"><code>ìnclude()、  fopen()、  file_get_contents()、  file()
+
+file_exists($_GET&#91;'file']);
+md5_file($_GET&#91;'file']);
+filemtime($_GET&#91;'file']);
+filesize($_GET&#91;'file']);</code></pre><blockquote>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-04-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛反序列化学习笔记" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛反序列化学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛反序列化学习笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="安全牛反序列化学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021-04-08-%E5%AE%89%E5%85%A8%E7%89%9Bssrf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="安全牛SSRF学习笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>安全牛SSRF学习笔记</a>
+            <a href="/2021-04-11-ctfhub-ssrf%E5%AD%A6%E4%B9%A0/" class="next" rel="next" title="CTFHub-SSRF学习">CTFHub-SSRF学习<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

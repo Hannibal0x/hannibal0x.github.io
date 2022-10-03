@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>攻防世界-mobile（新手篇2） - Hannibal0x の Blog</title><meta name="Description" content="Hannibal0x的个人学习博客"><meta property="og:title" content="攻防世界-mobile（新手篇2）" />
+<meta property="og:description" content="## 0x00 easyjava jeb打开，分析关键代码，首先我们知道flag{}内的内容通过v4和v5加密得出的v3，最后为wigwrkaugala，所以逆推出解密" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" /><meta property="og:image" content="https://hannibal0x.github.io/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-02-07T02:16:00+00:00" />
+<meta property="article:modified_time" content="2022-02-07T02:16:00+00:00" /><meta property="og:site_name" content="Hannibal0x の Blog" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://hannibal0x.github.io/images/logo.png"/>
+
+<meta name="twitter:title" content="攻防世界-mobile（新手篇2）"/>
+<meta name="twitter:description" content="## 0x00 easyjava jeb打开，分析关键代码，首先我们知道flag{}内的内容通过v4和v5加密得出的v3，最后为wigwrkaugala，所以逆推出解密"/>
+<meta name="application-name" content="Hannibal0x の Blog">
+<meta name="apple-mobile-web-app-title" content="Hannibal0x の Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/logo.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" /><link rel="prev" href="https://hannibal0x.github.io/2022-01-29-hgame-2022-week1writeup/" /><link rel="next" href="https://hannibal0x.github.io/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "攻防世界-mobile（新手篇2）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/hannibal0x.github.io\/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872\/"
+        },"genre": "posts","keywords": "Web安全, CTF","wordcount":  2595 ,
+        "url": "https:\/\/hannibal0x.github.io\/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872\/","datePublished": "2022-02-07T02:16:00+00:00","dateModified": "2022-02-07T02:16:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Hannibal0x"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class='fas fa-book'></i> 文章 </a><a class="menu-item" href="/tags/"><i class='fas fa-tags'></i> 标签 </a><a class="menu-item" href="/categories/"><i class='fas fa-folder'></i> 分类 </a><a class="menu-item" href="/categories/writeup"><i class='fas fa-flag'></i> CTF </a><a class="menu-item" href="/about/"><i class='fas fa-key'></i> 关于 </a><a class="menu-item" href="http://hannibal0x.top" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i> 旧博客 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hannibal0x の Blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="32" height="32" />Hannibal0x の Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="都几岁啦，还这么害羞，让我康康！" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class='fas fa-book'></i>文章</a><a class="menu-item" href="/tags/" title=""><i class='fas fa-tags'></i>标签</a><a class="menu-item" href="/categories/" title=""><i class='fas fa-folder'></i>分类</a><a class="menu-item" href="/categories/writeup" title=""><i class='fas fa-flag'></i>CTF</a><a class="menu-item" href="/about/" title=""><i class='fas fa-key'></i>关于</a><a class="menu-item" href="http://hannibal0x.top" title="" rel="noopener noreffer" target="_blank"><i class='fas fa-history'></i>旧博客</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">攻防世界-mobile（新手篇2）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Hannibal0x</a></span>&nbsp;<span class="post-category">included in <a href="/categories/writeup/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>WriteUp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-02-07">2022-02-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2595 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0x01-rememberother">0x01 RememberOther</a></li>
+    <li><a href="#0x02-ph0en1x-100">0x02 Ph0en1x-100</a></li>
+    <li><a href="#0x03-黑客精神">0x03 黑客精神</a></li>
+    <li><a href="#0x04-easy-dex">0x04 easy-dex</a></li>
+    <li><a href="#0x05-你是谁figure-classwp-block-image-size-full-is-resized">0x05 你是谁<figure class="wp-block-image size-full is-resized"></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="has-toc have-toc">
+</div>
+## 0x00 easyjava
+<figure class="wp-block-image size-full">
+<p><img loading="lazy" width="960" height="540" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-150.png" alt="" class="wp-image-5042" /> </figure></p>
+<p>jeb打开，分析关键代码，首先我们知道flag{}内的内容通过v4和v5加密得出的v3，最后为<code>wigwrkaugala</code>，所以逆推出解密的步骤就能得到flag。分析参考：<a href="https://www.cnblogs.com/cainiao-chuanqi/p/13565030.html" target="_blank" rel="noreferrer noopener" rel="nofollow" ><a href="https://www.cnblogs.com/cainiao-chuanqi/p/13565030.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/cainiao-chuanqi/p/13565030.html</a></a><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="703" height="672" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-151.png" alt="" class="wp-image-5043" /> </figure></p>
+<p>先分析v4，得到是c的数组左移2位，结果是<code>17 23 7 22 1 16 6 9 21 0 15 5 10 18 2 24 4 11 3 14 19 12 20 13 8 25</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="710" height="279" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-152.png" alt="" class="wp-image-5044" /> </figure></p>
+<p>再分析v5，得到c的数组左移3位，结果是<code>21 4 24 25 20 5 15 9 17 6 13 3 18 12 10 19 0 22 2 11 23 1 8 7 14 16</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="708" height="272" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-153.png" alt="" class="wp-image-5045" /> </figure></p>
+<p>b类的a函数，该函数首先获取传进来的字符在字符串b.b中的索引，然后得到在b类中定义的整形数组中与该索引相等的在数组中的索引，然后调用b类的a()函数，将b类中数组与字符串左移一位，然后返回该数组索引。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="566" height="573" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-154.png" alt="" class="wp-image-5046" /></figure></p>
+<p>a类中的a(int)函数，该函数首先获取与传进来的参数相等的数组中的值的索引，然后获取在字符串中索引为该数组索引的字符，最后返回该字符，当然，其中也调用a()函数，但是该函数要求等于25，所以形同虚设。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="465" height="721" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-156.png" alt="" class="wp-image-5048" /> </figure></p>
+<p>所以整理解密的脚本如下：</p>
+<pre class="wp-block-code"><code>cipherText = 'wigwrkaugala'
+
+aArray = &#91;21,4,24,25,20,5,15,9,17,6,13,3,18,12,10,19,0,22,2,11,23,1,8,7,14,16]
+aString = 'abcdefghijklmnopqrstuvwxyz'
+
+bArray = &#91;17,23,7,22,1,16,6,9,21,0,15,5,10,18,2,24,4,11,3,14,19,12,20,13,8,25]
+bString = 'abcdefghijklmnopqrstuvwxyz'
+
+def changeBArrayandString():
+	global bString
+	global bArray
+	chArray = bArray&#91;0]
+	chString = bString&#91;0:1]
+	for i in range(len(bArray) - 1):
+		bArray&#91;i] = bArray&#91;i + 1]
+	bArray&#91;len(bArray) - 1] = chArray
+	bString = bString&#91;1:]
+	bString += chString
+
+def getBchar(ch):
+	v2 = bArray&#91;ch]
+	arg = bString&#91;v2]
+	changeBArrayandString()
+	return arg
+
+def getAint(ch):
+	global aString
+	global aArray
+	v1 = aString.index(ch)
+	arg5 = aArray&#91;v1]
+	return arg5
+    
+flag =''
+for k in cipherText:
+	v0 = getAint(k)
+	flag += getBchar(v0)
+print('flag{' + flag + '}')</code></pre><figure class="wp-block-image size-full">
+<p><img loading="lazy" width="303" height="35" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-157.png" alt="" class="wp-image-5050" /> </figure></p>
+<h2 id="0x01-rememberother">0x01 RememberOther</h2>
+<p>压缩包解压后，得到一个word文档和apk，文档内容是<code>不懂安卓，所以就只是和安卓扯了扯边，，，Have fun~</code>，点开可以看到需要输入用户名和一个16位的注册码。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-158.png" alt="" class="wp-image-5054" /> </figure></p>
+<p>jeb查看源代码，我们知道是经过checkSN函数的判断后，输出了一段字符，可能和flag有关，那么我们下一步就是要获取这个字符串，下面有三种方法。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2988" height="444" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-159.png" alt="" class="wp-image-5055" /> </figure></p>
+<p>方法1：我们能够在程序里看到输出的字符串是在程序中调用的，那它很可能存在程序的某段代码中，搜索发现，字符串在strings.xml中。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-160.png" alt="" class="wp-image-5056" width="323" height="438" /> </figure></p>
+<p>方法2：在分析checkSN函数时，惊奇地发现，在用户名和注册码都不填写的情况下会返回true。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-161.png" alt="" class="wp-image-5057" width="496" height="272" /> </figure></p>
+<p>方法3：分析checkSN函数可知，它是将用户名进行md5处理后，取所有的奇数位置的数字组合，组成16位sn再与注册码进行比较。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-162.png" alt="" class="wp-image-5058" width="521" height="275" /> </figure></p>
+<p>python脚本如下：</p>
+<pre class="wp-block-code"><code>import hashlib
+m = hashlib.md5()
+m.update(b'123')
+x = m.hexdigest()
+sn = ''
+for i in range(len(x)):
+	if i%2 == 0:
+		sn += x&#91;i]
+print (sn)</code></pre>
+<p>总之，最后得到<code>b3241668ecbeb19921fdac5ac1aafa69</code>，解密下md5，得到<code>YOU_KNOW_</code>，结合 word 中的提示，整理得到flag: <code>YOU_KNOW_ANDROID</code></p>
+<h2 id="0x02-ph0en1x-100">0x02 Ph0en1x-100</h2>
+<p>上模拟器，app功能是提交flag验证的。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-163.png" alt="" class="wp-image-5059" width="588" height="330" /> </figure></p>
+<p>上jeb分析代码，在主函数得到判断语句，接着往下分析。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2260" height="384" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-164.png" alt="" class="wp-image-5060" /> </figure></p>
+<p>encrypt和getFlag是从phcm库中调用的，导出库后，用ida分析。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-165.png" alt="" class="wp-image-5062" width="398" height="244" /> </figure></p>
+<p>encrypt函数，分析可知对字符串的每个字符的ascii值减一。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-167.png" alt="" class="wp-image-5064" width="700" height="155" /> </figure></p>
+<p>对于getFlag函数，由于该函数没有输入只有输出，所以可以通过APKIDE修改smali源码，在本来显示 Failed的地方，让其执行getFlag方法，将执行结果存入v1寄存器。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2641" height="1608" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-170.png" alt="" class="wp-image-5067" /> </figure></p>
+<p>反编译后运行，可以得到一串字符串<code>ek`fz@q2^x/t^fn0mF^6/^rb`qanqntfg^E`hq|</code><figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1920" height="1080" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-171.png" alt="" class="wp-image-5068" /> </figure></p>
+<p>将字符串的ascii值移位得到flag</p>
+<pre class="wp-block-code"><code>flag = ''
+for i in c:
+    flag += chr(ord(i) + 1)
+print(flag)</code></pre><figure class="wp-block-image size-full is-resized">
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/01/图片-172.png" alt="" class="wp-image-5070" width="442" height="40" /> </figure></p>
+<h2 id="0x03-黑客精神">0x03 黑客精神</h2>
+<p>JEB进行反编译，发现在MainActivity点击按钮后就弹出弹框，而后跳转到RegActivity界面去，在该界面点击注册后，调用了so层函数saveSN。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2924" height="903" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片.png" alt="" class="wp-image-5207" /> </figure></p>
+<p>跳转到saveSN函数所在的类MyApp，进一步分析代码。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-1.png" alt="" class="wp-image-5208" width="525" height="516" /> </figure></p>
+<p>接着分析libmyjni.so文件，在JNI_OnLoad函数中注册了initSN、saveSN和work函数，代码如下<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-4.png" alt="" class="wp-image-5211" width="902" height="248" /> </figure></p>
+<p>用IDA分析so文件发现在java层注册的native函数都是动态注册的，发现对应的函数<code>n1</code>、<code>n2</code>、<code>n3</code>。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-3.png" alt="" class="wp-image-5210" width="653" height="202" /> </figure></p>
+<p>setValue函数的作用是设置com/gdufs/xman/MyApp类的静态字段m的值，输入的注册码通过一系列的计算后得到的值，initSN函数会判断/sdcard/reg.dat文件的内容是否为<code>&quot;EoPAoY62@ElRD&quot;</code>，如果得到的值正确，则输入的注册码即为flag。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-6.png" alt="" class="wp-image-5214" width="352" height="595" /> </figure></p>
+<p>输入<code>&quot;EoPAoY62@ElRD&quot;</code>，通过模拟器进行查看。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-7.png" alt="" class="wp-image-5215" width="360" height="198" /> </figure></p>
+<h2 id="0x04-easy-dex">0x04 easy-dex</h2>
+<p>dex里面包含了所有app代码，利用反编译工具可以获取java源码。理解并修改dex文件，就能更好的apk破解和防破解。<figure class="wp-block-image"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://box.kancloud.cn/8208f0e93ba1fc2e20ae480e31865dca_636x585.png"
+        data-srcset="https://box.kancloud.cn/8208f0e93ba1fc2e20ae480e31865dca_636x585.png, https://box.kancloud.cn/8208f0e93ba1fc2e20ae480e31865dca_636x585.png 1.5x, https://box.kancloud.cn/8208f0e93ba1fc2e20ae480e31865dca_636x585.png 2x"
+        data-sizes="auto"
+        alt="https://box.kancloud.cn/8208f0e93ba1fc2e20ae480e31865dca_636x585.png"
+        title="https://box.kancloud.cn/8208f0e93ba1fc2e20ae480e31865dca_636x585.png" /> </figure></p>
+<p>dex应该是藏在了so中，先寻找android_main函数，Native Activity的入口函数。qmemcpy函数将加密后的dex文件加载进来了，可以发现加密后的dex文件首地址为0x7004(IDA使用F5后，要使用那一块内存空间地址直接是以&amp;unk地址命名的)，长度为0x3ca10。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-11.png" alt="" class="wp-image-5221" width="480" height="265" /> </figure></p>
+<p>直接在静态下执行dump脚本<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-12.png" alt="" class="wp-image-5222" width="446" height="286" /> </figure></p>
+<pre class="wp-block-code"><code>import idaapi
+
+addr = 0x7004
+size = 0x3ca10
+
+with open('dump','wb') as f:
+    f.write(get_bytes(addr,size))
+    
+print('&#91;+] dump end')</code></pre>
+<p>这里直接用大佬的python解密dex脚本</p>
+<pre class="wp-block-code"><code>import zlib
+
+with open('dump','rb') as f:
+    data1 = f.read()
+    data = list(data1)
+    count = 0
+    
+    while True:
+        if count &lt;= 0x59:
+            count_tmp = (int)(count / 10)
+            if count % 10 == 9:
+                size = 0x3ca10
+                size_tmp = (int)(size / 10)
+                xor = (count_tmp + 1) * size_tmp
+                if (size_tmp * count_tmp) &lt; xor:
+                    index = size_tmp * count_tmp
+                    while size_tmp:
+                        data&#91;index] = data&#91;index] ^ count
+                        index = index + 1
+                        size_tmp = size_tmp - 1
+                if count == 89:
+                    while xor &lt; size:
+                        data&#91;xor] = data&#91;xor] ^ 0x59
+                        xor = xor + 1
+        else:
+            break
+        count = count + 1
+
+filebytes = bytes(data)
+with open('easy-dex.dex','wb') as f1:
+    f1.write(zlib.decompress(filebytes))
+print('&#91;+] decrypt end')</code></pre>
+<p>jeb分析解压后的dex文件，MainActivity.java有一个按钮监听事件，触发后调用了a.java里面的onClick函数，调用了MainActivity里面的a函数。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2169" height="159" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-13.png" alt="" class="wp-image-5224" /> </figure></p>
+<p>编写脚本，求出密文<code>iE3y2hEF1izgbVUfGKWQrUCtgFQFop7iEkbmRwWdwsZ1HdQGcPxRVAkWzV/eDC9N</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">base64</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">38</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mh">0x1F</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="o">-</span><span class="mi">91</span><span class="p">,</span> <span class="o">-</span><span class="mi">112</span><span class="p">,</span> <span class="o">-</span><span class="mi">83</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="o">-</span><span class="mi">83</span><span class="p">,</span> <span class="o">-</span><span class="mi">128</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">94</span><span class="p">,</span> <span class="o">-</span><span class="mi">98</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">99</span><span class="p">,</span> <span class="o">-</span><span class="mi">62</span><span class="p">,</span> <span class="o">-</span><span class="mi">58</span><span class="p">,</span> <span class="mh">0x75</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="o">-</span><span class="mi">44</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mh">0x70</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">81</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="o">-</span><span class="mi">51</span><span class="p">,</span> <span class="mh">0x5F</span><span class="p">,</span> <span class="o">-</span><span class="mi">34</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mh">0x2F</span><span class="p">,</span> <span class="mi">77</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再根据a函数，得出明文+key = 密文。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="2377" height="390" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-14.png" alt="" class="wp-image-5225" /> </figure></p>
+<p>在string.xml资源文件中发现字符串<code>I have a male fish and a female fish.</code><figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-15.png" alt="" class="wp-image-5226" width="487" height="204" /> </figure></p>
+<p>怀疑是TwoFish加密，输入key值和加密文本，得到flag。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-16.png" alt="" class="wp-image-5228" width="540" height="391" /> </figure></p>
+<h2 id="0x05-你是谁figure-classwp-block-image-size-full-is-resized">0x05 你是谁<figure class="wp-block-image size-full is-resized"></h2>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-17.png" alt="" class="wp-image-5234" width="357" height="608" /> </figure></p>
+<p>点击皇上的图片，听到语音“你是个好人，但是我们不适合。”，白色的圆可以被点击。<figure class="wp-block-image size-full is-resized"></p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-18.png" alt="" class="wp-image-5236" width="719" height="101" /> </figure></p>
+<p>在MainActivity中找到注释中存在<code>@Override // com.iflytek.cloud.InitListener</code>，搜索发现来源是科大讯飞的语音集成。在background类中发现编码，<code>20667 25105 26159 36924</code>的中文unicode编码为<code>傻我是逼</code>。<figure class="wp-block-image size-full"></p>
+<p><img loading="lazy" width="1921" height="247" src="https://cdn.jsdelivr.net/gh/Hannibal0x/img/2022/03/图片-19.png" alt="" class="wp-image-5237" /> </figure></p>
+<p>推理得出编码前的flag顺序应该是<code>25105 26159 20667 36924</code>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-02-07</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" data-title="攻防世界-mobile（新手篇2）" data-hashtags="Web安全,CTF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" data-hashtag="Web安全"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" data-title="攻防世界-mobile（新手篇2）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" data-title="攻防世界-mobile（新手篇2）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://hannibal0x.github.io/2022-02-07-%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-mobile%E6%96%B0%E6%89%8B%E7%AF%872/" data-title="攻防世界-mobile（新手篇2）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/web%E5%AE%89%E5%85%A8/">Web安全</a>,&nbsp;<a href="/tags/ctf/">CTF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022-01-29-hgame-2022-week1writeup/" class="prev" rel="prev" title="HGAME 2022 week1(writeup)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>HGAME 2022 week1(writeup)</a>
+            <a href="/2022-02-28-2%E6%9C%88ctf%E7%BB%83%E4%B9%A0/" class="next" rel="next" title="2月CTF练习">2月CTF练习<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="utterances" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://utteranc.es/">utterances</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Hannibal0x</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"pathname","label":"","lightTheme":"github-light","repo":"Hannibal0x/blog-comment"}},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"LBWAPJR4IC","algoliaIndex":"blog","algoliaSearchKey":"3771060ae26cbca6e13551298e854580","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
